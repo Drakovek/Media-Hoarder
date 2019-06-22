@@ -18,6 +18,6 @@ public class Start
 	public static void main(String[] args)
 	{
 		
-	}//METHOD main(String[] args)
+	}//METHOD
 	
-}//CLASS Start
+}//CLASS
