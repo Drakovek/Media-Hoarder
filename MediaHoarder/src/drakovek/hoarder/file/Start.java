@@ -1,5 +1,7 @@
 package drakovek.hoarder.file;
 
+import drakovek.hoarder.gui.modes.ModeContainerGUI;
+
 /**
  * Main class for starting the Media Hoarder Program
  * 
@@ -17,6 +19,7 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
+		new ModeContainerGUI();
 		
 	}//METHOD
 	
