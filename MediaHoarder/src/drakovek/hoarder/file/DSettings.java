@@ -59,6 +59,19 @@ public class DSettings
 	private static final String SPACE_MULTIPLIER = "space_multiplier"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for the frame width multiplier.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String FRAME_WIDTH = "frame_width"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the frame height multiplier.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String FRAME_HEIGHT = "frame_height"; //$NON-NLS-1$
+	/**
 	 * INI Variable for the font name.
 	 * 
 	 * @since 2.0
@@ -108,6 +121,20 @@ public class DSettings
 	 * @since 2.0
 	 */
 	private double spaceMultiplier;
+	
+	/**
+	 * Multiplied by fontSize to get the minimum DFrame width.
+	 * 
+	 * @since 2.0
+	 */
+	private int frameWidth;
+	
+	/**
+	 * Multiplied by fontSize to get the minimum DFrame height.
+	 * 
+	 * @since 2.0
+	 */
+	private int frameHeight;
 	
 	/**
 	 * Name of Font used for Swing components
@@ -183,6 +210,8 @@ public class DSettings
 		
 		//SWING
 		spaceMultiplier = 0.5;
+		frameWidth = 20;
+		frameHeight = 15;
 		fontName = new String();
 		fontSize = 14;
 		fontBold = false;
@@ -208,6 +237,8 @@ public class DSettings
 			
 			//SWING
 			spaceMultiplier = ParseINI.getDoubleValue(null, SPACE_MULTIPLIER, settingsInfo, spaceMultiplier);
+			frameWidth = ParseINI.getIntValue(null, FRAME_WIDTH, settingsInfo, frameWidth);
+			frameHeight = ParseINI.getIntValue(null, FRAME_HEIGHT, settingsInfo, frameHeight);
 			fontName = ParseINI.getStringValue(null, FONT_NAME, settingsInfo, fontName);
 			fontSize = ParseINI.getIntValue(null, FONT_SIZE, settingsInfo, fontSize);
 			fontBold = ParseINI.getBooleanValue(null, FONT_BOLD, settingsInfo, fontBold);
@@ -233,6 +264,8 @@ public class DSettings
 		settingsInfo.add(new String());
 		settingsInfo.add(SWING_HEADER);
 		settingsInfo.add(ParseINI.getAssignmentString(SPACE_MULTIPLIER, spaceMultiplier));
+		settingsInfo.add(ParseINI.getAssignmentString(FRAME_WIDTH, frameWidth));
+		settingsInfo.add(ParseINI.getAssignmentString(FRAME_HEIGHT, frameHeight));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_NAME, fontName));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_SIZE, fontSize));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_BOLD, fontBold));
@@ -306,6 +339,30 @@ public class DSettings
 	public double getSpaceMultiplier()
 	{
 		return spaceMultiplier;
+		
+	}//METHOD
+	
+	/**
+	 * Gets the Frame Height Multiplier
+	 * 
+	 * @return Frame Height Multiplier
+	 * @since 2.0
+	 */
+	public int getFrameHeight()
+	{
+		return frameHeight;
+		
+	}//METHOD
+	
+	/**
+	 * Gets the Frame Width Multiplier
+	 * 
+	 * @return Frame Width Multiplier
+	 * @since 2.0
+	 */
+	public int getFrameWidth()
+	{
+		return frameWidth;
 		
 	}//METHOD
 	

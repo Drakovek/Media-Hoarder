@@ -45,19 +45,6 @@ public class DFrame extends JFrame
 	 * @since 2.0
 	 */
 	private boolean processRunning;
-	
-	//TODO replace width/height modifiers with settings value\
-	
-	/**
-	 * TEMPORARY
-	 */
-	private static final int WIDTH_MULTIPLIER = 20;
-	
-	/**
-	 * TEMPORARY
-	 */
-	private static final int HEIGHT_MULTIPLIER = 15;
-	
 
 	/**
 	 * Initializes the DFrame Class
@@ -76,14 +63,14 @@ public class DFrame extends JFrame
 		this.addWindowListener(new DCloseListener(this));
 		
 		ScreenDimensions screen = new ScreenDimensions();
-		int width = settings.getFontSize() * WIDTH_MULTIPLIER;
+		int width = settings.getFontSize() * settings.getFrameWidth();
 		if(width > screen.getMaximumWidth())
 		{
 			width = screen.getMaximumWidth();
 		
 		}//IF
 		
-		int height = settings.getFontSize() * HEIGHT_MULTIPLIER;
+		int height = settings.getFontSize() * settings.getFrameHeight();
 		if(height > screen.getMaximumHeight())
 		{
 			height = screen.getMaximumHeight();
