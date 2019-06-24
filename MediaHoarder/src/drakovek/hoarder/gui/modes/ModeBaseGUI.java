@@ -100,6 +100,7 @@ public abstract class ModeBaseGUI extends BaseGUI
 		for(String modeID: modeIDs)
 		{
 			DButton modeButton = new DButton(this, modeID);
+			modeButton.setFontLarge();
 			modePanel.add(modeButton);
 		
 		}//FOR
