@@ -3,8 +3,11 @@ package drakovek.hoarder.gui.swing.components;
 import java.awt.Component;
 
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.work.DRunnable;
+import drakovek.hoarder.work.Worker;
 
 /**
  * Default scroll pane object for the program.
@@ -13,7 +16,7 @@ import drakovek.hoarder.file.DSettings;
  * @version 2.0
  * @since 1.0
  */
-public class DScrollPane extends JScrollPane
+public class DScrollPane extends JScrollPane implements Worker
 {
 	/**
 	 * SerialVersionUID
@@ -21,6 +24,34 @@ public class DScrollPane extends JScrollPane
 	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -3855985632736412421L;
+	
+	/**
+	 * Work ID for scrolling to the top left corner of the scroll pane
+	 * 
+	 * @since 2.0
+	 */
+	private static final String TOP_LEFT = "top_left"; //$NON-NLS-1$
+	
+	/**
+	 * Work ID for scrolling to the top right corner of the scroll pane
+	 * 
+	 * @since 2.0
+	 */
+	private static final String TOP_RIGHT = "top_right"; //$NON-NLS-1$
+	
+	/**
+	 * Work ID for scrolling to the bottom left corner of the scroll pane
+	 * 
+	 * @since 2.0
+	 */
+	private static final String BOTTOM_LEFT = "bottom_left"; //$NON-NLS-1$
+	
+	/**
+	 * Work ID for scrolling to the bottom right corner of the scroll pane
+	 * 
+	 * @since 2.0
+	 */
+	private static final String BOTTOM_RIGHT = "bottom_right"; //$NON-NLS-1$
 
 	/**
 	 * Program Settings
@@ -72,5 +103,75 @@ public class DScrollPane extends JScrollPane
 		this.getVerticalScrollBar().setUnitIncrement(settings.getScrollUnit());
 		
 	}//METHOD setScrollUnit()
+	
+	/**
+	 * Sets the Scroll Pane to the top left.
+	 * 
+	 * @since 2.0
+	 */
+	public void resetTopLeft()
+	{
+		SwingUtilities.invokeLater(new DRunnable(this, TOP_LEFT));
+	
+	}//METHOD
+
+	/**
+	 * Sets the Scroll Pane to the top right.
+	 * 
+	 * @since 2.0
+	 */
+	public void resetTopRight()
+	{
+		SwingUtilities.invokeLater(new DRunnable(this, TOP_RIGHT));
+	
+	}//METHOD
+	
+	/**
+	 * Sets the Scroll Pane to the bottom left.
+	 * 
+	 * @since 2.0
+	 */
+	public void resetBottomLeft()
+	{
+		SwingUtilities.invokeLater(new DRunnable(this, BOTTOM_LEFT));
+	
+	}//METHOD
+	
+	/**
+	 * Sets the Scroll Pane to the bottom right.
+	 * 
+	 * @since 2.0
+	 */
+	public void resetBottomRight()
+	{
+		SwingUtilities.invokeLater(new DRunnable(this, BOTTOM_RIGHT));
+	
+	}//METHOD
+	
+	@Override
+	public void run(final String id)
+	{
+		switch(id)
+		{
+			case TOP_LEFT:
+				getHorizontalScrollBar().setValue(getHorizontalScrollBar().getMinimum());
+				getVerticalScrollBar().setValue(getVerticalScrollBar().getMinimum());
+				break;
+			case TOP_RIGHT:
+				getHorizontalScrollBar().setValue(getHorizontalScrollBar().getMaximum());
+				getVerticalScrollBar().setValue(getVerticalScrollBar().getMinimum());
+				break;
+			case BOTTOM_LEFT:
+				getHorizontalScrollBar().setValue(getHorizontalScrollBar().getMinimum());
+				getVerticalScrollBar().setValue(getVerticalScrollBar().getMaximum());
+				break;
+			case BOTTOM_RIGHT:
+				getHorizontalScrollBar().setValue(getHorizontalScrollBar().getMaximum());
+				getVerticalScrollBar().setValue(getVerticalScrollBar().getMaximum());
+				break;
+				
+		}//SWITCH
+		
+	}//METHOD
 	
 }//CLASS
