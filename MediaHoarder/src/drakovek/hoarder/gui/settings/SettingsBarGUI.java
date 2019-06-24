@@ -8,6 +8,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DLabel;
@@ -21,12 +22,6 @@ import drakovek.hoarder.gui.swing.components.DLabel;
  */
 public class SettingsBarGUI extends BaseGUI
 {
-	/**
-	 * Language variable for settings button
-	 * 
-	 * @since 2.0
-	 */
-	public static final String SETTINGS = "settings"; //$NON-NLS-1$
 	
 	/**
 	 * Main Settings Bar Panel for the class
@@ -45,7 +40,7 @@ public class SettingsBarGUI extends BaseGUI
 	{
 		super(settings);
 		
-		DButton settingsButton = new DButton(this, SETTINGS);
+		DButton settingsButton = new DButton(this, DefaultLanguage.SETTINGS);
 		DLabel label = new DLabel(this, null, new String());
 		
 		JPanel internalPNL = new JPanel();

@@ -23,4 +23,13 @@ public class DefaultLanguage
 	 */
 	public static final String OK = "ok"; //$NON-NLS-1$
 	
+	//SETTINGS
+	
+	/**
+	 * Language variable for settings button
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SETTINGS = "settings"; //$NON-NLS-1$
+	
 }//CLASS
