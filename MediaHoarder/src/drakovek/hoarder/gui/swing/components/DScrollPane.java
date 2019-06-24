@@ -45,6 +45,23 @@ public class DScrollPane extends JScrollPane
 	}//METHOD DScrollPane(Component view, UserPreferences userPreferences)
 	
 	/**
+	 * Initializes the scroll pane
+	 * 
+	 * @param settings Program Settings
+	 * @param hsbPolicy Horizontal Scroll Bar Policy
+	 * @param vsbPolicy Vertical Scroll Bar Policy
+	 * @param view Component to show in the viewport.
+	 * @since 2.0
+	 */
+	public DScrollPane(DSettings settings, int hsbPolicy, int vsbPolicy, Component view)
+	{
+		super(view, vsbPolicy, hsbPolicy);
+		this.settings = settings;
+		setScrollUnit();
+		
+	}//METHOD DScrollPane(Component view, UserPreferences userPreferences)
+	
+	/**
 	 * Sets the scroll increment for this scroll pane.
 	 * 
 	 * @since 2.0
