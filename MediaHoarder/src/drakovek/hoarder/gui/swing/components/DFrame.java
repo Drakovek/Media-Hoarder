@@ -54,7 +54,7 @@ public class DFrame extends JFrame
 	 * @param title Title of the Frame
 	 * @since 2.0
 	 */
-	public DFrame(DSettings settings, ComponentDisabler disabler, final String title)
+	public DFrame(ComponentDisabler disabler, DSettings settings, final String title)
 	{
 		super(title);
 		this.settings = settings;

@@ -11,6 +11,7 @@ import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
+import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 
 /**
@@ -28,17 +29,26 @@ public class SettingsBarGUI extends BaseGUI
 	 * 
 	 * @since 2.0
 	 */
-	JPanel barPanel;
+	private JPanel barPanel;
+	
+	/**
+	 * Frame the settings bar is contained within
+	 * 
+	 * @since 2.0
+	 */
+	private DFrame owner;
 	
 	/**
 	 * Initializes the SettingsBarGUI class with its default Swing Layout.
 	 * 
+	 * @param owner Frame the settings bar is contained within
 	 * @param settings Program Settings
 	 * @since 2.0
 	 */
-	public SettingsBarGUI(DSettings settings)
+	public SettingsBarGUI(DFrame owner, DSettings settings)
 	{
 		super(settings);
+		this.owner = owner;
 		
 		DButton settingsButton = new DButton(this, DefaultLanguage.SETTINGS);
 		DLabel label = new DLabel(this, null, new String());
@@ -80,7 +90,7 @@ public class SettingsBarGUI extends BaseGUI
 	@Override
 	public void event(String id, int value)
 	{
-		// TODO Auto-generated method stub
+		new SettingsGUI(owner, getSettings());
 		
 	}//METHOD
 	
