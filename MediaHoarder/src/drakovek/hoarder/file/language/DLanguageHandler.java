@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.processing.ParseINI;
-import drakovek.hoarder.processing.sort.FileSort;
 
 /**
  * Contains methods for retrieving text values in a specified language from local files containing language data.
@@ -77,13 +76,11 @@ public class DLanguageHandler
 			}//FOR
 		
 		}//IF
-		else if(languageFiles.size() > 0)
+		else
 		{
-			languageFiles = FileSort.sortFiles(languageFiles);
-			ArrayList<String> info = DReader.readFile(languageFiles.get(0));
-			setLanguage(ParseINI.getStringValue(DefaultLanguage.LANGUAGE_HEADER, DefaultLanguage.LANGUAGE_VARIABLE, info, new String()));
+			setLanguage(DefaultLanguage.getDefaultLanguage(languageFolder));
 			
-		}//ELSE IF
+		}//ELSE
 		
 	}//METHOD
 

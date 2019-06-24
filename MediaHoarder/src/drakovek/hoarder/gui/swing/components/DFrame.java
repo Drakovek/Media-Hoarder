@@ -58,20 +58,7 @@ public class DFrame extends JFrame
 	 */
 	private static final int HEIGHT_MULTIPLIER = 15;
 	
-	/**
-	 * Language variable for title of the "Process Running" error message.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String PROCESS_RUNNING = "process_running"; //$NON-NLS-1$
-	
-	/**
-	 * Language variable for message of the "Process Running" error message.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String[] PROCESS_RUNNING_MESSAGE = {"cancel_process_message1", "cancel_process_message2"};  //$NON-NLS-1$//$NON-NLS-2$
-	
+
 	/**
 	 * Initializes the DFrame Class
 	 * 
@@ -120,7 +107,7 @@ public class DFrame extends JFrame
 		{
 			String[] buttonIDs = {DefaultLanguage.OK};
 			DButtonDialog buttonDialog = new DButtonDialog(settings);
-			buttonDialog.openButtonDialog(this, PROCESS_RUNNING, PROCESS_RUNNING_MESSAGE, buttonIDs);
+			buttonDialog.openButtonDialog(this, DefaultLanguage.PROCESS_RUNNING, DefaultLanguage.PROCESS_RUNNING_MESSAGES, buttonIDs);
 			
 		}//IF
 		else
