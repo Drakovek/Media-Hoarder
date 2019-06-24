@@ -37,6 +37,13 @@ public abstract class BaseGUI implements DEvent
 	private Font font;
 	
 	/**
+	 * Large font to use for the program's Swing components.
+	 * 
+	 * @since 2.0
+	 */
+	private Font largeFont;
+	
+	/**
 	 * Initializes the BaseGUI Class
 	 * 
 	 * @param settings Program's Settings
@@ -55,6 +62,7 @@ public abstract class BaseGUI implements DEvent
 		}//IF
 		
 		font = new Font(settings.getFontName(), fontType, settings.getFontSize());
+		largeFont = new Font(settings.getFontName(), Font.BOLD, (int)(settings.getFontSize() * ((double)4/(double)3)));
 		
 	}//CONSTRUCTOR
 	
@@ -79,6 +87,18 @@ public abstract class BaseGUI implements DEvent
 	public Font getFont()
 	{
 		return font;
+		
+	}//METHOD
+	
+	/**
+	 * Gets the project's large font.
+	 * 
+	 * @return Large Font
+	 * @since 2.0
+	 */
+	public Font getLargeFont()
+	{
+		return largeFont;
 		
 	}//METHOD
 	

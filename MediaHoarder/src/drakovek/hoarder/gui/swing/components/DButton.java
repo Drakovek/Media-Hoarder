@@ -48,6 +48,17 @@ public class DButton extends JButton
 	}//CONSTRUCTOR
 	
 	/**
+	 * Sets the button's font to large.
+	 * 
+	 * @since 2.0
+	 */
+	public void setFontLarge()
+	{
+		this.setFont(baseGUI.getLargeFont());
+		
+	}//METHOD
+	
+	/**
 	 * Sets the text for the button based on a Language ID.
 	 * 
 	 * @param id Language ID

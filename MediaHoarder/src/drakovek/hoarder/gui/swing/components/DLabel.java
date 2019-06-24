@@ -53,6 +53,17 @@ public class DLabel extends JLabel
 	}//CONSTRUCTOR
 	
 	/**
+	 * Sets the label's font to large.
+	 * 
+	 * @since 2.0
+	 */
+	public void setFontLarge()
+	{
+		this.setFont(baseGUI.getLargeFont());
+		
+	}//METHOD
+	
+	/**
 	 * Sets the text for the label based on a Language ID.
 	 * 
 	 * @param id Language ID
