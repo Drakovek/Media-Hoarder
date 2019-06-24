@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import drakovek.hoarder.file.language.DLanguageHandler;
 import drakovek.hoarder.processing.ParseINI;
 
 /**

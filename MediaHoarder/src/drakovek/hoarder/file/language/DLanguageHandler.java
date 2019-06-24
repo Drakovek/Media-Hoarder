@@ -1,8 +1,9 @@
-package drakovek.hoarder.file;
+package drakovek.hoarder.file.language;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.processing.ParseINI;
 import drakovek.hoarder.processing.sort.FileSort;
 
@@ -57,7 +58,7 @@ public class DLanguageHandler
 	 * @param languageName Name of the language to use for the program's text
 	 * @since 2.0
 	 */
-	DLanguageHandler(final File dataFolder, final String languageName)
+	public DLanguageHandler(final File dataFolder, final String languageName)
 	{
 		languageFolder = DReader.getDirectory(dataFolder, LANGUAGE_FOLDER);
 		
