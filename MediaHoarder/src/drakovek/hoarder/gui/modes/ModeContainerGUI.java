@@ -31,7 +31,7 @@ public class ModeContainerGUI extends BaseGUI implements ComponentDisabler
 		DFrame containerFrame = new DFrame(settings, this, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 		SettingsBarGUI settingsBar = new SettingsBarGUI(settings);
 		
-		containerFrame.getContentPane().add((new ModesGUI(settings)).getContentPanel(), BorderLayout.CENTER);
+		containerFrame.getContentPane().add(this.getSpacedPanel((new ModesGUI(settings)).getContentPanel()), BorderLayout.CENTER);
 		containerFrame.getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
 		containerFrame.pack();
 		containerFrame.setLocationRelativeTo(null);
