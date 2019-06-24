@@ -9,6 +9,22 @@ package drakovek.hoarder.file.language;
  */
 public class DefaultLanguage 
 {
+	//LANGUAGE
+	
+	/**
+	 * Header text for all language files.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LANGUAGE_HEADER = "[LANGUAGE FILE]"; //$NON-NLS-1$
+	
+	/**
+	 * Variable for the language of a particular language file.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LANGUAGE_VARIABLE = "language_value"; //$NON-NLS-1$
+	
 	/**
 	 * Language variable for the default title for Frames/Dialogs
 	 * 
@@ -24,6 +40,13 @@ public class DefaultLanguage
 	public static final String OK = "ok"; //$NON-NLS-1$
 	
 	//SETTINGS
+	
+	/**
+	 * Header text for settings section of header file.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SETTINGS_HEADER = "[SETTINGS]";
 	
 	/**
 	 * Language variable for settings button

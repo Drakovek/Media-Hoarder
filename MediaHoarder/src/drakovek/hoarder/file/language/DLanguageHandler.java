@@ -24,20 +24,6 @@ public class DLanguageHandler
 	private static final String LANGUAGE_FOLDER = "language"; //$NON-NLS-1$
 	
 	/**
-	 * Header text for all language files.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String LANGUAGE_HEADER = "[LANGUAGE FILE]"; //$NON-NLS-1$
-	
-	/**
-	 * Variable for the language of a particular language file.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String LANGUAGE_VARIABLE = "language_value"; //$NON-NLS-1$
-	
-	/**
 	 * The program's language folder located in the program's data folder.
 	 * 
 	 * @since 2.0
@@ -82,7 +68,7 @@ public class DLanguageHandler
 			for(File languageFile : languageFiles)
 			{
 				ArrayList<String> info = DReader.readFile(languageFile);
-				if(ParseINI.getStringValue(LANGUAGE_HEADER, LANGUAGE_VARIABLE, info, new String()).equals(languageName))
+				if(ParseINI.getStringValue(DefaultLanguage.LANGUAGE_HEADER, DefaultLanguage.LANGUAGE_VARIABLE, info, new String()).equals(languageName))
 				{
 					languageInfo.addAll(info);
 					
@@ -95,7 +81,7 @@ public class DLanguageHandler
 		{
 			languageFiles = FileSort.sortFiles(languageFiles);
 			ArrayList<String> info = DReader.readFile(languageFiles.get(0));
-			setLanguage(ParseINI.getStringValue(LANGUAGE_HEADER, LANGUAGE_VARIABLE, info, new String()));
+			setLanguage(ParseINI.getStringValue(DefaultLanguage.LANGUAGE_HEADER, DefaultLanguage.LANGUAGE_VARIABLE, info, new String()));
 			
 		}//ELSE IF
 		
@@ -114,7 +100,7 @@ public class DLanguageHandler
 		for(int i = 0; i < languageFiles.size(); i++)
 		{
 			ArrayList<String> info = DReader.readFile(languageFiles.get(i));
-			if(ParseINI.getStringValue(LANGUAGE_HEADER, LANGUAGE_VARIABLE, info, new String()).length() < 1)
+			if(ParseINI.getStringValue(DefaultLanguage.LANGUAGE_HEADER, DefaultLanguage.LANGUAGE_VARIABLE, info, new String()).length() < 1)
 			{
 				languageFiles.remove(i);
 				i--;
