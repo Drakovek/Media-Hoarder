@@ -81,7 +81,7 @@ public class DefaultLanguage
 	//SETTINGS
 	
 	/**
-	 * Header text for the "SETTINGS" section of the header file.
+	 * Header text for the "SETTINGS" section of the language file.
 	 * 
 	 * @since 2.0
 	 */
@@ -93,6 +93,36 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String SETTINGS = "settings"; //$NON-NLS-1$
+	
+	//MODES
+	
+	/**
+	 * Header text for the "MODES" section of the language file.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String MODES_HEADER = "[MODES]"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Download" mode button.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DOWNLOAD_MODE = "download_mode"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Manage" mode button.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String MANAGE_MODE = "manage_mode"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "View" mode button.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String VIEW_MODE = "view_mode"; //$NON-NLS-1$
 	
 	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
@@ -127,6 +157,13 @@ public class DefaultLanguage
 		languageFile.add(new String());
 		languageFile.add(SETTINGS_HEADER);
 		languageFile.add(ParseINI.getAssignmentString(SETTINGS, "^Settings")); //$NON-NLS-1$
+		
+		//MODES
+		languageFile.add(new String());
+		languageFile.add(MODES_HEADER);
+		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_MODE, "^Download")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MANAGE_MODE, "^Manage")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(VIEW_MODE, "^View")); //$NON-NLS-1$
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())
 		{

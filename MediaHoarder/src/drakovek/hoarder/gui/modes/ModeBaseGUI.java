@@ -50,4 +50,15 @@ public abstract class ModeBaseGUI extends BaseGUI
 		
 	}//METHOD
 	
+	/**
+	 * Refreshes the content panel to act as a mode GUI based on given button IDs.
+	 * 
+	 * @param modeIDs IDs for buttons to change the mode of operation.
+	 * @since 2.0
+	 */
+	public void setContentPanel(String[] modeIDs)
+	{
+		
+	}//METHOD
+	
 }//CLASS

@@ -1,6 +1,7 @@
 package drakovek.hoarder.gui.modes;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.language.DefaultLanguage;
 
 /**
  * The starting ModeGUI for choosing between broad operations categories
@@ -20,6 +21,8 @@ public class ModesGUI extends ModeBaseGUI
 	public ModesGUI(DSettings settings)
 	{
 		super(settings);
+		String[] modeIDs = {DefaultLanguage.DOWNLOAD_MODE, DefaultLanguage.MANAGE_MODE, DefaultLanguage.VIEW_MODE};
+		setContentPanel(modeIDs);
 		
 	}//CONSTRUCTOR
 
