@@ -1,9 +1,13 @@
 package drakovek.hoarder.gui.modes;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.gui.BaseGUI;
@@ -64,14 +68,31 @@ public abstract class ModeBaseGUI extends BaseGUI
 		contentPanel.removeAll();
 		
 		//BACK PANEL
-		JPanel backPanel = new JPanel();
-		backPanel.setLayout(new GridLayout(1, backIDs.length, getSettings().getSpaceSize(), 1));
+		JPanel backButtonPanel = new JPanel();
+		backButtonPanel.setLayout(new GridLayout(1, backIDs.length, getSettings().getSpaceSize(), 1));
 		for(String backID: backIDs)
 		{
 			DButton backButton = new DButton(this, backID);
-			backPanel.add(backButton);
+			backButtonPanel.add(backButton);
 			
 		}//FOR
+		
+		JPanel backPanel = new JPanel();
+		backPanel.setLayout(new GridBagLayout());
+		GridBagConstraints backCST = new GridBagConstraints();
+		backCST.gridx = 0;		backCST.gridy = 0;
+		backCST.gridwidth = 1;	backCST.gridheight = 1;
+		backCST.weightx = 0;	backCST.weighty = 0;
+		backCST.fill = GridBagConstraints.BOTH;
+		backPanel.add(backButtonPanel, backCST);
+		backCST.gridy = 1;
+		backPanel.add(getVerticalSpace(), backCST);
+		backCST.gridx = 1;		backCST.weightx = 1;
+		backCST.gridwidth = 2;
+		backPanel.add(getHorizontalSpace(), backCST);
+		backCST.gridx = 0;		backCST.gridy = 2;
+		backCST.gridwidth = 3;
+		backPanel.add(new JSeparator(SwingConstants.HORIZONTAL), backCST);
 		
 		//MODE PANEL
 		JPanel modePanel = new JPanel();
@@ -86,8 +107,8 @@ public abstract class ModeBaseGUI extends BaseGUI
 		//FULL PANEL
 		JPanel fullPanel = new JPanel();
 		fullPanel.setLayout(new BorderLayout());
-		fullPanel.add(backPanel, BorderLayout.NORTH);
-		fullPanel.add(getSpacedPanel(modePanel, 1, 0, true, false, false, false), BorderLayout.CENTER);
+		fullPanel.add(getSpacedPanel(backPanel, 1, 0, true, true, true, false), BorderLayout.NORTH);
+		fullPanel.add(getSpacedPanel(modePanel, 1, 0, false, false, true, true), BorderLayout.CENTER);
 		
 		contentPanel.add(fullPanel);
 		contentPanel.revalidate();

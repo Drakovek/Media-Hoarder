@@ -61,7 +61,7 @@ public class SettingsBarGUI extends BaseGUI
 		internalCST.gridy = 0;		internalCST.gridwidth = 3;
 		internalPNL.add(new JSeparator(SwingConstants.HORIZONTAL), internalCST);
 		
-		barPanel = getSpacedPanel(internalPNL, 1, 0, false, true, true, true);
+		barPanel = getSpacedPanel(internalPNL, 1, 0, true, true, true, true);
 		
 	}//CONSTRUCTOR
 	
