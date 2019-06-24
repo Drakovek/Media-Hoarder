@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.swing.components.DButton;
 
 /**
  * The base GUI object for panels that allow the user to switch between modes of operation.
@@ -34,7 +35,7 @@ public abstract class ModeBaseGUI extends BaseGUI
 		super(settings);
 		
 		contentPanel = new JPanel();
-		contentPanel.setLayout(new GridLayout(1, 1));
+		contentPanel.setLayout(new GridLayout(1,1));
 		
 	}//CONSTRUCTOR
 	
@@ -58,6 +59,20 @@ public abstract class ModeBaseGUI extends BaseGUI
 	 */
 	public void setContentPanel(String[] modeIDs)
 	{
+		contentPanel.removeAll();
+		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(modeIDs.length, 1, getSettings().getSpaceSize(), getSettings().getSpaceSize()));
+		for(String modeID: modeIDs)
+		{
+			DButton modeButton = new DButton(this, modeID);
+			buttonPanel.add(modeButton);
+		
+		}//FOR
+		
+		
+		contentPanel.add(this.getSpacedPanel(buttonPanel, 1, 0, true, false, false, false));
+		contentPanel.revalidate();
 		
 	}//METHOD
 	
