@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
-import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
-import drakovek.hoarder.gui.swing.components.ComponentDisabler;
-import drakovek.hoarder.gui.swing.components.DFrame;
 
 /**
  * Contains methods for creating the main GUI to switch between different modes of operation.
@@ -16,7 +14,7 @@ import drakovek.hoarder.gui.swing.components.DFrame;
  * @version 2.0
  * @since 2.0
  */
-public class ModeContainerGUI extends BaseGUI implements ComponentDisabler
+public class ModeContainerGUI extends FrameGUI
 {
 	/**
 	 * Initializes the ModeContainerGUI Class.
@@ -26,16 +24,15 @@ public class ModeContainerGUI extends BaseGUI implements ComponentDisabler
 	 */
 	public ModeContainerGUI(DSettings settings)
 	{
-		super(settings);
+		super(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
+
+		SettingsBarGUI settingsBar = new SettingsBarGUI(getFrame(), settings);
 		
-		DFrame containerFrame = new DFrame(this, settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
-		SettingsBarGUI settingsBar = new SettingsBarGUI(containerFrame, settings);
-		
-		containerFrame.getContentPane().add((new ModesGUI(settings)).getContentPanel(), BorderLayout.CENTER);
-		containerFrame.getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
-		containerFrame.pack();
-		containerFrame.setLocationRelativeTo(null);
-		containerFrame.setVisible(true);
+		getFrame().getContentPane().add((new ModesGUI(settings)).getContentPanel(), BorderLayout.CENTER);
+		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
+		getFrame().pack();
+		getFrame().setLocationRelativeTo(null);
+		getFrame().setVisible(true);
 	
 	}//CONSTRUCTOR
 
