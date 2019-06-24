@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
+import drakovek.hoarder.gui.swing.components.DScrollPane;
 
 /**
  * The base GUI object for panels that allow the user to switch between modes of operation.
@@ -87,11 +88,13 @@ public abstract class ModeBaseGUI extends BaseGUI
 		backPanel.add(backButtonPanel, backCST);
 		backCST.gridy = 1;
 		backPanel.add(getVerticalSpace(), backCST);
-		backCST.gridx = 1;		backCST.weightx = 1;
-		backCST.gridwidth = 2;
+		backCST.gridx = 2;		backCST.gridy = 2;
 		backPanel.add(getHorizontalSpace(), backCST);
+		backCST.gridx = 1;		backCST.gridy = 0;
+		backCST.weightx = 1;
+		backPanel.add(getVerticalSpace(), backCST);
 		backCST.gridx = 0;		backCST.gridy = 2;
-		backCST.gridwidth = 3;
+		backCST.gridwidth = 2;
 		backPanel.add(new JSeparator(SwingConstants.HORIZONTAL), backCST);
 		
 		//MODE PANEL
@@ -108,8 +111,9 @@ public abstract class ModeBaseGUI extends BaseGUI
 		//FULL PANEL
 		JPanel fullPanel = new JPanel();
 		fullPanel.setLayout(new BorderLayout());
+		DScrollPane modeScroll = new DScrollPane(getSettings(), getSpacedPanel(modePanel, 1, 0, true, true, true, true));
 		fullPanel.add(getSpacedPanel(backPanel, 1, 0, true, true, true, false), BorderLayout.NORTH);
-		fullPanel.add(getSpacedPanel(modePanel, 1, 0, false, false, true, true), BorderLayout.CENTER);
+		fullPanel.add(getSpacedPanel(modeScroll, 1, 1, false, false, true, true), BorderLayout.CENTER);
 		
 		contentPanel.add(fullPanel);
 		contentPanel.revalidate();
