@@ -10,8 +10,8 @@ import javax.swing.SwingConstants;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
-import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 
 /**
@@ -32,23 +32,24 @@ public class SettingsBarGUI extends BaseGUI
 	private JPanel barPanel;
 	
 	/**
-	 * Frame the settings bar is contained within
+	 * FrameGUI the settings bar is contained within
 	 * 
 	 * @since 2.0
 	 */
-	private DFrame owner;
+	private FrameGUI ownerGUI;
 	
+
 	/**
 	 * Initializes the SettingsBarGUI class with its default Swing Layout.
 	 * 
-	 * @param owner Frame the settings bar is contained within
+	 * @param ownerGUI FrameGUI the settings bar is contained within
 	 * @param settings Program Settings
 	 * @since 2.0
 	 */
-	public SettingsBarGUI(DFrame owner, DSettings settings)
+	public SettingsBarGUI(FrameGUI ownerGUI, DSettings settings)
 	{
 		super(settings);
-		this.owner = owner;
+		this.ownerGUI = ownerGUI;
 		
 		DButton settingsButton = new DButton(this, DefaultLanguage.SETTINGS);
 		DLabel label = new DLabel(this, null, new String());
@@ -90,7 +91,7 @@ public class SettingsBarGUI extends BaseGUI
 	@Override
 	public void event(String id, int value)
 	{
-		new SettingsGUI(owner, getSettings());
+		new SettingsGUI(ownerGUI, getSettings());
 		
 	}//METHOD
 	

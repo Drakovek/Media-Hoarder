@@ -3,7 +3,7 @@ package drakovek.hoarder.gui.settings;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
-import drakovek.hoarder.gui.swing.components.ComponentDisabler;
+import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DFrame;
 
 /**
@@ -13,7 +13,7 @@ import drakovek.hoarder.gui.swing.components.DFrame;
  * @version 2.0
  * @since 2.0
  */
-public class SettingsGUI extends BaseGUI implements ComponentDisabler
+public class SettingsGUI extends BaseGUI
 {
 	/**
 	 * Main frame for containing components to adjust the program settings.
@@ -25,35 +25,21 @@ public class SettingsGUI extends BaseGUI implements ComponentDisabler
 	/**
 	 * Initializes the SettingsGUI class.
 	 * 
-	 * @param owner Frame that opened the settings GUI
+	 * @param ownerGUI FrameGUI that opened the settings GUI
 	 * @param settings Program Settings
 	 */
-	public SettingsGUI(DFrame owner, DSettings settings)
+	public SettingsGUI(FrameGUI ownerGUI, DSettings settings)
 	{
 		super(settings);
-		settingsFrame = new DFrame(this, settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
+		settingsFrame = new DFrame(ownerGUI, settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 		settingsFrame.pack();
-		settingsFrame.setLocationRelativeTo(owner);
+		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
 		settingsFrame.setVisible(true);
 		
 	}//CONSTRUCTOR
 
 	@Override
 	public void event(String id, int value)
-	{
-		// TODO Auto-generated method stub
-		
-	}//METHOD
-
-	@Override
-	public void enableAll()
-	{
-		// TODO Auto-generated method stub
-		
-	}//METHOD
-
-	@Override
-	public void disableAll()
 	{
 		// TODO Auto-generated method stub
 		

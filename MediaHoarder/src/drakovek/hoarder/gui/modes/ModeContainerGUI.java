@@ -26,7 +26,7 @@ public class ModeContainerGUI extends FrameGUI
 	{
 		super(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 
-		SettingsBarGUI settingsBar = new SettingsBarGUI(getFrame(), settings);
+		SettingsBarGUI settingsBar = new SettingsBarGUI(this, settings);
 		
 		getFrame().getContentPane().add((new ModesGUI(settings)).getContentPanel(), BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
