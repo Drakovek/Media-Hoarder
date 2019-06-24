@@ -71,6 +71,14 @@ public class DSettings
 	 * @since 2.0
 	 */
 	private static final String FRAME_HEIGHT = "frame_height"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the scroll unit.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SCROLL_UNIT = "scroll_unit"; //$NON-NLS-1$
+	
 	/**
 	 * INI Variable for the font name.
 	 * 
@@ -135,6 +143,13 @@ public class DSettings
 	 * @since 2.0
 	 */
 	private int frameHeight;
+	
+	/**
+	 * Scroll unit, determines the sensitivity of scroll bars.
+	 * 
+	 * @since 2.0
+	 */
+	private int scrollUnit;
 	
 	/**
 	 * Name of Font used for Swing components
@@ -212,6 +227,7 @@ public class DSettings
 		spaceMultiplier = 0.5;
 		frameWidth = 20;
 		frameHeight = 15;
+		scrollUnit = 15;
 		fontName = new String();
 		fontSize = 14;
 		fontBold = false;
@@ -239,6 +255,7 @@ public class DSettings
 			spaceMultiplier = ParseINI.getDoubleValue(null, SPACE_MULTIPLIER, settingsInfo, spaceMultiplier);
 			frameWidth = ParseINI.getIntValue(null, FRAME_WIDTH, settingsInfo, frameWidth);
 			frameHeight = ParseINI.getIntValue(null, FRAME_HEIGHT, settingsInfo, frameHeight);
+			scrollUnit = ParseINI.getIntValue(null, SCROLL_UNIT, settingsInfo, scrollUnit);
 			fontName = ParseINI.getStringValue(null, FONT_NAME, settingsInfo, fontName);
 			fontSize = ParseINI.getIntValue(null, FONT_SIZE, settingsInfo, fontSize);
 			fontBold = ParseINI.getBooleanValue(null, FONT_BOLD, settingsInfo, fontBold);
@@ -266,6 +283,7 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(SPACE_MULTIPLIER, spaceMultiplier));
 		settingsInfo.add(ParseINI.getAssignmentString(FRAME_WIDTH, frameWidth));
 		settingsInfo.add(ParseINI.getAssignmentString(FRAME_HEIGHT, frameHeight));
+		settingsInfo.add(ParseINI.getAssignmentString(SCROLL_UNIT, scrollUnit));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_NAME, fontName));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_SIZE, fontSize));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_BOLD, fontBold));
@@ -343,6 +361,18 @@ public class DSettings
 	}//METHOD
 	
 	/**
+	 * Gets the default space size for Swing Components
+	 * 
+	 * @return Default Space Size
+	 * @since 2.0
+	 */
+	public int getSpaceSize()
+	{
+		return (int)(getFontSize() * getSpaceMultiplier());
+	
+	}//METHOD
+	
+	/**
 	 * Gets the Frame Height Multiplier
 	 * 
 	 * @return Frame Height Multiplier
@@ -367,15 +397,15 @@ public class DSettings
 	}//METHOD
 	
 	/**
-	 * Gets the default space size for Swing Components
+	 * Gets the scroll bar Scroll Unit.
 	 * 
-	 * @return Default Space Size
+	 * @return Scroll Unit
 	 * @since 2.0
 	 */
-	public int getSpaceSize()
+	public int getScrollUnit()
 	{
-		return (int)(getFontSize() * getSpaceMultiplier());
-	
+		return scrollUnit;
+		
 	}//METHOD
 	
 	/**
