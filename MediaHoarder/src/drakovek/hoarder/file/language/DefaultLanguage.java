@@ -104,6 +104,20 @@ public class DefaultLanguage
 	private static final String MODES_HEADER = "[MODES]"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Back" button for mode GUIs.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String MODE_BACK = "mode_back"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Modes" button for mode GUIs.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String MODES = "modes"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Download" mode button.
 	 * 
 	 * @since 2.0
@@ -161,6 +175,8 @@ public class DefaultLanguage
 		//MODES
 		languageFile.add(new String());
 		languageFile.add(MODES_HEADER);
+		languageFile.add(ParseINI.getAssignmentString(MODE_BACK, "< ^Back")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MODES, "^Modes")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_MODE, "^Download")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(MANAGE_MODE, "^Manage")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(VIEW_MODE, "^View")); //$NON-NLS-1$

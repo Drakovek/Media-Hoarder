@@ -1,5 +1,6 @@
 package drakovek.hoarder.gui.modes;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -54,24 +55,41 @@ public abstract class ModeBaseGUI extends BaseGUI
 	/**
 	 * Refreshes the content panel to act as a mode GUI based on given button IDs.
 	 * 
-	 * @param modeIDs IDs for buttons to change the mode of operation.
+	 * @param backIDs IDs for buttons to return to previous Mode GUIs
+	 * @param modeIDs IDs for buttons to change the mode of operation
 	 * @since 2.0
 	 */
-	public void setContentPanel(String[] modeIDs)
+	public void setContentPanel(String backIDs[], String[] modeIDs)
 	{
 		contentPanel.removeAll();
 		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(modeIDs.length, 1, getSettings().getSpaceSize(), getSettings().getSpaceSize()));
+		//BACK PANEL
+		JPanel backPanel = new JPanel();
+		backPanel.setLayout(new GridLayout(1, backIDs.length, getSettings().getSpaceSize(), 1));
+		for(String backID: backIDs)
+		{
+			DButton backButton = new DButton(this, backID);
+			backPanel.add(backButton);
+			
+		}//FOR
+		
+		//MODE PANEL
+		JPanel modePanel = new JPanel();
+		modePanel.setLayout(new GridLayout(modeIDs.length, 1, 1, getSettings().getSpaceSize()));
 		for(String modeID: modeIDs)
 		{
 			DButton modeButton = new DButton(this, modeID);
-			buttonPanel.add(modeButton);
+			modePanel.add(modeButton);
 		
 		}//FOR
 		
+		//FULL PANEL
+		JPanel fullPanel = new JPanel();
+		fullPanel.setLayout(new BorderLayout());
+		fullPanel.add(backPanel, BorderLayout.NORTH);
+		fullPanel.add(getSpacedPanel(modePanel, 1, 0, true, false, false, false), BorderLayout.CENTER);
 		
-		contentPanel.add(this.getSpacedPanel(buttonPanel, 1, 0, true, false, false, false));
+		contentPanel.add(fullPanel);
 		contentPanel.revalidate();
 		
 	}//METHOD
