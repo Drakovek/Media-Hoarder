@@ -1,13 +1,13 @@
-package drakovek.hoarder.gui;
+package drakovek.hoarder.file.language;
 
 /**
- * Interface for storing common language variables.
+ * Class for holding language variable names and their default English values.
  * 
  * @author Drakovek
  * @version 2.0
  * @since 2.0
  */
-public interface LanguageCommon
+public class DefaultLanguage 
 {
 	/**
 	 * Language variable for the default title for Frames/Dialogs
@@ -23,5 +23,4 @@ public interface LanguageCommon
 	 */
 	public static final String OK = "ok"; //$NON-NLS-1$
 	
-
 }//CLASS

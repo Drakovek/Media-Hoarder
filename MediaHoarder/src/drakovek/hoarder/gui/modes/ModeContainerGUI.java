@@ -3,8 +3,8 @@ package drakovek.hoarder.gui.modes;
 import java.awt.BorderLayout;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
-import drakovek.hoarder.gui.LanguageCommon;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DFrame;
@@ -28,7 +28,7 @@ public class ModeContainerGUI extends BaseGUI implements ComponentDisabler
 	{
 		super(settings);
 		
-		DFrame containerFrame = new DFrame(settings, this, settings.getLanuageText(LanguageCommon.TITLE_VALUE));
+		DFrame containerFrame = new DFrame(settings, this, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 		SettingsBarGUI settingsBar = new SettingsBarGUI(settings);
 		
 		containerFrame.getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
