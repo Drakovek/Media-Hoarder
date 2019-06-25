@@ -54,11 +54,41 @@ public class DFrame extends JFrame
 	 * @param title Title of the Frame
 	 * @since 2.0
 	 */
+	public DFrame(DSettings settings, final String title)
+	{
+		super(title);
+		this.settings = settings;
+		disabler = null;
+
+		commonInitialize();
+		
+	}//CONSTRUCTOR
+	
+	/**
+	 * Initializes the DFrame Class
+	 * 
+	 * @param settings Program Settings
+	 * @param disabler GUI Object implementing ComponentDisabler to call when a process starts/stops running
+	 * @param title Title of the Frame
+	 * @since 2.0
+	 */
 	public DFrame(ComponentDisabler disabler, DSettings settings, final String title)
 	{
 		super(title);
 		this.settings = settings;
 		this.disabler = disabler;
+
+		commonInitialize();
+		
+	}//CONSTRUCTOR
+	
+	/**
+	 * Initializes features of the DFrame shared between all of DFrame's constructors.
+	 * 
+	 * @since 2.0
+	 */
+	private void commonInitialize()
+	{
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new DCloseListener(this));
 		
@@ -80,8 +110,8 @@ public class DFrame extends JFrame
 		this.setMinimumSize(new Dimension(width, height));
 		
 		processRunning = false;
-		
-	}//CONSTRUCTOR
+	
+	}//METHOD
     
 	/**
 	 * Runs when user attempts to close the frame. Executed by DCloseListener.
@@ -128,17 +158,21 @@ public class DFrame extends JFrame
     {
     	this.processRunning = processRunning;
     	
-    	if(processRunning)
+    	if(disabler != null)
     	{
-    		disabler.disableAll();
-    	
+        	if(processRunning)
+        	{
+        		disabler.disableAll();
+        	
+        	}//IF
+        	else
+        	{
+        		disabler.enableAll();
+        		
+        	}//ELSE
+        	
     	}//IF
-    	else
-    	{
-    		disabler.enableAll();
-    		
-    	}//ELSE
-    	
+    
     }//METHOD
 	
 }//CLASS

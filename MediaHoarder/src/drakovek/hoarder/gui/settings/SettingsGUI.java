@@ -31,7 +31,7 @@ public class SettingsGUI extends BaseGUI
 	public SettingsGUI(FrameGUI ownerGUI, DSettings settings)
 	{
 		super(settings);
-		settingsFrame = new DFrame(ownerGUI, settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
+		settingsFrame = new DFrame(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
 		settingsFrame.setVisible(true);
