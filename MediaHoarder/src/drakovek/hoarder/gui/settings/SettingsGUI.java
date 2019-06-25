@@ -5,6 +5,7 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DFrame;
+import drakovek.hoarder.gui.swing.listeners.DCloseListener;
 
 /**
  * Contains methods for running a GUI for the user to change program settings.
@@ -32,16 +33,29 @@ public class SettingsGUI extends BaseGUI
 	{
 		super(settings);
 		settingsFrame = new DFrame(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
+		settingsFrame.interceptFrameClose(this);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
 		settingsFrame.setVisible(true);
 		
 	}//CONSTRUCTOR
 
+	private void dispose()
+	{
+		settingsFrame.dispose();
+		
+	}//METHOD
+	
 	@Override
 	public void event(String id, int value)
 	{
-		// TODO Auto-generated method stub
+		switch(id)
+		{
+			case DCloseListener.FRAME_CLOSE_EVENT:
+				dispose();
+				break;
+				
+		}//SWITCH
 		
 	}//METHOD
 	
