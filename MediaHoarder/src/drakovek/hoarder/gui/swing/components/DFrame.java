@@ -53,6 +53,13 @@ public class DFrame extends JFrame
 	 * @since 2.0
 	 */
 	private boolean processRunning;
+	
+	/**
+	 * Whether to allow the frame to close
+	 * 
+	 * @since 2.0
+	 */
+	private boolean allowExit;
 
 	/**
 	 * Initializes the DFrame Class
@@ -118,6 +125,7 @@ public class DFrame extends JFrame
 		
 		this.setMinimumSize(new Dimension(width, height));
 		
+		allowExit = true;
 		processRunning = false;
 	
 	}//METHOD
@@ -143,17 +151,17 @@ public class DFrame extends JFrame
 	{
 		if(event == null)
 		{
-			if(isProcessRunning())
+			if(allowExit)
+			{
+				settings.writeSettings();
+	            this.dispose();
+
+			}//IF
+			else if(isProcessRunning())
 			{
 				String[] buttonIDs = {DefaultLanguage.OK};
 				DButtonDialog buttonDialog = new DButtonDialog(settings);
 				buttonDialog.openButtonDialog(this, DefaultLanguage.PROCESS_RUNNING, DefaultLanguage.PROCESS_RUNNING_MESSAGES, buttonIDs);
-				
-			}//IF
-			else
-			{
-				settings.writeSettings();
-	            this.dispose();
 	            
 			}//ELSE
 			
@@ -187,22 +195,34 @@ public class DFrame extends JFrame
     public void setProcessRunning(final boolean processRunning)
     {
     	this.processRunning = processRunning;
+    	setAllowExit(!processRunning);
+    
+    }//METHOD
+    
+    /**
+     * Sets the value of allowExit
+     * 
+     * @param allowExit Whether to allow the frame to close
+     */
+    public void setAllowExit(final boolean allowExit)
+    {
+    	this.allowExit = allowExit;
     	
     	if(disabler != null)
     	{
-        	if(processRunning)
+        	if(allowExit)
         	{
-        		disabler.disableAll();
+        		disabler.enableAll();
         	
         	}//IF
         	else
         	{
-        		disabler.enableAll();
+        		disabler.disableAll();
         		
         	}//ELSE
         	
     	}//IF
-    
+    	
     }//METHOD
 	
 }//CLASS

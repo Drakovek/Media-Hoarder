@@ -83,7 +83,7 @@ public class SettingsGUI extends BaseGUI
 		settingsFrame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
-		ownerGUI.getFrame().setProcessRunning(true);
+		ownerGUI.getFrame().setAllowExit(false);
 		settingsFrame.setVisible(true);
 		
 	}//CONSTRUCTOR
@@ -96,7 +96,7 @@ public class SettingsGUI extends BaseGUI
 	private void dispose()
 	{
 		settingsFrame.dispose();
-		ownerGUI.getFrame().setProcessRunning(false);
+		ownerGUI.getFrame().setAllowExit(true);
 		
 	}//METHOD
 	
