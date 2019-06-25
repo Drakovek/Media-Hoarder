@@ -8,6 +8,7 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.ScreenDimensions;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
+import drakovek.hoarder.gui.swing.listeners.DEvent;
 
 /**
  * Default Frame object for the program.
@@ -38,6 +39,13 @@ public class DFrame extends JFrame
 	 * @since 2.0
 	 */
 	private ComponentDisabler disabler;
+	
+	/**
+	 * Called when user attempts to close the frame, if event has been initialized.
+	 * 
+	 * @since 2.0
+	 */
+	private DEvent event;
 	
 	/**
 	 * Boolean indicating whether a worker process is running.
@@ -89,6 +97,7 @@ public class DFrame extends JFrame
 	 */
 	private void commonInitialize()
 	{
+		event = null;
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new DCloseListener(this));
 		
@@ -114,24 +123,45 @@ public class DFrame extends JFrame
 	}//METHOD
     
 	/**
+	 * Sets the Frame to call a DEvent when user attempts to close the frame, rather than handling the event internally.
+	 * 
+	 * @param dEvent DEvent to be called when user attempts to close the frame.
+	 * @since 2.0
+	 */
+	public void interceptFrameClose(DEvent dEvent)
+	{
+		this.event = dEvent;
+		
+	}//METOD
+	
+	/**
 	 * Runs when user attempts to close the frame. Executed by DCloseListener.
 	 * 
 	 * @since 2.0
 	 */
 	public void closeFrame()
 	{
-		if(isProcessRunning())
+		if(event == null)
 		{
-			String[] buttonIDs = {DefaultLanguage.OK};
-			DButtonDialog buttonDialog = new DButtonDialog(settings);
-			buttonDialog.openButtonDialog(this, DefaultLanguage.PROCESS_RUNNING, DefaultLanguage.PROCESS_RUNNING_MESSAGES, buttonIDs);
+			if(isProcessRunning())
+			{
+				String[] buttonIDs = {DefaultLanguage.OK};
+				DButtonDialog buttonDialog = new DButtonDialog(settings);
+				buttonDialog.openButtonDialog(this, DefaultLanguage.PROCESS_RUNNING, DefaultLanguage.PROCESS_RUNNING_MESSAGES, buttonIDs);
+				
+			}//IF
+			else
+			{
+				settings.writeSettings();
+	            this.dispose();
+	            
+			}//ELSE
 			
 		}//IF
 		else
 		{
-			settings.writeSettings();
-            this.dispose();
-            
+			event.event(DCloseListener.FRAME_CLOSE_EVENT, -1);
+			
 		}//ELSE
 		
 	}//METHOD
