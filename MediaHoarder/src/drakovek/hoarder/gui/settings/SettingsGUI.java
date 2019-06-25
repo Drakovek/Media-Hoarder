@@ -1,10 +1,12 @@
 package drakovek.hoarder.gui.settings;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
+import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -58,23 +60,58 @@ public class SettingsGUI extends BaseGUI
 		settingsFrame = new DFrame(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 		settingsFrame.interceptFrameClose(this);
 		
-		//LANGUAGE PANEL
+		//LIST PANELS
 		JList<String> languageList = new JList<>();
 		DLabel languageLabel = new DLabel(this, languageList, DefaultLanguage.LANGUAGE);
 		DScrollPane languageScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, languageList);
 		JPanel languagePanel = new JPanel();
 		languagePanel.setLayout(new GridBagLayout());
+		
+		JList<String> themeList = new JList<>();
+		DLabel themeLabel = new DLabel(this, themeList, DefaultLanguage.THEME);
+		DScrollPane themeScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, themeList);
+		JPanel themePanel = new JPanel();
+		themePanel.setLayout(new GridBagLayout());
+		
 		GridBagConstraints listCST = new GridBagConstraints();
 		listCST.gridx = 0;			listCST.gridy = 0;
 		listCST.gridwidth = 1;		listCST.gridheight = 1;
 		listCST.weightx = 0;		listCST.weighty = 0;
 		listCST.fill = GridBagConstraints.BOTH;
 		languagePanel.add(languageLabel, listCST);
+		themePanel.add(themeLabel, listCST);
 		listCST.gridy = 1;
 		languagePanel.add(getVerticalSpace(), listCST);
+		themePanel.add(getVerticalSpace(), listCST);
 		listCST.gridy = 2;			listCST.gridwidth = 3;
 		listCST.weightx = 1;		listCST.weighty = 1;
 		languagePanel.add(languageScroll, listCST);
+		themePanel.add(themeScroll, listCST);
+		
+		//COMBO PANEL
+		Dimension sectionHeight = new Dimension(1, settings.getFontSize() * 10);
+		JPanel comboPanel = new JPanel();
+		comboPanel.setLayout(new GridBagLayout());
+		GridBagConstraints comboCST = new GridBagConstraints();
+		comboCST.gridx = 0;			comboCST.gridy = 0;
+		comboCST.gridwidth = 1;		comboCST.gridheight = 1;
+		comboCST.weightx = 0;		comboCST.weighty = 0;
+		comboCST.fill = GridBagConstraints.BOTH;
+		comboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
+		comboCST.gridy = 2;
+		comboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
+		comboCST.gridx = 2;			comboCST.gridy = 0;
+		comboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
+		comboCST.gridy = 2;
+		comboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
+		comboCST.gridx = 1;			comboCST.weightx = 1;
+		comboPanel.add(themePanel, comboCST);
+		comboCST.gridy = 0;
+		comboPanel.add(languagePanel, comboCST);
+		comboCST.gridx = 0;			comboCST.gridy = 1;
+		comboCST.gridwidth = 3;
+		comboPanel.add(getSpacedSeparatorHorizontal(), comboCST);
+		
 		
 		//BOTTOM FRAME
 		DButton okButton = new DButton(this, DefaultLanguage.OK);
@@ -102,7 +139,7 @@ public class SettingsGUI extends BaseGUI
 		
 		
 		//FINALIZE FRAME
-		settingsFrame.getContentPane().add(languagePanel, BorderLayout.CENTER);
+		settingsFrame.getContentPane().add(comboPanel, BorderLayout.CENTER);
 		settingsFrame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
