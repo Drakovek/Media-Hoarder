@@ -54,6 +54,13 @@ public class DefaultLanguage
 	 */
 	public static final String OK = "ok"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for "Cancel"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CANCEL = "cancel"; //$NON-NLS-1$
+	
 	//FRAME
 	
 	/**
@@ -159,6 +166,7 @@ public class DefaultLanguage
 		languageFile.add(COMMON_HEADER);
 		languageFile.add(ParseINI.getAssignmentString(TITLE_VALUE, "Drak's Digital Hoarder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OK, "^OK")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CANCEL, "^Cancel")); //$NON-NLS-1$
 		
 		//FRAME
 		languageFile.add(new String());
