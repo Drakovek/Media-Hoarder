@@ -24,6 +24,13 @@ public class SettingsGUI extends BaseGUI
 	private DFrame settingsFrame;
 	
 	/**
+	 * FrameGUI that opened the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	private FrameGUI ownerGUI;
+	
+	/**
 	 * Initializes the SettingsGUI class.
 	 * 
 	 * @param ownerGUI FrameGUI that opened the settings GUI
@@ -32,17 +39,26 @@ public class SettingsGUI extends BaseGUI
 	public SettingsGUI(FrameGUI ownerGUI, DSettings settings)
 	{
 		super(settings);
+		this.ownerGUI = ownerGUI;
+		
 		settingsFrame = new DFrame(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 		settingsFrame.interceptFrameClose(this);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
+		ownerGUI.getFrame().setProcessRunning(true);
 		settingsFrame.setVisible(true);
 		
 	}//CONSTRUCTOR
 
+	/**
+	 * Disposes the settings frame when done with changing settings.
+	 * 
+	 * @since 2.0
+	 */
 	private void dispose()
 	{
 		settingsFrame.dispose();
+		ownerGUI.getFrame().setProcessRunning(false);
 		
 	}//METHOD
 	

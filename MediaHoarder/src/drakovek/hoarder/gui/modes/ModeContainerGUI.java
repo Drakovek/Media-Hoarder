@@ -17,6 +17,20 @@ import drakovek.hoarder.gui.settings.SettingsBarGUI;
 public class ModeContainerGUI extends FrameGUI
 {
 	/**
+	 * Main settings bar for the ModeContainerGUI
+	 * 
+	 * @since 2.0
+	 */
+	private SettingsBarGUI settingsBar;
+	
+	/**
+	 * Main ModeBaseGUI for choosing modes of operation.
+	 * 
+	 * @since 2.0
+	 */
+	private ModeBaseGUI modeBaseGUI;
+	
+	/**
 	 * Initializes the ModeContainerGUI Class.
 	 * 
 	 * @param settings Program Settings
@@ -26,9 +40,10 @@ public class ModeContainerGUI extends FrameGUI
 	{
 		super(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 
-		SettingsBarGUI settingsBar = new SettingsBarGUI(this, settings);
+		settingsBar = new SettingsBarGUI(this, settings);
 		
-		getFrame().getContentPane().add((new ModesGUI(settings)).getContentPanel(), BorderLayout.CENTER);
+		modeBaseGUI = new ModesGUI(settings);
+		getFrame().getContentPane().add(modeBaseGUI.getContentPanel(), BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
 		getFrame().pack();
 		getFrame().setLocationRelativeTo(null);
@@ -43,9 +58,19 @@ public class ModeContainerGUI extends FrameGUI
 	}//METHOD
 	
 	@Override
-	public void enableAll() {}
+	public void enableAll()
+	{
+		settingsBar.enableAll();
+		modeBaseGUI.enableAll();
+		
+	}//METHOD
 
 	@Override
-	public void disableAll() {}
+	public void disableAll()
+	{
+		settingsBar.disableAll();
+		modeBaseGUI.disableAll();
+		
+	}//METHOD
 
 }//CLASS

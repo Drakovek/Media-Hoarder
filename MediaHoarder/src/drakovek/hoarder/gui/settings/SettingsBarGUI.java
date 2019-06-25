@@ -11,6 +11,7 @@ import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
+import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DLabel;
 
@@ -21,7 +22,7 @@ import drakovek.hoarder.gui.swing.components.DLabel;
  * @version 2.0
  * @since 2.0
  */
-public class SettingsBarGUI extends BaseGUI
+public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 {
 	
 	/**
@@ -30,6 +31,13 @@ public class SettingsBarGUI extends BaseGUI
 	 * @since 2.0
 	 */
 	private JPanel barPanel;
+	
+	/**
+	 * Button used to open the SettingsGUI
+	 * 
+	 * @since 2.0
+	 */
+	private DButton settingsButton;
 	
 	/**
 	 * FrameGUI the settings bar is contained within
@@ -51,7 +59,7 @@ public class SettingsBarGUI extends BaseGUI
 		super(settings);
 		this.ownerGUI = ownerGUI;
 		
-		DButton settingsButton = new DButton(this, DefaultLanguage.SETTINGS);
+		settingsButton = new DButton(this, DefaultLanguage.SETTINGS);
 		DLabel label = new DLabel(this, null, new String());
 		
 		JPanel internalPNL = new JPanel();
@@ -92,6 +100,20 @@ public class SettingsBarGUI extends BaseGUI
 	public void event(String id, int value)
 	{
 		new SettingsGUI(ownerGUI, getSettings());
+		
+	}//METHOD
+
+	@Override
+	public void enableAll()
+	{
+		settingsButton.setEnabled(true);
+		
+	}//METHOD
+
+	@Override
+	public void disableAll()
+	{
+		settingsButton.setEnabled(false);
 		
 	}//METHOD
 	

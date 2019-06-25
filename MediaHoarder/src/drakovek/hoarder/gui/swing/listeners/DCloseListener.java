@@ -14,7 +14,12 @@ import drakovek.hoarder.gui.swing.components.DFrame;
  */
 public class DCloseListener implements WindowListener
 {
-	public static final String FRAME_CLOSE_EVENT = "frame_close_event";
+	/**
+	 * Event id for an attempt at closing the frame.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FRAME_CLOSE_EVENT = "frame_close_event"; //$NON-NLS-1$
 	
 	/**
 	 * DFrame linked to the class, being listened to for closing event.

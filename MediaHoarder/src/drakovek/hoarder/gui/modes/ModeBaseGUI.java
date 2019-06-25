@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 
@@ -21,7 +22,7 @@ import drakovek.hoarder.gui.swing.components.DScrollPane;
  * @version 2.0
  * @since 2.0
  */
-public abstract class ModeBaseGUI extends BaseGUI
+public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 {
 	/**
 	 * Main Panel containing all the content for the Mode GUI.
@@ -29,6 +30,20 @@ public abstract class ModeBaseGUI extends BaseGUI
 	 * @since 2.0
 	 */
 	private JPanel contentPanel;
+	
+	/**
+	 * DButtons used to return to previous Mode GUIs
+	 * 
+	 * @since 2.0
+	 */
+	private DButton[] backButtons;
+	
+	/**
+	 * DButtons used to change the mode of operation.
+	 * 
+	 * @since 2.0
+	 */
+	private DButton[] modeButtons;
 	
 	/**
 	 * Initializes the ModeBaseGUI class.
@@ -42,6 +57,8 @@ public abstract class ModeBaseGUI extends BaseGUI
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new GridLayout(1,1));
+		backButtons = new DButton[0];
+		modeButtons = new DButton[0];
 		
 	}//CONSTRUCTOR
 	
@@ -71,10 +88,11 @@ public abstract class ModeBaseGUI extends BaseGUI
 		//BACK PANEL
 		JPanel backButtonPanel = new JPanel();
 		backButtonPanel.setLayout(new GridLayout(1, backIDs.length, getSettings().getSpaceSize(), 1));
-		for(String backID: backIDs)
+		backButtons = new DButton[backIDs.length];
+		for(int i = 0; i < backIDs.length; i++)
 		{
-			DButton backButton = new DButton(this, backID);
-			backButtonPanel.add(backButton);
+			backButtons[i] = new DButton(this, backIDs[i]);
+			backButtonPanel.add(backButtons[i]);
 			
 		}//FOR
 		
@@ -100,11 +118,12 @@ public abstract class ModeBaseGUI extends BaseGUI
 		//MODE PANEL
 		JPanel modePanel = new JPanel();
 		modePanel.setLayout(new GridLayout(modeIDs.length, 1, 1, getSettings().getSpaceSize()));
-		for(String modeID: modeIDs)
+		modeButtons = new DButton[modeIDs.length];
+		for(int i = 0; i < modeIDs.length; i++)
 		{
-			DButton modeButton = new DButton(this, modeID);
-			modeButton.setFontLarge();
-			modePanel.add(modeButton);
+			modeButtons[i] = new DButton(this, modeIDs[i]);
+			modeButtons[i].setFontLarge();
+			modePanel.add(modeButtons[i]);
 		
 		}//FOR
 		
@@ -117,6 +136,40 @@ public abstract class ModeBaseGUI extends BaseGUI
 		
 		contentPanel.add(fullPanel);
 		contentPanel.revalidate();
+		
+	}//METHOD
+	
+	@Override
+	public void enableAll()
+	{
+		for(int i = 0; i < backButtons.length; i++)
+		{
+			backButtons[i].setEnabled(true);
+			
+		}//FOR
+		
+		for(int i = 0; i < modeButtons.length; i++)
+		{
+			modeButtons[i].setEnabled(true);
+			
+		}//FOR
+		
+	}//METHOD
+
+	@Override
+	public void disableAll()
+	{
+		for(int i = 0; i < backButtons.length; i++)
+		{
+			backButtons[i].setEnabled(false);
+			
+		}//FOR
+		
+		for(int i = 0; i < modeButtons.length; i++)
+		{
+			modeButtons[i].setEnabled(false);
+			
+		}//FOR
 		
 	}//METHOD
 	
