@@ -5,8 +5,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
@@ -15,6 +17,8 @@ import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DFrame;
+import drakovek.hoarder.gui.swing.components.DLabel;
+import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
 
 /**
@@ -54,6 +58,24 @@ public class SettingsGUI extends BaseGUI
 		settingsFrame = new DFrame(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
 		settingsFrame.interceptFrameClose(this);
 		
+		//LANGUAGE PANEL
+		JList<String> languageList = new JList<>();
+		DLabel languageLabel = new DLabel(this, languageList, DefaultLanguage.LANGUAGE);
+		DScrollPane languageScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, languageList);
+		JPanel languagePanel = new JPanel();
+		languagePanel.setLayout(new GridBagLayout());
+		GridBagConstraints listCST = new GridBagConstraints();
+		listCST.gridx = 0;			listCST.gridy = 0;
+		listCST.gridwidth = 1;		listCST.gridheight = 1;
+		listCST.weightx = 0;		listCST.weighty = 0;
+		listCST.fill = GridBagConstraints.BOTH;
+		languagePanel.add(languageLabel, listCST);
+		listCST.gridy = 1;
+		languagePanel.add(getVerticalSpace(), listCST);
+		listCST.gridy = 2;			listCST.gridwidth = 3;
+		listCST.weightx = 1;		listCST.weighty = 1;
+		languagePanel.add(languageScroll, listCST);
+		
 		//BOTTOM FRAME
 		DButton okButton = new DButton(this, DefaultLanguage.OK);
 		DButton cancelButton = new DButton(this, DefaultLanguage.CANCEL);
@@ -80,6 +102,7 @@ public class SettingsGUI extends BaseGUI
 		
 		
 		//FINALIZE FRAME
+		settingsFrame.getContentPane().add(languagePanel, BorderLayout.CENTER);
 		settingsFrame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
