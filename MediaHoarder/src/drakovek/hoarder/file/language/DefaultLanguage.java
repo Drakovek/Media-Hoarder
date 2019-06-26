@@ -115,6 +115,20 @@ public class DefaultLanguage
 	 */
 	public static final String THEME = "theme"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for the "Font" label in the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FONT = "font"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Preview" label in the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String PREVIEW = "preview"; //$NON-NLS-1$
+	
 	//MODES
 	
 	/**
@@ -195,6 +209,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SETTINGS, "^Settings")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LANGUAGE, "^Language")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(THEME, "^Theme")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FONT, "^Font")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(PREVIEW, "Preview")); //$NON-NLS-1$
 		
 		//MODES
 		languageFile.add(new String());

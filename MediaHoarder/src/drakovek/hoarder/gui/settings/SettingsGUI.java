@@ -10,6 +10,7 @@ import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
@@ -73,6 +74,18 @@ public class SettingsGUI extends BaseGUI
 		JPanel themePanel = new JPanel();
 		themePanel.setLayout(new GridBagLayout());
 		
+		JList<String> fontList = new JList<>();
+		DLabel fontLabel = new DLabel(this, fontList, DefaultLanguage.FONT);
+		DScrollPane fontScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, fontList);
+		JPanel fontPanel = new JPanel();
+		fontPanel.setLayout(new GridBagLayout());
+		
+		JTextArea previewText = new JTextArea();
+		DLabel previewLabel = new DLabel(this, null, DefaultLanguage.PREVIEW);
+		DScrollPane previewScroll = new DScrollPane(settings, previewText);
+		JPanel previewPanel = new JPanel();
+		previewPanel.setLayout(new GridBagLayout());
+		
 		GridBagConstraints listCST = new GridBagConstraints();
 		listCST.gridx = 0;			listCST.gridy = 0;
 		listCST.gridwidth = 1;		listCST.gridheight = 1;
@@ -80,15 +93,26 @@ public class SettingsGUI extends BaseGUI
 		listCST.fill = GridBagConstraints.BOTH;
 		languagePanel.add(languageLabel, listCST);
 		themePanel.add(themeLabel, listCST);
+		fontPanel.add(fontLabel, listCST);
+		previewPanel.add(previewLabel, listCST);
 		listCST.gridy = 1;
 		languagePanel.add(getVerticalSpace(), listCST);
 		themePanel.add(getVerticalSpace(), listCST);
+		fontPanel.add(getVerticalSpace(), listCST);
+		previewPanel.add(getVerticalSpace(), listCST);
 		listCST.gridy = 2;			listCST.gridwidth = 3;
 		listCST.weightx = 1;		listCST.weighty = 1;
 		languagePanel.add(languageScroll, listCST);
 		themePanel.add(themeScroll, listCST);
+		fontPanel.add(fontScroll, listCST);
+		previewPanel.add(previewScroll, listCST);
 		
-		//COMBO PANEL
+		//COMBO PANELS
+		JPanel textPanel = new JPanel();
+		textPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
+		textPanel.add(fontPanel);
+		textPanel.add(previewPanel);
+		
 		Dimension sectionHeight = new Dimension(1, settings.getFontSize() * 10);
 		JPanel comboPanel = new JPanel();
 		comboPanel.setLayout(new GridBagLayout());
@@ -112,6 +136,23 @@ public class SettingsGUI extends BaseGUI
 		comboCST.gridwidth = 3;
 		comboPanel.add(getSpacedSeparatorHorizontal(), comboCST);
 		
+		JPanel textComboPanel = new JPanel();
+		textComboPanel.setLayout(new GridBagLayout());
+		GridBagConstraints textCST = new GridBagConstraints();
+		textCST.gridx = 0;		textCST.gridy = 2;
+		textCST.gridwidth = 1;	textCST.gridheight = 1;
+		textCST.weightx = 0;	textCST.weighty = 0;
+		textCST.fill = GridBagConstraints.HORIZONTAL;
+		textComboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
+		textCST.gridx = 2;
+		textComboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
+		textCST.gridx = 1;		textCST.weightx = 1;
+		textComboPanel.add(textPanel, textCST);
+		textCST.gridx = 0;
+		textCST.gridy = 0;		textCST.gridwidth = 3;
+		textComboPanel.add(comboPanel, textCST);
+		textCST.gridy = 1;
+		textComboPanel.add(getSpacedSeparatorHorizontal(), textCST);
 		
 		//BOTTOM FRAME
 		DButton okButton = new DButton(this, DefaultLanguage.OK);
@@ -139,7 +180,7 @@ public class SettingsGUI extends BaseGUI
 		
 		
 		//FINALIZE FRAME
-		settingsFrame.getContentPane().add(comboPanel, BorderLayout.CENTER);
+		settingsFrame.getContentPane().add(textComboPanel, BorderLayout.CENTER);
 		settingsFrame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
