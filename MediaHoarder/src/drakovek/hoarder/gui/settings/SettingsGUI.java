@@ -1,12 +1,10 @@
 package drakovek.hoarder.gui.settings;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
-import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -107,52 +105,16 @@ public class SettingsGUI extends BaseGUI
 		fontPanel.add(fontScroll, listCST);
 		previewPanel.add(previewScroll, listCST);
 		
-		//COMBO PANELS
 		JPanel textPanel = new JPanel();
 		textPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
 		textPanel.add(fontPanel);
 		textPanel.add(previewPanel);
 		
-		Dimension sectionHeight = new Dimension(1, settings.getFontSize() * 10);
-		JPanel comboPanel = new JPanel();
-		comboPanel.setLayout(new GridBagLayout());
-		GridBagConstraints comboCST = new GridBagConstraints();
-		comboCST.gridx = 0;			comboCST.gridy = 0;
-		comboCST.gridwidth = 1;		comboCST.gridheight = 1;
-		comboCST.weightx = 0;		comboCST.weighty = 0;
-		comboCST.fill = GridBagConstraints.BOTH;
-		comboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
-		comboCST.gridy = 2;
-		comboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
-		comboCST.gridx = 2;			comboCST.gridy = 0;
-		comboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
-		comboCST.gridy = 2;
-		comboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
-		comboCST.gridx = 1;			comboCST.weightx = 1;
-		comboPanel.add(themePanel, comboCST);
-		comboCST.gridy = 0;
-		comboPanel.add(languagePanel, comboCST);
-		comboCST.gridx = 0;			comboCST.gridy = 1;
-		comboCST.gridwidth = 3;
-		comboPanel.add(getSpacedSeparatorHorizontal(), comboCST);
-		
-		JPanel textComboPanel = new JPanel();
-		textComboPanel.setLayout(new GridBagLayout());
-		GridBagConstraints textCST = new GridBagConstraints();
-		textCST.gridx = 0;		textCST.gridy = 2;
-		textCST.gridwidth = 1;	textCST.gridheight = 1;
-		textCST.weightx = 0;	textCST.weighty = 0;
-		textCST.fill = GridBagConstraints.HORIZONTAL;
-		textComboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
-		textCST.gridx = 2;
-		textComboPanel.add(Box.createRigidArea(sectionHeight), comboCST);
-		textCST.gridx = 1;		textCST.weightx = 1;
-		textComboPanel.add(textPanel, textCST);
-		textCST.gridx = 0;
-		textCST.gridy = 0;		textCST.gridwidth = 3;
-		textComboPanel.add(comboPanel, textCST);
-		textCST.gridy = 1;
-		textComboPanel.add(getSpacedSeparatorHorizontal(), textCST);
+		JPanel listPanel = new JPanel();
+		listPanel.setLayout(new GridLayout(3, 1, 0, settings.getSpaceSize()));
+		listPanel.add(languagePanel);
+		listPanel.add(themePanel);
+		listPanel.add(textPanel);
 		
 		//BOTTOM FRAME
 		DButton okButton = new DButton(this, DefaultLanguage.OK);
@@ -180,7 +142,7 @@ public class SettingsGUI extends BaseGUI
 		
 		
 		//FINALIZE FRAME
-		settingsFrame.getContentPane().add(textComboPanel, BorderLayout.CENTER);
+		settingsFrame.getContentPane().add(this.getSpacedPanel(listPanel, 1, 0, true, true, true, true));
 		settingsFrame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());

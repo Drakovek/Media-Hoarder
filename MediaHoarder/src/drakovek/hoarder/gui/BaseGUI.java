@@ -9,8 +9,6 @@ import java.awt.Insets;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.gui.swing.listeners.DEvent;
@@ -201,31 +199,6 @@ public abstract class BaseGUI implements DEvent
 		}//IF
 		
 		spacedPanel.add(component, componentCST);
-		
-		return spacedPanel;
-		
-	}//METHOD
-	
-	/**
-	 * Returns a panel with a horizontal separator between two vertical spaces.
-	 * 
-	 * @return Spaced Horizontal Separator Panel
-	 * @since 2.0
-	 */
-	public JPanel getSpacedSeparatorHorizontal()
-	{
-		JPanel spacedPanel = new JPanel();
-		spacedPanel.setLayout(new GridBagLayout());
-		GridBagConstraints spaceCST = new GridBagConstraints();
-		spaceCST.gridx = 0;			spaceCST.gridy = 0;
-		spaceCST.gridwidth = 3;		spaceCST.gridheight = 1;
-		spaceCST.weightx = 1;		spaceCST.weighty = 0;
-		spaceCST.fill = GridBagConstraints.BOTH;
-		spacedPanel.add(getVerticalSpace(), spaceCST);
-		spaceCST.gridy = 1;
-		spacedPanel.add(new JSeparator(SwingConstants.HORIZONTAL), spaceCST);
-		spaceCST.gridy = 2;
-		spacedPanel.add(getVerticalSpace(), spaceCST);
 		
 		return spacedPanel;
 		
