@@ -111,6 +111,33 @@ public class DLanguageHandler
 	}//METHOD
 	
 	/**
+	 * Returns an ArrayList<String> of all the languages available through language files.
+	 * 
+	 * @return ArrayList<String> of all languages available
+	 * @since 2.0
+	 */
+	public ArrayList<String> getLanguages()
+	{
+		ArrayList<File> languageFiles = getLanguageFiles();
+		ArrayList<String> languages = new ArrayList<>();
+		
+		for(File languageFile: languageFiles)
+		{
+			ArrayList<String> info = DReader.readFile(languageFile);
+			String language = ParseINI.getStringValue(DefaultLanguage.LANGUAGE_HEADER, DefaultLanguage.LANGUAGE_VARIABLE, info, new String());
+			if(language.length() > 0 && !languages.contains(language))
+			{
+				languages.add(language);
+				
+			}//IF
+			
+		}//FOR
+		
+		return languages;
+		
+	}//METHOD
+	
+	/**
 	 * Gets the text for a given variable in the from the currently selected language.
 	 * 
 	 * @param id Language ID Variable

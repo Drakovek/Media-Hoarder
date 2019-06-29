@@ -2,6 +2,7 @@ package drakovek.hoarder.gui.settings;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -14,6 +15,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
@@ -24,6 +27,7 @@ import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
+import drakovek.hoarder.processing.StringMethods;
 
 /**
  * Contains methods for running a GUI for the user to change program settings.
@@ -143,16 +147,35 @@ public class SettingsGUI extends BaseGUI
 		bottomCST.gridy = 0;		bottomCST.gridwidth = 3;
 		bottomPanel.add(new JSeparator(SwingConstants.HORIZONTAL), bottomCST);
 		
+		DScrollPane settingsScroll = new DScrollPane(getSettings(), getSpacedPanel(settingsPanel, 1, 0, true, true, true, true));
 		//FINALIZE FRAME
-		settingsFrame.getContentPane().add(this.getSpacedPanel(settingsPanel, 1, 0, true, true, true, true));
+		settingsFrame.getContentPane().add(getSpacedPanel(settingsScroll, 1, 1, true, true, true, true), BorderLayout.CENTER);
 		settingsFrame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
 		ownerGUI.getFrame().setAllowExit(false);
 		settingsFrame.setVisible(true);
 		
+		//INITIALIZE LISTS
+		String[] languages = StringMethods.arrayListToArray(getSettings().getLanguages());
+		languageList.setListData(languages);
+		
+		
+		LookAndFeelInfo[] themes = UIManager.getInstalledLookAndFeels();
+		String[] themeStrings = new String[themes.length];
+		for(int i = 0; i < themes.length; i++)
+		{
+			themeStrings[i] = themes[i].getName();
+			
+		}//FOR
+		
+		themeList.setListData(themeStrings);
+		
+		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		fontList.setListData(fonts);
+		
 	}//CONSTRUCTOR
-
+	
 	/**
 	 * Returns a panel filled with a scaled component in a scroll pane along with a left-aligned label.
 	 * 

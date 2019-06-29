@@ -324,6 +324,18 @@ public class DSettings
 	}//METHOD
 	
 	/**
+	 * Returns an ArrayList<String> of all the languages available through language files.
+	 * 
+	 * @return ArrayList<String> of all languages available
+	 * @since 2.0
+	 */
+	public ArrayList<String> getLanguages()
+	{
+		return languageHandler.getLanguages();
+		
+	}//METHOD
+	
+	/**
 	 * Sets the Language Name
 	 * 
 	 * @param languageName Language Name
