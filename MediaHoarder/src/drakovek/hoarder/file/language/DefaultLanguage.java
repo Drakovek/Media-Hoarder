@@ -129,6 +129,27 @@ public class DefaultLanguage
 	 */
 	public static final String PREVIEW = "preview"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for the "Bold" check box label in the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FONT_BOLD = "font_bold"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Anti-Aliasing" check box label in the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FONT_AA = "font_aa"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the font "Size" label in the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FONT_SIZE = "font_size"; //$NON-NLS-1$
+	
 	//MODES
 	
 	/**
@@ -211,6 +232,10 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(THEME, "^Theme")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT, "^Font")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PREVIEW, "Preview")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FONT_BOLD, "^Bold")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FONT_AA, "^Anti-Aliasing")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FONT_SIZE, "^Size")); //$NON-NLS-1$
+		
 		
 		//MODES
 		languageFile.add(new String());
