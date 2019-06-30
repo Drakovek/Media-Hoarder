@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JCheckBox;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -25,6 +24,7 @@ import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
+import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
 import drakovek.hoarder.processing.StringMethods;
@@ -53,6 +53,27 @@ public class SettingsGUI extends BaseGUI
 	private FrameGUI ownerGUI;
 	
 	/**
+	 * List showing available languages for the program
+	 * 
+	 * @since 2.0
+	 */
+	private DList languageList;
+	
+	/**
+	 * List showing available Swing "Look and Feel"s for the program
+	 * 
+	 * @since 2.0
+	 */
+	private DList themeList;
+	
+	/**
+	 * List showing available fonts for the program
+	 * 
+	 * @since 2.0
+	 */
+	private DList fontList;
+	
+	/**
 	 * Initializes the SettingsGUI class.
 	 * 
 	 * @param ownerGUI FrameGUI that opened the settings GUI
@@ -67,9 +88,9 @@ public class SettingsGUI extends BaseGUI
 		settingsFrame.interceptFrameClose(this);
 		
 		//LIST PANELS
-		JList<String> languageList = new JList<>();
-		JList<String> themeList = new JList<>();
-		JList<String> fontList = new JList<>();
+		languageList = new DList(this, false, DefaultLanguage.LANGUAGE);
+		themeList = new DList(this, false, DefaultLanguage.THEME);
+		fontList = new DList(this, false, DefaultLanguage.FONT);
 		JTextArea previewText = new JTextArea();
 		
 		JPanel textPanel = new JPanel();
@@ -156,25 +177,36 @@ public class SettingsGUI extends BaseGUI
 		ownerGUI.getFrame().setAllowExit(false);
 		settingsFrame.setVisible(true);
 		
+		initializeSettings();
+		
+	}//CONSTRUCTOR
+	
+	/**
+	 * Sets the Settings GUI to reflect the current settings of the program.
+	 * 
+	 * @since 2.0
+	 */
+	private void initializeSettings()
+	{
 		//INITIALIZE LISTS
 		String[] languages = StringMethods.arrayListToArray(getSettings().getLanguages());
 		languageList.setListData(languages);
-		
-		
+				
+				
 		LookAndFeelInfo[] themes = UIManager.getInstalledLookAndFeels();
 		String[] themeStrings = new String[themes.length];
 		for(int i = 0; i < themes.length; i++)
 		{
 			themeStrings[i] = themes[i].getName();
-			
+					
 		}//FOR
-		
+				
 		themeList.setListData(themeStrings);
-		
+				
 		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		fontList.setListData(fonts);
-		
-	}//CONSTRUCTOR
+	
+	}//METHOD
 	
 	/**
 	 * Returns a panel filled with a scaled component in a scroll pane along with a left-aligned label.
@@ -224,6 +256,8 @@ public class SettingsGUI extends BaseGUI
 	{
 		switch(id)
 		{
+			case DefaultLanguage.FONT:
+				break;
 			case DCloseListener.FRAME_CLOSE_EVENT:
 			case DefaultLanguage.CANCEL:
 				dispose();
