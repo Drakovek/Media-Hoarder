@@ -10,7 +10,6 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -26,6 +25,7 @@ import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
+import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
 import drakovek.hoarder.processing.StringMethods;
 
@@ -74,6 +74,13 @@ public class SettingsGUI extends BaseGUI
 	private DList fontList;
 	
 	/**
+	 * Text Field for inputting the desired text size.
+	 * 
+	 * @since 2.0
+	 */
+	private DTextField sizeText;
+	
+	/**
 	 * Edited setting for the program's language
 	 * 
 	 * @since 2.0
@@ -93,6 +100,13 @@ public class SettingsGUI extends BaseGUI
 	 * @since 2.0
 	 */
 	private String font;
+	
+	/**
+	 * Edited setting for the program's font size
+	 * 
+	 * @since 2.0
+	 */
+	private int size;
 	
 	/**
 	 * Edited setting for whether the program's default font should be bold
@@ -144,7 +158,7 @@ public class SettingsGUI extends BaseGUI
 		aa = getSettings().getFontAA();
 		DCheckBox boldCheck = new DCheckBox(this, bold, DefaultLanguage.FONT_BOLD);
 		DCheckBox aaCheck = new DCheckBox(this, aa, DefaultLanguage.FONT_AA);
-		JTextField sizeText = new JTextField(10);
+		sizeText = new DTextField(this, DefaultLanguage.FONT_SIZE);
 		DLabel sizeLabel = new DLabel(this, sizeText, DefaultLanguage.FONT_SIZE);
 		JPanel sizePanel = new JPanel();
 		sizePanel.setLayout(new GridBagLayout());
@@ -229,8 +243,11 @@ public class SettingsGUI extends BaseGUI
 		language = getSettings().getLanguageName();
 		theme = getSettings().getTheme();
 		font = getSettings().getFontName();
+		size = getSettings().getFontSize();
 		bold = getSettings().getFontBold();
 		aa = getSettings().getFontAA();
+		
+		sizeText.setText(Integer.toString(size));
 		
 		//LANGUAGES LIST
 		String[] languages = StringMethods.arrayListToArray(getSettings().getLanguages());

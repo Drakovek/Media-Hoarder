@@ -247,4 +247,23 @@ public abstract class BaseGUI implements DEvent
 	
 	}//METHOD
 	
+	/**
+	 * Returns the default menu Insets based on the default space size for the program.
+	 * 
+	 * @return Default Menu Insets
+	 * @since 2.0
+	 */
+	public Insets getMenuInsets()
+	{
+		int space = settings.getSpaceSize() / 2;
+		if(space < 1)
+		{
+			space = 1;
+			
+		}//IF
+		
+		return new Insets(space, space, space, space);
+		
+	}//METHOD
+	
 }//CLASS
