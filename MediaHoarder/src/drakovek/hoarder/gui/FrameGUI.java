@@ -24,13 +24,13 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	 * Initializes the FrameGUI Object
 	 * 
 	 * @param settings Program Settings
-	 * @param frameTitle Title of the main Frame
+	 * @param subtitleID ID of the subtitle. If null, just uses the default title
 	 * @since
 	 */
-	public FrameGUI(DSettings settings, final String frameTitle)
+	public FrameGUI(DSettings settings, final String subtitleID)
 	{
 		super(settings);
-		frame = new DFrame(this, settings, frameTitle);
+		frame = new DFrame(this, settings, getTitle(subtitleID));
 		
 	}//CONSTRUCTOR
 	

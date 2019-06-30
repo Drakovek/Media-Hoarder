@@ -11,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.listeners.DEvent;
 
 /**
@@ -265,5 +266,25 @@ public abstract class BaseGUI implements DEvent
 		return new Insets(space, space, space, space);
 		
 	}//METHOD
+	
+	/**
+	 * Gets the title for a frame, with subtitle if called for.
+	 * 
+	 * @param subtitleID ID for the subtitle. If null, only uses the default title.
+	 * @return Title
+	 * @since 2.0
+	 */
+	public String getTitle(final String subtitleID)
+	{
+		if(subtitleID == null)
+		{
+			return settings.getLanuageText(DefaultLanguage.TITLE_VALUE);
+			
+		}//IF
+		
+		return settings.getLanuageText(DefaultLanguage.TITLE_VALUE) + " - " + settings.getLanuageText(subtitleID); //$NON-NLS-1$
+		
+	}//METHOD
+	
 	
 }//CLASS

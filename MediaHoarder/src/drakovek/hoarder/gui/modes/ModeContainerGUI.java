@@ -3,7 +3,6 @@ package drakovek.hoarder.gui.modes;
 import java.awt.BorderLayout;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 
@@ -38,7 +37,7 @@ public class ModeContainerGUI extends FrameGUI
 	 */
 	public ModeContainerGUI(DSettings settings)
 	{
-		super(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
+		super(settings, null);
 
 		settingsBar = new SettingsBarGUI(this, settings);
 		

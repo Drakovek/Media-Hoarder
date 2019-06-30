@@ -25,6 +25,7 @@ import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
+import drakovek.hoarder.gui.swing.components.DScrollablePanel;
 import drakovek.hoarder.gui.swing.components.DTextArea;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
@@ -163,7 +164,7 @@ public class SettingsGUI extends BaseGUI
 		super(settings);
 		this.ownerGUI = ownerGUI;
 		
-		settingsFrame = new DFrame(settings, settings.getLanuageText(DefaultLanguage.TITLE_VALUE));
+		settingsFrame = new DFrame(settings, getTitle(DefaultLanguage.SETTINGS));
 		settingsFrame.interceptFrameClose(this);
 		
 		//LIST PANELS
@@ -249,12 +250,15 @@ public class SettingsGUI extends BaseGUI
 		bottomCST.gridy = 0;		bottomCST.gridwidth = 3;
 		bottomPanel.add(new JSeparator(SwingConstants.HORIZONTAL), bottomCST);
 		
-		DScrollPane settingsScroll = new DScrollPane(getSettings(), getSpacedPanel(settingsPanel, 1, 0, true, true, true, true));
+		DScrollablePanel scrollPanel = new DScrollablePanel(getSpacedPanel(settingsPanel, 1, 0, true, true, true, true), true, false);
+		DScrollPane settingsScroll = new DScrollPane(getSettings(), scrollPanel);
+		
 		//FINALIZE FRAME
 		settingsFrame.getContentPane().add(getSpacedPanel(settingsScroll, 1, 1, true, true, true, true), BorderLayout.CENTER);
 		settingsFrame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
+		settingsFrame.setMinimumSize(settingsFrame.getSize());
 		ownerGUI.getFrame().setAllowExit(false);
 		settingsFrame.setVisible(true);
 		
