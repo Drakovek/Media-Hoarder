@@ -15,10 +15,10 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
-import drakovek.hoarder.gui.modes.ModeContainerGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DCheckBox;
 import drakovek.hoarder.gui.swing.components.DFrame;
@@ -490,7 +490,7 @@ public class SettingsGUI extends BaseGUI
 		if(reset)
 		{
 			ownerGUI.dispose();
-			new ModeContainerGUI(getSettings());
+			Start.startGUI(getSettings());
 			
 		}//IF
 		
