@@ -9,7 +9,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -25,8 +24,10 @@ import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
+import drakovek.hoarder.gui.swing.components.DTextArea;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
+import drakovek.hoarder.processing.BooleanInt;
 import drakovek.hoarder.processing.StringMethods;
 
 /**
@@ -38,6 +39,13 @@ import drakovek.hoarder.processing.StringMethods;
  */
 public class SettingsGUI extends BaseGUI
 {
+	/**
+	 * Array containing all the fonts available for Swing to use.
+	 * 
+	 * @since 2.0
+	 */
+	private String[] fonts;
+	
 	/**
 	 * Main frame for containing components to adjust the program settings.
 	 * 
@@ -79,6 +87,13 @@ public class SettingsGUI extends BaseGUI
 	 * @since 2.0
 	 */
 	private DTextField sizeText;
+	
+	/**
+	 * Text Area that shows a preview for the chosen font.
+	 * 
+	 * @since 2.0
+	 */
+	private DTextArea previewText;
 	
 	/**
 	 * Edited setting for the program's language
@@ -140,7 +155,7 @@ public class SettingsGUI extends BaseGUI
 		languageList = new DList(this, false, DefaultLanguage.LANGUAGE);
 		themeList = new DList(this, false, DefaultLanguage.THEME);
 		fontList = new DList(this, false, DefaultLanguage.FONT);
-		JTextArea previewText = new JTextArea();
+		previewText = new DTextArea(this);
 		
 		JPanel textPanel = new JPanel();
 		textPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
@@ -302,7 +317,7 @@ public class SettingsGUI extends BaseGUI
 		
 		//FONT LIST
 		selection = -1;
-		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		fontList.setListData(fonts);
 		for(int i = 0; i < fonts.length; i++)
 		{
@@ -323,6 +338,9 @@ public class SettingsGUI extends BaseGUI
 		
 		fontList.setSelectedIndex(selection);
 		fontList.ensureIndexIsVisible(selection);
+		
+		previewText.setText(getSettings().getLanuageText(DefaultLanguage.FONT_PREVIEW));
+		updateFontPreview();
 		
 	}//METHOD
 	
@@ -358,6 +376,39 @@ public class SettingsGUI extends BaseGUI
 	}//METHOD
 	
 	/**
+	 * Resets the font preview to show the currently selected font.
+	 * 
+	 * @since 2.0
+	 */
+	private void updateFontPreview()
+	{
+		previewText.setFont(font, bold, size);
+		
+	}//METHOD
+	
+	/**
+	 * Attempts to update the font size from a value given by the user in the font size text field.
+	 * 
+	 * @since 2.0
+	 */
+	private void updateFontSize()
+	{
+		try
+		{
+			int trySize = Integer.parseInt(sizeText.getText());
+			size = trySize;
+			updateFontPreview();
+			
+		}//TRY
+		catch(NumberFormatException e)
+		{
+			sizeText.setText(Integer.toString(size));
+			
+		}//CATCH
+		
+	}//METHOD
+	
+	/**
 	 * Disposes the settings frame when done with changing settings.
 	 * 
 	 * @since 2.0
@@ -374,7 +425,24 @@ public class SettingsGUI extends BaseGUI
 	{
 		switch(id)
 		{
+			case DefaultLanguage.FONT_SIZE:
+				updateFontSize();
+				break;
+			case DefaultLanguage.FONT_BOLD:
+				bold = BooleanInt.getBoolean(value);
+				updateFontPreview();
+				break;
+			case DefaultLanguage.FONT_AA:
+				aa = BooleanInt.getBoolean(value);
+				break;
 			case DefaultLanguage.FONT:
+				int selected = fontList.getSelectedIndex();
+				if(selected != -1)
+				{
+					font = fonts[selected];
+					updateFontPreview();
+					
+				}//IF
 				break;
 			case DCloseListener.FRAME_CLOSE_EVENT:
 			case DefaultLanguage.CANCEL:

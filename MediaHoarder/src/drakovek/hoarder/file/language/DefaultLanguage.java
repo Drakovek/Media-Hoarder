@@ -150,6 +150,13 @@ public class DefaultLanguage
 	 */
 	public static final String FONT_SIZE = "font_size"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for the text used for the font preview in the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FONT_PREVIEW = "font_preview"; //$NON-NLS-1$
+	
 	//MODES
 	
 	/**
@@ -235,7 +242,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FONT_BOLD, "^Bold")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT_AA, "^Anti-Aliasing")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT_SIZE, "^Size")); //$NON-NLS-1$
-		
+		languageFile.add(ParseINI.getAssignmentString(FONT_PREVIEW, "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG?! the quick brown fox jumps over the lazy dog. 0123456789")); //$NON-NLS-1$
 		
 		//MODES
 		languageFile.add(new String());
