@@ -73,11 +73,18 @@ public class DSettings
 	private static final String FRAME_HEIGHT = "frame_height"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for the scroll unit.
+	 * INI variable for the scroll unit
 	 * 
 	 * @since 2.0
 	 */
 	private static final String SCROLL_UNIT = "scroll_unit"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the program theme
+	 * 
+	 * @since 2.0
+	 */
+	private static final String THEME = "theme"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the font name.
@@ -99,6 +106,13 @@ public class DSettings
 	 * @since 2.0
 	 */
 	private static final String FONT_BOLD = "font_bold"; //$NON-NLS-1$
+	
+	/**
+	 * INI Variable for font anti-aliasing.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String FONT_AA = "font_aa"; //$NON-NLS-1$
 	
 	/**
 	 * Program's data folder located in the main program directory.
@@ -152,6 +166,13 @@ public class DSettings
 	private int scrollUnit;
 	
 	/**
+	 * Swing "Look and Feel" for the program
+	 * 
+	 * @since 2.0
+	 */
+	private String theme;
+	
+	/**
 	 * Name of Font used for Swing components
 	 * 
 	 * @since 2.0
@@ -171,6 +192,13 @@ public class DSettings
 	 * @since 2.0
 	 */
 	private boolean fontBold;
+	
+	/**
+	 * Whether the font should be anti-aliased.
+	 * 
+	 * @since 2.0
+	 */
+	private boolean fontAA;
 	
 	/**
 	 * Initializes the DSettings Class
@@ -228,9 +256,11 @@ public class DSettings
 		frameWidth = 20;
 		frameHeight = 15;
 		scrollUnit = 15;
+		theme = new String();
 		fontName = new String();
 		fontSize = 14;
 		fontBold = false;
+		fontAA = false;
 		
 	}//METHOD
 	
@@ -256,9 +286,11 @@ public class DSettings
 			frameWidth = ParseINI.getIntValue(null, FRAME_WIDTH, settingsInfo, frameWidth);
 			frameHeight = ParseINI.getIntValue(null, FRAME_HEIGHT, settingsInfo, frameHeight);
 			scrollUnit = ParseINI.getIntValue(null, SCROLL_UNIT, settingsInfo, scrollUnit);
+			theme = ParseINI.getStringValue(null, THEME, settingsInfo, theme);
 			fontName = ParseINI.getStringValue(null, FONT_NAME, settingsInfo, fontName);
 			fontSize = ParseINI.getIntValue(null, FONT_SIZE, settingsInfo, fontSize);
 			fontBold = ParseINI.getBooleanValue(null, FONT_BOLD, settingsInfo, fontBold);
+			fontAA = ParseINI.getBooleanValue(null, FONT_AA, settingsInfo, fontAA);
 			
 		}//IF
 		
@@ -284,9 +316,11 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(FRAME_WIDTH, frameWidth));
 		settingsInfo.add(ParseINI.getAssignmentString(FRAME_HEIGHT, frameHeight));
 		settingsInfo.add(ParseINI.getAssignmentString(SCROLL_UNIT, scrollUnit));
+		settingsInfo.add(ParseINI.getAssignmentString(THEME, theme));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_NAME, fontName));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_SIZE, fontSize));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_BOLD, fontBold));
+		settingsInfo.add(ParseINI.getAssignmentString(FONT_AA, fontAA));
 		
 		if(dataFolder != null && dataFolder.isDirectory())
 		{
@@ -421,6 +455,30 @@ public class DSettings
 	}//METHOD
 	
 	/**
+	 * Sets the program theme.
+	 * 
+	 * @param theme Theme
+	 * @since 2.0
+	 */
+	public void setTheme(final String theme)
+	{
+		this.theme = theme;
+		
+	}//METHOD
+	
+	/**
+	 * Gets the program theme.
+	 * 
+	 * @return Theme
+	 * @since 2.0
+	 */
+	public String getTheme()
+	{
+		return theme;
+		
+	}//METHOD
+	
+	/**
 	 * Sets the Font Name.
 	 * 
 	 * @param fontName Font Name
@@ -489,6 +547,30 @@ public class DSettings
 	public boolean getFontBold()
 	{
 		return fontBold;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the font anti-aliasing
+	 * 
+	 * @param fontAA Font Anti-Aliasing
+	 * @since 2.0
+	 */
+	public void setFontAA(final boolean fontAA)
+	{
+		this.fontAA = fontAA;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the font anti-aliasing
+	 * 
+	 * @return Font Anti-Aliasing
+	 * @since 2.0
+	 */
+	public boolean getFontAA()
+	{
+		return fontAA;
 		
 	}//METHOD
 	

@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -22,6 +21,7 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
+import drakovek.hoarder.gui.swing.components.DCheckBox;
 import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
@@ -74,6 +74,41 @@ public class SettingsGUI extends BaseGUI
 	private DList fontList;
 	
 	/**
+	 * Edited setting for the program's language
+	 * 
+	 * @since 2.0
+	 */
+	private String language;
+	
+	/**
+	 * Edited setting for the program's theme
+	 * 
+	 * @since 2.0
+	 */
+	private String theme;
+	
+	/**
+	 * Edited setting for the program's default font
+	 * 
+	 * @since 2.0
+	 */
+	private String font;
+	
+	/**
+	 * Edited setting for whether the program's default font should be bold
+	 * 
+	 * @since 2.0
+	 */
+	private boolean bold;
+	
+	/**
+	 * Edited setting for whether the program's fonts should be anti-aliased
+	 * 
+	 * @since 2.0
+	 */
+	private boolean aa;
+	
+	/**
 	 * Initializes the SettingsGUI class.
 	 * 
 	 * @param ownerGUI FrameGUI that opened the settings GUI
@@ -105,8 +140,10 @@ public class SettingsGUI extends BaseGUI
 		listPanel.add(textPanel);
 		
 		//CREATE TEXT OPTION PANEL
-		JCheckBox boldCheck = new JCheckBox(DefaultLanguage.FONT_BOLD);
-		JCheckBox aaCheck = new JCheckBox(DefaultLanguage.FONT_AA);
+		bold = getSettings().getFontBold();
+		aa = getSettings().getFontAA();
+		DCheckBox boldCheck = new DCheckBox(this, bold, DefaultLanguage.FONT_BOLD);
+		DCheckBox aaCheck = new DCheckBox(this, aa, DefaultLanguage.FONT_AA);
 		JTextField sizeText = new JTextField(10);
 		DLabel sizeLabel = new DLabel(this, sizeText, DefaultLanguage.FONT_SIZE);
 		JPanel sizePanel = new JPanel();
@@ -188,24 +225,88 @@ public class SettingsGUI extends BaseGUI
 	 */
 	private void initializeSettings()
 	{
-		//INITIALIZE LISTS
+		//SET DEFAULT SETTINGS
+		language = getSettings().getLanguageName();
+		theme = getSettings().getTheme();
+		font = getSettings().getFontName();
+		bold = getSettings().getFontBold();
+		aa = getSettings().getFontAA();
+		
+		//LANGUAGES LIST
 		String[] languages = StringMethods.arrayListToArray(getSettings().getLanguages());
 		languageList.setListData(languages);
+		int selection = -1;
+		for(int i = 0; i < languages.length; i++)
+		{
+			if(language.equals(languages[i]))
+			{
+				selection = i;
+				break;
 				
+			}//IF
+			
+		}//FOR
+		
+		if(selection == -1)
+		{
+			selection = 0;
+			
+		}//IF
+		
+		languageList.setSelectedIndex(selection);
+		languageList.ensureIndexIsVisible(selection);
 				
+		//THEMES LIST
 		LookAndFeelInfo[] themes = UIManager.getInstalledLookAndFeels();
 		String[] themeStrings = new String[themes.length];
+		selection = -1;
 		for(int i = 0; i < themes.length; i++)
 		{
 			themeStrings[i] = themes[i].getName();
+			
+			if(theme.equals(themes[i].getClassName()))
+			{
+				selection = i;
+				
+			}//IF
 					
 		}//FOR
-				
+		
 		themeList.setListData(themeStrings);
-				
+		
+		if(selection == -1)
+		{
+			selection = 0;
+		
+		}//IF
+		
+		themeList.setSelectedIndex(selection);
+		themeList.ensureIndexIsVisible(selection);
+		
+		//FONT LIST
+		selection = -1;
 		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		fontList.setListData(fonts);
+		for(int i = 0; i < fonts.length; i++)
+		{
+			if(font.equals(fonts[i]))
+			{
+				selection = i;
+				break;
+				
+			}//IF
+			
+		}//FOR
 	
+		if(selection == -1)
+		{
+			selection = 0;
+			
+		}//IF
+		
+		fontList.setSelectedIndex(selection);
+		fontList.ensureIndexIsVisible(selection);
+		
 	}//METHOD
 	
 	/**

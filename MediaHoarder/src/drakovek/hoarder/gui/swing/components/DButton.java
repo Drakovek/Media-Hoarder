@@ -39,9 +39,9 @@ public class DButton extends JButton
 	{
 		super(baseGUI.getSettings().getLanuageText(id));
 		this.setMnemonic(baseGUI.getSettings().getLanguageMnemonic(id));
-		this.addActionListener(new DActionListener(baseGUI, id));
 		this.setFont(baseGUI.getFont());
 		this.setMargin(baseGUI.getButtonInsets());
+		this.addActionListener(new DActionListener(baseGUI, id));
 		
 		this.baseGUI = baseGUI;
 		
