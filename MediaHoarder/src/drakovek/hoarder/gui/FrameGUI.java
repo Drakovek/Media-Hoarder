@@ -46,4 +46,16 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 		
 	}//METHOD
 	
+	/**
+	 * Disposes of the main DFrame.
+	 * 
+	 * @since 2.0
+	 */
+	public void dispose()
+	{
+		frame.dispose();
+		frame = null;
+		
+	}//METHOD
+	
 }//CLASS

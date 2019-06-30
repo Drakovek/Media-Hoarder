@@ -18,6 +18,7 @@ import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
+import drakovek.hoarder.gui.modes.ModeContainerGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DCheckBox;
 import drakovek.hoarder.gui.swing.components.DFrame;
@@ -45,6 +46,20 @@ public class SettingsGUI extends BaseGUI
 	 * @since 2.0
 	 */
 	private String[] fonts;
+	
+	/**
+	 * Array containing all the "Look and Feel"s for Swing to use.
+	 * 
+	 * @since 2.0
+	 */
+	private LookAndFeelInfo[] themes;
+	
+	/**
+	 * Array containing all the languages available for the program to use.
+	 * 
+	 * @since 2.0
+	 */
+	private String[] languages;
 	
 	/**
 	 * Main frame for containing components to adjust the program settings.
@@ -265,7 +280,7 @@ public class SettingsGUI extends BaseGUI
 		sizeText.setText(Integer.toString(size));
 		
 		//LANGUAGES LIST
-		String[] languages = StringMethods.arrayListToArray(getSettings().getLanguages());
+		languages = StringMethods.arrayListToArray(getSettings().getLanguages());
 		languageList.setListData(languages);
 		int selection = -1;
 		for(int i = 0; i < languages.length; i++)
@@ -289,7 +304,7 @@ public class SettingsGUI extends BaseGUI
 		languageList.ensureIndexIsVisible(selection);
 				
 		//THEMES LIST
-		LookAndFeelInfo[] themes = UIManager.getInstalledLookAndFeels();
+		themes = UIManager.getInstalledLookAndFeels();
 		String[] themeStrings = new String[themes.length];
 		selection = -1;
 		for(int i = 0; i < themes.length; i++)
@@ -409,20 +424,78 @@ public class SettingsGUI extends BaseGUI
 	}//METHOD
 	
 	/**
-	 * Disposes the settings frame when done with changing settings.
+	 * Disposes the settings frame when done with changing settings. Saves settings if called for.
 	 * 
+	 * @param save Whether to save the edited settings
 	 * @since 2.0
 	 */
-	private void dispose()
+	private void dispose(final boolean save)
 	{
+		boolean reset = false;
+		updateFontSize();
+		
+		if(save)
+		{
+			if(!getSettings().getLanguageName().equals(language))
+			{
+				getSettings().setLanguageName(language);
+				reset = true;
+				
+			}//IF
+			
+			if(!getSettings().getTheme().equals(theme))
+			{
+				getSettings().setTheme(theme);
+				reset = true;
+				
+			}//IF
+			
+			if(!getSettings().getFontName().equals(font))
+			{
+				getSettings().setFontName(font);
+				reset = true;
+				
+			}//IF
+			
+			if(getSettings().getFontBold() != bold)
+			{
+				getSettings().setFontBold(bold);
+				reset = true;
+				
+			}//IF
+			
+			if(getSettings().getFontAA() != aa)
+			{
+				getSettings().setFontAA(aa);
+				reset = true;
+				
+			}//IF
+			
+			if(getSettings().getFontSize() != size)
+			{
+				getSettings().setFontSize(size);
+				reset = true;
+				
+			}//IF
+			
+		}//IF
+		
 		settingsFrame.dispose();
 		ownerGUI.getFrame().setAllowExit(true);
+		
+		if(reset)
+		{
+			ownerGUI.dispose();
+			new ModeContainerGUI(getSettings());
+			
+		}//IF
 		
 	}//METHOD
 	
 	@Override
 	public void event(String id, int value)
 	{
+		int selected;
 		switch(id)
 		{
 			case DefaultLanguage.FONT_SIZE:
@@ -436,7 +509,7 @@ public class SettingsGUI extends BaseGUI
 				aa = BooleanInt.getBoolean(value);
 				break;
 			case DefaultLanguage.FONT:
-				int selected = fontList.getSelectedIndex();
+				selected = fontList.getSelectedIndex();
 				if(selected != -1)
 				{
 					font = fonts[selected];
@@ -444,9 +517,28 @@ public class SettingsGUI extends BaseGUI
 					
 				}//IF
 				break;
+			case DefaultLanguage.THEME:
+				selected = themeList.getSelectedIndex();
+				if(selected != -1)
+				{
+					theme = themes[selected].getClassName();
+					
+				}//IF
+				break;
+			case DefaultLanguage.LANGUAGE:
+				selected = languageList.getSelectedIndex();
+				if(selected != -1)
+				{
+					language = languages[selected];
+					
+				}//IF
+				break;
+			case DefaultLanguage.OK:
+				dispose(true);
+				break;
 			case DCloseListener.FRAME_CLOSE_EVENT:
 			case DefaultLanguage.CANCEL:
-				dispose();
+				dispose(false);
 				break;
 				
 		}//SWITCH
