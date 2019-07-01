@@ -63,6 +63,7 @@ public class DLanguageHandler
 	{	
 		ArrayList<File> languageFiles = getLanguageFiles();
 		languageInfo = new ArrayList<>();
+		boolean getDefault = true;
 		
 		if(languageName != null && languageName.length() > 0)
 		{
@@ -72,13 +73,15 @@ public class DLanguageHandler
 				if(ParseINI.getStringValue(DefaultLanguage.LANGUAGE_HEADER, DefaultLanguage.LANGUAGE_VARIABLE, info, new String()).equals(languageName))
 				{
 					languageInfo.addAll(info);
+					getDefault = false;
 					
 				}//IF
 			
 			}//FOR
 		
 		}//IF
-		else
+		
+		if(getDefault)
 		{
 			setLanguage(DefaultLanguage.getDefaultLanguage(languageFolder));
 			
