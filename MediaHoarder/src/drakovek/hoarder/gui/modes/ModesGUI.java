@@ -21,7 +21,7 @@ public class ModesGUI extends ModeBaseGUI
 	public ModesGUI(DSettings settings)
 	{
 		super(settings);
-		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODES};
+		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODE_START};
 		String[] modeIDs = {DefaultLanguage.DOWNLOAD_MODE, DefaultLanguage.MANAGE_MODE, DefaultLanguage.VIEW_MODE};
 		setContentPanel(backIDs, modeIDs);
 		

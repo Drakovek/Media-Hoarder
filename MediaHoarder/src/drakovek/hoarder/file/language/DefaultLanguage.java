@@ -174,11 +174,11 @@ public class DefaultLanguage
 	public static final String MODE_BACK = "mode_back"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Modes" button for mode GUIs.
+	 * Language variable for the "Start" button for mode GUIs.
 	 * 
 	 * @since 2.0
 	 */
-	public static final String MODES = "modes"; //$NON-NLS-1$
+	public static final String MODE_START = "mode_start"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Download" mode button.
@@ -234,7 +234,7 @@ public class DefaultLanguage
 		//SETTINGS
 		languageFile.add(new String());
 		languageFile.add(SETTINGS_HEADER);
-		languageFile.add(ParseINI.getAssignmentString(SETTINGS, "^Settings")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SETTINGS, "S^ettings")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LANGUAGE, "^Language")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(THEME, "^Theme")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT, "^Font")); //$NON-NLS-1$
@@ -248,7 +248,7 @@ public class DefaultLanguage
 		languageFile.add(new String());
 		languageFile.add(MODES_HEADER);
 		languageFile.add(ParseINI.getAssignmentString(MODE_BACK, "< ^Back")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(MODES, "^Modes")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MODE_START, "^Start")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_MODE, "^Download")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(MANAGE_MODE, "^Manage")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(VIEW_MODE, "^View")); //$NON-NLS-1$

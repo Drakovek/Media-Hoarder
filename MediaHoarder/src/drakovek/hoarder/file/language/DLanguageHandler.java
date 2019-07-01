@@ -166,7 +166,7 @@ public class DLanguageHandler
 	{
 		int mnemonic = -1;
 		
-		String value = ParseINI.getStringValue(null, id, languageInfo, id);
+		String value = ParseINI.getStringValue(null, id, languageInfo, id).toUpperCase();
 		int charNum;
 		for(charNum = 0; charNum < value.length() && value.charAt(charNum) != '^'; charNum++);
 		charNum++;
