@@ -281,13 +281,22 @@ public class ViewBrowserGUI extends FrameGUI
 		switch(id)
 		{
 			case DResizeListener.RESIZE:
+			{
 				previewResized();
-				break;	
+				break;
+				
+			}//CASE
 			case DefaultLanguage.RESTART_PROGRAM:
+			{
 				Start.startGUI(getSettings());
+				
+			}//CASE
 			case DefaultLanguage.EXIT:
+			{
 				dispose();
 				break;
+			}//CASE
+			
 		}//SWITCH
 		
 	}//METHOD

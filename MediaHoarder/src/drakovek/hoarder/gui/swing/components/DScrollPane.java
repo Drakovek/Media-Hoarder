@@ -154,21 +154,33 @@ public class DScrollPane extends JScrollPane implements Worker
 		switch(id)
 		{
 			case TOP_LEFT:
+			{
 				getHorizontalScrollBar().setValue(getHorizontalScrollBar().getMinimum());
 				getVerticalScrollBar().setValue(getVerticalScrollBar().getMinimum());
 				break;
+				
+			}//CASE
 			case TOP_RIGHT:
+			{
 				getHorizontalScrollBar().setValue(getHorizontalScrollBar().getMaximum());
 				getVerticalScrollBar().setValue(getVerticalScrollBar().getMinimum());
 				break;
+				
+			}//CASE
 			case BOTTOM_LEFT:
+			{
 				getHorizontalScrollBar().setValue(getHorizontalScrollBar().getMinimum());
 				getVerticalScrollBar().setValue(getVerticalScrollBar().getMaximum());
 				break;
+				
+			}//CASE
 			case BOTTOM_RIGHT:
+			{
 				getHorizontalScrollBar().setValue(getHorizontalScrollBar().getMaximum());
 				getVerticalScrollBar().setValue(getVerticalScrollBar().getMaximum());
 				break;
+				
+			}//CASE
 				
 		}//SWITCH
 		

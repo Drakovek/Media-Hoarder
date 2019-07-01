@@ -503,16 +503,26 @@ public class SettingsGUI extends BaseGUI
 		switch(id)
 		{
 			case DefaultLanguage.FONT_SIZE:
+			{
 				updateFontSize();
 				break;
+				
+			}//CASE
 			case DefaultLanguage.FONT_BOLD:
+			{
 				bold = BooleanInt.getBoolean(value);
 				updateFontPreview();
 				break;
+				
+			}//CASE
 			case DefaultLanguage.FONT_AA:
+			{
 				aa = BooleanInt.getBoolean(value);
 				break;
+				
+			}//CASE
 			case DefaultLanguage.FONT:
+			{
 				selected = fontList.getSelectedIndex();
 				if(selected != -1)
 				{
@@ -521,7 +531,10 @@ public class SettingsGUI extends BaseGUI
 					
 				}//IF
 				break;
+				
+			}//CASE
 			case DefaultLanguage.THEME:
+			{
 				selected = themeList.getSelectedIndex();
 				if(selected != -1)
 				{
@@ -529,7 +542,10 @@ public class SettingsGUI extends BaseGUI
 					
 				}//IF
 				break;
+				
+			}//CASE
 			case DefaultLanguage.LANGUAGE:
+			{
 				selected = languageList.getSelectedIndex();
 				if(selected != -1)
 				{
@@ -537,13 +553,21 @@ public class SettingsGUI extends BaseGUI
 					
 				}//IF
 				break;
+				
+			}//CASE
 			case DefaultLanguage.OK:
+			{
 				dispose(true);
 				break;
+				
+			}//CASE
 			case DCloseListener.FRAME_CLOSE_EVENT:
 			case DefaultLanguage.CANCEL:
+			{
 				dispose(false);
 				break;
+				
+			}//CASE
 				
 		}//SWITCH
 		
