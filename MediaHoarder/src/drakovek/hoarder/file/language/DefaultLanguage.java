@@ -34,13 +34,6 @@ public class DefaultLanguage
 	//COMMON
 	
 	/**
-	 * Header for the "COMMON" section of the language file
-	 * 
-	 * @since 2.0
-	 */
-	public static final String COMMON_HEADER = "[COMMON]"; //$NON-NLS-1$
-	
-	/**
 	 * Language variable for the default title for Frames/Dialogs
 	 * 
 	 * @since 2.0
@@ -92,13 +85,6 @@ public class DefaultLanguage
 	//FRAME
 	
 	/**
-	 * Header for the "FRAME" section of the language file.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String FRAME_HEADER = "[FRAME]"; //$NON-NLS-1$
-	
-	/**
 	 * Language variable for title of the "Process Running" error message.
 	 * 
 	 * @since 2.0
@@ -112,15 +98,7 @@ public class DefaultLanguage
 	 */
 	public static final String[] PROCESS_RUNNING_MESSAGES = {"cancel_process_message1", "cancel_process_message2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
-	
 	//SETTINGS
-	
-	/**
-	 * Header text for the "SETTINGS" section of the language file.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String SETTINGS_HEADER = "[SETTINGS]"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for settings button
@@ -188,13 +166,6 @@ public class DefaultLanguage
 	//MODES
 	
 	/**
-	 * Header text for the "MODES" section of the language file.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String MODES_HEADER = "[MODES]"; //$NON-NLS-1$
-	
-	/**
 	 * Language variable for the "Back" button for mode GUIs.
 	 * 
 	 * @since 2.0
@@ -232,13 +203,6 @@ public class DefaultLanguage
 	//DOWNLOAD
 	
 	/**
-	 * Header text for the "DOWNLOAD" section of the language file.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String DOWNLOAD_HEADER = "[DOWNLOAD]"; //$NON-NLS-1$
-	
-	/**
 	 * Language variable for the "DeviantArt" mode button
 	 * 
 	 * @since 2.0
@@ -269,13 +233,6 @@ public class DefaultLanguage
 	//FILE CHOOSER
 	
 	/**
-	 * Header text for "FILE CHOOSER" section of the language file
-	 * 
-	 * @since 2.0
-	 */
-	private static final String FILE_CHOOSER_HEADER = "[FILE CHOOSER]"; //$NON-NLS-1$
-	
-	/**
 	 * Language variable for the file chooser dialog title when opening a file.
 	 * 
 	 * @since 2.0
@@ -283,13 +240,6 @@ public class DefaultLanguage
 	public static final String OPEN_TITLE = "open_title"; //$NON-NLS-1$
 	
 	//VIEWER
-	
-	/**
-	 * Header text for the "VIEWER" section of the language file.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String VIEWER_HEADER = "[VIEWER]"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of the view browser GUI.
@@ -337,7 +287,7 @@ public class DefaultLanguage
 		
 		//COMMON
 		languageFile.add(new String());
-		languageFile.add(COMMON_HEADER);
+		languageFile.add("[COMMON]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TITLE_VALUE, "Drak's Digital Hoarder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OK, "^OK")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCEL, "^Cancel")); //$NON-NLS-1$
@@ -348,14 +298,14 @@ public class DefaultLanguage
 		
 		//FRAME
 		languageFile.add(new String());
-		languageFile.add(FRAME_HEADER);
+		languageFile.add("[FRAME]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PROCESS_RUNNING, "Process Running")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PROCESS_RUNNING_MESSAGES[0], "A process is running.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PROCESS_RUNNING_MESSAGES[1], "Cancel process or wait until completion before closing.")); //$NON-NLS-1$
 		
 		//SETTINGS
 		languageFile.add(new String());
-		languageFile.add(SETTINGS_HEADER);
+		languageFile.add("[SETTINGS]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SETTINGS, "S^ettings")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LANGUAGE, "^Language")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(THEME, "^Theme")); //$NON-NLS-1$
@@ -368,7 +318,7 @@ public class DefaultLanguage
 		
 		//MODES
 		languageFile.add(new String());
-		languageFile.add(MODES_HEADER);
+		languageFile.add("[MODES]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(MODE_BACK, "< ^Back")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(MODE_START, "^Start")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_MODE, "^Download")); //$NON-NLS-1$
@@ -377,7 +327,7 @@ public class DefaultLanguage
 		
 		//DOWNLOAD
 		languageFile.add(new String());
-		languageFile.add(DOWNLOAD_HEADER);
+		languageFile.add("[DOWNLOAD]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_MODE, "^DeviantArt")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_MODE, "^Fur Affinity")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(INKBUNNY_MODE, "^Inkbunny")); //$NON-NLS-1$
@@ -385,12 +335,12 @@ public class DefaultLanguage
 		
 		//FILE CHOOSER
 		languageFile.add(new String());
-		languageFile.add(FILE_CHOOSER_HEADER);
+		languageFile.add("[FILE CHOOSER]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN_TITLE, "Open Directory")); //$NON-NLS-1$
 		
 		//VIEWER
 		languageFile.add(new String());
-		languageFile.add(VIEWER_HEADER);
+		languageFile.add("[VIEWER]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(VIEWER_TITLE, "Viewer")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PREVIOUS, "< ^Previous")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
