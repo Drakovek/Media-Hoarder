@@ -2,6 +2,7 @@ package drakovek.hoarder.gui.view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.File;
 
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -16,6 +17,7 @@ import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DTextField;
+import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
 
 /**
@@ -33,6 +35,13 @@ public class ViewBrowserGUI extends FrameGUI
 	 * @since 2.0
 	 */
 	private static final String PAGE_ACTION = "page"; //$NON-NLS-1$
+	
+	/**
+	 * File Chooser for choosing a directory from which to search for DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private DFileChooser fileChooser;
 	
 	/**
 	 * Panel within which to hold image previews and titles of DMF media.
@@ -106,6 +115,7 @@ public class ViewBrowserGUI extends FrameGUI
 	public ViewBrowserGUI(DSettings settings)
 	{
 		super(settings, DefaultLanguage.VIEWER_TITLE);
+		fileChooser = new DFileChooser(settings);
 		createPreviewPanels();
 		previewWidth = 0;
 		previewHeight = 0;
@@ -285,6 +295,11 @@ public class ViewBrowserGUI extends FrameGUI
 				previewResized();
 				break;
 				
+			}//CASE
+			case DefaultLanguage.OPEN:
+			{
+				fileChooser.createOpenChooser(getFrame(), new File(new String()));
+				break;
 			}//CASE
 			case DefaultLanguage.RESTART_PROGRAM:
 			{

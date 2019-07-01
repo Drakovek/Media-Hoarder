@@ -266,7 +266,23 @@ public class DefaultLanguage
 	 */
 	public static final String TRANSFUR_MODE = "transfur"; //$NON-NLS-1$
 	
-	//VIEW
+	//FILE CHOOSER
+	
+	/**
+	 * Header text for "FILE CHOOSER" section of the language file
+	 * 
+	 * @since 2.0
+	 */
+	private static final String FILE_CHOOSER_HEADER = "[FILE CHOOSER]"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the file chooser dialog title when opening a file.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String OPEN_TITLE = "open_title"; //$NON-NLS-1$
+	
+	//VIEWER
 	
 	/**
 	 * Header text for the "VIEWER" section of the language file.
@@ -366,6 +382,11 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_MODE, "^Fur Affinity")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(INKBUNNY_MODE, "^Inkbunny")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TRANSFUR_MODE, "^Transfur")); //$NON-NLS-1$
+		
+		//FILE CHOOSER
+		languageFile.add(new String());
+		languageFile.add(FILE_CHOOSER_HEADER);
+		languageFile.add(ParseINI.getAssignmentString(OPEN_TITLE, "Open Directory")); //$NON-NLS-1$
 		
 		//VIEWER
 		languageFile.add(new String());
