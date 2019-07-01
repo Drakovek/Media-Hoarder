@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
@@ -46,19 +46,36 @@ public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 	private DButton[] modeButtons;
 	
 	/**
-	 * Initializes the ModeBaseGUI class.
+	 * ModeBaseGUI to pass commands to if it is opened.
 	 * 
-	 * @param settings Program Settings
 	 * @since 2.0
 	 */
-	public ModeBaseGUI(DSettings settings)
+	private ModeBaseGUI modeBaseGUI;
+	
+	/**
+	 * FrameGUI this mode GUI is contained within.
+	 * 
+	 * @since 2.0
+	 */
+	private FrameGUI frameGUI;
+	
+	/**
+	 * Initializes the ModeBaseGUI class.
+	 * 
+	 * @param frameGUI FrameGUI this mode GUI is contained within.
+	 * @since 2.0
+	 */
+	public ModeBaseGUI(FrameGUI frameGUI)
 	{
-		super(settings);
+		super(frameGUI.getSettings());
+		
+		this.frameGUI = frameGUI;
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new GridLayout(1,1));
 		backButtons = new DButton[0];
 		modeButtons = new DButton[0];
+		modeBaseGUI = null;
 		
 	}//CONSTRUCTOR
 	
@@ -139,37 +156,82 @@ public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 		
 	}//METHOD
 	
+	/**
+	 * Refreshes the content panel with a separate mode GUI
+	 * 
+	 * @param modeBaseGUI Mode GUI to replace this mode GUI
+	 * @since 2.0
+	 */
+	public void setContentPanel(ModeBaseGUI modeBaseGUI)
+	{
+		this.modeBaseGUI = modeBaseGUI;
+		contentPanel.removeAll();
+		contentPanel.add(modeBaseGUI.getContentPanel());
+		contentPanel.revalidate();
+		
+	}//METHOD
+	
 	@Override
 	public void enableAll()
 	{
-		for(int i = 0; i < backButtons.length; i++)
+		if(modeBaseGUI == null)
 		{
-			backButtons[i].setEnabled(true);
+			for(int i = 0; i < backButtons.length; i++)
+			{
+				backButtons[i].setEnabled(true);
+				
+			}//FOR
 			
-		}//FOR
-		
-		for(int i = 0; i < modeButtons.length; i++)
+			for(int i = 0; i < modeButtons.length; i++)
+			{
+				modeButtons[i].setEnabled(true);
+				
+			}//FOR
+			
+		}//IF
+		else
 		{
-			modeButtons[i].setEnabled(true);
+			modeBaseGUI.enableAll();
 			
-		}//FOR
+		}//ELSE
 		
 	}//METHOD
 
 	@Override
 	public void disableAll()
 	{
-		for(int i = 0; i < backButtons.length; i++)
+		if(modeBaseGUI == null)
 		{
-			backButtons[i].setEnabled(false);
+			for(int i = 0; i < backButtons.length; i++)
+			{
+				backButtons[i].setEnabled(false);
+				
+			}//FOR
 			
-		}//FOR
+			for(int i = 0; i < modeButtons.length; i++)
+			{
+				modeButtons[i].setEnabled(false);
+				
+			}//FOR
+			
+		}//IF
+		else
+		{
+			modeBaseGUI.disableAll();
+			
+		}//ELSE
 		
-		for(int i = 0; i < modeButtons.length; i++)
-		{
-			modeButtons[i].setEnabled(false);
-			
-		}//FOR
+	}//METHOD
+	
+	/**
+	 * Returns the parent FrameGUI
+	 * 
+	 * @return Parent FrameGUI
+	 * @since 2.0
+	 */
+	public FrameGUI getParentGUI()
+	{
+		return frameGUI;
 		
 	}//METHOD
 	

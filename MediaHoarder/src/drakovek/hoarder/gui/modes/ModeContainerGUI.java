@@ -41,7 +41,7 @@ public class ModeContainerGUI extends FrameGUI
 
 		settingsBar = new SettingsBarGUI(this, settings);
 		
-		modeBaseGUI = new ModesGUI(settings);
+		modeBaseGUI = new ModesGUI(this);
 		getFrame().getContentPane().add(modeBaseGUI.getContentPanel(), BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
 		getFrame().pack();
@@ -51,10 +51,7 @@ public class ModeContainerGUI extends FrameGUI
 	}//CONSTRUCTOR
 
 	@Override
-	public void event(String id, int value)
-	{
-		
-	}//METHOD
+	public void event(String id, int value){}
 	
 	@Override
 	public void enableAll()
