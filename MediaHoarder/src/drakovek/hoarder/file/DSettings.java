@@ -351,7 +351,7 @@ public class DSettings
 	 * @return Mnemonic for the given Language ID
 	 * @since 2.0
 	 */
-	public char getLanguageMnemonic(final String id)
+	public int getLanguageMnemonic(final String id)
 	{
 		return languageHandler.getLanguageMnemonic(id);
 		

@@ -3,6 +3,8 @@ package drakovek.hoarder.file.language;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.KeyStroke;
+
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.processing.ParseINI;
 
@@ -157,9 +159,9 @@ public class DLanguageHandler
 	 * @return Mnemonic for the given Language ID
 	 * @since 2.0
 	 */
-	public char getLanguageMnemonic(final String id)
+	public int getLanguageMnemonic(final String id)
 	{
-		char mnemonic = ' ';
+		int mnemonic = -1;
 		
 		String value = ParseINI.getStringValue(null, id, languageInfo, id);
 		int charNum;
@@ -168,14 +170,9 @@ public class DLanguageHandler
 		
 		if(charNum < value.length())
 		{
-			mnemonic = value.charAt(charNum);
+			mnemonic = KeyStroke.getKeyStroke(value.charAt(charNum), 0).getKeyCode();
 			
 		}//IF
-		else if(value.length() > 0)
-		{
-			mnemonic = value.charAt(0);
-			
-		}//ELSE IF
 		
 		return mnemonic;
 		
