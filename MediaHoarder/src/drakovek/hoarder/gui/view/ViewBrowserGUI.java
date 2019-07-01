@@ -3,14 +3,18 @@ package drakovek.hoarder.gui.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.ScreenDimensions;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
+import drakovek.hoarder.gui.swing.components.DMenu;
+import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
 
@@ -106,6 +110,21 @@ public class ViewBrowserGUI extends FrameGUI
 		previewWidth = 0;
 		previewHeight = 0;
 		
+		JMenuBar menubar = new JMenuBar();
+		
+		//FILE MENU ITEMS
+		DMenu fileMenu = new DMenu(this, DefaultLanguage.FILE);
+		DMenuItem openItem = new DMenuItem(this, DefaultLanguage.OPEN);
+		DMenuItem updateItem = new DMenuItem(this, DefaultLanguage.UPDATE_INDEXES);
+		DMenuItem resetItem = new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM);
+		DMenuItem exitItem = new DMenuItem(this, DefaultLanguage.EXIT);
+		fileMenu.add(openItem);
+		fileMenu.add(updateItem);
+		fileMenu.addSeparator();
+		fileMenu.add(resetItem);
+		fileMenu.add(exitItem);
+		menubar.add(fileMenu);
+		
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
@@ -129,6 +148,7 @@ public class ViewBrowserGUI extends FrameGUI
 		
 		//FINALIZE FRAME
 		SettingsBarGUI settingsBar = new SettingsBarGUI(this);
+		getFrame().setJMenuBar(menubar);
 		getFrame().getContentPane().add(viewPanel, BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
 		getFrame().pack();
@@ -263,7 +283,11 @@ public class ViewBrowserGUI extends FrameGUI
 			case DResizeListener.RESIZE:
 				previewResized();
 				break;	
-			
+			case DefaultLanguage.RESTART_PROGRAM:
+				Start.startGUI(getSettings());
+			case DefaultLanguage.EXIT:
+				dispose();
+				break;
 		}//SWITCH
 		
 	}//METHOD

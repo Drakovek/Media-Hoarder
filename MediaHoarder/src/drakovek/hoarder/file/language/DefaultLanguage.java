@@ -61,6 +61,34 @@ public class DefaultLanguage
 	 */
 	public static final String CANCEL = "cancel"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for "File"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FILE = "file"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "Open"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String OPEN = "open"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "Exit"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String EXIT = "exit"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "Restart Program"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String RESTART_PROGRAM = "restart_program"; //$NON-NLS-1$
+	
 	//FRAME
 	
 	/**
@@ -269,6 +297,13 @@ public class DefaultLanguage
 	public static final String NEXT = "next"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Update Indexes" menu option in the view GUI.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String UPDATE_INDEXES = "update_indexes"; //$NON-NLS-1$
+	
+	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
 	 * 
 	 * @param languageDirectory Directory to save the default language file within.
@@ -290,6 +325,10 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(TITLE_VALUE, "Drak's Digital Hoarder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OK, "^OK")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCEL, "^Cancel")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILE, "^File")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(OPEN, "^Open")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(EXIT, "^Exit")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
 		
 		//FRAME
 		languageFile.add(new String());
@@ -334,6 +373,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(VIEWER_TITLE, "Viewer")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PREVIOUS, "< ^Previous")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(UPDATE_INDEXES, "^Update Indexes")); //$NON-NLS-1$
 		
 		
 		
