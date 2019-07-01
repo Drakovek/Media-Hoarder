@@ -11,6 +11,7 @@ import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DTextField;
+import drakovek.hoarder.gui.swing.listeners.DResizeListener;
 
 /**
  * Creates the browser GUI for viewing DMF Media.
@@ -27,6 +28,13 @@ public class ViewBrowserGUI extends FrameGUI
 	 * @since 2.0
 	 */
 	private static final String PAGE_ACTION = "page"; //$NON-NLS-1$
+	
+	/**
+	 * Panel within which to hold image previews and titles of DMF media.
+	 * 
+	 * @since 2.0
+	 */
+	private JPanel previewPanel;
 	
 	/**
 	 * Button to show DMF media prior to the current page
@@ -69,9 +77,15 @@ public class ViewBrowserGUI extends FrameGUI
 		bottomPanel.add(pageText);
 		bottomPanel.add(nextButton);
 		
+		//CREATE PREVIEW PANEL
+		previewPanel = new JPanel();
+		previewPanel.setLayout(new GridLayout(1, 1));
+		previewPanel.addComponentListener(new DResizeListener(this, null));
+		
 		//CREATE VIEW PANEL
 		JPanel viewPanel = new JPanel();
 		viewPanel.setLayout(new BorderLayout());
+		viewPanel.add(previewPanel, BorderLayout.CENTER);
 		viewPanel.add(getSpacedPanel(bottomPanel, 1, 1, false, false, true, true), BorderLayout.SOUTH);
 		
 		//FINALIZE FRAME
@@ -84,6 +98,17 @@ public class ViewBrowserGUI extends FrameGUI
 		
 	}//CONSTRUCTOR
 
+	/**
+	 * Runs when sectionPanel is resized, and sets a new grid panel for previews.
+	 * 
+	 * @since 1.0
+	 */
+	private void previewResized()
+	{
+		System.out.println("test-resized");
+		
+	}//METHOD
+	
 	@Override
 	public void enableAll() 
 	{
@@ -105,6 +130,13 @@ public class ViewBrowserGUI extends FrameGUI
 	@Override
 	public void event(String id, int value)
 	{
+		switch(id)
+		{
+			case DResizeListener.RESIZE:
+				previewResized();
+				break;	
+			
+		}//SWITCH
 		
 	}//METHOD
 	
