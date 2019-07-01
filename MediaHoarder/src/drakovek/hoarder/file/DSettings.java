@@ -115,6 +115,20 @@ public class DSettings
 	private static final String FONT_AA = "font_aa"; //$NON-NLS-1$
 	
 	/**
+	 * Viewer Header for the program's settings file.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String VIEWER_HEADER = "[VIEWER]"; //$NON-NLS-1$
+	
+	/**
+	 * INI Variable for the size of DMF preview thumbnails.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String PREVIEW_SIZE = "preview_size"; //$NON-NLS-1$
+	
+	/**
 	 * Program's data folder located in the main program directory.
 	 * 
 	 * @since 2.0
@@ -127,6 +141,7 @@ public class DSettings
 	 * @since 2.0
 	 */
 	private DLanguageHandler languageHandler;
+	
 	
 	//SETTINGS VARIABLES
 
@@ -201,6 +216,13 @@ public class DSettings
 	private boolean fontAA;
 	
 	/**
+	 * Size of the preview thumbnails in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	private int previewSize;
+	
+	/**
 	 * Initializes the DSettings Class
 	 * 
 	 * @since 2.0
@@ -262,6 +284,9 @@ public class DSettings
 		fontBold = false;
 		fontAA = true;
 		
+		//VIEWER
+		previewSize = 100;
+		
 	}//METHOD
 	
 	/**
@@ -292,6 +317,9 @@ public class DSettings
 			fontBold = ParseINI.getBooleanValue(null, FONT_BOLD, settingsInfo, fontBold);
 			fontAA = ParseINI.getBooleanValue(null, FONT_AA, settingsInfo, fontAA);
 			
+			//VIEWER
+			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
+			
 		}//IF
 		
 	}//METHOD
@@ -321,6 +349,11 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_SIZE, fontSize));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_BOLD, fontBold));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_AA, fontAA));
+		
+		//VIEWER
+		settingsInfo.add(new String());
+		settingsInfo.add(VIEWER_HEADER);
+		settingsInfo.add(ParseINI.getAssignmentString(PREVIEW_SIZE, previewSize));
 		
 		if(dataFolder != null && dataFolder.isDirectory())
 		{
@@ -571,6 +604,18 @@ public class DSettings
 	public boolean getFontAA()
 	{
 		return fontAA;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the Preview Size
+	 * 
+	 * @return Preview Size
+	 * @since 2.0
+	 */
+	public int getPreviewSize()
+	{
+		return previewSize;
 		
 	}//METHOD
 	
