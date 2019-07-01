@@ -238,6 +238,36 @@ public class DefaultLanguage
 	 */
 	public static final String TRANSFUR_MODE = "transfur"; //$NON-NLS-1$
 	
+	//VIEW
+	
+	/**
+	 * Header text for the "VIEWER" section of the language file.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String VIEWER_HEADER = "[VIEWER]"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the title of the view browser GUI.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String VIEWER_TITLE = "viewer_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "previous" button in the viewer GUI.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String PREVIOUS = "previous"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "next" button in the viewer GUI.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String NEXT = "next"; //$NON-NLS-1$
+	
 	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
 	 * 
@@ -297,6 +327,15 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_MODE, "^Fur Affinity")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(INKBUNNY_MODE, "^Inkbunny")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TRANSFUR_MODE, "^Transfur")); //$NON-NLS-1$
+		
+		//VIEWER
+		languageFile.add(new String());
+		languageFile.add(VIEWER_HEADER);
+		languageFile.add(ParseINI.getAssignmentString(VIEWER_TITLE, "Viewer")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(PREVIOUS, "< ^Previous")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
+		
+		
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())
 		{

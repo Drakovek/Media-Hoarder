@@ -260,7 +260,7 @@ public class DSettings
 		fontName = new String();
 		fontSize = 14;
 		fontBold = false;
-		fontAA = false;
+		fontAA = true;
 		
 	}//METHOD
 	

@@ -163,6 +163,7 @@ public class SettingsGUI extends BaseGUI
 	{
 		super(settings);
 		this.ownerGUI = ownerGUI;
+		ownerGUI.getFrame().setAllowExit(false);
 		
 		settingsFrame = new DFrame(settings, getTitle(DefaultLanguage.SETTINGS));
 		settingsFrame.interceptFrameClose(this);
@@ -259,7 +260,6 @@ public class SettingsGUI extends BaseGUI
 		settingsFrame.pack();
 		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
 		settingsFrame.setMinimumSize(settingsFrame.getSize());
-		ownerGUI.getFrame().setAllowExit(false);
 		settingsFrame.setVisible(true);
 		
 		initializeSettings();

@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
@@ -51,12 +50,11 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	 * Initializes the SettingsBarGUI class with its default Swing Layout.
 	 * 
 	 * @param ownerGUI FrameGUI the settings bar is contained within
-	 * @param settings Program Settings
 	 * @since 2.0
 	 */
-	public SettingsBarGUI(FrameGUI ownerGUI, DSettings settings)
+	public SettingsBarGUI(FrameGUI ownerGUI)
 	{
-		super(settings);
+		super(ownerGUI.getSettings());
 		this.ownerGUI = ownerGUI;
 		
 		settingsButton = new DButton(this, DefaultLanguage.SETTINGS);

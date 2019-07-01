@@ -2,6 +2,7 @@ package drakovek.hoarder.gui.modes;
 
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
+import drakovek.hoarder.gui.view.ViewBrowserGUI;
 
 /**
  * The starting ModeGUI for choosing between broad operations categories
@@ -38,6 +39,8 @@ public class ModesGUI extends ModeBaseGUI
 			case DefaultLanguage.MANAGE_MODE:
 				break;
 			case DefaultLanguage.VIEW_MODE:
+				new ViewBrowserGUI(getSettings());
+				getParentGUI().dispose();
 				break;
 				
 		}//SWITCH

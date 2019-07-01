@@ -39,7 +39,7 @@ public class ModeContainerGUI extends FrameGUI
 	{
 		super(settings, null);
 
-		settingsBar = new SettingsBarGUI(this, settings);
+		settingsBar = new SettingsBarGUI(this);
 		
 		modeBaseGUI = new ModesGUI(this);
 		getFrame().getContentPane().add(modeBaseGUI.getContentPanel(), BorderLayout.CENTER);
