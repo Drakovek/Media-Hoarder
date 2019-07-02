@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -114,6 +115,13 @@ public class DFileChooser extends BaseGUI
 	private File[] files;
 	
 	/**
+	 * ArrayList<File> containing the history of the user's file navigation in the current session.
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<File> fileHistory;
+	
+	/**
 	 * Initializes the DFileChooser class.
 	 * 
 	 * @param settings Program Settings
@@ -209,8 +217,23 @@ public class DFileChooser extends BaseGUI
 	public void createOpenChooser(DFrame owner, final File startDirectory)
 	{
 		initializeChooser(new String[0], startDirectory);
+		nameText.setText(StringMethods.extendCharacter(' ', 80));
 		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), 0, 0);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		
+		if(startDirectory != null && startDirectory.isDirectory())
+		{
+			nameText.setText(startDirectory.getAbsolutePath());
+			fileList.requestFocusInWindow();
+		}
+		else
+		{
+			rootList.setSelectedIndex(0);
+			rootList.requestFocusInWindow();
+			
+		}//ELSE
+
+		
 		dialog.setVisible(true);
 		
 	}//METHOD
@@ -224,6 +247,7 @@ public class DFileChooser extends BaseGUI
 	 */
 	private void initializeChooser(final String[] extensions, final File startDirectory)
 	{
+		fileHistory = new ArrayList<>();
 		filter = new ExtensionFilter(extensions);
 		roots = File.listRoots();
 		while(roots != null && roots.length == 1)
@@ -261,6 +285,12 @@ public class DFileChooser extends BaseGUI
 	{
 		if(directory != null && directory.isDirectory())
 		{
+			if(fileHistory.size() == 0 || !fileHistory.get(fileHistory.size() - 1).equals(directory))
+			{
+				fileHistory.add(directory);
+				
+			}//IF
+			
 			files = directory.listFiles(filter);
 			if(files == null)
 			{
@@ -280,12 +310,6 @@ public class DFileChooser extends BaseGUI
 			nameText.setText(directory.getAbsolutePath());
 			
 		}//IF
-		else
-		{
-			rootList.requestFocusInWindow();
-			rootList.setSelectedIndex(0);		
-			
-		}//ELSE
 		
 	}//METHOD
 
@@ -342,7 +366,37 @@ public class DFileChooser extends BaseGUI
 				}//IF
 				
 				break;
-			}
+				
+			}//CASE
+			case DefaultLanguage.NAME:
+			{
+				setDirectory(new File(nameText.getText()));
+				break;
+				
+			}//CASE
+			case DefaultLanguage.BACK:
+			{
+				if(fileHistory.size() > 1)
+				{
+					fileHistory.remove(fileHistory.size() - 1);
+					setDirectory(fileHistory.get(fileHistory.size() - 1));
+					
+				}//IF
+				
+				break;
+				
+			}//CASE
+			case DefaultLanguage.PARENT:
+			{
+				if(fileHistory.size() > 0)
+				{
+					setDirectory(fileHistory.get(fileHistory.size() - 1).getParentFile());
+					
+				}//IF
+				
+				break;
+				
+			}//CASE
 			case DefaultLanguage.CANCEL:
 			{
 				dialog.dispose();
