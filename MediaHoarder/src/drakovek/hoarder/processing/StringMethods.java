@@ -127,4 +127,25 @@ public class StringMethods
 		
 	}//METHOD
 	
+	/**
+	 * Returns a String consisting of a single character repeated to a certain length.
+	 * 
+	 * @param character Character to repeat
+	 * @param length Length of the returning String
+	 * @return Extended String
+	 * @since 2.0
+	 */
+	public static String extendCharacter(final char character, final int length)
+	{
+		StringBuilder builder = new StringBuilder();
+		for(int i = 0; i < length; i++)
+		{
+			builder.append(Character.toString(character));
+		
+		}//FOR
+		
+		return builder.toString();
+		
+	}//METHOD
+	
 }//CLASS

@@ -11,6 +11,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.ExtensionFilter;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -20,6 +21,8 @@ import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.components.DTextField;
+import drakovek.hoarder.processing.StringMethods;
+import drakovek.hoarder.processing.sort.FileSort;
 
 /**
  * Creates a GUI for choosing a file to either open or save.
@@ -45,6 +48,27 @@ public class DFileChooser extends BaseGUI
 	private JPanel panel;
 	
 	/**
+	 * Filter for listing files in the file chooser
+	 * 
+	 * @since 2.0
+	 */
+	private ExtensionFilter filter;
+	
+	/**
+	 * List that shows the root directories of the user's computer
+	 * 
+	 * @since 2.0
+	 */
+	private DList rootList;
+	
+	/**
+	 * Root directories of the user's computer
+	 * 
+	 * @since 2.0
+	 */
+	private File[] roots;
+	
+	/**
 	 * Initializes the DFileChooser class.
 	 * 
 	 * @param settings Program Settings
@@ -55,7 +79,7 @@ public class DFileChooser extends BaseGUI
 		super(settings);
 		
 		//CREATE ROOT LIST PANEL
-		DList rootList = new DList(this, false, DefaultLanguage.ROOTS);
+		rootList = new DList(this, false, DefaultLanguage.ROOTS);
 		DScrollPane rootScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, rootList);
 		JPanel rootListPanel = getSpacedPanel(rootScroll, 1, 1, true, true, false, false);
 		
@@ -137,10 +161,43 @@ public class DFileChooser extends BaseGUI
 	 */
 	public void createOpenChooser(DFrame owner, final File startDirectory)
 	{
-		
+		initializeChooser(new String[0]);
 		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), 0, 0);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
+		
+	}//METHOD
+	
+	/**
+	 * Initializes the file chooser starting directory
+	 * 
+	 * @param extensions Extensions to allow in the list of files.
+	 * @since 2.0
+	 */
+	private void initializeChooser(final String[] extensions)
+	{
+		filter = new ExtensionFilter(extensions);
+		roots = File.listRoots();
+		while(roots != null && roots.length == 1)
+        {
+            roots = roots[0].listFiles(filter);
+
+        }//WHILE
+
+        if(roots == null)
+        {
+            roots= new File[0];
+
+        }//IF
+        
+        roots = FileSort.sortFiles(roots);
+        String[] rootStrings = new String[roots.length];
+		for(int i = 0; i < roots.length; i++)
+		{
+			rootStrings[i] = roots[i].getName() + StringMethods.extendCharacter(' ', 6);
+			
+		}//FOR
+        rootList.setListData(rootStrings);
 		
 	}//METHOD
 
