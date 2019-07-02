@@ -247,11 +247,11 @@ public class DefaultLanguage
 	public static final String ROOTS = "roots"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Directories" label in the file chooser dialog
+	 * Language variable for the "Files" label in the file chooser dialog
 	 * 
 	 * @since 2.0
 	 */
-	public static final String DIRECTORIES = "directories"; //$NON-NLS-1$
+	public static final String FILES = "files"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Back" button in the file chooser dialog
@@ -373,7 +373,7 @@ public class DefaultLanguage
 		languageFile.add("[FILE CHOOSER]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN_TITLE, "Open Directory")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ROOTS, "^Roots:")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(DIRECTORIES, "^Directories:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILES, "^Files:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(BACK, "^Back")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PARENT, "^Parent")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NAME, "^Name:")); //$NON-NLS-1$

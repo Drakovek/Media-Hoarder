@@ -62,11 +62,32 @@ public class DFileChooser extends BaseGUI
 	private DList rootList;
 	
 	/**
+	 * List that shows the files for the current selected directory
+	 * 
+	 * @since 2.0
+	 */
+	private DList fileList;
+	
+	/**
+	 * Text that shows the currently selected directory
+	 * 
+	 * @since 2.0
+	 */
+	private DTextField nameText;
+	
+	/**
 	 * Root directories of the user's computer
 	 * 
 	 * @since 2.0
 	 */
 	private File[] roots;
+	
+	/**
+	 * Files in the currently selected directory
+	 * 
+	 * @since 2.0
+	 */
+	private File[] files;
 	
 	/**
 	 * Initializes the DFileChooser class.
@@ -83,10 +104,10 @@ public class DFileChooser extends BaseGUI
 		DScrollPane rootScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, rootList);
 		JPanel rootListPanel = getSpacedPanel(rootScroll, 1, 1, true, true, false, false);
 		
-		//CREATE DIRECTORY LIST PANEL
-		DList dirList = new DList(this, false, DefaultLanguage.DIRECTORIES);
-		DScrollPane dirScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, dirList);
-		JPanel dirListPanel = getSpacedPanel(dirScroll, 1, 1, true, true, false, false);
+		//CREATE FILE LIST PANEL
+		fileList = new DList(this, false, DefaultLanguage.FILES);
+		DScrollPane fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, fileList);
+		JPanel dirListPanel = getSpacedPanel(fileScroll, 1, 1, true, true, false, false);
 		
 		//CREATE DIRECTORY PANEL
 		JPanel backPanel = new JPanel();
@@ -96,13 +117,13 @@ public class DFileChooser extends BaseGUI
 		
 		JPanel directoryPanel = new JPanel();
 		directoryPanel.setLayout(new BorderLayout());
-		directoryPanel.add(new DLabel(this, dirList, DefaultLanguage.DIRECTORIES), BorderLayout.WEST);
+		directoryPanel.add(new DLabel(this, fileList, DefaultLanguage.FILES), BorderLayout.WEST);
 		directoryPanel.add(backPanel, BorderLayout.EAST);
 		
 		//CREATE NAME PANEL
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new BorderLayout());
-		DTextField nameText = new DTextField(this, DefaultLanguage.NAME);
+		nameText = new DTextField(this, DefaultLanguage.NAME);
 		namePanel.add(new DLabel(this, nameText, DefaultLanguage.NAME) ,BorderLayout.EAST);
 		
 		//CREATE CENTER PANEL
@@ -161,7 +182,7 @@ public class DFileChooser extends BaseGUI
 	 */
 	public void createOpenChooser(DFrame owner, final File startDirectory)
 	{
-		initializeChooser(new String[0]);
+		initializeChooser(new String[0], startDirectory);
 		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), 0, 0);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
@@ -172,9 +193,10 @@ public class DFileChooser extends BaseGUI
 	 * Initializes the file chooser starting directory
 	 * 
 	 * @param extensions Extensions to allow in the list of files.
+	 * @param startDirectory Directory for the file chooser to start from
 	 * @since 2.0
 	 */
-	private void initializeChooser(final String[] extensions)
+	private void initializeChooser(final String[] extensions, final File startDirectory)
 	{
 		filter = new ExtensionFilter(extensions);
 		roots = File.listRoots();
@@ -199,6 +221,46 @@ public class DFileChooser extends BaseGUI
 		}//FOR
         rootList.setListData(rootStrings);
 		
+        setDirectory(startDirectory);
+        
+	}//METHOD
+	
+	/**
+	 * Sets the current directory to show to the user.
+	 * 
+	 * @param directory Directory to show
+	 * @since 2.0
+	 */
+	private void setDirectory(final File directory)
+	{
+		if(directory != null && directory.isDirectory())
+		{
+			files = directory.listFiles(filter);
+			if(files == null)
+			{
+				files = new File[0];
+				
+			}//IF
+			
+			files = FileSort.sortFiles(files); 
+			String[] directoryStrings = new String[files.length];
+			for(int i = 0; i < files.length; i++)
+			{
+				directoryStrings[i] = files[i].getName() + StringMethods.extendCharacter(' ', 6);
+				
+			}//FOR
+			fileList.setListData(directoryStrings);
+			
+			nameText.setText(directory.getAbsolutePath());
+			
+		}//IF
+		else
+		{
+			rootList.setSelectedIndex(0);
+			rootList.requestFocus();
+			
+		}//ELSE
+		
 	}//METHOD
 
 	@Override
@@ -206,6 +268,28 @@ public class DFileChooser extends BaseGUI
 	{
 		switch(id)
 		{
+			case DefaultLanguage.FILES:
+			{
+				int selected = fileList.getSelectedIndex();
+				if(selected != -1)
+				{
+					nameText.setText(files[selected].getAbsolutePath());
+					
+				}//IF
+				break;
+				
+			}//CASE
+			case DefaultLanguage.ROOTS:
+			{
+				int selected = rootList.getSelectedIndex();
+				if(selected != -1)
+				{
+					setDirectory(roots[selected]);
+					
+				}//IF
+				break;
+				
+			}//CASE
 			case DefaultLanguage.CANCEL:
 			{
 				dialog.dispose();
