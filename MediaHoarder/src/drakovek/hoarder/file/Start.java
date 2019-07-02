@@ -9,6 +9,7 @@ import javax.swing.UIManager;
 
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
+import drakovek.hoarder.processing.StringMethods;
 
 /**
  * Main class for starting the Media Hoarder Program
@@ -54,8 +55,15 @@ public class Start
 		}//WHILE
 		
 		DMF myDMF = new DMF(file);
-		System.out.println("\nDMF File: " + myDMF.getDmfFile().getName()); //$NON-NLS-1$
+		System.out.println();
+		System.out.println("[DMF]"); //$NON-NLS-1$
+		System.out.println("DMF File: " + myDMF.getDmfFile().getName()); //$NON-NLS-1$
 		System.out.println("ID: " + myDMF.getID()); //$NON-NLS-1$
+		
+		System.out.println();
+		System.out.println("[INFO]"); //$NON-NLS-1$
+		System.out.println("Title: " + myDMF.getTitle()); //$NON-NLS-1$
+		System.out.println("Authors: " + StringMethods.arrayToString(myDMF.getAuthors())); //$NON-NLS-1$
 		
 	}//METHOD
 	
