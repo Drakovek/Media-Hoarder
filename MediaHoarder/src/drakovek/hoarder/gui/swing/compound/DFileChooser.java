@@ -23,6 +23,7 @@ import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.listeners.DEnterListener;
+import drakovek.hoarder.gui.swing.listeners.DListClickListener;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.processing.sort.FileSort;
 
@@ -48,6 +49,13 @@ public class DFileChooser extends BaseGUI
 	 * @since 2.0
 	 */
 	private static final String FILE_ENTER_ACTION = DefaultLanguage.FILES + DEnterListener.ENTER_PRESSED;
+	
+	/**
+	 * Action ID for when an item in the file list has been double/triple clicked
+	 * 
+	 * @since 2.0
+	 */
+	private static final String FILE_CLICK_ACTION = "file_clicked"; //$NON-NLS-1$
 	
 	/**
 	 * Main dialog for the file chooser.
@@ -123,8 +131,9 @@ public class DFileChooser extends BaseGUI
 		//CREATE FILE LIST PANEL
 		fileList = new DList(this, false, DefaultLanguage.FILES);
 		fileList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		fileList.addMouseListener(new DListClickListener(this, fileList, FILE_CLICK_ACTION));
 		DScrollPane fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, fileList);
-		JPanel dirListPanel = getSpacedPanel(fileScroll, 1, 1, true, true, false, false);
+		JPanel fileListPanel = getSpacedPanel(fileScroll, 1, 1, true, true, false, false);
 		
 		//CREATE DIRECTORY PANEL
 		JPanel backPanel = new JPanel();
@@ -161,7 +170,7 @@ public class DFileChooser extends BaseGUI
 		centerCST.gridy = 0;
 		centerPanel.add(directoryPanel, centerCST);
 		centerCST.gridy = 1;		centerCST.weighty = 1;
-		centerPanel.add(dirListPanel, centerCST);
+		centerPanel.add(fileListPanel, centerCST);
 		centerCST.gridx = 0;		centerCST.weightx = 0;
 		centerPanel.add(rootListPanel, centerCST);
 		
@@ -324,6 +333,16 @@ public class DFileChooser extends BaseGUI
 				break;
 				
 			}//CASE
+			case FILE_CLICK_ACTION:
+			{
+				if(value != -1 && value < files.length)
+				{
+					setDirectory(files[value]);
+					
+				}//IF
+				
+				break;
+			}
 			case DefaultLanguage.CANCEL:
 			{
 				dialog.dispose();
