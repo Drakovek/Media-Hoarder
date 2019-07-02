@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.io.File;
 
 import javax.swing.JPanel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
 import drakovek.hoarder.file.DSettings;
@@ -15,6 +16,10 @@ import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DDialog;
 import drakovek.hoarder.gui.swing.components.DFrame;
+import drakovek.hoarder.gui.swing.components.DLabel;
+import drakovek.hoarder.gui.swing.components.DList;
+import drakovek.hoarder.gui.swing.components.DScrollPane;
+import drakovek.hoarder.gui.swing.components.DTextField;
 
 /**
  * Creates a GUI for choosing a file to either open or save.
@@ -49,6 +54,55 @@ public class DFileChooser extends BaseGUI
 	{
 		super(settings);
 		
+		//CREATE ROOT LIST PANEL
+		DList rootList = new DList(this, false, DefaultLanguage.ROOTS);
+		DScrollPane rootScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, rootList);
+		JPanel rootListPanel = getSpacedPanel(rootScroll, 1, 1, true, true, false, false);
+		
+		//CREATE DIRECTORY LIST PANEL
+		DList dirList = new DList(this, false, DefaultLanguage.DIRECTORIES);
+		DScrollPane dirScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, dirList);
+		JPanel dirListPanel = getSpacedPanel(dirScroll, 1, 1, true, true, false, false);
+		
+		//CREATE DIRECTORY PANEL
+		JPanel backPanel = new JPanel();
+		backPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
+		backPanel.add(new DButton(this, DefaultLanguage.BACK));
+		backPanel.add(new DButton(this, DefaultLanguage.PARENT));
+		
+		JPanel directoryPanel = new JPanel();
+		directoryPanel.setLayout(new BorderLayout());
+		directoryPanel.add(new DLabel(this, dirList, DefaultLanguage.DIRECTORIES), BorderLayout.WEST);
+		directoryPanel.add(backPanel, BorderLayout.EAST);
+		
+		//CREATE NAME PANEL
+		JPanel namePanel = new JPanel();
+		namePanel.setLayout(new BorderLayout());
+		DTextField nameText = new DTextField(this, DefaultLanguage.NAME);
+		namePanel.add(new DLabel(this, nameText, DefaultLanguage.NAME) ,BorderLayout.EAST);
+		
+		//CREATE CENTER PANEL
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new GridBagLayout());
+		GridBagConstraints centerCST = new GridBagConstraints();
+		centerCST.gridx = 0;		centerCST.gridy = 0;
+		centerCST.gridwidth = 1;	centerCST.gridheight = 1;
+		centerCST.weightx = 0;		centerCST.weighty = 0;
+		centerCST.fill = GridBagConstraints.BOTH;
+		centerPanel.add(new DLabel(this, rootList, DefaultLanguage.ROOTS), centerCST);
+		centerCST.gridy = 2;
+		centerPanel.add(namePanel, centerCST);
+		centerCST.gridx = 1;
+		centerPanel.add(getHorizontalSpace(), centerCST);
+		centerCST.gridx = 2;		centerCST.weightx = 1;
+		centerPanel.add(nameText, centerCST);
+		centerCST.gridy = 0;
+		centerPanel.add(directoryPanel, centerCST);
+		centerCST.gridy = 1;		centerCST.weighty = 1;
+		centerPanel.add(dirListPanel, centerCST);
+		centerCST.gridx = 0;		centerCST.weightx = 0;
+		centerPanel.add(rootListPanel, centerCST);
+		
 		//CREATE BOTTOM PANEL
 		JPanel okPanel = new JPanel();
 		okPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
@@ -69,7 +123,8 @@ public class DFileChooser extends BaseGUI
 		//FINALIZE PANEL
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.add(this.getSpacedPanel(bottomPanel, 1, 0, false, true, false, true), BorderLayout.SOUTH);
+		panel.add(getSpacedPanel(centerPanel));
+		panel.add(getSpacedPanel(bottomPanel, 1, 0, false, true, false, true), BorderLayout.SOUTH);
 		
 	}//CONSTRUCTOR
 	
