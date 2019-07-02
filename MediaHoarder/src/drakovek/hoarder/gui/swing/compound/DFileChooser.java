@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
 
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
@@ -21,6 +22,7 @@ import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.components.DTextField;
+import drakovek.hoarder.gui.swing.listeners.DEnterListener;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.processing.sort.FileSort;
 
@@ -33,6 +35,20 @@ import drakovek.hoarder.processing.sort.FileSort;
  */
 public class DFileChooser extends BaseGUI
 {
+	/**
+	 * Action ID for when enter is pressed while the root list is focused.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String ROOT_ENTER_ACTION = DefaultLanguage.ROOTS + DEnterListener.ENTER_PRESSED;
+	
+	/**
+	 * Action ID for when enter is pressed while the file list is focused.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String FILE_ENTER_ACTION = DefaultLanguage.FILES + DEnterListener.ENTER_PRESSED;
+	
 	/**
 	 * Main dialog for the file chooser.
 	 * 
@@ -106,7 +122,8 @@ public class DFileChooser extends BaseGUI
 		
 		//CREATE FILE LIST PANEL
 		fileList = new DList(this, false, DefaultLanguage.FILES);
-		DScrollPane fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, fileList);
+		fileList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		DScrollPane fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, fileList);
 		JPanel dirListPanel = getSpacedPanel(fileScroll, 1, 1, true, true, false, false);
 		
 		//CREATE DIRECTORY PANEL
@@ -256,8 +273,8 @@ public class DFileChooser extends BaseGUI
 		}//IF
 		else
 		{
-			rootList.setSelectedIndex(0);
-			rootList.requestFocus();
+			rootList.requestFocusInWindow();
+			rootList.setSelectedIndex(0);		
 			
 		}//ELSE
 		
@@ -285,6 +302,23 @@ public class DFileChooser extends BaseGUI
 				if(selected != -1)
 				{
 					setDirectory(roots[selected]);
+					
+				}//IF
+				break;
+				
+			}//CASE
+			case ROOT_ENTER_ACTION:
+			{
+				fileList.requestFocusInWindow();
+				break;
+				
+			}//CASE
+			case FILE_ENTER_ACTION:
+			{
+				int selected = fileList.getSelectedIndex();
+				if(selected != -1)
+				{
+					setDirectory(files[selected]);
 					
 				}//IF
 				break;

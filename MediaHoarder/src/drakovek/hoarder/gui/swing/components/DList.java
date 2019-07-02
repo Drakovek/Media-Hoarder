@@ -1,9 +1,11 @@
 package drakovek.hoarder.gui.swing.components;
 
 import javax.swing.JList;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.swing.listeners.DEnterListener;
 import drakovek.hoarder.gui.swing.listeners.DListSelectionListener;
 
 /**
@@ -21,7 +23,7 @@ public class DList extends JList<String>
 	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -5532350862927679564L;
-
+	
 	/**
 	 * Initializes the DList class.
 	 * 
@@ -45,8 +47,11 @@ public class DList extends JList<String>
 		}//ELSE
 		
 		this.setLayoutOrientation(VERTICAL);
-		this.addListSelectionListener(new DListSelectionListener(baseGUI, id));
 		this.setFont(baseGUI.getFont());
+		this.addListSelectionListener(new DListSelectionListener(baseGUI, id));
+
+        this.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, 0, true), "enter"); //$NON-NLS-1$
+        this.getActionMap().put("enter", new DEnterListener(baseGUI, id)); //$NON-NLS-1$
 		
 	}//CONSTRUCTOR
 	
