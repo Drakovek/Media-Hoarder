@@ -58,6 +58,34 @@ public class DMF
 	 */
 	private static final String OLD_ARTIST = "artist"; //$NON-NLS-1$
 	
+	/**
+	 * INI variable for the time of publishing for the DMF media
+	 * 
+	 * @since 2.0
+	 */
+	private static final String TIME = "time"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the time of publishing, used for reading old DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_DATE = "date"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the DMF's description
+	 * 
+	 * @since 2.0
+	 */
+	private static final String DESCRIPTION = "description"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the description, used for reading old DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_DESC = "desc"; //$NON-NLS-1$
+	
 	//DMF
 	
 	/**
@@ -89,6 +117,20 @@ public class DMF
 	 * @since 2.0
 	 */
 	private String[] authors;
+	
+	/**
+	 * Time of publishing for the DMF media
+	 * 
+	 * @since 2.0
+	 */
+	private long time;
+	
+	/**
+	 * Description of the DMF media
+	 * 
+	 * @since 2.0
+	 */
+	private String description;
 	
 	/**
 	 * Initializes DMF to represent an empty DMF file.
@@ -125,6 +167,12 @@ public class DMF
 		//DMF
 		id = new String();
 		
+		//INFO
+		title = new String();
+		authors = new String[0];
+		time = 0L;
+		description = new String();
+		
 	}//METHOD
 	
 	/**
@@ -149,6 +197,22 @@ public class DMF
 				{
 					//IF NEW AUTHORS VARIABLE DOESN'T WORK, USE OLD ARTIST VARIABLE
 					setAuthors(ParseINI.getStringListValue(null, OLD_ARTIST, contents, new ArrayList<String>()));
+					
+				}//IF
+				
+				setTime(ParseINI.getStringValue(null, TIME, contents, new String()));
+				if(time == 0L)
+				{
+					//IF NEW TIME VARIABLE DOESN'T WORK, USE OLD DATE VARIABLE
+					setTime(ParseINI.getStringValue(null, OLD_DATE, contents, new String()));
+					
+				}//IF
+				
+				setDescription(ParseINI.getStringValue(null, DESCRIPTION, contents, description));
+				if(getDescription().length() == 0)
+				{
+					//IF NEW DESCRIPTION VARIABLE DOESN'T WORK, USE OLD DESC VARIABLE
+					setDescription(ParseINI.getStringValue(null, OLD_DESC, contents, description));
 					
 				}//IF
 				
@@ -266,6 +330,152 @@ public class DMF
 	{
 		authors = new String[1];
 		authors[0] = author;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DMF Time
+	 * 
+	 * @param time DMF Time
+	 * @since 2.0
+	 */
+	public void setTime(final long time)
+	{
+		this.time = time;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DMF Time from a DMF String
+	 * 
+	 * @param timeString DMF Time String
+	 * @since 2.0
+	 */
+	private void setTime(final String timeString)
+	{
+		
+		try
+		{
+			time = Long.parseLong(timeString);
+			
+		}//TRY
+		catch(NumberFormatException e)
+		{
+			if(timeString.length() == 16)
+			{
+				setTime(timeString.substring(0, 4), timeString.substring(5, 7), timeString.substring(8, 10), timeString.substring(11, 13), timeString.substring(14));
+				
+			}//IF
+			
+		}//CATCH
+		
+		if(time < 101010000L)
+		{
+			time = 0L;
+			
+		}//IF
+
+	}//METHOD
+	
+	/**
+	 * Sets the DMF Time from String values.
+	 * 
+	 * @param yearString Year String
+	 * @param monthString Month String
+	 * @param dayString Day String
+	 * @param hourString Hour String
+	 * @param minuteString Minute String
+	 * @since 2.0
+	 */
+	public void setTime(final String yearString, final String monthString, final String dayString, final String hourString, final String minuteString)
+	{
+		long returnTime = 0;
+		boolean isValid = true;
+		try
+		{
+			int year = Integer.parseInt(yearString);
+			int month = Integer.parseInt(monthString);
+			int day = Integer.parseInt(dayString);
+			int hour = Integer.parseInt(hourString);
+			int minute = Integer.parseInt(minuteString);
+			
+			if(
+					(year < 1) ||
+					(month < 1 || month > 12) ||
+					(day < 1 || day > 31) ||
+					(hour < 0 || hour > 23) ||
+					(minute < 0 || minute > 59)
+			)
+			{
+				isValid = false;
+			}//IF
+			
+			returnTime = Long.parseLong(StringMethods.extendNumberString(year, 4) + StringMethods.extendNumberString(month, 2) + StringMethods.extendNumberString(day, 2) + StringMethods.extendNumberString(hour, 2) + StringMethods.extendNumberString(minute, 2));
+			
+		}//TRY
+		catch(NumberFormatException e)
+		{
+			isValid = false;
+		
+		}//CATCH
+		
+		if(!isValid)
+		{
+			returnTime = 0;
+			
+		}//IF
+		
+		time = returnTime;
+	
+	}//METHOD
+	
+	/**
+	 * Returns the DMF Time
+	 * 
+	 * @return DMF Time
+	 * @since 2.0
+	 */
+	public long getTime()
+	{
+		return time;
+		
+	}//METHOD
+	
+	/**
+	 * Gets DMF Time as a String
+	 * 
+	 * @return String representation of DMF Time
+	 * @since 2.0
+	 */
+	public String getTimeString()
+	{
+		String longTimeString = StringMethods.extendNumberString(Long.toString(time), 12);
+		
+		return longTimeString.substring(0, 4) + Character.toString('/') + longTimeString.substring(4, 6) + Character.toString('/') + longTimeString.substring(6, 8) + Character.toString('|') + longTimeString.substring(8, 10) + Character.toString(':') + longTimeString.substring(10);
+	
+	}//METHOD
+	
+	/**
+	 * Sets the description for the current DMF
+	 * 
+	 * @param description DMF Description
+	 * @since 2.0
+	 */
+	public void setDescription(final String description)
+	{
+		this.description = description;
+		
+	}//METHOD
+	
+	/**
+	 * Gets the description from the current DMF
+	 * 
+	 * @return DMF Description
+	 * @since 2.0
+	 */
+	public String getDescription()
+	{
+		return description;
 		
 	}//METHOD
 	

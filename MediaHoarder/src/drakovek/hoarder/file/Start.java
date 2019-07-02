@@ -64,6 +64,8 @@ public class Start
 		System.out.println("[INFO]"); //$NON-NLS-1$
 		System.out.println("Title: " + myDMF.getTitle()); //$NON-NLS-1$
 		System.out.println("Authors: " + StringMethods.arrayToString(myDMF.getAuthors())); //$NON-NLS-1$
+		System.out.println("Time: " + myDMF.getTimeString()); //$NON-NLS-1$
+		System.out.println("Description: " + myDMF.getDescription()); //$NON-NLS-1$
 		
 	}//METHOD
 	
