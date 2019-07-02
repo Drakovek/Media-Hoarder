@@ -1,12 +1,14 @@
 package drakovek.hoarder.gui.swing.compound;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
@@ -57,6 +59,14 @@ public class DFileChooser extends BaseGUI
 	 * @since 2.0
 	 */
 	private static final String FILE_CLICK_ACTION = "file_clicked"; //$NON-NLS-1$
+	
+	/**
+	 * File selected by the user
+	 * 
+	 * @since 2.0
+	 */
+	private File returnFile;
+
 	
 	/**
 	 * Main dialog for the file chooser.
@@ -158,7 +168,8 @@ public class DFileChooser extends BaseGUI
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new BorderLayout());
 		nameText = new DTextField(this, DefaultLanguage.NAME);
-		namePanel.add(new DLabel(this, nameText, DefaultLanguage.NAME) ,BorderLayout.EAST);
+		namePanel.add(new DLabel(this, nameText, DefaultLanguage.NAME), BorderLayout.EAST);
+		namePanel.add(Box.createRigidArea(new Dimension(getSettings().getFontSize() * 5, 1)), BorderLayout.WEST);
 		
 		//CREATE CENTER PANEL
 		JPanel centerPanel = new JPanel();
@@ -183,10 +194,10 @@ public class DFileChooser extends BaseGUI
 		centerPanel.add(rootListPanel, centerCST);
 		
 		//CREATE BOTTOM PANEL
-		JPanel okPanel = new JPanel();
-		okPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		okPanel.add(new DButton(this, DefaultLanguage.CANCEL));
-		okPanel.add(new DButton(this, DefaultLanguage.OK));
+		JPanel openPanel = new JPanel();
+		openPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
+		openPanel.add(new DButton(this, DefaultLanguage.CANCEL));
+		openPanel.add(new DButton(this, DefaultLanguage.OPEN));
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridBagLayout());
@@ -194,7 +205,7 @@ public class DFileChooser extends BaseGUI
 		bottomCST.gridx = 2;		bottomCST.gridy = 0;
 		bottomCST.gridwidth = 1;	bottomCST.gridheight = 3;
 		bottomCST.weightx = 0;		bottomCST.weighty = 0;
-		bottomPanel.add(okPanel, bottomCST);
+		bottomPanel.add(openPanel, bottomCST);
 		bottomCST.gridx = 0;		bottomCST.weightx = 1;
 		bottomCST.gridwidth = 2;
 		bottomPanel.add(getHorizontalSpace(), bottomCST);
@@ -212,20 +223,21 @@ public class DFileChooser extends BaseGUI
 	 * 
 	 * @param owner DFrame to which the file chooser is tied
 	 * @param startDirectory Directory to start within
+	 * @return Directory selected by the user
 	 * @since 2.0
 	 */
-	public void createOpenChooser(DFrame owner, final File startDirectory)
+	public File getFileOpen(DFrame owner, final File startDirectory)
 	{
+		returnFile = null;
 		initializeChooser(new String[0], startDirectory);
-		nameText.setText(StringMethods.extendCharacter(' ', 80));
-		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), 0, 0);
+		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), getSettings().getFontSize() * 30, getSettings().getFontSize() * 20);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		if(startDirectory != null && startDirectory.isDirectory())
 		{
-			nameText.setText(startDirectory.getAbsolutePath());
 			fileList.requestFocusInWindow();
-		}
+			
+		}//IF
 		else
 		{
 			rootList.setSelectedIndex(0);
@@ -233,8 +245,9 @@ public class DFileChooser extends BaseGUI
 			
 		}//ELSE
 
-		
 		dialog.setVisible(true);
+		dialog = null;
+		return returnFile;
 		
 	}//METHOD
 	
@@ -394,6 +407,27 @@ public class DFileChooser extends BaseGUI
 					
 				}//IF
 				
+				break;
+				
+			}//CASE
+			case DefaultLanguage.OPEN:
+			{
+				returnFile = new File(nameText.getText());
+				if(returnFile == null || !returnFile.isDirectory())
+				{
+					if(fileHistory.size() > 0)
+					{
+						returnFile = fileHistory.get(fileHistory.size() - 1);
+					}
+					else
+					{
+						returnFile = null;
+						
+					}//ELSE
+							
+				}//IF
+			
+				dialog.dispose();
 				break;
 				
 			}//CASE

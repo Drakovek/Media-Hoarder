@@ -298,8 +298,14 @@ public class ViewBrowserGUI extends FrameGUI
 			}//CASE
 			case DefaultLanguage.OPEN:
 			{
-				fileChooser.createOpenChooser(getFrame(), new File(new String()));
+				File openFile = fileChooser.getFileOpen(getFrame(), new File(new String()));
+				if(openFile != null && openFile.isDirectory())
+				{
+					System.out.println(openFile.getAbsolutePath());
+					
+				}//IF
 				break;
+				
 			}//CASE
 			case DefaultLanguage.RESTART_PROGRAM:
 			{
