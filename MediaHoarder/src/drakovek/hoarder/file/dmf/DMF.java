@@ -205,6 +205,32 @@ public class DMF
 	 */
 	private static final String OLD_SUB_SEQ_TITLE = "subSeqTitle"; //$NON-NLS-1$
 	
+	/**
+	 * INI variable for titles of sequence branches coming from this DMF
+	 * 
+	 * @since 2.0
+	 */
+	private static final String BRANCH_TITLES = "branch_titles"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the DMF user rating
+	 * 
+	 * @since 2.0
+	 */
+	private static final String RATING = "rating"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the DMF's user tags
+	 * 
+	 * @since 2.0
+	 */
+	private static final String USER_TAGS = "user_tags"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the user tags, used for reading old DMFs
+	 */
+	private static final String OLD_UTAGS = "uTags"; //$NON-NLS-1$
+	
 	//DMF
 	
 	/**
@@ -320,6 +346,27 @@ public class DMF
 	private String sectionTitle;
 	
 	/**
+	 * Array of titles for sequence branches coming from this DMF, if applicable.
+	 * 
+	 * @since 2.0
+	 */
+	private String[] branchTitles;
+	
+	/**
+	 * User given rating for the DMF, ranging from 1 to 5
+	 * 
+	 * @since 2.0
+	 */
+	private int rating;
+	
+	/**
+	 * Tags for the DMF given by the user
+	 * 
+	 * @since 2.0
+	 */
+	private String[] userTags;
+	
+	/**
 	 * Initializes DMF to represent an empty DMF file.
 	 * 
 	 * @since 2.0
@@ -375,6 +422,9 @@ public class DMF
 		//USER
 		sequenceTitle = new String();
 		sectionTitle = new String();
+		branchTitles = new String[0];
+		rating = 0;
+		userTags = new String[0];
 		
 	}//METHOD
 	
@@ -484,6 +534,17 @@ public class DMF
 				{
 					//IF NEW SECTION TITLE VARIABLE DOESN'T WORK, USE OLD SUB SEQ TITLE VARIABLE
 					setSectionTitle(ParseINI.getStringValue(null, OLD_SUB_SEQ_TITLE, contents, getSectionTitle()));
+					
+				}//IF
+				
+				setBranchTitles(ParseINI.getStringListValue(null, BRANCH_TITLES, contents, new ArrayList<String>()));
+				setRating(ParseINI.getIntValue(null, RATING, contents, rating));
+				
+				setUserTags(ParseINI.getStringListValue(null, USER_TAGS, contents, new ArrayList<String>()));
+				if(getUserTags().length == 0)
+				{
+					//IF NEW USER TAG VARIABLE DOESN'T WORK, USE OLD UTAG VARIABLE
+					setUserTags(ParseINI.getStringListValue(null, OLD_UTAGS, contents, new ArrayList<String>()));
 					
 				}//IF
 				
@@ -1083,6 +1144,86 @@ public class DMF
 	public String getSectionTitle()
 	{
 		return sectionTitle;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DMF's branch titles.
+	 * 
+	 * @param branchTitles Branch Titles
+	 * @since 2.0
+	 */
+	public void setBranchTitles(final ArrayList<String> branchTitles)
+	{
+		this.branchTitles = StringMethods.arrayListToArray(branchTitles);
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF's branch titles.
+	 * 
+	 * @return Branch Titles
+	 * @since 2.0
+	 */
+	public String[] getBranchTitles()
+	{
+		return branchTitles;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DMF's rating.
+	 * 
+	 * @param rating DMF Rating
+	 * @since 2.0
+	 */
+	public void setRating(final int rating)
+	{
+		if(rating > 0 && rating < 6)
+		{
+			this.rating = rating;
+			
+		}//IF
+		else
+		{
+			this.rating = 0;
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF's rating.
+	 * 
+	 * @return DMF Rating
+	 * @since 2.0
+	 */
+	public int getRating()
+	{
+		return rating;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the user tags.
+	 * 
+	 * @param userTags User Tags
+	 * @since 2.0
+	 */
+	public void setUserTags(final ArrayList<String> userTags)
+	{
+		this.userTags = StringMethods.arrayListToArray(userTags);
+		
+	}//METHOD
+	
+	/**
+	 * Returns the user tags.
+	 * 
+	 * @return User Tags
+	 * @since 2.0
+	 */
+	public String[] getUserTags()
+	{
+		return userTags;
 		
 	}//METHOD
 	

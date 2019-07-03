@@ -88,6 +88,9 @@ public class Start
     		System.out.println("[USER]"); //$NON-NLS-1$
     		System.out.println("Sequence Title: " + myDMF.getSequenceTitle()); //$NON-NLS-1$
     		System.out.println("Section Title: " + myDMF.getSectionTitle()); //$NON-NLS-1$
+    		System.out.println("Branch Titles: " + StringMethods.arrayToString(myDMF.getBranchTitles())); //$NON-NLS-1$
+    		System.out.println("Rating: " + Integer.toString(myDMF.getRating())); //$NON-NLS-1$
+    		System.out.println("User Tags: " + StringMethods.arrayToString(myDMF.getUserTags())); //$NON-NLS-1$
     		
     		System.out.println();
     		
