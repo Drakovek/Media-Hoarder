@@ -15,11 +15,137 @@ import drakovek.hoarder.file.ExtensionFilter;
 public class DmfDirectory
 {
 	/**
-	 * ArrayList containing DMF Files from DMF
+	 * ArrayList containing DMF Files from the DMF class
 	 * 
 	 * @since 2.0
 	 */
 	private ArrayList<File> dmfFiles;
+	
+	/**
+	 * ArrayList containing IDs from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> ids;
+	
+	/**
+	 * ArrayList containing Titles from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> titles;
+	
+	/**
+	 * ArrayList containing Authors from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String[]> authors;
+
+	/**
+	 * ArrayList containing Times from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<Long> times;
+	
+	/**
+	 * ArrayList containing Web Tags from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String[]> webTags;
+	
+	/**
+	 * ArrayList containing Descriptions from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> descriptions;
+	
+	/**
+	 * ArrayList containing Page URLs from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> pageURLs;
+	
+	/**
+	 * ArrayList containing Media URLs from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> mediaURLs;
+	
+	/**
+	 * ArrayList containing Media Files from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<File> mediaFiles;
+	
+	/**
+	 * ArrayList containing Last IDs from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String[]> lastIDs;
+	
+	/**
+	 * ArrayList containing Next IDs from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String[]> nextIDs;
+	
+	/**
+	 * ArrayList containing "firstInSection" booleans from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<Boolean> isFirst;
+	
+	/**
+	 * ArrayList containing "lastInSection" booleans from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<Boolean> isLast;
+	
+	/**
+	 * ArrayList containing Sequence Titles from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> sequenceTitles;
+	
+	/**
+	 * ArrayList containing Section Titles from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> sectionTitles;
+	
+	/**
+	 * ArrayList containing Branch Titles from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String[]> branchTitles;
+	
+	/**
+	 * ArrayList containing Ratings from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<Integer> ratings;
+	
+	/**
+	 * ArrayList containing User Tags from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String[]> userTags;
 	
 	/**
 	 * Initializes the DmfDirectory class to start with no DMF information.
@@ -51,7 +177,34 @@ public class DmfDirectory
 	 */
 	private void clearDMFs()
 	{
+		//DMF
 		dmfFiles = new ArrayList<>();
+		ids = new ArrayList<>();
+		
+		//INFO
+		titles = new ArrayList<>();
+		authors = new ArrayList<>();
+		times = new ArrayList<>();
+		webTags = new ArrayList<>();
+		descriptions = new ArrayList<>();
+
+		//WEB
+		pageURLs = new ArrayList<>();
+		mediaURLs = new ArrayList<>();
+		
+		//FILE
+		mediaFiles = new ArrayList<>();
+		lastIDs = new ArrayList<>();
+		nextIDs = new ArrayList<>();
+		isFirst = new ArrayList<>();
+		isLast = new ArrayList<>();
+
+		//USER
+		sequenceTitles = new ArrayList<>();
+		sectionTitles = new ArrayList<>();
+		branchTitles = new ArrayList<>();
+		ratings = new ArrayList<>();
+		userTags = new ArrayList<>();
 		
 	}//METHOD
 	
@@ -104,13 +257,39 @@ public class DmfDirectory
 		{
 			//DMF
 			dmfFiles.add(dmf.getDmfFile());
+			ids.add(dmf.getID());
+			
+			//INFO
+			titles.add(dmf.getTitle());
+			authors.add(dmf.getAuthors());
+			times.add(new Long(dmf.getTime()));
+			webTags.add(dmf.getWebTags());
+			descriptions.add(dmf.getDescription());
+
+			//WEB
+			pageURLs.add(dmf.getPageURL());
+			mediaURLs.add(dmf.getMediaURL());
+			
+			//FILE
+			mediaFiles.add(dmf.getMediaFile());
+			lastIDs.add(dmf.getLastIDs());
+			nextIDs.add(dmf.getNextIDs());
+			isFirst.add(new Boolean(dmf.isFirstInSection()));
+			isLast.add(new Boolean(dmf.isLastInSection()));
+
+			//USER
+			sequenceTitles.add(dmf.getSequenceTitle());
+			sectionTitles.add(dmf.getSectionTitle());
+			branchTitles.add(dmf.getBranchTitles());
+			ratings.add(new Integer(dmf.getRating()));
+			userTags.add(dmf.getUserTags());
 			
 		}//IF
 		
 	}//METHOD
 	
 	/**
-	 * Returns the ArrayList of DMF Files
+	 * Returns ArrayList of DMF Files
 	 * 
 	 * @return DMF Files
 	 * @since 2.0
@@ -118,6 +297,222 @@ public class DmfDirectory
 	public ArrayList<File> getDmfFiles()
 	{
 		return dmfFiles;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of DMF IDs
+	 * 
+	 * @return DMF IDs
+	 * @since 2.0
+	 */
+	public ArrayList<String> getIDs()
+	{
+		return ids;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of titles
+	 * 
+	 * @return Titles
+	 * @since 2.0
+	 */
+	public ArrayList<String> getTitles()
+	{
+		return titles;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of Author String Arrays
+	 * 
+	 * @return Authors
+	 * @since 2.0
+	 */
+	public ArrayList<String[]> getAuthors()
+	{
+		return authors;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of times of publishing for the currently loaded DMFs
+	 * 
+	 * @return Publishing Times
+	 * @since 2.0
+	 */
+	public ArrayList<Long> getTimes()
+	{
+		return times;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of web tag String arrays.
+	 * 
+	 * @return Web Tags
+	 * @since 2.0
+	 */
+	public ArrayList<String[]> getWebTags()
+	{
+		return webTags;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of DMF descriptions.
+	 * 
+	 * @return Descriptions
+	 * @since 2.0
+	 */
+	public ArrayList<String> getDescriptions()
+	{
+		return descriptions;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of page URLs
+	 * 
+	 * @return Page URLs
+	 * @since 2.0
+	 */
+	public ArrayList<String> getPageURLs()
+	{
+		return pageURLs;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of media URLs
+	 * 
+	 * @return Media URLs
+	 * @since 2.0
+	 */
+	public ArrayList<String> getMediaURLs()
+	{
+		return mediaURLs;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of media files.
+	 * 
+	 * @return Media Files
+	 * @since 2.0
+	 */
+	public ArrayList<File> getMediaFiles()
+	{
+		return mediaFiles;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of String arrays containing previous IDs of a DMF sequence.
+	 * 
+	 * @return Last IDs
+	 * @since 2.0
+	 */
+	public ArrayList<String[]> getLastIDs()
+	{
+		return lastIDs;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of String arrays containing next IDs of a DMF sequence.
+	 * 
+	 * @return Next IDs
+	 * @since 2.0
+	 */
+	public ArrayList<String[]> getNextIDs()
+	{
+		return nextIDs;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of booleans indicating whether the given DMF is the first of a section.
+	 * 
+	 * @return Whether DMFs are the first in a section.
+	 * @since 2.0
+	 */
+	public ArrayList<Boolean> getIsFirst()
+	{
+		return isFirst;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of booleans indicating whether the given DMF is the last of a section.
+	 * 
+	 * @return Whether DMFs are the last in a section.
+	 * @since 2.0
+	 */
+	public ArrayList<Boolean> getIsLast()
+	{
+		return isLast;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of sequence titles.
+	 * 
+	 * @return Sequence Titles
+	 * @since 2.0
+	 */
+	public ArrayList<String> getSequenceTitles()
+	{
+		return sequenceTitles;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of section titles.
+	 * 
+	 * @return Section Titles
+	 * @since 2.0
+	 */
+	public ArrayList<String> getSectionTitles()
+	{
+		return sectionTitles;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of branch title String arrays.
+	 * 
+	 * @return Branch Titles
+	 * @since 2.0
+	 */
+	public ArrayList<String[]> getBranchTitles()
+	{
+		return branchTitles;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of DMF ratings.
+	 * 
+	 * @return Ratings
+	 * @since 2.0
+	 */
+	public ArrayList<Integer> getRatings()
+	{
+		return ratings;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of user tags.
+	 * 
+	 * @return User Tags
+	 * @since 2.0
+	 */
+	public ArrayList<String[]> getUserTags()
+	{
+		return userTags;
 		
 	}//METHOD
 	

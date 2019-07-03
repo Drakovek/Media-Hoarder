@@ -38,7 +38,7 @@ public class Start
     		
     	while(file == null || !file.isDirectory())
     	{
-    		System.out.println("Enter DMF file path:"); //$NON-NLS-1$
+    		System.out.println("Enter DMF Folder:"); //$NON-NLS-1$
     		try
     		{
     			input = bufferedReader.readLine();
@@ -54,11 +54,11 @@ public class Start
     	}//WHILE
     	
     	DmfDirectory dmfDirectory = new DmfDirectory(file);
-    	ArrayList<File> dmfFiles = dmfDirectory.getDmfFiles();
+    	ArrayList<String> list = dmfDirectory.getMediaURLs();
     	
-    	for(File dmfFile: dmfFiles)
+    	for(int i = 0; i < list.size(); i++)
     	{
-    		System.out.println(dmfFile.getName());
+    		System.out.println(list.get(i));
     		
     	}//FOR
     	

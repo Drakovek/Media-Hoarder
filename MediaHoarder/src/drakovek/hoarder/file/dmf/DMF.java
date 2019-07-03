@@ -270,7 +270,7 @@ public class DMF
 	private String[] authors;
 	
 	/**
-	 * Time of publishing for the DMF media
+	 * Time of publishing for the DMF media (Structured YYYYMMDDhhmm. Example: April 22, 2001 @ 4:30PM = 200104211630)
 	 * 
 	 * @since 2.0
 	 */
