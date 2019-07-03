@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import drakovek.hoarder.file.DReader;
+import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.processing.ParseINI;
 import drakovek.hoarder.processing.StringMethods;
 
@@ -16,6 +17,13 @@ import drakovek.hoarder.processing.StringMethods;
  */
 public class DMF
 {
+	/**
+	 * Empty ID variable used identify when there are no DMFs either following or preceding the current DMF in a sequence.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String EMPTY_ID = "XX"; //$NON-NLS-1$
+	
 	/**
 	 * Extension used for DMF Files
 	 * 
@@ -551,6 +559,149 @@ public class DMF
 			}//IF
 			
 		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Writes a DMF file to dmfFile
+	 *
+	 * @return Whether the file was successfully written
+	 * @since 2.0
+	 */
+	public boolean writeDMF()
+	{
+		if(dmfFile != null && dmfFile.getAbsolutePath().endsWith(DMF_EXTENSION))
+		{
+			ArrayList<String> contents = new ArrayList<>();
+			contents.add(DMF_HEADER);
+			contents.add(ParseINI.getAssignmentString(ID, getID()));
+			
+			//INFO
+			contents.add(new String());
+			contents.add("[INFO]"); //$NON-NLS-1$
+			contents.add(ParseINI.getAssignmentString(TITLE, getTitle()));
+			
+			if(getAuthors().length > 0)
+			{
+				contents.add(ParseINI.getAssignmentString(AUTHORS, getAuthors()));
+				
+			}//IF
+			
+			if(getTime() != 0L)
+			{
+				contents.add(ParseINI.getAssignmentString(TIME, getTimeString()));
+				
+			}//IF
+			
+			if(getWebTags().length > 0)
+			{
+				contents.add(ParseINI.getAssignmentString(WEB_TAGS, getWebTags()));
+				
+			}//IF
+			
+			if(getDescription().length() > 0)
+			{
+				contents.add(ParseINI.getAssignmentString(DESCRIPTION, getDescription()));
+				
+			}//IF
+			
+			//WEB
+			ArrayList<String> web = new ArrayList<>();
+			if(getPageURL().length() > 0)
+			{
+				web.add(ParseINI.getAssignmentString(PAGE_URL, getPageURL()));
+				
+			}//IF
+			
+			if(getMediaURL().length() > 0)
+			{
+				web.add(ParseINI.getAssignmentString(MEDIA_URL, getMediaURL()));
+				
+			}//IF
+			
+			if(web.size() > 0)
+			{
+				contents.add(new String());
+				contents.add("[WEB]"); //$NON-NLS-1$
+				contents.addAll(web);
+				
+			}//IF
+			
+			//FILE
+			contents.add(new String());
+			contents.add("[FILE]"); //$NON-NLS-1$
+			contents.add(ParseINI.getAssignmentString(MEDIA_FILE, getMediaFile().getName()));
+			
+			if(getLastIDs().length > 0)
+			{
+				contents.add(ParseINI.getAssignmentString(LAST_IDS, getLastIDs()));
+				
+			}//IF
+			
+			if(getNextIDs().length > 0)
+			{
+				contents.add(ParseINI.getAssignmentString(NEXT_IDS, getNextIDs()));
+				
+			}//IF
+			
+			if((getLastIDs().length > 0 && !getLastIDs()[0].equals(EMPTY_ID)) || (getNextIDs().length > 0 && !getNextIDs()[0].equals(EMPTY_ID)))
+			{
+				contents.add(ParseINI.getAssignmentString(FIRST, isFirstInSection()));
+				contents.add(ParseINI.getAssignmentString(LAST, isLastInSection()));
+				
+			}//IF
+			
+			//USER
+			ArrayList<String> user = new ArrayList<>();
+			if(getSequenceTitle().length() > 0)
+			{
+				user.add(ParseINI.getAssignmentString(SEQUENCE_TITLE, getSequenceTitle()));
+				
+			}//IF
+			
+			if(getSectionTitle().length() > 0)
+			{
+				user.add(ParseINI.getAssignmentString(SECTION_TITLE, getSectionTitle()));
+				
+			}//IF
+			
+			if(getBranchTitles().length > 0)
+			{
+				user.add(ParseINI.getAssignmentString(BRANCH_TITLES, getBranchTitles()));
+				
+			}//IF
+			
+			if(getRating() > 0)
+			{
+				user.add(ParseINI.getAssignmentString(RATING, getRating()));
+				
+			}//IF
+			
+			if(getUserTags().length > 0)
+			{
+				user.add(ParseINI.getAssignmentString(USER_TAGS, getUserTags()));
+				
+			}//IF
+			
+			if(user.size() > 0)
+			{
+				contents.add(new String());
+				contents.add("[USER]"); //$NON-NLS-1$
+				contents.addAll(user);
+				
+			}//IF
+			
+			//WRITE TO FILE
+			DWriter.writeToFile(dmfFile, contents);
+			if(dmfFile.exists())
+			{
+				return true;
+				
+			}//IF
+			
+		}//IF
+		
+		return false;
 		
 	}//METHOD
 	

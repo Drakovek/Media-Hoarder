@@ -72,7 +72,7 @@ public class Start
     		System.out.println("Description: " + myDMF.getDescription()); //$NON-NLS-1$
     		
     		System.out.println();
-    		System.out.println("[DMF]"); //$NON-NLS-1$
+    		System.out.println("[WEB]"); //$NON-NLS-1$
     		System.out.println("Page URL: " + myDMF.getPageURL()); //$NON-NLS-1$
     		System.out.println("Media URL: " + myDMF.getMediaURL()); //$NON-NLS-1$
     		
@@ -93,6 +93,28 @@ public class Start
     		System.out.println("User Tags: " + StringMethods.arrayToString(myDMF.getUserTags())); //$NON-NLS-1$
     		
     		System.out.println();
+    		
+    		file = null;
+    		System.out.println("Enter Directory to save DMF"); //$NON-NLS-1$
+	        try
+	        {
+	            input = bufferedReader.readLine();
+	        
+	            if(input != null)
+				{
+					file = new File(input);
+					
+				}//IF
+	            
+	        }//TRY
+	        catch (IOException e){}
+    		
+    		if(file != null && file.isDirectory())
+    		{
+    			myDMF.setDmfFile(new File(file, myDMF.getDmfFile().getName()));
+        		myDMF.writeDMF();
+    		
+    		}//IF
     		
         }//WHILE
 		
