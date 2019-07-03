@@ -177,6 +177,34 @@ public class DMF
 	 */
 	private static final String OLD_SEQ_DATA = "seqData"; //$NON-NLS-1$
 	
+	/**
+	 * INI variable for the title of the current sequence
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SEQUENCE_TITLE = "sequence_title"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the sequence title, used for reading old DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_SEQ_TITLE = "seqTitle"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the title of the current section of the current sequence.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SECTION_TITLE = "section_title"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the section(Sub-sequence) title, used for reading old DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_SUB_SEQ_TITLE = "subSeqTitle"; //$NON-NLS-1$
+	
 	//DMF
 	
 	/**
@@ -278,6 +306,20 @@ public class DMF
 	private boolean last;
 	
 	/**
+	 * Title for the sequence the current DMF is a part of, if applicable
+	 * 
+	 * @since 2.0
+	 */
+	private String sequenceTitle;
+	
+	/**
+	 * Title for the section of a sequence the current DMF is a part of, if applicable
+	 * 
+	 * @since 2.0
+	 */
+	private String sectionTitle;
+	
+	/**
 	 * Initializes DMF to represent an empty DMF file.
 	 * 
 	 * @since 2.0
@@ -330,6 +372,10 @@ public class DMF
 		first = false;
 		last = false;
 		
+		//USER
+		sequenceTitle = new String();
+		sectionTitle = new String();
+		
 	}//METHOD
 	
 	/**
@@ -345,7 +391,7 @@ public class DMF
 			ArrayList<String> contents = DReader.readFile(dmfFile);
 			setID(ParseINI.getStringValue(DMF_HEADER, ID, contents, getID()));
 			
-			//IF ID TAG EXISTS UNDER ID HEADER, SAFE TO CONTINUE READING
+			//IF ID TAG EXISTS UNDER DMF HEADER, SAFE TO CONTINUE READING
 			if(getID() != null && getID().length() > 0)
 			{
 				//INFO
@@ -423,6 +469,23 @@ public class DMF
 					setSequenceData(ParseINI.getStringValue(null, OLD_SEQ_DATA, contents, new String()));
 					
 				}//ELSE
+				
+				//USER
+				setSequenceTitle(ParseINI.getStringValue(null, SEQUENCE_TITLE, contents, getSequenceTitle()));
+				if(getSequenceTitle().length() == 0)
+				{
+					//IF NEW SEQUENCE TITLE VARIABLE DOESN'T WORK, USE OLD SEQ TITLE VARIABLE
+					setSequenceTitle(ParseINI.getStringValue(null, OLD_SEQ_TITLE, contents, getSequenceTitle()));
+					
+				}//IF
+				
+				setSectionTitle(ParseINI.getStringValue(null, SECTION_TITLE, contents, getSectionTitle()));
+				if(getSectionTitle().length() == 0)
+				{
+					//IF NEW SECTION TITLE VARIABLE DOESN'T WORK, USE OLD SUB SEQ TITLE VARIABLE
+					setSectionTitle(ParseINI.getStringValue(null, OLD_SUB_SEQ_TITLE, contents, getSectionTitle()));
+					
+				}//IF
 				
 			}//IF
 			
@@ -972,6 +1035,54 @@ public class DMF
 			setLast(false);
 			
 		}//CATCH
+		
+	}//METHOD
+	
+	/**
+	 * Sets the sequence title.
+	 * 
+	 * @param sequenceTitle Sequence Title
+	 * @since 2.0
+	 */
+	public void setSequenceTitle(final String sequenceTitle)
+	{
+		this.sequenceTitle = sequenceTitle;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the sequence title.
+	 * 
+	 * @return Sequence Title
+	 * @since 2.0
+	 */
+	public String getSequenceTitle()
+	{
+		return sequenceTitle;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the section title.
+	 * 
+	 * @param sectionTitle Section Title
+	 * @since 2.0
+	 */
+	public void setSectionTitle(final String sectionTitle)
+	{
+		this.sectionTitle = sectionTitle;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the section title.
+	 * 
+	 * @return Section Title
+	 * @since 2.0
+	 */
+	public String getSectionTitle()
+	{
+		return sectionTitle;
 		
 	}//METHOD
 	

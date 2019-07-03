@@ -85,6 +85,11 @@ public class Start
     		System.out.println("Last: " + Boolean.toString(myDMF.isLastInSection())); //$NON-NLS-1$
     		
     		System.out.println();
+    		System.out.println("[USER]"); //$NON-NLS-1$
+    		System.out.println("Sequence Title: " + myDMF.getSequenceTitle()); //$NON-NLS-1$
+    		System.out.println("Section Title: " + myDMF.getSectionTitle()); //$NON-NLS-1$
+    		
+    		System.out.println();
     		
         }//WHILE
 		
