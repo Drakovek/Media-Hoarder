@@ -67,6 +67,11 @@ public class Start
 		System.out.println("Time: " + myDMF.getTimeString()); //$NON-NLS-1$
 		System.out.println("Description: " + myDMF.getDescription()); //$NON-NLS-1$
 		
+		System.out.println();
+		System.out.println("[DMF]"); //$NON-NLS-1$
+		System.out.println("Page URL: " + myDMF.getPageURL()); //$NON-NLS-1$
+		System.out.println("Media URL: " + myDMF.getMediaURL()); //$NON-NLS-1$
+		
 	}//METHOD
 	
 	/**

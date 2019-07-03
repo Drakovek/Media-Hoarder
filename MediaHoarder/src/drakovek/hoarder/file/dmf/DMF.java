@@ -86,6 +86,34 @@ public class DMF
 	 */
 	private static final String OLD_DESC = "desc"; //$NON-NLS-1$
 	
+	/**
+	 * INI variable for the DMF's original page URL
+	 * 
+	 * @since 2.0
+	 */
+	private static final String PAGE_URL = "page_url"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the page URL, used for reading old DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_PAGE_URL = "pageURL"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the DMF's original media URL
+	 * 
+	 * @since 2.0
+	 */
+	private static final String MEDIA_URL = "media_url"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the media URL, used for reading old DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_MEDIA_URL = "mediaURL"; //$NON-NLS-1$
+	
 	//DMF
 	
 	/**
@@ -101,8 +129,6 @@ public class DMF
 	 * @since 2.0
 	 */
 	private String id;
-	
-	//INFO
 	
 	/**
 	 * Title of the DMF media
@@ -131,6 +157,21 @@ public class DMF
 	 * @since 2.0
 	 */
 	private String description;
+	
+	/**
+	 * The URL for the page that the DMF originates from
+	 * 
+	 * @since 2.0
+	 */
+	private String pageURL;
+	
+	/**
+	 * The URL for the direct media download URL that the DMF originates from.
+	 * 
+	 * @since 2.0
+	 */
+	private String mediaURL;
+	
 	
 	/**
 	 * Initializes DMF to represent an empty DMF file.
@@ -173,6 +214,10 @@ public class DMF
 		time = 0L;
 		description = new String();
 		
+		//WEB
+		pageURL = new String();
+		mediaURL = new String();
+		
 	}//METHOD
 	
 	/**
@@ -191,6 +236,7 @@ public class DMF
 			//IF ID TAG EXISTS UNDER ID HEADER, SAFE TO CONTINUE READING
 			if(getID() != null && getID().length() > 0)
 			{
+				//INFO
 				setTitle(ParseINI.getStringValue(null, TITLE, contents, title));
 				setAuthors(ParseINI.getStringListValue(null, AUTHORS, contents, new ArrayList<String>()));
 				if(getAuthors().length == 0)
@@ -213,6 +259,22 @@ public class DMF
 				{
 					//IF NEW DESCRIPTION VARIABLE DOESN'T WORK, USE OLD DESC VARIABLE
 					setDescription(ParseINI.getStringValue(null, OLD_DESC, contents, description));
+					
+				}//IF
+				
+				//WEB
+				setPageURL(ParseINI.getStringValue(null, PAGE_URL, contents, getPageURL()));
+				if(getPageURL().length() == 0)
+				{
+					//IF NEW PAGE URL VARIABLE DOESN'T WORK, USE OLD PAGE URL VARIABLE
+					setPageURL(ParseINI.getStringValue(null, OLD_PAGE_URL, contents, getPageURL()));
+				
+				}//IF
+				
+				setMediaURL(ParseINI.getStringValue(null, MEDIA_URL, contents, getMediaURL()));
+				if(getMediaURL().length() == 0)
+				{
+					setMediaURL(ParseINI.getStringValue(null, OLD_MEDIA_URL, contents, getMediaURL()));
 					
 				}//IF
 				
@@ -476,6 +538,54 @@ public class DMF
 	public String getDescription()
 	{
 		return description;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DMF's Page URL
+	 * 
+	 * @param pageURL Page URL
+	 * @since 2.0
+	 */
+	public void setPageURL(final String pageURL)
+	{
+		this.pageURL = pageURL;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF's Page URL
+	 * 
+	 * @return Page URL
+	 * @since 2.0
+	 */
+	public String getPageURL()
+	{
+		return pageURL;
+		
+	}//METHOD
+	
+	/**
+	 * Sets  the DMF's Media URL
+	 * 
+	 * @param mediaURL Media URL
+	 * @since 2.0
+	 */
+	public void setMediaURL(final String mediaURL)
+	{
+		this.mediaURL = mediaURL;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF's Media URL
+	 * 
+	 * @return Media URL
+	 * @since 2.0
+	 */
+	public String getMediaURL()
+	{
+		return mediaURL;
 		
 	}//METHOD
 	
