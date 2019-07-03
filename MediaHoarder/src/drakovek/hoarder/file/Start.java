@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.swing.UIManager;
 
-import drakovek.hoarder.file.dmf.DMF;
+import drakovek.hoarder.file.dmf.DmfDirectory;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
-import drakovek.hoarder.processing.StringMethods;
 
 /**
  * Main class for starting the Media Hoarder Program
@@ -32,92 +32,36 @@ public class Start
 
 		//TODO Use commented out code. Following code is for test purposes only.
         BufferedReader bufferedReader =  new BufferedReader(new InputStreamReader(System.in));
-        
-        while(true)
-        {
-        	String input = null;
-    		File file = null;
+
+        String input = null;
+    	File file = null;
     		
-    		while(file == null || !file.exists() || file.isDirectory())
+    	while(file == null || !file.isDirectory())
+    	{
+    		System.out.println("Enter DMF file path:"); //$NON-NLS-1$
+    		try
     		{
-    			System.out.println("Enter DMF file path:"); //$NON-NLS-1$
+    			input = bufferedReader.readLine();
+    			if(input != null)
+    			{
+    				file = new File(input);
+    				
+    			}//IF
     			
-    	        try
-    	        {
-    	            input = bufferedReader.readLine();
-    	        
-    	            if(input != null)
-    				{
-    					file = new File(input);
-    					
-    				}//IF
-    	            
-    	        }
-    	        catch (IOException e){}
-    			
-    		}//WHILE
+    		}//TRY
+    		catch (IOException e){}
     		
-    		DMF myDMF = new DMF(file);
-    		System.out.println();
-    		System.out.println("[DMF]"); //$NON-NLS-1$
-    		System.out.println("DMF File: " + myDMF.getDmfFile().getAbsolutePath()); //$NON-NLS-1$
-    		System.out.println("ID: " + myDMF.getID()); //$NON-NLS-1$
+    	}//WHILE
+    	
+    	DmfDirectory dmfDirectory = new DmfDirectory(file);
+    	ArrayList<File> dmfFiles = dmfDirectory.getDmfFiles();
+    	
+    	for(File dmfFile: dmfFiles)
+    	{
+    		System.out.println(dmfFile.getName());
     		
-    		System.out.println();
-    		System.out.println("[INFO]"); //$NON-NLS-1$
-    		System.out.println("Title: " + myDMF.getTitle()); //$NON-NLS-1$
-    		System.out.println("Authors: " + StringMethods.arrayToString(myDMF.getAuthors())); //$NON-NLS-1$
-    		System.out.println("Time: " + myDMF.getTimeString()); //$NON-NLS-1$
-    		System.out.println("Web Tags: " + StringMethods.arrayToString(myDMF.getWebTags())); //$NON-NLS-1$
-    		System.out.println("Description: " + myDMF.getDescription()); //$NON-NLS-1$
-    		
-    		System.out.println();
-    		System.out.println("[WEB]"); //$NON-NLS-1$
-    		System.out.println("Page URL: " + myDMF.getPageURL()); //$NON-NLS-1$
-    		System.out.println("Media URL: " + myDMF.getMediaURL()); //$NON-NLS-1$
-    		
-    		System.out.println();
-    		System.out.println("[FILE]"); //$NON-NLS-1$
-    		System.out.println("Media File: " + myDMF.getMediaFile().getAbsolutePath()); //$NON-NLS-1$
-    		System.out.println("Last IDs: " + StringMethods.arrayToString(myDMF.getLastIDs())); //$NON-NLS-1$
-    		System.out.println("Next IDs: " + StringMethods.arrayToString(myDMF.getNextIDs())); //$NON-NLS-1$
-    		System.out.println("First: " + Boolean.toString(myDMF.isFirstInSection())); //$NON-NLS-1$
-    		System.out.println("Last: " + Boolean.toString(myDMF.isLastInSection())); //$NON-NLS-1$
-    		
-    		System.out.println();
-    		System.out.println("[USER]"); //$NON-NLS-1$
-    		System.out.println("Sequence Title: " + myDMF.getSequenceTitle()); //$NON-NLS-1$
-    		System.out.println("Section Title: " + myDMF.getSectionTitle()); //$NON-NLS-1$
-    		System.out.println("Branch Titles: " + StringMethods.arrayToString(myDMF.getBranchTitles())); //$NON-NLS-1$
-    		System.out.println("Rating: " + Integer.toString(myDMF.getRating())); //$NON-NLS-1$
-    		System.out.println("User Tags: " + StringMethods.arrayToString(myDMF.getUserTags())); //$NON-NLS-1$
-    		
-    		System.out.println();
-    		
-    		file = null;
-    		System.out.println("Enter Directory to save DMF"); //$NON-NLS-1$
-	        try
-	        {
-	            input = bufferedReader.readLine();
-	        
-	            if(input != null)
-				{
-					file = new File(input);
-					
-				}//IF
-	            
-	        }//TRY
-	        catch (IOException e){}
-    		
-    		if(file != null && file.isDirectory())
-    		{
-    			myDMF.setDmfFile(new File(file, myDMF.getDmfFile().getName()));
-        		myDMF.writeDMF();
-    		
-    		}//IF
-    		
-        }//WHILE
-		
+    	}//FOR
+    	
 	}//METHOD
 	
 	/**

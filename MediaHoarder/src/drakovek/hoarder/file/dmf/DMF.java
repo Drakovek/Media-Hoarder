@@ -570,7 +570,7 @@ public class DMF
 	 */
 	public boolean writeDMF()
 	{
-		if(isDmfValid())
+		if(isValid())
 		{
 			ArrayList<String> contents = new ArrayList<>();
 			contents.add(DMF_HEADER);
@@ -711,29 +711,29 @@ public class DMF
 	 * @return Whether the current DMF is valid
 	 * @since 2.0
 	 */
-	public boolean isDmfValid()
+	public boolean isValid()
 	{
-		boolean isValid = true;
+		boolean valid = true;
 		
 		if(dmfFile == null || dmfFile.isDirectory() || !dmfFile.getName().endsWith(DMF_EXTENSION))
 		{
-			isValid = false;
+			valid = false;
 			
 		}//IF
 		
 		if(getID() == null || getID().length() == 0)
 		{
-			isValid = false;
+			valid = false;
 			
 		}//IF
 		
 		if(getMediaFile() == null)
 		{
-			isValid = false;
+			valid = false;
 			
 		}//IF
 		
-		return isValid;
+		return valid;
 		
 	}//METHOD
 	
