@@ -421,7 +421,7 @@ public class DMF
 		mediaURL = new String();
 		
 		//FILE
-		mediaFile = new File(new String());
+		mediaFile = null;
 		lastIDs = new String[0];
 		nextIDs = new String[0];
 		first = false;
@@ -505,7 +505,7 @@ public class DMF
 				
 				//FILE
 				setMediaFile(ParseINI.getStringValue(null, MEDIA_FILE, contents, new String()));
-				if(!getMediaFile().exists() || getMediaFile().isDirectory())
+				if(getMediaFile() == null)
 				{
 					//IF NEW MEDIA FILE VARIABLE DOESN'T WORK, USE OLD FILENAME VARIABLE
 					setMediaFile(ParseINI.getStringValue(null, OLD_FILENAME, contents, new String()));
@@ -570,7 +570,7 @@ public class DMF
 	 */
 	public boolean writeDMF()
 	{
-		if(dmfFile != null && dmfFile.getAbsolutePath().endsWith(DMF_EXTENSION))
+		if(isDmfValid())
 		{
 			ArrayList<String> contents = new ArrayList<>();
 			contents.add(DMF_HEADER);
@@ -702,6 +702,38 @@ public class DMF
 		}//IF
 		
 		return false;
+		
+	}//METHOD
+	
+	/**
+	 * Checks if the current state of the DMF object can be written to make a valid DMF. Must have a valid name for a file, and a non-empty ID and media file.
+	 *
+	 * @return Whether the current DMF is valid
+	 * @since 2.0
+	 */
+	public boolean isDmfValid()
+	{
+		boolean isValid = true;
+		
+		if(dmfFile == null || dmfFile.isDirectory() || !dmfFile.getName().endsWith(DMF_EXTENSION))
+		{
+			isValid = false;
+			
+		}//IF
+		
+		if(getID() == null || getID().length() == 0)
+		{
+			isValid = false;
+			
+		}//IF
+		
+		if(getMediaFile() == null)
+		{
+			isValid = false;
+			
+		}//IF
+		
+		return isValid;
 		
 	}//METHOD
 	
@@ -1069,7 +1101,7 @@ public class DMF
 		
 		if(failed)
 		{
-			mediaFile = new File(new String());
+			mediaFile = null;
 		
 		}//ELSE
 		
