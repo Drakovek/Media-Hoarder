@@ -32,45 +32,55 @@ public class Start
 
 		//TODO Use commented out code. Following code is for test purposes only.
         BufferedReader bufferedReader =  new BufferedReader(new InputStreamReader(System.in));
-		String input = null;
-		File file = null;
-		
-		while(file == null || !file.exists() || file.isDirectory())
-		{
-			System.out.println("Enter DMF file path:"); //$NON-NLS-1$
-			
-	        try
-	        {
-	            input = bufferedReader.readLine();
-	        
-	            if(input != null)
-				{
-					file = new File(input);
-					
-				}//IF
-	            
-	        }
-	        catch (IOException e){}
-			
-		}//WHILE
-		
-		DMF myDMF = new DMF(file);
-		System.out.println();
-		System.out.println("[DMF]"); //$NON-NLS-1$
-		System.out.println("DMF File: " + myDMF.getDmfFile().getName()); //$NON-NLS-1$
-		System.out.println("ID: " + myDMF.getID()); //$NON-NLS-1$
-		
-		System.out.println();
-		System.out.println("[INFO]"); //$NON-NLS-1$
-		System.out.println("Title: " + myDMF.getTitle()); //$NON-NLS-1$
-		System.out.println("Authors: " + StringMethods.arrayToString(myDMF.getAuthors())); //$NON-NLS-1$
-		System.out.println("Time: " + myDMF.getTimeString()); //$NON-NLS-1$
-		System.out.println("Description: " + myDMF.getDescription()); //$NON-NLS-1$
-		
-		System.out.println();
-		System.out.println("[DMF]"); //$NON-NLS-1$
-		System.out.println("Page URL: " + myDMF.getPageURL()); //$NON-NLS-1$
-		System.out.println("Media URL: " + myDMF.getMediaURL()); //$NON-NLS-1$
+        
+        while(true)
+        {
+        	String input = null;
+    		File file = null;
+    		
+    		while(file == null || !file.exists() || file.isDirectory())
+    		{
+    			System.out.println("Enter DMF file path:"); //$NON-NLS-1$
+    			
+    	        try
+    	        {
+    	            input = bufferedReader.readLine();
+    	        
+    	            if(input != null)
+    				{
+    					file = new File(input);
+    					
+    				}//IF
+    	            
+    	        }
+    	        catch (IOException e){}
+    			
+    		}//WHILE
+    		
+    		DMF myDMF = new DMF(file);
+    		System.out.println();
+    		System.out.println("[DMF]"); //$NON-NLS-1$
+    		System.out.println("DMF File: " + myDMF.getDmfFile().getAbsolutePath()); //$NON-NLS-1$
+    		System.out.println("ID: " + myDMF.getID()); //$NON-NLS-1$
+    		
+    		System.out.println();
+    		System.out.println("[INFO]"); //$NON-NLS-1$
+    		System.out.println("Title: " + myDMF.getTitle()); //$NON-NLS-1$
+    		System.out.println("Authors: " + StringMethods.arrayToString(myDMF.getAuthors())); //$NON-NLS-1$
+    		System.out.println("Time: " + myDMF.getTimeString()); //$NON-NLS-1$
+    		System.out.println("Web Tags: " + StringMethods.arrayToString(myDMF.getWebTags())); //$NON-NLS-1$
+    		System.out.println("Description: " + myDMF.getDescription()); //$NON-NLS-1$
+    		
+    		System.out.println();
+    		System.out.println("[DMF]"); //$NON-NLS-1$
+    		System.out.println("Page URL: " + myDMF.getPageURL()); //$NON-NLS-1$
+    		System.out.println("Media URL: " + myDMF.getMediaURL()); //$NON-NLS-1$
+    		
+    		System.out.println();
+    		System.out.println("[FILE]"); //$NON-NLS-1$
+    		System.out.println("Media File: " + myDMF.getMediaFile().getAbsolutePath()); //$NON-NLS-1$
+       
+        }//WHILE
 		
 	}//METHOD
 	

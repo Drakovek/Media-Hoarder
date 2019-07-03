@@ -73,6 +73,20 @@ public class DMF
 	private static final String OLD_DATE = "date"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for all the original web tags for the DMF media
+	 * 
+	 * @since 2.0
+	 */
+	private static final String WEB_TAGS = "web_tags"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for original tags, used for reading old DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_OTAGS = "oTags"; //$NON-NLS-1$
+	
+	/**
 	 * INI variable for the DMF's description
 	 * 
 	 * @since 2.0
@@ -114,6 +128,20 @@ public class DMF
 	 */
 	private static final String OLD_MEDIA_URL = "mediaURL"; //$NON-NLS-1$
 	
+	/**
+	 * INI variable for the media file linked to the DMF
+	 * 
+	 * @since 2.0
+	 */
+	private static final String MEDIA_FILE = "media_file"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the media file, used for reading old DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_FILENAME = "filename"; //$NON-NLS-1$
+	
 	//DMF
 	
 	/**
@@ -152,6 +180,13 @@ public class DMF
 	private long time;
 	
 	/**
+	 * Original web tags for the DMF
+	 * 
+	 * @since 2.0
+	 */
+	private String[] webTags;
+	
+	/**
 	 * Description of the DMF media
 	 * 
 	 * @since 2.0
@@ -172,6 +207,12 @@ public class DMF
 	 */
 	private String mediaURL;
 	
+	/**
+	 * Media File linked to the DMF
+	 * 
+	 * @since 2.0
+	 */
+	private File mediaFile;
 	
 	/**
 	 * Initializes DMF to represent an empty DMF file.
@@ -212,11 +253,15 @@ public class DMF
 		title = new String();
 		authors = new String[0];
 		time = 0L;
+		webTags = new String[0];
 		description = new String();
 		
 		//WEB
 		pageURL = new String();
 		mediaURL = new String();
+		
+		//FILE
+		mediaFile = new File(new String());
 		
 	}//METHOD
 	
@@ -254,6 +299,14 @@ public class DMF
 					
 				}//IF
 				
+				setWebTags(ParseINI.getStringListValue(null, WEB_TAGS, contents, new ArrayList<String>()));
+				if(getWebTags().length == 0)
+				{
+					//IF NEW WEB TAG VARIABLE DOESN'T WORK, USE OLD OTAG VARIABLE
+					setWebTags(ParseINI.getStringListValue(null, OLD_OTAGS, contents, new ArrayList<String>()));
+					
+				}//IF
+				
 				setDescription(ParseINI.getStringValue(null, DESCRIPTION, contents, description));
 				if(getDescription().length() == 0)
 				{
@@ -275,6 +328,13 @@ public class DMF
 				if(getMediaURL().length() == 0)
 				{
 					setMediaURL(ParseINI.getStringValue(null, OLD_MEDIA_URL, contents, getMediaURL()));
+					
+				}//IF
+				
+				setMediaFile(ParseINI.getStringValue(null, MEDIA_FILE, contents, new String()));
+				if(!getMediaFile().exists() || getMediaFile().isDirectory())
+				{
+					setMediaFile(ParseINI.getStringValue(null, OLD_FILENAME, contents, new String()));
 					
 				}//IF
 				
@@ -518,6 +578,30 @@ public class DMF
 	}//METHOD
 	
 	/**
+	 * Sets the DMF's web tags
+	 * 
+	 * @param webTags DMF Web Tags
+	 * @since 2.0
+	 */
+	public void setWebTags(final ArrayList<String> webTags)
+	{
+		this.webTags = StringMethods.arrayListToArray(webTags);
+		
+	}//METHOD
+	
+	/**
+	 * Gets the DMF's web tags
+	 * 
+	 * @return DMF Web Tags
+	 * @since 2.0
+	 */
+	public String[] getWebTags()
+	{
+		return webTags;
+		
+	}//METHOD
+	
+	/**
 	 * Sets the description for the current DMF
 	 * 
 	 * @param description DMF Description
@@ -586,6 +670,59 @@ public class DMF
 	public String getMediaURL()
 	{
 		return mediaURL;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the linked media file.
+	 * 
+	 * @param mediaFile Media File
+	 * @since 2.0
+	 */
+	public void setMediaFile(final File mediaFile)
+	{
+		this.mediaFile = mediaFile;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the linked media file based on a filename. Uses the same directory as the DMF File.
+	 * 
+	 * @param filename Name of the Media File
+	 * @since 2.0
+	 */
+	public void setMediaFile(final String filename)
+	{
+		boolean failed = true;
+		if(dmfFile != null)
+		{
+			File parent = dmfFile.getParentFile();
+			if(parent != null && parent.isDirectory())
+			{
+				mediaFile = new File(parent, filename);
+				failed = false;
+				
+			}//IF
+			
+		}//IF
+		
+		if(failed)
+		{
+			mediaFile = new File(new String());
+		
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Gets the linked media file.
+	 * 
+	 * @return Media File
+	 * @since 2.0
+	 */
+	public File getMediaFile()
+	{
+		return mediaFile;
 		
 	}//METHOD
 	
