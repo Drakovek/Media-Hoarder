@@ -79,7 +79,13 @@ public class Start
     		System.out.println();
     		System.out.println("[FILE]"); //$NON-NLS-1$
     		System.out.println("Media File: " + myDMF.getMediaFile().getAbsolutePath()); //$NON-NLS-1$
-       
+    		System.out.println("Last IDs: " + StringMethods.arrayToString(myDMF.getLastIDs())); //$NON-NLS-1$
+    		System.out.println("Next IDs: " + StringMethods.arrayToString(myDMF.getNextIDs())); //$NON-NLS-1$
+    		System.out.println("First: " + Boolean.toString(myDMF.isFirstInSection())); //$NON-NLS-1$
+    		System.out.println("Last: " + Boolean.toString(myDMF.isLastInSection())); //$NON-NLS-1$
+    		
+    		System.out.println();
+    		
         }//WHILE
 		
 	}//METHOD

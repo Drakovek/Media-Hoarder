@@ -142,6 +142,41 @@ public class DMF
 	 */
 	private static final String OLD_FILENAME = "filename"; //$NON-NLS-1$
 	
+	/**
+	 * INI variable for the ID(s) of the previous DMF(s)
+	 * 
+	 * @since 2.0
+	 */
+	private static final String LAST_IDS = "last_ids"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the ID(s) of the next DMF(s)
+	 * 
+	 * @since 2.0
+	 */
+	private static final String NEXT_IDS = "next_ids"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether the DMF is the first in a section
+	 * 
+	 * @since 2.0
+	 */
+	private static final String FIRST = "first"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether the DMF is the last in a section
+	 * 
+	 * @since 2.0
+	 */
+	private static final String LAST = "last"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for all DMF sequence data.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String OLD_SEQ_DATA = "seqData"; //$NON-NLS-1$
+	
 	//DMF
 	
 	/**
@@ -215,6 +250,34 @@ public class DMF
 	private File mediaFile;
 	
 	/**
+	 * Array of IDs directly preceding the current DMF in a sequence. If there are multiple IDs, this means the DMF comes directly after multiple branching paths.
+	 * 
+	 * @since 2.0
+	 */
+	private String[] lastIDs;
+	
+	/**
+	 * Array of IDs directly proceeding the current DMF in a sequence. If there are multiple IDs, this means the DMF leads to multiple branching paths.
+	 * 
+	 * @since
+	 */
+	private String[] nextIDs;
+	
+	/**
+	 * Whether the current DMF is the first in a sequence section.
+	 * 
+	 * @since 2.0
+	 */
+	private boolean first;
+	
+	/**
+	 * Whether the current DMF is the last in a sequence section.
+	 * 
+	 * @since 2.0
+	 */
+	private boolean last;
+	
+	/**
 	 * Initializes DMF to represent an empty DMF file.
 	 * 
 	 * @since 2.0
@@ -262,6 +325,10 @@ public class DMF
 		
 		//FILE
 		mediaFile = new File(new String());
+		lastIDs = new String[0];
+		nextIDs = new String[0];
+		first = false;
+		last = false;
 		
 	}//METHOD
 	
@@ -327,16 +394,35 @@ public class DMF
 				setMediaURL(ParseINI.getStringValue(null, MEDIA_URL, contents, getMediaURL()));
 				if(getMediaURL().length() == 0)
 				{
+					//IF NEW MEDIA URL VARIABLE DOESN'T WORK, USE OLD MEDIA URL VARIABLE
 					setMediaURL(ParseINI.getStringValue(null, OLD_MEDIA_URL, contents, getMediaURL()));
 					
 				}//IF
 				
+				//FILE
 				setMediaFile(ParseINI.getStringValue(null, MEDIA_FILE, contents, new String()));
 				if(!getMediaFile().exists() || getMediaFile().isDirectory())
 				{
+					//IF NEW MEDIA FILE VARIABLE DOESN'T WORK, USE OLD FILENAME VARIABLE
 					setMediaFile(ParseINI.getStringValue(null, OLD_FILENAME, contents, new String()));
 					
 				}//IF
+				
+				setLastIDs(ParseINI.getStringListValue(null, LAST_IDS, contents, new ArrayList<String>()));
+				if(getLastIDs().length > 0)
+				{
+					//FILE IS USING NEW STANDARD FOR RECORDING SEQUENCES
+					setNextIDs(ParseINI.getStringListValue(null, NEXT_IDS, contents, new ArrayList<String>()));
+					setFirst(ParseINI.getBooleanValue(null, FIRST, contents, first));
+					setLast(ParseINI.getBooleanValue(null, LAST, contents, last));
+					
+				}//IF
+				else
+				{
+					//IF NEW SEQUENCE DATA VARIABLES DON'T WORK, USE OLD SEQ DATA VARIABLE
+					setSequenceData(ParseINI.getStringValue(null, OLD_SEQ_DATA, contents, new String()));
+					
+				}//ELSE
 				
 			}//IF
 			
@@ -723,6 +809,169 @@ public class DMF
 	public File getMediaFile()
 	{
 		return mediaFile;
+		
+	}//METHODdefaultValue
+	
+	/**
+	 * Sets the IDs preceding the current DMF
+	 * 
+	 * @param lastIDs Last IDs
+	 * @since 2.0
+	 */
+	public void setLastIDs(final ArrayList<String> lastIDs)
+	{
+		this.lastIDs = StringMethods.arrayListToArray(lastIDs);
+		
+	}//METHOD
+	
+	/**
+	 * Sets a single ID preceding the current DMF
+	 * 
+	 * @param lastID Last ID
+	 * @since 2.0
+	 */
+	public void setLastID(final String lastID)
+	{
+		lastIDs = new String[1];
+		lastIDs[0] = lastID;
+		
+	}//METHOD
+	
+	/**
+	 * Returns a list of IDs before the current DMF in a sequence.
+	 * 
+	 * @return Last IDs
+	 * @since 2.0
+	 */
+	public String[] getLastIDs()
+	{
+		return lastIDs;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the IDs after the current DMF
+	 * 
+	 * @param nextIDs Next IDs
+	 * @since 2.0
+	 */
+	public void setNextIDs(final ArrayList<String> nextIDs)
+	{
+		this.nextIDs = StringMethods.arrayListToArray(nextIDs);
+		
+	}//METHOD
+	
+	/**
+	 * Sets a single ID after the current DMF
+	 * 
+	 * @param nextID Next ID
+	 * @since 2.0
+	 */
+	public void setNextID(final String nextID)
+	{
+		nextIDs = new String[1];
+		nextIDs[0] = nextID;
+		
+	}//METHOD
+	
+	/**
+	 * Returns a list of IDs after the current DMF in a sequence.
+	 * 
+	 * @return Next IDs
+	 * @since 2.0
+	 */
+	public String[] getNextIDs()
+	{
+		return nextIDs;
+		
+	}//METHOD
+	
+	/**
+	 * Sets if the current DMF is the first in a section.
+	 * 
+	 * @param first First in Section
+	 * @since 2.0
+	 */
+	public void setFirst(final boolean first)
+	{
+		this.first = first;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the current DMF is the first in a section.
+	 * 
+	 * @return First in Section
+	 * @since 2.0
+	 */
+	public boolean isFirstInSection()
+	{
+		return first;
+		
+	}//METHOD
+	
+	/**
+	 * Sets if the current DMF is the last in a section.
+	 * 
+	 * @param last Last in Section
+	 * @since 2.0
+	 */
+	public void setLast(final boolean last)
+	{
+		this.last = last;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the current DMF is the last in a section.
+	 * 
+	 * @return Last in Section
+	 * @since 2.0
+	 */
+	public boolean isLastInSection()
+	{
+		return last;
+		
+	}//METHOD
+	
+	/**
+	 * Sets all the sequence data based on the old DMF sequence data standards.
+	 * 
+	 * @param sequenceData Sequence Data String
+	 * @since
+	 */
+	private void setSequenceData(final String sequenceData)
+	{
+		try
+		{
+			int start;
+			int end;
+			for(start = 0; sequenceData.charAt(start) != ','; start++);
+			setLastID(sequenceData.substring(0, start).toUpperCase()); start++;
+			for(end = start; end < sequenceData.length() && sequenceData.charAt(end) != ':'; end++);
+			setNextID(sequenceData.substring(start, end)); end++;
+			if(end < sequenceData.length())
+			{
+				setFirst(sequenceData.substring(end).contains(Character.toString('F')));
+				setLast(sequenceData.substring(end).contains(Character.toString('L')));
+				
+			}//IF
+			else
+			{
+				setFirst(false);
+				setLast(false);
+				
+			}//ELSE
+			
+		}//TRY
+		catch(Exception e)
+		{
+			setLastIDs(new ArrayList<String>());
+			setNextIDs(new ArrayList<String>());
+			setFirst(false);
+			setLast(false);
+			
+		}//CATCH
 		
 	}//METHOD
 	
