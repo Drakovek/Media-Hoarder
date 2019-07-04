@@ -4,11 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import javax.swing.UIManager;
 
-import drakovek.hoarder.file.dmf.DmfDirectory;
+import drakovek.hoarder.file.dmf.DmfDatabase;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 
 /**
@@ -53,12 +52,12 @@ public class Start
     		
     	}//WHILE
     	
-    	DmfDirectory dmfDirectory = new DmfDirectory(file);
-    	ArrayList<String> list = dmfDirectory.getMediaURLs();
-    	
-    	for(int i = 0; i < list.size(); i++)
+    	DmfDatabase database = new DmfDatabase();
+    	database.loadDMFs(file);
+    	int size = database.getSize();
+    	for(int i = 0; i < size; i++)
     	{
-    		System.out.println(list.get(i));
+    		System.out.println(database.getPageURL(i));
     		
     	}//FOR
     	
