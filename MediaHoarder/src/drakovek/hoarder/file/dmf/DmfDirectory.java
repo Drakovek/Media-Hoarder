@@ -234,25 +234,14 @@ public class DmfDirectory
 	}//METHOD
 	
 	/**
-	 * Adds the information from a single DMF to the objects information variables.
+	 * Adds the information from a single DMF to the object's list of DMF information
 	 * 
 	 * @param dmfFile DMF File
 	 * @since 2.0
 	 */
-	public void addDMF(final File dmfFile)
+	private void addDMF(final File dmfFile)
 	{
-		addDMF(new DMF(dmfFile));
-		
-	}//METHOD
-	
-	/**
-	 * Adds the information from a single DMF to the objects information variables.
-	 * 
-	 * @param dmf Single DMF
-	 * @since 2.0
-	 */
-	public void addDMF(DMF dmf)
-	{
+		DMF dmf = new DMF(dmfFile);
 		if(dmf.isValid())
 		{
 			//DMF
