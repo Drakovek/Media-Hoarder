@@ -231,7 +231,7 @@ public class DSettings
 	{
 		setDataFolder();
 		readSettings();
-		languageHandler = new DLanguageHandler(dataFolder, languageName);
+		languageHandler = new DLanguageHandler(this, languageName);
 		
 	}//CONSTRUCTOR
 	
@@ -412,6 +412,18 @@ public class DSettings
 	{
 		this.languageName = languageName;
 		languageHandler.setLanguage(languageName);
+		
+	}//METHOD
+	
+	/**
+	 * Returns the program's data folder located in the main program directory.
+	 * 
+	 * @return Data Folder
+	 * @since 2.0
+	 */
+	public File getDataFolder()
+	{
+		return dataFolder;
 		
 	}//METHOD
 	

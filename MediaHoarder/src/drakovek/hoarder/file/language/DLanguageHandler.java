@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.KeyStroke;
 
 import drakovek.hoarder.file.DReader;
+import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.processing.ParseINI;
 
 /**
@@ -41,13 +42,13 @@ public class DLanguageHandler
 	/**
 	 * Initializes the DLanguage Class.
 	 * 
-	 * @param dataFolder Main Data Folder for the program
+	 * @param settings Program Settings
 	 * @param languageName Name of the language to use for the program's text
 	 * @since 2.0
 	 */
-	public DLanguageHandler(final File dataFolder, final String languageName)
+	public DLanguageHandler(DSettings settings, final String languageName)
 	{
-		languageFolder = DReader.getDirectory(dataFolder, LANGUAGE_FOLDER);
+		languageFolder = DReader.getDirectory(settings.getDataFolder(), LANGUAGE_FOLDER);
 		
 		setLanguage(languageName);
 		

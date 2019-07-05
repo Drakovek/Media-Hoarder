@@ -52,7 +52,8 @@ public class Start
     		
     	}//WHILE
     	
-    	DmfDatabase database = new DmfDatabase();
+    	DSettings settings = new DSettings();
+    	DmfDatabase database = new DmfDatabase(settings);
     	database.loadDMFs(file);
     	int size = database.getSize();
     	for(int i = 0; i < size; i++)

@@ -3,6 +3,7 @@ package drakovek.hoarder.file.dmf;
 import java.io.File;
 import java.util.ArrayList;
 
+import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.ExtensionFilter;
 
 /**
@@ -148,12 +149,21 @@ public class DmfDatabase
 	private ArrayList<String[]> userTags;
 	
 	/**
-	 * Initializes the DmfDatabase class to be empty.
+	 * DmfIndexing to load DmfDirectory objects through index files.
 	 * 
 	 * @since 2.0
 	 */
-	public DmfDatabase()
+	private DmfIndexing indexing;
+	
+	/**
+	 * Initializes the DmfDatabase class to be empty.
+	 * 
+	 * @param settings Program's settings
+	 * @since 2.0
+	 */
+	public DmfDatabase(DSettings settings)
 	{
+		indexing = new DmfIndexing(settings);
 		clearDMFs();
 		
 	}//CONSTRUCTOR
@@ -209,7 +219,7 @@ public class DmfDatabase
 
 		for(File folder: dmfFolders)
 		{
-			dmfDirectory.loadDMFs(folder);
+			indexing.loadDMFs(dmfDirectory, folder);
 			addDMFs(dmfDirectory);
 			
 		}//FOR
