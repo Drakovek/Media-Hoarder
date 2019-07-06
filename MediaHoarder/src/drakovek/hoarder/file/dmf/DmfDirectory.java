@@ -1,6 +1,7 @@
 package drakovek.hoarder.file.dmf;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import drakovek.hoarder.file.ExtensionFilter;
@@ -12,8 +13,22 @@ import drakovek.hoarder.file.ExtensionFilter;
  * @version 2.0
  * @since 2.0
  */
-public class DmfDirectory
+public class DmfDirectory implements Serializable
 {
+	/**
+	 * SerialVersionUID
+	 * 
+	 * @since 2.0
+	 */
+	private static final long serialVersionUID = -280406253949987653L;
+
+	/**
+	 * Directory from which DMF info for the object is loaded
+	 * 
+	 * @since 2.0
+	 */
+	private File directory;
+	
 	/**
 	 * ArrayList containing DMF Files from the DMF class
 	 * 
@@ -177,6 +192,8 @@ public class DmfDirectory
 	 */
 	private void clearDMFs()
 	{
+		directory = null;
+		
 		//DMF
 		dmfFiles = new ArrayList<>();
 		ids = new ArrayList<>();
@@ -220,6 +237,7 @@ public class DmfDirectory
 		
 		if(dmfFolder != null && dmfFolder.isDirectory())
 		{
+			directory = dmfFolder;
 			String[] extension = {DMF.DMF_EXTENSION};
 			File[] dmfs = dmfFolder.listFiles(new ExtensionFilter(extension));
 			
@@ -274,6 +292,18 @@ public class DmfDirectory
 			userTags.add(dmf.getUserTags());
 			
 		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Returns the currently loaded DMF directory
+	 * 
+	 * @return DMF Directory
+	 * @since 2.0
+	 */
+	public File getDirectory()
+	{
+		return directory;
 		
 	}//METHOD
 	

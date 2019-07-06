@@ -3,7 +3,6 @@ package drakovek.hoarder.file.dmf;
 import java.io.File;
 import java.util.ArrayList;
 
-import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.ExtensionFilter;
 
 /**
@@ -149,21 +148,13 @@ public class DmfDatabase
 	private ArrayList<String[]> userTags;
 	
 	/**
-	 * DmfIndexing to load DmfDirectory objects through index files.
-	 * 
-	 * @since 2.0
-	 */
-	private DmfIndexing indexing;
-	
-	/**
 	 * Initializes the DmfDatabase class to be empty.
 	 * 
 	 * @param settings Program's settings
 	 * @since 2.0
 	 */
-	public DmfDatabase(DSettings settings)
+	public DmfDatabase()
 	{
-		indexing = new DmfIndexing(settings);
 		clearDMFs();
 		
 	}//CONSTRUCTOR
@@ -210,19 +201,31 @@ public class DmfDatabase
 	 * Loads the information from all DMFs in a given folder and in its sub-directories.
 	 * 
 	 * @param dmfFolder Input Folder
+	 * @param useIndexes Whether to use index files to load DmfDirectory object
+	 * @param saveIndexes Whether to save DmfDirectory objects to index files
 	 * @since 2.0
 	 */
-	public void loadDMFs(File dmfFolder)
+	public void loadDMFs(File dmfFolder, final boolean useIndexes, final boolean saveIndexes)
 	{
 		DmfDirectory dmfDirectory = new DmfDirectory();
 		ArrayList<File> dmfFolders = getDmfFolders(dmfFolder);
-
+		DmfIndexing indexing = new DmfIndexing();
+		
 		for(File folder: dmfFolders)
 		{
-			indexing.loadDMFs(dmfDirectory, folder);
+			DmfIndexing.loadDMFs(dmfDirectory, folder, useIndexes);
+			
+			if(saveIndexes)
+			{
+				indexing.saveIndex(dmfDirectory);
+				
+			}//IF
+			
 			addDMFs(dmfDirectory);
 			
 		}//FOR
+		
+		indexing.close();
 		
 	}//METHOD
 	
