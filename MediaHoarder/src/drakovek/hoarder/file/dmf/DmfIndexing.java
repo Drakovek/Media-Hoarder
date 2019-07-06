@@ -170,7 +170,7 @@ public class DmfIndexing
 					
 				}//FINALLY
 			
-				directLoad = false;
+				directLoad = !dmfDirectory.isValid(directory);
 				
 			}//IF
 			

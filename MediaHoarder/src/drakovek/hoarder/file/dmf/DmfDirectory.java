@@ -296,6 +296,79 @@ public class DmfDirectory implements Serializable
 	}//METHOD
 	
 	/**
+	 * Checks whether the current DmfDirectory object is valid. Mainly to check if object has correctly been loaded from an index.
+	 * 
+	 * @param intendedDirectory Directory the current object should represent
+	 * @return Whether the object is valid
+	 * @since 2.0
+	 */
+	public boolean isValid(final File intendedDirectory)
+	{
+		boolean valid = true;
+		
+		//CHECK IF DIRECTORY IS CORRECT
+		if(!getDirectory().equals(intendedDirectory))
+		{
+			valid = false;
+			
+		}//IF
+		
+		//CHECK IF LISTS ARE EQUAL SIZE
+		int size = getDmfFiles().size();
+		if(valid && (
+		   size != getTitles().size() ||
+		   size != getIDs().size() ||
+		   size != getAuthors().size() ||
+		   size != getTimes().size() ||
+		   size != getWebTags().size() ||
+		   size != getDescriptions().size() ||
+		   size != getPageURLs().size() ||
+		   size != getMediaURLs().size() ||
+		   size != getMediaFiles().size() ||
+		   size != getLastIDs().size() ||
+		   size != getNextIDs().size() ||
+		   size != getIsFirst().size() ||
+		   size != getIsLast().size() ||
+		   size != getSequenceTitles().size() ||
+		   size != getSectionTitles().size() ||
+		   size != getBranchTitles().size() ||
+		   size != getRatings().size() ||
+		   size != getUserTags().size() ))
+		{
+			valid = false;
+			
+		}//IF
+		
+		//CHECK LISTS CONTAIN THE CORRECT OBJECTS
+		if(valid &&
+		   getDmfFiles().size() > 0 && (
+		   !(dmfFiles.get(0) instanceof java.io.File) ||
+		   !(ids.get(0) instanceof java.lang.String) ||
+		   !(titles.get(0) instanceof java.lang.String) ||
+		   !(authors.get(0) instanceof java.lang.String[]) ||
+		   !(times.get(0) instanceof java.lang.Long) ||
+		   !(descriptions.get(0) instanceof java.lang.String) ||
+		   !(pageURLs.get(0) instanceof java.lang.String) ||
+		   !(mediaURLs.get(0) instanceof java.lang.String) ||
+		   !(mediaFiles.get(0) instanceof java.io.File) ||
+		   !(lastIDs.get(0) instanceof java.lang.String[]) ||
+		   !(nextIDs.get(0) instanceof java.lang.String[]) ||
+		   !(isFirst.get(0) instanceof java.lang.Boolean) ||
+		   !(isLast.get(0) instanceof java.lang.Boolean) ||
+		   !(sequenceTitles.get(0) instanceof java.lang.String) ||
+		   !(sectionTitles.get(0) instanceof java.lang.String) ||
+		   !(ratings.get(0) instanceof java.lang.Integer) ||
+		   !(userTags.get(0) instanceof java.lang.String[])))
+		{
+			valid = false;
+			
+		}//IF
+		
+		return valid;
+		
+	}//METHOD
+	
+	/**
 	 * Returns the currently loaded DMF directory
 	 * 
 	 * @return DMF Directory
