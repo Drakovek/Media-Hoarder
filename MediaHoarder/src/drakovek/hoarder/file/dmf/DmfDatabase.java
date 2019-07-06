@@ -207,13 +207,12 @@ public class DmfDatabase
 	 */
 	public void loadDMFs(File dmfFolder, final boolean useIndexes, final boolean saveIndexes)
 	{
-		DmfDirectory dmfDirectory = new DmfDirectory();
 		ArrayList<File> dmfFolders = getDmfFolders(dmfFolder);
 		DmfIndexing indexing = new DmfIndexing();
 		
 		for(File folder: dmfFolders)
 		{
-			DmfIndexing.loadDMFs(dmfDirectory, folder, useIndexes);
+			DmfDirectory dmfDirectory = indexing.loadDMFs(folder, useIndexes);
 			
 			if(saveIndexes)
 			{

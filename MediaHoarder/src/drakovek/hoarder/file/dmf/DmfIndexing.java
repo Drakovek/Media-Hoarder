@@ -1,8 +1,10 @@
 package drakovek.hoarder.file.dmf;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
@@ -91,6 +93,20 @@ public class DmfIndexing
 	private ObjectOutputStream objectOutputStream;
 	
 	/**
+	 * FileInputStream for reading index files
+	 * 
+	 * @since 2.0
+	 */
+	private FileInputStream fileInputStream;
+	
+	/**
+	 * ObjectInputStream for reading index files
+	 * 
+	 * @since 2.0
+	 */
+	private ObjectInputStream objectInputStream;
+	
+	/**
 	 * Initializes the DmfIndexing class.
 	 * 
 	 * @param settings Program settings
@@ -113,14 +129,63 @@ public class DmfIndexing
 	/**
 	 * Loads DMFs from a directory, either directly or from an index file as specified.
 	 * 
-	 * @param dmfDirectory DmfDirectory object to store DMF info within
 	 * @param directory Directory from which to load DMFs
 	 * @param useIndex Whether to use index files to load DMF info rather than directly
+	 * @return DmfDirectory with DMFs loaded from given directory
 	 * @since 2.0
 	 */
-	public static void loadDMFs(DmfDirectory dmfDirectory, final File directory, final boolean useIndex)
+	public DmfDirectory loadDMFs(final File directory, final boolean useIndex)
 	{	
-		dmfDirectory.loadDMFs(directory);
+		DmfDirectory dmfDirectory = new DmfDirectory();
+		boolean directLoad = true;
+		
+		if(useIndex)
+		{
+			int index = indexedDirectories.indexOf(directory.getAbsolutePath());
+			File indexFile = new File(indexFolder, Integer.toString(index));
+			
+			if(indexFile.exists())
+			{
+				fileInputStream = null;
+				objectInputStream = null;
+				
+				try
+				{
+					fileInputStream = new FileInputStream(indexFile);
+					objectInputStream = new ObjectInputStream(fileInputStream);
+					dmfDirectory = (DmfDirectory) objectInputStream.readObject();
+					
+					
+				}//TRY
+				catch(Exception e){}
+				finally
+				{
+					try
+					{
+						objectInputStream.close();
+						fileInputStream.close();
+					
+					}//TRY
+					catch(IOException e){};
+					
+				}//FINALLY
+			
+				directLoad = false;
+				
+			}//IF
+			
+			objectInputStream = null;
+			fileInputStream = null;
+			
+		}//IF
+		
+		if(directLoad)
+		{
+			dmfDirectory.loadDMFs(directory);
+			
+		}//IF
+		
+		return dmfDirectory;
 		
 	}//METHOD
 	
@@ -185,10 +250,10 @@ public class DmfIndexing
 			}//try
 			catch (IOException e){}
 			
-			fileOutputStream = null;
-			objectOutputStream = null;
-			
 		}//FINALLY
+		
+		fileOutputStream = null;
+		objectOutputStream = null;
 		
 	}//METHOD
 	
