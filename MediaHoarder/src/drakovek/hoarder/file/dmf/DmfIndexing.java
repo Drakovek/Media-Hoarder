@@ -264,7 +264,70 @@ public class DmfIndexing
 	 */
 	public void close()
 	{
+		removeItems();
+		deleteFiles();
 		saveListFile();
+		
+	}//METHOD
+	
+	/**
+	 * Removes items from the index list file if linked index files no longer exist or if a given index file hasn't been accessed in several sessions.
+	 * 
+	 * @since 2.0
+	 */
+	private void removeItems()
+	{
+		for(int i = 0; i < indexedDirectories.size(); i++)
+		{
+			if(indexedDirectories.get(i) != null)
+			{
+				if(lastRead.get(i) != null && lastRead.get(i).intValue() > 15)
+				{
+					indexedDirectories.set(i, null);
+					lastRead.set(i, null);
+					
+				}//IF
+				else
+				{
+					File currentFile = new File(indexFolder, Integer.toString(i));
+					if(!currentFile.exists())
+					{
+						indexedDirectories.set(i, null);
+						lastRead.set(i, null);
+						
+					}//IF
+					
+				}//ELSE
+				
+			}//IF
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Deletes index files that are not referenced in the index list file
+	 * 
+	 * @since 2.0
+	 */
+	public void deleteFiles()
+	{
+		File[] allFiles = indexFolder.listFiles();
+		for(File file: allFiles)
+		{
+			try
+			{
+				int index = Integer.parseInt(file.getName());
+				if(index > indexedDirectories.size() || indexedDirectories.get(index) == null)
+				{
+					file.delete();
+					
+				}//IF
+				
+			}//TRY
+			catch(NumberFormatException e){}
+			
+		}//FOR
 		
 	}//METHOD
 	
