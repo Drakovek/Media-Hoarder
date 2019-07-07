@@ -2,6 +2,7 @@ package drakovek.hoarder.gui.modes;
 
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
+import drakovek.hoarder.gui.artist.DeviantArtGUI;
 
 /**
  * Mode GUI for choosing between download modes.
@@ -38,6 +39,8 @@ public class DownloadModeGUI extends ModeBaseGUI
 		{
 			case DefaultLanguage.DEVIANTART_MODE:
 			{
+				new DeviantArtGUI(getSettings());
+				getParentGUI().dispose();
 				break;
 				
 			}//CASE
