@@ -1,13 +1,7 @@
 package drakovek.hoarder.file;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import javax.swing.UIManager;
 
-import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 
 /**
@@ -27,39 +21,7 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
-		//startGUI();
-
-		//TODO Use commented out code. Following code is for test purposes only.
-        BufferedReader bufferedReader =  new BufferedReader(new InputStreamReader(System.in));
-
-        String input = null;
-    	File file = null;
-    		
-    	while(file == null || !file.isDirectory())
-    	{
-    		System.out.println("Enter DMF Folder:"); //$NON-NLS-1$
-    		try
-    		{
-    			input = bufferedReader.readLine();
-    			if(input != null)
-    			{
-    				file = new File(input);
-    				
-    			}//IF
-    			
-    		}//TRY
-    		catch (IOException e){}
-    		
-    	}//WHILE
-    	
-    	DmfHandler dmfHandler = new DmfHandler();
-    	dmfHandler.loadDMFs(file, true, true);
-    	int size = dmfHandler.getSize();
-    	for(int i = 0; i < size; i++)
-    	{
-    		System.out.println(dmfHandler.getTitle(i));
-    		
-    	}//FOR
+		startGUI();
     	
 	}//METHOD
 	
