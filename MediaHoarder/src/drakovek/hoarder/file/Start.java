@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.UIManager;
 
-import drakovek.hoarder.file.dmf.DmfDatabase;
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 
 /**
@@ -52,12 +52,12 @@ public class Start
     		
     	}//WHILE
     	
-    	DmfDatabase database = new DmfDatabase();
-    	database.loadDMFs(file, true, true);
-    	int size = database.getSize();
+    	DmfHandler dmfHandler = new DmfHandler();
+    	dmfHandler.loadDMFs(file, true, true);
+    	int size = dmfHandler.getSize();
     	for(int i = 0; i < size; i++)
     	{
-    		System.out.println(database.getPageURL(i));
+    		System.out.println(dmfHandler.getTitle(i));
     		
     	}//FOR
     	
