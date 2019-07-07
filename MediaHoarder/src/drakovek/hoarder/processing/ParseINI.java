@@ -19,6 +19,33 @@ public class ParseINI
 	public static final String INI_EXTENSION = ".ini"; //$NON-NLS-1$
 	
 	/**
+	 * Returns a section of a .ini file based on what's under a given header
+	 * 
+	 * @param header INI header
+	 * @param iniText INI formatted text
+	 * @return Section of .ini file
+	 * @since 2.0
+	 */
+	public static ArrayList<String> getSection(final String header, final ArrayList<String> iniText)
+	{
+		ArrayList<String> section = new ArrayList<>();
+		int start;
+		for(start = 0; start < iniText.size() && !iniText.get(start).startsWith(header); start++);
+		start++;
+		
+		if(start < iniText.size())
+		{
+			int end;
+			for(end = start + 1; end < iniText.size() && !iniText.get(end).startsWith(Character.toString('[')); end++);
+			section = StringMethods.listToArrayList(iniText.subList(start, end));
+		
+		}//IF
+		
+		return section;
+		
+	}//METHOD
+	
+	/**
 	 * Gets a String value for a given variable under a given header from .ini formatted text.
 	 * 
 	 * @param header INI Header
@@ -32,16 +59,7 @@ public class ParseINI
 		String value = null;
 		if(header != null && header.length() > 0)
 		{
-			int start;
-			for(start = 0; start < iniText.size() && !iniText.get(start).startsWith(header); start++);
-			
-			if(start < iniText.size())
-			{
-				int end;
-				for(end = start + 1; end < iniText.size() && !iniText.get(end).startsWith(Character.toString('[')); end++);
-				value = getValue(variable, StringMethods.listToArrayList(iniText.subList(start, end)));
-			
-			}//IF
+			value = getValue(variable, getSection(header, iniText));
 			
 		}//IF
 		else
