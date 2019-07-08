@@ -3,6 +3,7 @@ package drakovek.hoarder.gui.modes;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.artist.DeviantArtGUI;
+import drakovek.hoarder.gui.artist.FurAffinityGUI;
 
 /**
  * Mode GUI for choosing between download modes.
@@ -46,6 +47,8 @@ public class DownloadModeGUI extends ModeBaseGUI
 			}//CASE
 			case DefaultLanguage.FUR_AFFINITY_MODE:
 			{
+				new FurAffinityGUI(getSettings());
+				getParentGUI().dispose();
 				break;
 				
 			}//CASE

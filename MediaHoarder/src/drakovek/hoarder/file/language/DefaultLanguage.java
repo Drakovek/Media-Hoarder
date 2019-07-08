@@ -422,6 +422,20 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String CHOOSE_DEVIANTART_FOLDER = "choose_deviantart_folder"; //$NON-NLS-1$
+
+	/**
+	 * Language variable for the title of the login GUI when logging into Fur Affinity.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FUR_AFFINITY_LOGIN = "fur_affinity_login"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Choose Fur Affinity Folder" menu item in the Fur Affinity GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CHOOSE_FUR_AFFINITY_FOLDER = "choose_fur_affinity_folder"; //$NON-NLS-1$
 	
 	//VIEWER
 	
@@ -536,7 +550,7 @@ public class DefaultLanguage
 		languageFile.add(new String());
 		languageFile.add("[ARTIST HOSTING]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ACTIONS, "Actions:")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(ARTISTS, "^Ar^tists:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ARTISTS, "Ar^tists:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHECK_NEW, "Check ^New Pages")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHECK_ALL, "Check All ^Pages")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_SINGLE, "^Download Single Page")); //$NON-NLS-1$
@@ -552,6 +566,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(LOGIN, "^Login")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_LOGIN, "DeviantArt Login")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_LOGIN, "Fur Affinity Login")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CHOOSE_FUR_AFFINITY_FOLDER, "^Choose Fur Affinity Folder")); //$NON-NLS-1$
 		
 		//VIEWER
 		languageFile.add(new String());

@@ -108,6 +108,13 @@ public class DSettings
 	private static final String DEVIANTART_DIRECTORY = "deviantart_directory"; //$NON-NLS-1$
 	
 	/**
+	 * INI Variable for the Fur Affinity directory
+	 * 
+	 * @since 2.0
+	 */
+	private static final String FUR_AFFINITY_DIRECTORY = "fur_affinity_directory"; //$NON-NLS-1$
+	
+	/**
 	 * INI Variable for the size of DMF preview thumbnails.
 	 * 
 	 * @since 2.0
@@ -209,6 +216,13 @@ public class DSettings
 	private File deviantArtDirectory;
 	
 	/**
+	 * Directory to save DMFs to when downloading from FurAffinity
+	 * 
+	 * @since 2.0
+	 */
+	private File furAffinityDirectory;
+	
+	/**
 	 * Size of the preview thumbnails in the viewer GUI
 	 * 
 	 * @since 2.0
@@ -279,6 +293,7 @@ public class DSettings
 		
 		//DOWNLOAD
 		deviantArtDirectory = null;
+		furAffinityDirectory = null;
 		
 		//VIEWER
 		previewSize = 100;
@@ -315,6 +330,7 @@ public class DSettings
 			
 			//DOWNLOAD
 			deviantArtDirectory = new File(ParseINI.getStringValue(null, DEVIANTART_DIRECTORY, settingsInfo, new String()));
+			furAffinityDirectory = new File(ParseINI.getStringValue(null, FUR_AFFINITY_DIRECTORY, settingsInfo, new String()));
 			
 			//VIEWER
 			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
@@ -353,6 +369,7 @@ public class DSettings
 		settingsInfo.add(new String());
 		settingsInfo.add("[DOWNLOAD]"); //$NON-NLS-1$
 		settingsInfo.add(ParseINI.getAssignmentString(DEVIANTART_DIRECTORY, deviantArtDirectory.getAbsolutePath()));
+		settingsInfo.add(ParseINI.getAssignmentString(FUR_AFFINITY_DIRECTORY, furAffinityDirectory.getAbsolutePath()));
 		
 		//VIEWER
 		settingsInfo.add(new String());
@@ -644,6 +661,30 @@ public class DSettings
 	public File getDeviantArtDirectory()
 	{
 		return deviantArtDirectory;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the Fur Affinity Directory
+	 * 
+	 * @param furAffinityDirectory Fur Affinity Directory
+	 * @since 2.0
+	 */
+	public void setFurAffinityDirectory(final File furAffinityDirectory)
+	{
+		this.furAffinityDirectory = furAffinityDirectory;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the Fur Affinity Directory
+	 * 
+	 * @return Fur Affinity Directory
+	 * @since 2.0
+	 */
+	public File getFurAffinityDirectory()
+	{
+		return furAffinityDirectory;
 		
 	}//METHOD
 	
