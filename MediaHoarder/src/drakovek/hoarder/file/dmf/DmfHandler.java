@@ -159,15 +159,15 @@ public class DmfHandler
 	}//METHOD
 	
 	/**
-	 * Gets the Authors from the DMF at a given index.
+	 * Gets the Artists from the DMF at a given index.
 	 * 
 	 * @param index Index
-	 * @return Authors
+	 * @return Artists
 	 * @since 2.0
 	 */
-	public String[] getAuthors(final int index)
+	public String[] getArtists(final int index)
 	{
-		return database.getAuthors(filtered.get(index).intValue());
+		return database.getArtists(filtered.get(index).intValue());
 		
 	}//METHOD
 	

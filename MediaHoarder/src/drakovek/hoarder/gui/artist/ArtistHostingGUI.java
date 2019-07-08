@@ -59,11 +59,11 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	private LoginGUI loginGUI;
 	
 	/**
-	 * Object for handling the author/creator list
+	 * Object for handling the artist list
 	 * 
 	 * @since 2.0
 	 */
-	private AuthorHandler authorHandler;
+	private ArtistHandler artistHandler;
 	
 	/**
 	 * Button to check new pages from which to save info
@@ -87,14 +87,14 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	private DButton singleButton;
 	
 	/**
-	 * Button to add creators from the creator list.
+	 * Button to add artists from the artist list.
 	 * 
 	 * @since 2.0
 	 */
 	private DButton addButton;
 	
 	/**
-	 * Button to remove creators from the creator list.
+	 * Button to remove artists from the artist list.
 	 * 
 	 * @since 2.0
 	 */
@@ -115,11 +115,11 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	private DCheckBox favoriteCheck;
 	
 	/**
-	 * List of creators to download from
+	 * List of artists to download from
 	 * 
 	 * @since 2.0
 	 */
-	private DList creatorList;
+	private DList artistList;
 	
 	/**
 	 * Initializes the ArtistHostingGUI
@@ -134,7 +134,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	{
 		super(settings, subtitleID);
 		fileChooser = new DFileChooser(settings);
-		authorHandler = new AuthorHandler(settings, subtitleID);
+		artistHandler = new ArtistHandler(settings, subtitleID);
 		this.loginGUI = loginGUI;
 		
 		//MENUS
@@ -177,18 +177,18 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		actionPanel.add(allButton);
 		actionPanel.add(singleButton);
 		
-		creatorList = new DList(this, true, DefaultLanguage.CREATORS);
-		DScrollPane creatorScroll = new DScrollPane(settings, creatorList);
+		artistList = new DList(this, true, DefaultLanguage.ARTISTS);
+		DScrollPane artistScroll = new DScrollPane(settings, artistList);
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
 		centerPanel.add(actionPanel);
-		centerPanel.add(creatorScroll);
+		centerPanel.add(artistScroll);
 		
 		//LABEL PANEL
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
 		labelPanel.add(new DLabel(this, null, DefaultLanguage.ACTIONS));
-		labelPanel.add(new DLabel(this, creatorList, DefaultLanguage.CREATORS));
+		labelPanel.add(new DLabel(this, artistList, DefaultLanguage.ARTISTS));
 		
 		//ADD PANEL
 		JPanel addPanel = new JPanel();
@@ -230,7 +230,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		getFrame().setMinimumSize(getFrame().getSize());
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
-		creatorList.setListData(StringMethods.arrayListToArray(authorHandler.getAuthors()));
+		artistList.setListData(StringMethods.arrayListToArray(artistHandler.getArtists()));
 		
 	}//CONSTRUCTOR
 	
@@ -251,7 +251,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	public abstract File getDirectory();
 	
 	/**
-	 * Starts the process to check pages for one or multiple authors.
+	 * Starts the process to check pages for one or multiple artists.
 	 * 
 	 * @param checkAll Whether to check all of the pages, if false only checks the new pages.
 	 * @since 2.0
@@ -280,7 +280,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		newButton.setEnabled(true);
 		allButton.setEnabled(true);
 		singleButton.setEnabled(true);
-		creatorList.setEnabled(true);
+		artistList.setEnabled(true);
 		addButton.setEnabled(true);
 		removeButton.setEnabled(true);
 		journalCheck.setEnabled(true);
@@ -295,7 +295,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		newButton.setEnabled(false);
 		allButton.setEnabled(false);
 		singleButton.setEnabled(false);
-		creatorList.setEnabled(false);
+		artistList.setEnabled(false);
 		addButton.setEnabled(false);
 		removeButton.setEnabled(false);
 		journalCheck.setEnabled(false);
@@ -325,13 +325,13 @@ public abstract class ArtistHostingGUI extends FrameGUI
 			case DefaultLanguage.ADD:
 			{
 				DTextDialog textDialog = new DTextDialog(getSettings());
-				String author = textDialog.openTextDialog(getFrame(), DefaultLanguage.ADD_CREATOR, DefaultLanguage.NAME_OF_CREATOR, null);
+				String artist = textDialog.openTextDialog(getFrame(), DefaultLanguage.ADD_ARTIST, DefaultLanguage.NAME_OF_ARTIST, null);
 				
-				if(author != null)
+				if(artist != null)
 				{
-					authorHandler.addAuthor(author);
-					creatorList.setListData(StringMethods.arrayListToArray(authorHandler.getAuthors()));
-					authorHandler.saveAuthors();
+					artistHandler.addArtist(artist);
+					artistList.setListData(StringMethods.arrayListToArray(artistHandler.getArtists()));
+					artistHandler.saveArtists();
 					
 				}//IF
 				
@@ -340,17 +340,17 @@ public abstract class ArtistHostingGUI extends FrameGUI
 			}//CASE
 			case DefaultLanguage.REMOVE:
 			{
-				int[] selected = creatorList.getSelectedIndices();
+				int[] selected = artistList.getSelectedIndices();
 				if(selected.length > 0)
 				{
 					DButtonDialog buttonDialog = new DButtonDialog(getSettings());;
 					String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-					String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.DELETE_CREATOR_MESSAGES, buttonIDs);
+					String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.DELETE_ARTIST_MESSAGES, buttonIDs);
 					if(result != null && result.equals(DefaultLanguage.YES))
 					{
-						authorHandler.deleteAuthors(selected);
-						creatorList.setListData(StringMethods.arrayListToArray(authorHandler.getAuthors()));
-						authorHandler.saveAuthors();
+						artistHandler.deleteArtists(selected);
+						artistList.setListData(StringMethods.arrayListToArray(artistHandler.getArtists()));
+						artistHandler.saveArtists();
 						
 					}//IF
 					

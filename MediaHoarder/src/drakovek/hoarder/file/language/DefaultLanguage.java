@@ -319,11 +319,11 @@ public class DefaultLanguage
 	public static final String ACTIONS = "actions"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Creators" label from the artist hosting GUI
+	 * Language variable for the "Artists" label from the artist hosting GUI
 	 * 
 	 * @since 2.0
 	 */
-	public static final String CREATORS = "creators"; //$NON-NLS-1$
+	public static final String ARTISTS = "artists"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Check New Pages" button from the artist hosting GUI
@@ -361,18 +361,18 @@ public class DefaultLanguage
 	public static final String SAVE_FAVORITES = "save_favorites"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Add Creator" title for adding creators in the artist hosting GUI
+	 * Language variable for the "Add Artist" title for adding artists in the artist hosting GUI
 	 * 
 	 * @since 2.0
 	 */
-	public static final String ADD_CREATOR = "add_creator"; //$NON-NLS-1$
+	public static final String ADD_ARTIST = "add_artist"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Name of Creator" message for adding creators in the artist hosting GUI
+	 * Language variable for the "Name of Artist" message for adding artists in the artist hosting GUI
 	 * 
 	 * @since 2.0
 	 */
-	public static final String[] NAME_OF_CREATOR = {"name_of_creator"}; //$NON-NLS-1$
+	public static final String[] NAME_OF_ARTIST = {"name_of_artist"}; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Are you sure?" title for dialogs.
@@ -382,11 +382,11 @@ public class DefaultLanguage
 	public static final String SURE_TITLE = "sure_title"; //$NON-NLS-1$
 	
 	/**
-	 * Language variables for message shown when removing creators in the Artist Hosting GUI
+	 * Language variables for message shown when removing artists in the Artist Hosting GUI
 	 * 
 	 * @since 2.0
 	 */
-	public static final String[] DELETE_CREATOR_MESSAGES = {"delete_creator_message_1", "delete_creator_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
+	public static final String[] DELETE_ARTIST_MESSAGES = {"delete_artist_message_1", "delete_artist_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
 	/**
 	 * Language variable for the "Username" label in the login GUI.
@@ -536,17 +536,17 @@ public class DefaultLanguage
 		languageFile.add(new String());
 		languageFile.add("[ARTIST HOSTING]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ACTIONS, "Actions:")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(CREATORS, "^Creators:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ARTISTS, "^Ar^tists:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHECK_NEW, "Check ^New Pages")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHECK_ALL, "Check All ^Pages")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_SINGLE, "^Download Single Page")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE_JOURNALS, "Save ^Journals")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE_FAVORITES, "Save Fa^vorites")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(ADD_CREATOR, "Add Creator")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(NAME_OF_CREATOR[0], "Name of Creator:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ADD_ARTIST, "Add Artist")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NAME_OF_ARTIST[0], "Name of Artist:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SURE_TITLE, "Are You Sure?")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(DELETE_CREATOR_MESSAGES[0], "Selected creators will be removed from your creator list.")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(DELETE_CREATOR_MESSAGES[1], "Remove creators?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DELETE_ARTIST_MESSAGES[0], "Selected artists will be removed from your creator list.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DELETE_ARTIST_MESSAGES[1], "Remove artists?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(USERNAME, "^Username:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PASSWORD, "^Password:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOGIN, "^Login")); //$NON-NLS-1$

@@ -53,11 +53,11 @@ public class DMF
 	private static final String TITLE = "title"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for the author(s) of the DMF media
+	 * INI variable for the artist(s) of the DMF media
 	 * 
 	 * @since 2.0
 	 */
-	private static final String AUTHORS = "authors"; //$NON-NLS-1$
+	private static final String ARTISTS = "artists"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for DMF artists, used for reading old DMFs
@@ -263,11 +263,11 @@ public class DMF
 	private String title;
 	
 	/**
-	 * Author(s) of the DMF media
+	 * Artist(s) of the DMF media
 	 * 
 	 * @since 2.0
 	 */
-	private String[] authors;
+	private String[] artists;
 	
 	/**
 	 * Time of publishing for the DMF media (Structured YYYYMMDDhhmm. Example: April 22, 2001 @ 4:30PM = 200104211630)
@@ -411,7 +411,7 @@ public class DMF
 		
 		//INFO
 		title = new String();
-		authors = new String[0];
+		artists = new String[0];
 		time = 0L;
 		webTags = new String[0];
 		description = new String();
@@ -454,11 +454,11 @@ public class DMF
 			{
 				//INFO
 				setTitle(ParseINI.getStringValue(null, TITLE, contents, title));
-				setAuthors(ParseINI.getStringListValue(null, AUTHORS, contents, new ArrayList<String>()));
-				if(getAuthors().length == 0)
+				setArtists(ParseINI.getStringListValue(null, ARTISTS, contents, new ArrayList<String>()));
+				if(getArtists().length == 0)
 				{
-					//IF NEW AUTHORS VARIABLE DOESN'T WORK, USE OLD ARTIST VARIABLE
-					setAuthors(ParseINI.getStringListValue(null, OLD_ARTIST, contents, new ArrayList<String>()));
+					//IF NEW ARTISTS VARIABLE DOESN'T WORK, USE OLD ARTIST VARIABLE
+					setArtists(ParseINI.getStringListValue(null, OLD_ARTIST, contents, new ArrayList<String>()));
 					
 				}//IF
 				
@@ -581,9 +581,9 @@ public class DMF
 			contents.add("[INFO]"); //$NON-NLS-1$
 			contents.add(ParseINI.getAssignmentString(TITLE, getTitle()));
 			
-			if(getAuthors().length > 0)
+			if(getArtists().length > 0)
 			{
-				contents.add(ParseINI.getAssignmentString(AUTHORS, getAuthors()));
+				contents.add(ParseINI.getAssignmentString(ARTISTS, getArtists()));
 				
 			}//IF
 			
@@ -812,39 +812,39 @@ public class DMF
 	}//METHOD
 	
 	/**
-	 * Gets the DMF Author(s)
+	 * Gets the DMF Artist(s)
 	 * 
-	 * @return DMF Authors
+	 * @return DMF Artists
 	 * @since 2.0
 	 */
-	public String[] getAuthors()
+	public String[] getArtists()
 	{
-		return authors;
+		return artists;
 		
 	}//METHOD
 	
 	/**
-	 * Sets the DMF Author(s)
+	 * Sets the DMF Artists(s)
 	 * 
-	 * @param authors DMF Authors
+	 * @param artists DMF Artists
 	 * @since 2.0
 	 */
-	public void setAuthors(final ArrayList<String> authors)
+	public void setArtists(final ArrayList<String> artists)
 	{
-		this.authors = StringMethods.arrayListToArray(authors);
+		this.artists = StringMethods.arrayListToArray(artists);
 		
 	}//METHOD
 	
 	/**
-	 * Sets the DMF Author variable from a single author String
+	 * Sets the DMF Artist variable from a single artist String
 	 * 
-	 * @param author DMF Author
+	 * @param artist DMF Artist
 	 * @since 2.0
 	 */
-	public void setAuthor(final String author)
+	public void setArtist(final String artist)
 	{
-		authors = new String[1];
-		authors[0] = author;
+		artists = new String[1];
+		artists[0] = artist;
 		
 	}//METHOD
 	

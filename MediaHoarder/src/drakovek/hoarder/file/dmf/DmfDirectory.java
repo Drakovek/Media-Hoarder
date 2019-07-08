@@ -51,11 +51,11 @@ public class DmfDirectory implements Serializable
 	private ArrayList<String> titles;
 	
 	/**
-	 * ArrayList containing Authors from the DMF class
+	 * ArrayList containing Artists from the DMF class
 	 * 
 	 * @since 2.0
 	 */
-	private ArrayList<String[]> authors;
+	private ArrayList<String[]> artists;
 
 	/**
 	 * ArrayList containing Times from the DMF class
@@ -200,7 +200,7 @@ public class DmfDirectory implements Serializable
 		
 		//INFO
 		titles = new ArrayList<>();
-		authors = new ArrayList<>();
+		artists = new ArrayList<>();
 		times = new ArrayList<>();
 		webTags = new ArrayList<>();
 		descriptions = new ArrayList<>();
@@ -268,7 +268,7 @@ public class DmfDirectory implements Serializable
 			
 			//INFO
 			titles.add(dmf.getTitle());
-			authors.add(dmf.getAuthors());
+			artists.add(dmf.getArtists());
 			times.add(new Long(dmf.getTime()));
 			webTags.add(dmf.getWebTags());
 			descriptions.add(dmf.getDescription());
@@ -318,7 +318,7 @@ public class DmfDirectory implements Serializable
 		if(valid && (
 		   size != getTitles().size() ||
 		   size != getIDs().size() ||
-		   size != getAuthors().size() ||
+		   size != getArtists().size() ||
 		   size != getTimes().size() ||
 		   size != getWebTags().size() ||
 		   size != getDescriptions().size() ||
@@ -345,7 +345,7 @@ public class DmfDirectory implements Serializable
 		   !(dmfFiles.get(0) instanceof java.io.File) ||
 		   !(ids.get(0) instanceof java.lang.String) ||
 		   !(titles.get(0) instanceof java.lang.String) ||
-		   !(authors.get(0) instanceof java.lang.String[]) ||
+		   !(artists.get(0) instanceof java.lang.String[]) ||
 		   !(times.get(0) instanceof java.lang.Long) ||
 		   !(descriptions.get(0) instanceof java.lang.String) ||
 		   !(pageURLs.get(0) instanceof java.lang.String) ||
@@ -417,14 +417,14 @@ public class DmfDirectory implements Serializable
 	}//METHOD
 	
 	/**
-	 * Returns ArrayList of Author String Arrays
+	 * Returns ArrayList of Artist String Arrays
 	 * 
-	 * @return Authors
+	 * @return Artists
 	 * @since 2.0
 	 */
-	public ArrayList<String[]> getAuthors()
+	public ArrayList<String[]> getArtists()
 	{
-		return authors;
+		return artists;
 		
 	}//METHOD
 	

@@ -36,11 +36,11 @@ public class DmfDatabase
 	private ArrayList<String> titles;
 	
 	/**
-	 * ArrayList containing Authors from the DMF class
+	 * ArrayList containing Artists from the DMF class
 	 * 
 	 * @since 2.0
 	 */
-	private ArrayList<String[]> authors;
+	private ArrayList<String[]> artists;
 
 	/**
 	 * ArrayList containing Times from the DMF class
@@ -172,7 +172,7 @@ public class DmfDatabase
 		
 		//INFO
 		titles = new ArrayList<>();
-		authors = new ArrayList<>();
+		artists = new ArrayList<>();
 		times = new ArrayList<>();
 		webTags = new ArrayList<>();
 		descriptions = new ArrayList<>();
@@ -297,7 +297,7 @@ public class DmfDatabase
 		
 		//INFO
 		titles.addAll(dmfDirectory.getTitles());
-		authors.addAll(dmfDirectory.getAuthors());
+		artists.addAll(dmfDirectory.getArtists());
 		times.addAll(dmfDirectory.getTimes());
 		webTags.addAll(dmfDirectory.getWebTags());
 		descriptions.addAll(dmfDirectory.getDescriptions());
@@ -374,15 +374,15 @@ public class DmfDatabase
 	}//METHOD
 	
 	/**
-	 * Gets the Authors from the DMF at a given index.
+	 * Gets the Artists from the DMF at a given index.
 	 * 
 	 * @param index Index
-	 * @return Authors
+	 * @return Artists
 	 * @since 2.0
 	 */
-	public String[] getAuthors(final int index)
+	public String[] getArtists(final int index)
 	{
-		return authors.get(index);
+		return artists.get(index);
 		
 	}//METHOD
 	
