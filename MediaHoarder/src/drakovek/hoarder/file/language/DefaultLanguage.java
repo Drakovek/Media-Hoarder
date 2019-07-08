@@ -62,6 +62,20 @@ public class DefaultLanguage
 	public static final String REMOVE = "remove"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for "Yes"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String YES = "yes"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "No"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String NO = "no"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "Cancel"
 	 * 
 	 * @since 2.0
@@ -361,6 +375,20 @@ public class DefaultLanguage
 	public static final String[] NAME_OF_CREATOR = {"name_of_creator"}; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Are you sure?" title for dialogs.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SURE_TITLE = "sure_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variables for message shown when removing creators in the Artist Hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String[] DELETE_CREATOR_MESSAGES = {"delete_creator_message_1", "delete_creator_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
+	
+	/**
 	 * Language variable for the "Choose DeviantArt Folder" menu item in the DeviantArt GUI
 	 * 
 	 * @since 2.0
@@ -418,9 +446,11 @@ public class DefaultLanguage
 		languageFile.add("[COMMON]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TITLE_VALUE, "Drak's Digital Hoarder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OK, "^OK")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CANCEL, "^Cancel")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD, "^Add")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REMOVE, "^Remove")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(CANCEL, "^Cancel")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(YES, "^Yes")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NO, "^No")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FILE, "^File")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN, "^Open")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(EXIT, "^Exit")); //$NON-NLS-1$
@@ -486,6 +516,9 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SAVE_FAVORITES, "Save Fa^vorites")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD_CREATOR, "Add Creator")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NAME_OF_CREATOR[0], "Name of Creator:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SURE_TITLE, "Are You Sure?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DELETE_CREATOR_MESSAGES[0], "Selected creators will be removed from your creator list.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DELETE_CREATOR_MESSAGES[1], "Remove creators?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
 		
 		//VIEWER

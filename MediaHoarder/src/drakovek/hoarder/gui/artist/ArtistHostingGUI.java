@@ -23,6 +23,7 @@ import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
+import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
 import drakovek.hoarder.processing.StringMethods;
@@ -304,6 +305,25 @@ public abstract class ArtistHostingGUI extends FrameGUI
 				
 				break;
 				
+			}//CASE
+			case DefaultLanguage.REMOVE:
+			{
+				int[] selected = creatorList.getSelectedIndices();
+				if(selected.length > 0)
+				{
+					DButtonDialog buttonDialog = new DButtonDialog(getSettings());;
+					String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
+					String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.DELETE_CREATOR_MESSAGES, buttonIDs);
+					if(result != null && result.equals(DefaultLanguage.YES))
+					{
+						authorHandler.deleteAuthors(selected);
+						creatorList.setListData(StringMethods.arrayListToArray(authorHandler.getAuthors()));
+						authorHandler.saveAuthors();
+						
+					}//IF
+					
+				}//IF
+				break;
 			}//CASE
 			case DefaultLanguage.RESTART_PROGRAM:
 			{

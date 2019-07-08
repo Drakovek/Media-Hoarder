@@ -127,6 +127,39 @@ public class AuthorHandler
 	}//METHOD
 	
 	/**
+	 * Removes the authors at the specified indexes from the author list.
+	 * 
+	 * @param indexes Indexes of the authors to remove.
+	 * @since 2.0
+	 */
+	public void deleteAuthors(final int[] indexes)
+	{
+		for(int i = 0; i < indexes.length; i++)
+		{
+			if(indexes[i] < authors.size())
+			{
+				authors.set(indexes[i], null);
+				
+			}//IF
+			
+		}//FOR
+		
+		for(int i = 0; i < authors.size(); i++)
+		{
+			if(authors.get(i) == null)
+			{
+				authors.remove(i);
+				i--;
+				
+			}//if
+			
+		}//FOR
+		
+		organizeAuthors();
+		
+	}//METHOD
+	
+	/**
 	 * Makes sure the author list contains no duplicates and are in alpha-numerical order.
 	 * 
 	 * @since 2.0
