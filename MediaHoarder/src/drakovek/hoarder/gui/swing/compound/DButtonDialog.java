@@ -65,9 +65,11 @@ public class DButtonDialog extends BaseGUI
 	public String openButtonDialog(DFrame owner, final String titleID, final String[] messageIDs, final String[] buttonIDs)
 	{
 		returnString = null;
+		owner.setAllowExit(false);
     	dialog = new DDialog(owner, getDialogPanel(messageIDs, buttonIDs), getSettings().getLanuageText(titleID), 0, 0);
     	dialog.setVisible(true);
     	dialog = null;
+    	owner.setAllowExit(true);
     	return returnString;
 	
 	}//METHOD

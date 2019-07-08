@@ -389,6 +389,34 @@ public class DefaultLanguage
 	public static final String[] DELETE_CREATOR_MESSAGES = {"delete_creator_message_1", "delete_creator_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
 	/**
+	 * Language variable for the "Username" label in the login GUI.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String USERNAME = "username"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Password" label in the login GUI.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String PASSWORD = "password"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Login" button in the login GUI.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOGIN = "login"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the title of the login GUI when logging into DeviantArt.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DEVIANTART_LOGIN = "deviantart_login"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Choose DeviantArt Folder" menu item in the DeviantArt GUI
 	 * 
 	 * @since 2.0
@@ -519,6 +547,10 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SURE_TITLE, "Are You Sure?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_CREATOR_MESSAGES[0], "Selected creators will be removed from your creator list.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_CREATOR_MESSAGES[1], "Remove creators?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(USERNAME, "^Username:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(PASSWORD, "^Password:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOGIN, "^Login")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_LOGIN, "DeviantArt Login")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
 		
 		//VIEWER

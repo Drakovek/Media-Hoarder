@@ -228,6 +228,7 @@ public class DFileChooser extends BaseGUI
 	 */
 	public File getFileOpen(DFrame owner, final File startDirectory)
 	{
+		owner.setAllowExit(false);
 		returnFile = null;
 		initializeChooser(new String[0], startDirectory);
 		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), getSettings().getFontSize() * 30, getSettings().getFontSize() * 20);
@@ -247,6 +248,7 @@ public class DFileChooser extends BaseGUI
 
 		dialog.setVisible(true);
 		dialog = null;
+		owner.setAllowExit(true);
 		return returnFile;
 		
 	}//METHOD

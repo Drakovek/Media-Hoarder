@@ -68,10 +68,12 @@ public class DTextDialog extends BaseGUI
 	 */
 	public String openTextDialog(DFrame owner, final String titleID, final String[] messageIDs, final String fieldText)
 	{
+		owner.setAllowExit(false);
 		returnString = null;
 		dialog = new DDialog(owner, getDialogPanel(messageIDs, fieldText), getSettings().getLanuageText(titleID), getSettings().getFontSize() * getSettings().getFrameWidth(), 0);
 		dialog.setVisible(true);
 		dialog = null;
+		owner.setAllowExit(true);
 		return returnString;
 		
 	}//METHOD

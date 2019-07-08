@@ -52,6 +52,13 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	private DFileChooser fileChooser;
 	
 	/**
+	 * GUI for logging into the artist hosting website
+	 * 
+	 * @since 2.0
+	 */
+	private LoginGUI loginGUI;
+	
+	/**
 	 * Object for handling the author/creator list
 	 * 
 	 * @since 2.0
@@ -118,15 +125,17 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	 * Initializes the ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
+	 * @param loginGUI GUI for logging into the artist hosting website
 	 * @param subtitleID ID for the sub-title of the frame
 	 * @param openID Language ID for the "open" menu item
 	 * @since 2.0
 	 */
-	public ArtistHostingGUI(DSettings settings, final String subtitleID, final String openID)
+	public ArtistHostingGUI(DSettings settings, LoginGUI loginGUI, final String subtitleID, final String openID)
 	{
 		super(settings, subtitleID);
 		fileChooser = new DFileChooser(settings);
 		authorHandler = new AuthorHandler(settings, subtitleID);
+		this.loginGUI = loginGUI;
 		
 		//MENUS
 		JMenuBar menubar = new JMenuBar();
@@ -241,6 +250,29 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	 */
 	public abstract File getDirectory();
 	
+	/**
+	 * Starts the process to check pages for one or multiple authors.
+	 * 
+	 * @param checkAll Whether to check all of the pages, if false only checks the new pages.
+	 * @since 2.0
+	 */
+	private void checkPages(final boolean checkAll)
+	{
+		initializeDownloadProcess();
+		
+	}//METHOD
+	
+	/**
+	 * Sets up the object for starting a download process
+	 * 
+	 * @since 2.0
+	 */
+	private void initializeDownloadProcess()
+	{
+		loginGUI.openLoginDialog(getFrame());
+		
+	}//METHOD
+	
 	@Override
 	public void enableAll()
 	{
@@ -336,6 +368,17 @@ public abstract class ArtistHostingGUI extends FrameGUI
 				break;
 				
 			}//CASE
+			case DefaultLanguage.CHECK_NEW:
+			{
+				checkPages(false);
+				break;
+				
+			}//CASE
+			case DefaultLanguage.CHECK_ALL:
+			{
+				checkPages(true);
+				break;
+			}
 			
 		}//SWITCH
 		
