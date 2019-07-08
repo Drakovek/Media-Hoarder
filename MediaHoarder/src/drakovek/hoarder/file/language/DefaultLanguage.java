@@ -177,6 +177,13 @@ public class DefaultLanguage
 	 */
 	public static final String FONT_PREVIEW = "font_preview"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for the text used to show that no directory is selected in the settings bar.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String NO_DIRECTORY = "no_directory"; //$NON-NLS-1$
+	
 	//MODES
 	
 	/**
@@ -339,6 +346,13 @@ public class DefaultLanguage
 	 */
 	public static final String SAVE_FAVORITES = "save_favorites"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for the "Choose DeviantArt Folder" menu item in the DeviantArt GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CHOOSE_DEVIANTART_FOLDER = "choose_deviantart_folder"; //$NON-NLS-1$
+	
 	//VIEWER
 	
 	/**
@@ -417,6 +431,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FONT_AA, "^Anti-Aliasing")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT_SIZE, "^Size")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT_PREVIEW, "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG?! the quick brown fox jumps over the lazy dog. 0123456789")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORY, "(No Directory Selected)")); //$NON-NLS-1$
 		
 		//MODES
 		languageFile.add(new String());
@@ -455,6 +470,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_SINGLE, "^Download Single Page")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE_JOURNALS, "Save ^Journals")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE_FAVORITES, "Save Fa^vorites")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
 		
 		//VIEWER
 		languageFile.add(new String());

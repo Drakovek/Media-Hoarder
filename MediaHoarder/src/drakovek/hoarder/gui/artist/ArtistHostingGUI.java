@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.io.File;
 
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
@@ -17,7 +20,10 @@ import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DCheckBox;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
+import drakovek.hoarder.gui.swing.components.DMenu;
+import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
+import drakovek.hoarder.gui.swing.compound.DFileChooser;
 
 /**
  * Creates GUI for downloading files from artist hosting websites.
@@ -34,6 +40,13 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	 * @since 2.0
 	 */
 	private SettingsBarGUI settingsBar;
+	
+	/**
+	 * DFileChooser for the GUI to choose the directory in which to save files.
+	 * 
+	 * @since 2.0
+	 */
+	private DFileChooser fileChooser;
 	
 	/**
 	 * Button to check new pages from which to save info
@@ -96,11 +109,24 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	 * 
 	 * @param settings Program Settings
 	 * @param subtitleID ID for the sub-title of the frame
+	 * @param openID Language ID for the "open" menu item
 	 * @since 2.0
 	 */
-	public ArtistHostingGUI(DSettings settings, final String subtitleID)
+	public ArtistHostingGUI(DSettings settings, final String subtitleID, final String openID)
 	{
 		super(settings, subtitleID);
+		fileChooser = new DFileChooser(settings);
+		
+		//MENUS
+		JMenuBar menubar = new JMenuBar();
+		DMenu fileMenu = new DMenu(this, DefaultLanguage.FILE);
+		menubar.add(fileMenu);
+		DMenuItem openItem = new DMenuItem(this, DefaultLanguage.OPEN);
+		openItem.setTextID(openID);
+		fileMenu.add(openItem);
+		fileMenu.addSeparator();
+		fileMenu.add(new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM));
+		fileMenu.add(new DMenuItem(this, DefaultLanguage.EXIT));
 		
 		//TITLE PANEL
 		DLabel titleLabel = new DLabel(this, null, subtitleID);
@@ -175,6 +201,8 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		
 		//FINALIZE GUI
 		settingsBar = new SettingsBarGUI(this);
+		settingsBar.setLabel(getDirectory());
+		getFrame().setJMenuBar(menubar);
 		getFrame().getContentPane().add(this.getSpacedPanel(titlePanel, 1, 0, true, true, true, true), BorderLayout.NORTH);
 		getFrame().getContentPane().add(fullPanel, BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
@@ -184,6 +212,22 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		getFrame().setVisible(true);
 		
 	}//CONSTRUCTOR
+	
+	/**
+	 * Sets the directory from which to save DMFs
+	 * 
+	 * @param directory Given Directory
+	 * @since 2.0
+	 */
+	public abstract void setDirectory(final File directory);
+	
+	/**
+	 * Returns the directory from which to save DMFs
+	 * 
+	 * @return Directory
+	 * @since 2.0
+	 */
+	public abstract File getDirectory();
 	
 	@Override
 	public void enableAll()
@@ -218,7 +262,30 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	@Override
 	public void event(String id, int value)
 	{
-
+		if(id.equals(DefaultLanguage.OPEN))
+		{
+			File file = fileChooser.getFileOpen(getFrame(), getDirectory());
+			
+			if(file != null && file.isDirectory())
+			{
+				setDirectory(file);
+				settingsBar.setLabel(getDirectory());
+				
+			}//IF
+			
+		}//IF
+		else if(id.equals(DefaultLanguage.RESTART_PROGRAM))
+		{
+			Start.startGUI(getSettings());
+			dispose();
+			
+		}//ELSE IF
+		else if(id.equals(DefaultLanguage.EXIT))
+		{
+			dispose();
+			
+		}//ELSE IF
+		
 	}//METHOD
 	
 }//CLASS

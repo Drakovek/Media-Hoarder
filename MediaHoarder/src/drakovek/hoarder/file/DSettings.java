@@ -31,25 +31,11 @@ public class DSettings
 	private static final String SETTINGS_FILE = "settings.ini"; //$NON-NLS-1$
 	
 	/**
-	 * Main Header for the program's settings file.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String SETTINGS_HEADER = "[SETTINGS]"; //$NON-NLS-1$
-	
-	/**
 	 * INI Variable for the language name.
 	 * 
 	 * @since 2.0
 	 */
 	private static final String LANGUAGE_NAME = "language_name"; //$NON-NLS-1$
-	
-	/**
-	 * Swing Header for the program's settings file.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String SWING_HEADER = "[SWING]"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the space multiplier.
@@ -115,11 +101,11 @@ public class DSettings
 	private static final String FONT_AA = "font_aa"; //$NON-NLS-1$
 	
 	/**
-	 * Viewer Header for the program's settings file.
+	 * INI Variable for the DeviantArt directory
 	 * 
 	 * @since 2.0
 	 */
-	private static final String VIEWER_HEADER = "[VIEWER]"; //$NON-NLS-1$
+	private static final String DEVIANTART_DIRECTORY = "deviantart_directory"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the size of DMF preview thumbnails.
@@ -216,6 +202,13 @@ public class DSettings
 	private boolean fontAA;
 	
 	/**
+	 * Directory to save DMFs to when downloading from DeviantArt
+	 * 
+	 * @since 2.0
+	 */
+	private File deviantArtDirectory;
+	
+	/**
 	 * Size of the preview thumbnails in the viewer GUI
 	 * 
 	 * @since 2.0
@@ -284,6 +277,9 @@ public class DSettings
 		fontBold = false;
 		fontAA = true;
 		
+		//DOWNLOAD
+		deviantArtDirectory = null;
+		
 		//VIEWER
 		previewSize = 100;
 		
@@ -317,6 +313,9 @@ public class DSettings
 			fontBold = ParseINI.getBooleanValue(null, FONT_BOLD, settingsInfo, fontBold);
 			fontAA = ParseINI.getBooleanValue(null, FONT_AA, settingsInfo, fontAA);
 			
+			//DOWNLOAD
+			deviantArtDirectory = new File(ParseINI.getStringValue(null, DEVIANTART_DIRECTORY, settingsInfo, new String()));
+			
 			//VIEWER
 			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
 			
@@ -334,12 +333,12 @@ public class DSettings
 		ArrayList<String> settingsInfo = new ArrayList<>();
 		
 		//GENERAL
-		settingsInfo.add(SETTINGS_HEADER);
+		settingsInfo.add("[SETTINGS]"); //$NON-NLS-1$
 		settingsInfo.add(ParseINI.getAssignmentString(LANGUAGE_NAME, languageName));
 		
 		//SWING
 		settingsInfo.add(new String());
-		settingsInfo.add(SWING_HEADER);
+		settingsInfo.add("[SWING]"); //$NON-NLS-1$
 		settingsInfo.add(ParseINI.getAssignmentString(SPACE_MULTIPLIER, spaceMultiplier));
 		settingsInfo.add(ParseINI.getAssignmentString(FRAME_WIDTH, frameWidth));
 		settingsInfo.add(ParseINI.getAssignmentString(FRAME_HEIGHT, frameHeight));
@@ -350,9 +349,14 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_BOLD, fontBold));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_AA, fontAA));
 		
+		//DOWNLOAD
+		settingsInfo.add(new String());
+		settingsInfo.add("[DOWNLOAD]"); //$NON-NLS-1$
+		settingsInfo.add(ParseINI.getAssignmentString(DEVIANTART_DIRECTORY, deviantArtDirectory.getAbsolutePath()));
+		
 		//VIEWER
 		settingsInfo.add(new String());
-		settingsInfo.add(VIEWER_HEADER);
+		settingsInfo.add("[VIEWER]"); //$NON-NLS-1$
 		settingsInfo.add(ParseINI.getAssignmentString(PREVIEW_SIZE, previewSize));
 		
 		if(dataFolder != null && dataFolder.isDirectory())
@@ -616,6 +620,30 @@ public class DSettings
 	public boolean getFontAA()
 	{
 		return fontAA;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DeviantArt directory.
+	 * 
+	 * @param deviantArtDirectory DeviantArt Directory
+	 * @since 2.0
+	 */
+	public void setDeviantArtDirectory(final File deviantArtDirectory)
+	{
+		this.deviantArtDirectory = deviantArtDirectory;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DeviantArt directory.
+	 * 
+	 * @return DeviantArt Directory
+	 * @since 2.0
+	 */
+	public File getDeviantArtDirectory()
+	{
+		return deviantArtDirectory;
 		
 	}//METHOD
 	

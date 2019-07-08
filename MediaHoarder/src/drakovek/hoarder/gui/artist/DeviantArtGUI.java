@@ -1,5 +1,7 @@
 package drakovek.hoarder.gui.artist;
 
+import java.io.File;
+
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 
@@ -20,8 +22,22 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 */
 	public DeviantArtGUI(DSettings settings)
 	{
-		super(settings, DefaultLanguage.DEVIANTART_MODE);
+		super(settings, DefaultLanguage.DEVIANTART_MODE, DefaultLanguage.CHOOSE_DEVIANTART_FOLDER);
 		
 	}//CONSTRUCTOR
+
+	@Override
+	public void setDirectory(File directory)
+	{
+		getSettings().setDeviantArtDirectory(directory);
+		
+	}//METHOD
+
+	@Override
+	public File getDirectory()
+	{
+		return getSettings().getDeviantArtDirectory();
+		
+	}//METHOD
 	
 }//CLASS

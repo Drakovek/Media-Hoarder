@@ -2,6 +2,7 @@ package drakovek.hoarder.gui.settings;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -23,6 +24,12 @@ import drakovek.hoarder.gui.swing.components.DLabel;
  */
 public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 {
+	/**
+	 * Main label for the Settings Bar
+	 * 
+	 * @since 2.0
+	 */
+	private DLabel label;
 	
 	/**
 	 * Main Settings Bar Panel for the class
@@ -58,7 +65,7 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 		this.ownerGUI = ownerGUI;
 		
 		settingsButton = new DButton(this, DefaultLanguage.SETTINGS);
-		DLabel label = new DLabel(this, null, new String());
+		label = new DLabel(this, null, new String());
 		
 		JPanel internalPNL = new JPanel();
 		internalPNL.setLayout(new GridBagLayout());
@@ -91,6 +98,27 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	public JPanel getPanel()
 	{
 		return barPanel;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the main label for the settings bar to reflect a currently selected directory.
+	 * 
+	 * @param file Directory to display
+	 * @since 2.0
+	 */
+	public void setLabel(final File file)
+	{
+		if(file != null && file.isDirectory())
+		{
+			label.setText(file.getAbsolutePath());
+			
+		}//IF
+		else
+		{
+			label.setText(getSettings().getLanuageText(DefaultLanguage.NO_DIRECTORY));
+			
+		}//ELSE
 		
 	}//METHOD
 
