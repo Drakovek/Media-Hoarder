@@ -347,6 +347,20 @@ public class DefaultLanguage
 	public static final String SAVE_FAVORITES = "save_favorites"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Add Creator" title for adding creators in the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ADD_CREATOR = "add_creator"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Name of Creator" message for adding creators in the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String[] NAME_OF_CREATOR = {"name_of_creator"}; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Choose DeviantArt Folder" menu item in the DeviantArt GUI
 	 * 
 	 * @since 2.0
@@ -470,6 +484,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_SINGLE, "^Download Single Page")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE_JOURNALS, "Save ^Journals")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE_FAVORITES, "Save Fa^vorites")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ADD_CREATOR, "Add Creator")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NAME_OF_CREATOR[0], "Name of Creator:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
 		
 		//VIEWER

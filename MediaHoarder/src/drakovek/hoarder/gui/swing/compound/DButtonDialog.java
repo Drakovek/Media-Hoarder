@@ -25,12 +25,6 @@ import drakovek.hoarder.gui.swing.components.DLabel;
  */
 public class DButtonDialog extends BaseGUI
 {
-	/**
-	 * Program Settings
-	 * 
-	 * @since 2.0
-	 */
-	private DSettings settings;
 	
 	/**
 	 * Main Button Dialog
@@ -55,7 +49,6 @@ public class DButtonDialog extends BaseGUI
 	public DButtonDialog(DSettings settings)
 	{
 		super(settings);
-		this.settings = settings;
 		
 	}//CONSTRUCTOR
 
@@ -71,7 +64,8 @@ public class DButtonDialog extends BaseGUI
 	 */
 	public String openButtonDialog(DFrame owner, final String titleID, final String[] messageIDs, final String[] buttonIDs)
 	{
-    	dialog = new DDialog(owner, getDialogPanel(messageIDs, buttonIDs), settings.getLanuageText(titleID), 0, 0);
+		returnString = null;
+    	dialog = new DDialog(owner, getDialogPanel(messageIDs, buttonIDs), getSettings().getLanuageText(titleID), 0, 0);
     	dialog.setVisible(true);
     	dialog = null;
     	return returnString;
@@ -126,7 +120,7 @@ public class DButtonDialog extends BaseGUI
     	
     	//CREATE BUTTON PANEL
     	JPanel internalButtonPNL = new JPanel();
-		internalButtonPNL.setLayout(new GridLayout(1, buttonIDs.length, settings.getSpaceSize(), settings.getSpaceSize()));
+		internalButtonPNL.setLayout(new GridLayout(1, buttonIDs.length, getSettings().getSpaceSize(), getSettings().getSpaceSize()));
     	for(int i = 0; i < buttonIDs.length; i++)
     	{
     		DButton currentBTN = new DButton(this, buttonIDs[i]);

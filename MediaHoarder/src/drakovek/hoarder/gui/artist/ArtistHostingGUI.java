@@ -24,6 +24,7 @@ import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
+import drakovek.hoarder.gui.swing.compound.DTextDialog;
 
 /**
  * Creates GUI for downloading files from artist hosting websites.
@@ -262,29 +263,49 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	@Override
 	public void event(String id, int value)
 	{
-		if(id.equals(DefaultLanguage.OPEN))
+		switch(id)
 		{
-			File file = fileChooser.getFileOpen(getFrame(), getDirectory());
-			
-			if(file != null && file.isDirectory())
+			case DefaultLanguage.OPEN:
 			{
-				setDirectory(file);
-				settingsBar.setLabel(getDirectory());
+				File file = fileChooser.getFileOpen(getFrame(), getDirectory());
+			
+				if(file != null && file.isDirectory())
+				{
+					setDirectory(file);
+					settingsBar.setLabel(getDirectory());
 				
-			}//IF
+				}//IF
+				
+				break;
+				
+			}//CASE
+			case DefaultLanguage.ADD:
+			{
+				DTextDialog textDialog = new DTextDialog(getSettings());
+				String author = textDialog.openTextDialog(getFrame(), DefaultLanguage.ADD_CREATOR, DefaultLanguage.NAME_OF_CREATOR, null);
+				
+				if(author != null)
+				{
+					System.out.println(author);
+					
+				}//IF
+				
+				break;
+				
+			}//CASE
+			case DefaultLanguage.RESTART_PROGRAM:
+			{
+				Start.startGUI(getSettings());
+				
+			}//CASE
+			case DefaultLanguage.EXIT:
+			{
+				dispose();
+				break;
+				
+			}//CASE
 			
-		}//IF
-		else if(id.equals(DefaultLanguage.RESTART_PROGRAM))
-		{
-			Start.startGUI(getSettings());
-			dispose();
-			
-		}//ELSE IF
-		else if(id.equals(DefaultLanguage.EXIT))
-		{
-			dispose();
-			
-		}//ELSE IF
+		}//SWITCH
 		
 	}//METHOD
 	
