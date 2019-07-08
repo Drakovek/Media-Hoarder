@@ -48,6 +48,20 @@ public class DefaultLanguage
 	public static final String OK = "ok"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for "Add"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ADD = "add"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "Remove"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String REMOVE = "remove"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "Cancel"
 	 * 
 	 * @since 2.0
@@ -274,6 +288,57 @@ public class DefaultLanguage
 	 */
 	public static final String NAME = "name"; //$NON-NLS-1$
 	
+	//ARTIST HOSTING
+	
+	/**
+	 * Language variable for the "Actions" label from the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ACTIONS = "actions"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Creators" label from the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CREATORS = "creators"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Check New Pages" button from the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CHECK_NEW = "check_new"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Check All Pages" button from the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CHECK_ALL = "check_all"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Download Single" button from the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DOWNLOAD_SINGLE = "download_single"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Save Journals" check box from the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SAVE_JOURNALS = "save_journals"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Save Favorites" check box from the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SAVE_FAVORITES = "save_favorites"; //$NON-NLS-1$
+	
 	//VIEWER
 	
 	/**
@@ -325,6 +390,8 @@ public class DefaultLanguage
 		languageFile.add("[COMMON]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TITLE_VALUE, "Drak's Digital Hoarder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OK, "^OK")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ADD, "^Add")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(REMOVE, "^Remove")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCEL, "^Cancel")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FILE, "^File")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN, "^Open")); //$NON-NLS-1$
@@ -378,6 +445,16 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(PARENT, "^Parent")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NAME, "^Name:")); //$NON-NLS-1$
 		
+		//ARTIST HOSTING
+		languageFile.add(new String());
+		languageFile.add("[ARTIST HOSTING]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ACTIONS, "Actions:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CREATORS, "^Creators:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CHECK_NEW, "Check ^New Pages")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CHECK_ALL, "Check All ^Pages")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_SINGLE, "^Download Single Page")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SAVE_JOURNALS, "Save ^Journals")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SAVE_FAVORITES, "Save Fa^vorites")); //$NON-NLS-1$
 		
 		//VIEWER
 		languageFile.add(new String());
