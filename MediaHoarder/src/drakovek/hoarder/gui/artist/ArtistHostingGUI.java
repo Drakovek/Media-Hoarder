@@ -25,6 +25,7 @@ import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
+import drakovek.hoarder.processing.StringMethods;
 
 /**
  * Creates GUI for downloading files from artist hosting websites.
@@ -48,6 +49,13 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	 * @since 2.0
 	 */
 	private DFileChooser fileChooser;
+	
+	/**
+	 * Object for handling the author/creator list
+	 * 
+	 * @since 2.0
+	 */
+	private AuthorHandler authorHandler;
 	
 	/**
 	 * Button to check new pages from which to save info
@@ -117,6 +125,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	{
 		super(settings, subtitleID);
 		fileChooser = new DFileChooser(settings);
+		authorHandler = new AuthorHandler(settings, subtitleID);
 		
 		//MENUS
 		JMenuBar menubar = new JMenuBar();
@@ -211,6 +220,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		getFrame().setMinimumSize(getFrame().getSize());
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
+		creatorList.setListData(StringMethods.arrayListToArray(authorHandler.getAuthors()));
 		
 	}//CONSTRUCTOR
 	
@@ -286,7 +296,9 @@ public abstract class ArtistHostingGUI extends FrameGUI
 				
 				if(author != null)
 				{
-					System.out.println(author);
+					authorHandler.addAuthor(author);
+					creatorList.setListData(StringMethods.arrayListToArray(authorHandler.getAuthors()));
+					authorHandler.saveAuthors();
 					
 				}//IF
 				
