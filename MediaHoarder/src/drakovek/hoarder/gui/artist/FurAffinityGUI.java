@@ -39,5 +39,18 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		return getSettings().getFurAffinityDirectory();
 		
 	}//METHOD
+
+	@Override
+	public void login(String username, String password)
+	{
+		
+	}//METHOD
+
+	@Override
+	public boolean isLoggedIn()
+	{
+		return false;
+		
+	}//METHOD
 	
 }//METHOD

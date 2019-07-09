@@ -136,9 +136,9 @@ public class ArtistHandler
 	{
 		for(int i = 0; i < indexes.length; i++)
 		{
-			if(indexes[i] < artists.size())
+			if(indexes[i] > 0 && (indexes[i] - 1) < artists.size())
 			{
-				artists.set(indexes[i], null);
+				artists.set((indexes[i] - 1), null);
 				
 			}//IF
 			

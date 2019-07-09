@@ -39,5 +39,18 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		return getSettings().getDeviantArtDirectory();
 		
 	}//METHOD
+
+	@Override
+	public void login(String username, String password)
+	{
+		
+	}//METHOD
+
+	@Override
+	public boolean isLoggedIn()
+	{
+		return false;
+		
+	}//METHOD
 	
 }//CLASS

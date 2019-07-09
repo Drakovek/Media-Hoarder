@@ -368,6 +368,13 @@ public class DefaultLanguage
 	public static final String ADD_ARTIST = "add_artist"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "All Artists" item in the artist list of the artist hosting GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ALL_ARTISTS = "all_artists"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Name of Artist" message for adding artists in the artist hosting GUI
 	 * 
 	 * @since 2.0
@@ -564,6 +571,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SAVE_JOURNALS, "Save ^Journals")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE_FAVORITES, "Save Fa^vorites")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD_ARTIST, "Add Artist")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ALL_ARTISTS, "[ALL ARTISTS]")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NAME_OF_ARTIST[0], "Name of Artist:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SURE_TITLE, "Are You Sure?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_ARTIST_MESSAGES[0], "Selected artists will be removed from your creator list.")); //$NON-NLS-1$

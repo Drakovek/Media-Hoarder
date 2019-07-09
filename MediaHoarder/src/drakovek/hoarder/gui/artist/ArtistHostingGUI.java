@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -35,7 +36,7 @@ import drakovek.hoarder.processing.StringMethods;
  * @version 2.0
  * @since 2.0
  */
-public abstract class ArtistHostingGUI extends FrameGUI
+public abstract class ArtistHostingGUI extends FrameGUI implements LoginMethods
 {
 	/**
 	 * Settings Bar for the GUI
@@ -136,6 +137,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		fileChooser = new DFileChooser(settings);
 		artistHandler = new ArtistHandler(settings, subtitleID);
 		this.loginGUI = loginGUI;
+		this.loginGUI.setLoginMethods(this);
 		
 		//MENUS
 		JMenuBar menubar = new JMenuBar();
@@ -230,7 +232,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		getFrame().setMinimumSize(getFrame().getSize());
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
-		artistList.setListData(StringMethods.arrayListToArray(artistHandler.getArtists()));
+		updateArtistList();
 		
 	}//CONSTRUCTOR
 	
@@ -251,13 +253,27 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	public abstract File getDirectory();
 	
 	/**
+	 * Displays the current list of artists.
+	 * 
+	 * @since 2.0
+	 */
+	private void updateArtistList()
+	{
+		ArrayList<String> currentArtists = new ArrayList<>();
+		currentArtists.add(DefaultLanguage.ALL_ARTISTS);
+		currentArtists.addAll(artistHandler.getArtists());
+		artistList.setListData(StringMethods.arrayListToArray(currentArtists));
+		
+	}//METHOD
+	
+	/**
 	 * Starts the process to check pages for one or multiple artists.
 	 * 
 	 * @param checkAll Whether to check all of the pages, if false only checks the new pages.
 	 * @since 2.0
 	 */
 	private void checkPages(final boolean checkAll)
-	{
+	{	
 		initializeDownloadProcess();
 		
 	}//METHOD
@@ -301,7 +317,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 		}//IF
 		
 		//LOGIN TO WEBSITE
-		if(ready)
+		if(ready && !isLoggedIn())
 		{
 			loginGUI.openLoginDialog(getFrame());
 			
@@ -368,7 +384,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 				if(artist != null)
 				{
 					artistHandler.addArtist(artist);
-					artistList.setListData(StringMethods.arrayListToArray(artistHandler.getArtists()));
+					updateArtistList();
 					artistHandler.saveArtists();
 					
 				}//IF
@@ -387,7 +403,7 @@ public abstract class ArtistHostingGUI extends FrameGUI
 					if(result != null && result.equals(DefaultLanguage.YES))
 					{
 						artistHandler.deleteArtists(selected);
-						artistList.setListData(StringMethods.arrayListToArray(artistHandler.getArtists()));
+						updateArtistList();
 						artistHandler.saveArtists();
 						
 					}//IF

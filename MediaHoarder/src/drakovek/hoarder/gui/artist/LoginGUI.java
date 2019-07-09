@@ -35,6 +35,13 @@ public class LoginGUI extends BaseGUI
 	private DDialog dialog;
 	
 	/**
+	 * Object to deal with attempting a user login.
+	 * 
+	 * @since 2.0
+	 */
+	private LoginMethods loginMethods;
+	
+	/**
 	 * Language ID for the title for the login dialog
 	 * 
 	 * @since 2.0
@@ -70,6 +77,18 @@ public class LoginGUI extends BaseGUI
 		passwordText = new DPasswordField(this, DefaultLanguage.PASSWORD);
 		
 	}//CONSTRUCTOR
+	
+	/**
+	 * Sets the LoginMethods object for the class.
+	 * 
+	 * @param loginMethods LoginMethods object
+	 * @since 2.0
+	 */
+	public void setLoginMethods(LoginMethods loginMethods)
+	{
+		this.loginMethods = loginMethods;
+		
+	}//METHOD
 	
 	/**
 	 * Opens the login dialog.
