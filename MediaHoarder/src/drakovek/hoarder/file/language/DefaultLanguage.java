@@ -389,6 +389,13 @@ public class DefaultLanguage
 	public static final String[] DELETE_ARTIST_MESSAGES = {"delete_artist_message_1", "delete_artist_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
 	/**
+	 * Language variables for message shown if the user has a potentially incorrect folder selected.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String[] WRONG_FOLDER_MESSAGES = {"wrong_folder_message_1", "wrong_folder_message_2", "wrong_folder_message_3"};  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+	
+	/**
 	 * Language variable for the "Username" label in the login GUI.
 	 * 
 	 * @since 2.0
@@ -561,6 +568,9 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SURE_TITLE, "Are You Sure?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_ARTIST_MESSAGES[0], "Selected artists will be removed from your creator list.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_ARTIST_MESSAGES[1], "Remove artists?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[0], "Some of the listed artists don't have folders.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[1], "You may be using the wrong directory.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[2], "Use this directory?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(USERNAME, "^Username:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PASSWORD, "^Password:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOGIN, "^Login")); //$NON-NLS-1$

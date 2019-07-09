@@ -265,11 +265,49 @@ public abstract class ArtistHostingGUI extends FrameGUI
 	/**
 	 * Sets up the object for starting a download process
 	 * 
+	 * @return Whether to continue the downloading process
 	 * @since 2.0
 	 */
-	private void initializeDownloadProcess()
+	private boolean initializeDownloadProcess()
 	{
-		loginGUI.openLoginDialog(getFrame());
+		boolean ready = true;
+		
+		//CHECK IF IN THE CORRECT DIRECTORY
+		boolean missingFolders = false;
+		for(int i = 0; i < artistHandler.getArtists().size(); i++)
+		{
+			File artistFolder = new File(getDirectory(), artistHandler.getArtists().get(i));
+			if(!artistFolder.isDirectory())
+			{
+				missingFolders = true;
+				break;
+				
+			}//IF
+			
+		}//FOR
+		
+		if(missingFolders)
+		{
+			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
+			String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
+			String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.WRONG_FOLDER_MESSAGES, buttonIDs);
+		
+			if(result.equals(DefaultLanguage.NO))
+			{
+				ready = false;
+				
+			}//IF
+			
+		}//IF
+		
+		//LOGIN TO WEBSITE
+		if(ready)
+		{
+			loginGUI.openLoginDialog(getFrame());
+			
+		}//IF
+		
+		return ready;
 		
 	}//METHOD
 	
