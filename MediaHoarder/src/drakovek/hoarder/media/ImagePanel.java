@@ -109,13 +109,14 @@ public class ImagePanel extends JPanel implements Scrollable
 		}//IF
 		else
 		{
+			setImage(file);
 			
 		}//ELSE
 		
 	}//METHOD
 	
 	/**
-	 * Sets the gifImage variable to contain an animated GIF from a given image file.
+	 * Sets the gifImage Image object to contain an animated GIF from a given image file.
 	 * 
 	 * @param file Animated GIF File
 	 * @since 2.0
@@ -128,6 +129,42 @@ public class ImagePanel extends JPanel implements Scrollable
 		if(gifImage != null)
 		{
 			imageDimension = new Dimension(gifImage.getWidth(null), gifImage.getHeight(null));
+			
+		}//IF
+		else
+		{
+			imageDimension = new Dimension(0, 0);
+			
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Sets the originalImage BufferedImage object based on an given file.
+	 * 
+	 * @param file Input File
+	 * @since 2.0
+	 */
+	private void setImage(final File file)
+	{
+		scaledImage = null;
+		gifImage = null;
+		originalImage = ImageHandler.getImage(file);
+		scaleImage();
+		
+	}//METHOD
+	
+	/**
+	 * Sets the scaledImage BufferedImage object to be a scaled version of the originalImage object fit to the ImagePanel.
+	 * 
+	 * @since 2.0
+	 */
+	public void scaleImage()
+	{
+		scaledImage = originalImage;
+		if(scaledImage != null)
+		{
+			imageDimension = new Dimension(scaledImage.getWidth(), scaledImage.getHeight());
 			
 		}//IF
 		else

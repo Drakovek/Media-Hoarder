@@ -1,6 +1,7 @@
 package drakovek.hoarder.media;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -96,6 +97,33 @@ public class ImageHandler
 			return null;
 		
 		}//CATCH
+		
+	}//METHOD
+	
+	/**
+	 * Returns a BufferedImage for a given file, either representing the image for an image file, or giving an icon for a non-image file.
+	 * 
+	 * @param file Input File
+	 * @return BufferedImage representing the file
+	 * @since 2.0
+	 */
+	public static BufferedImage getImage(final File file)
+	{
+		BufferedImage bufferedImage = null;
+		
+		try
+		{
+			bufferedImage = ImageIO.read(file);
+			if(bufferedImage != null)
+			{
+				return bufferedImage;
+				
+			}//IF
+			
+		}//TRY
+		catch(IOException e){}
+		
+		return bufferedImage;
 		
 	}//METHOD
 	
