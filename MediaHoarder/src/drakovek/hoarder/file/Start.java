@@ -55,8 +55,9 @@ public class Start
 			
 		}//WHILE
 		
+		DSettings settings = new DSettings();
 		JFrame testFrame = new JFrame("Test Frame"); //$NON-NLS-1$
-		ImagePanel imagePanel = new ImagePanel(imageFile);
+		ImagePanel imagePanel = new ImagePanel(settings, imageFile);
 		JScrollPane imageScroll = new JScrollPane(imagePanel);
 		testFrame.getContentPane().add(imageScroll, BorderLayout.CENTER);
 		testFrame.pack();

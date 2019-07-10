@@ -10,6 +10,8 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 
+import drakovek.hoarder.file.DSettings;
+
 /**
  * Contains methods for loading, scaling, and saving images.
  * 
@@ -25,6 +27,25 @@ public class ImageHandler
 	 * @since 2.0
 	 */
 	private static ImageInputStream imageInputStream;
+	
+	/**
+	 * Object for determining the file type of given files.
+	 * 
+	 * @since 2.0
+	 */
+	private FileTypeHandler fileTypeHandler;
+	
+	/**
+	 * Initializes the ImageHandler class.
+	 * 
+	 * @param settings Program Settings
+	 * @since 2.0
+	 */
+	public ImageHandler(DSettings settings)
+	{
+		fileTypeHandler = new FileTypeHandler(settings);
+		
+	}//CONSTRUCTOR
 
 	/**
 	 * Returns whether a given file is an animated GIF.
@@ -107,21 +128,30 @@ public class ImageHandler
 	 * @return BufferedImage representing the file
 	 * @since 2.0
 	 */
-	public static BufferedImage getImage(final File file)
+	public BufferedImage getImage(final File file)
 	{
 		BufferedImage bufferedImage = null;
 		
-		try
+		if(fileTypeHandler.isImageFile(file))
 		{
-			bufferedImage = ImageIO.read(file);
-			if(bufferedImage != null)
+			try
 			{
-				return bufferedImage;
+				bufferedImage = ImageIO.read(file);
+				if(bufferedImage != null)
+				{
+					return bufferedImage;
+					
+				}//IF
 				
-			}//IF
+			}//TRY
+			catch(IOException e){}
 			
-		}//TRY
-		catch(IOException e){}
+		}//IF
+		else
+		{
+			System.out.println("Not Image File"); //$NON-NLS-1$
+			
+		}//ELSE
 		
 		return bufferedImage;
 		

@@ -10,6 +10,8 @@ import java.io.File;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 
+import drakovek.hoarder.file.DSettings;
+
 /**
  * Panel object used for displaying images.
  * 
@@ -55,27 +57,36 @@ public class ImagePanel extends JPanel implements Scrollable
 	private Dimension imageDimension;
 	
 	/**
-	 * Initializes the ImagePanel to have now image to start with.
+	 * Object to handle loading and scaling images
 	 * 
 	 * @since 2.0
 	 */
-	public ImagePanel()
+	private ImageHandler imageHandler;
+	
+	/**
+	 * Initializes the ImagePanel to have now image to start with.
+	 * 
+	 * @param settings Program Settings
+	 * @since 2.0
+	 */
+	public ImagePanel(DSettings settings)
 	{
 		super();
-		initializeClass();
+		initializeClass(settings);
 		
 	}//CONSTRUCTOR
 	
 	/**
 	 * Initializes the ImagePanel to start displaying an image from a given file.
 	 * 
+	 * @param settings Program Settings
 	 * @param file Image file to display.
 	 * @since 2.0
 	 */
-	public ImagePanel(final File file)
+	public ImagePanel(DSettings settings, final File file)
 	{
 		super();
-		initializeClass();
+		initializeClass(settings);
 		setFile(file);
 		
 	}//CONSTRUCTOR
@@ -83,14 +94,16 @@ public class ImagePanel extends JPanel implements Scrollable
 	/**
 	 * Initializes all the instance variables for the class.
 	 * 
+	 * @param settings Program Settings
 	 * @since 2.0
 	 */
-	private void initializeClass()
+	private void initializeClass(DSettings settings)
 	{
 		gifImage = null;
 		scaledImage = null;
 		originalImage = null;
 		imageDimension = new Dimension(0, 0);
+		imageHandler = new ImageHandler(settings);
 		
 	}//METHOD
 	
@@ -149,7 +162,7 @@ public class ImagePanel extends JPanel implements Scrollable
 	{
 		scaledImage = null;
 		gifImage = null;
-		originalImage = ImageHandler.getImage(file);
+		originalImage = imageHandler.getImage(file);
 		scaleImage();
 		
 	}//METHOD
