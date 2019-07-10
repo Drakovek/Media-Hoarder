@@ -162,7 +162,7 @@ public class ImagePanel extends JPanel implements Scrollable
 	{
 		scaledImage = null;
 		gifImage = null;
-		originalImage = imageHandler.getImage(file);
+		originalImage = imageHandler.getImage(file, true);
 		scaleImage();
 		
 	}//METHOD

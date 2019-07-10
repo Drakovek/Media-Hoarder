@@ -303,7 +303,7 @@ public class FileTypeHandler
 	 * @return Whether the file is a video file
 	 * @since 2.0
 	 */
-	public boolean isImageVideo(final File file)
+	public boolean isVideoFile(final File file)
 	{
 		return isFileType(file.getAbsolutePath(), EMBEDDED_VIDEO, userVideo);
 		
