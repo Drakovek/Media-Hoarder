@@ -1,8 +1,18 @@
 package drakovek.hoarder.file;
 
+import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
+import drakovek.hoarder.media.ImagePanel;
 
 /**
  * Main class for starting the Media Hoarder Program
@@ -21,7 +31,38 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
-		startGUI();
+		//startGUI();
+		//TODO Reinstate commented out code. Following code is for test purposes only.
+		
+		//GET IMAGE FILE
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+		File imageFile = null;
+		while(imageFile == null || !imageFile.exists() || imageFile.isDirectory())
+		{
+			System.out.println("Enter Image File"); //$NON-NLS-1$
+			try
+			{
+				imageFile = null;
+				String input = bufferedReader.readLine();
+				if(input != null)
+				{
+					imageFile = new File(input);
+					
+				}//IF
+				
+			}//TRY
+			catch(IOException e){}
+			
+		}//WHILE
+		
+		JFrame testFrame = new JFrame("Test Frame"); //$NON-NLS-1$
+		ImagePanel imagePanel = new ImagePanel(imageFile);
+		JScrollPane imageScroll = new JScrollPane(imagePanel);
+		testFrame.getContentPane().add(imageScroll, BorderLayout.CENTER);
+		testFrame.pack();
+		testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		testFrame.setLocationRelativeTo(null);
+		testFrame.setVisible(true);
     	
 	}//METHOD
 	
