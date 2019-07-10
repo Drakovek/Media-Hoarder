@@ -424,6 +424,20 @@ public class DefaultLanguage
 	public static final String LOGIN = "login"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Captcha" label in the login GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CAPTCHA = "captcha"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Refresh Captcha" button in the login GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String REFRESH_CAPTCHA = "refresh_captcha"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the title of the login GUI when logging into DeviantArt.
 	 * 
 	 * @since 2.0
@@ -582,6 +596,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(USERNAME, "^Username:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PASSWORD, "^Password:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOGIN, "^Login")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CAPTCHA, "^Captcha:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(REFRESH_CAPTCHA, "^Refresh Captcha")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_LOGIN, "DeviantArt Login")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_LOGIN, "Fur Affinity Login")); //$NON-NLS-1$

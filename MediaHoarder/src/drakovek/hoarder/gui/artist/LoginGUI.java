@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import drakovek.hoarder.file.DSettings;
@@ -49,6 +51,20 @@ public class LoginGUI extends BaseGUI
 	private String titleID;
 	
 	/**
+	 * Boolean that determines whether to use the captcha GUI when creating the login GUI.
+	 * 
+	 * @since 2.0
+	 */
+	private boolean useCaptcha;
+	
+	/**
+	 * Text field for the user to input the contents of a captcha.
+	 * 
+	 * @since 2.0
+	 */
+	private DTextField captchaText;
+	
+	/**
 	 * Text field for the user to input their username
 	 * 
 	 * @since 2.0
@@ -67,12 +83,14 @@ public class LoginGUI extends BaseGUI
 	 * 
 	 * @param settings Program Settings
 	 * @param titleID Language ID for the title for the login dialog
+	 * @param useCaptcha Boolean that determines whether to use the captcha GUI when creating the login GUI.
 	 * @since 2.0
 	 */
-	public LoginGUI(DSettings settings, final String titleID)
+	public LoginGUI(DSettings settings, final String titleID, final boolean useCaptcha)
 	{
 		super(settings);
 		this.titleID = titleID;
+		this.useCaptcha = useCaptcha;
 		usernameText = new DTextField(this, DefaultLanguage.USERNAME);
 		passwordText = new DPasswordField(this, DefaultLanguage.PASSWORD);
 		
@@ -148,10 +166,43 @@ public class LoginGUI extends BaseGUI
 		loginCST.gridwidth = 3;
 		loginPanel.add(new DButton(this, DefaultLanguage.LOGIN), loginCST);
 		
+		//CREATE CAPTCHA PANEL
+		JPanel captchaBottomPanel = new JPanel();
+		captchaText = new DTextField(this, DefaultLanguage.CAPTCHA);
+		captchaBottomPanel.setLayout(new GridBagLayout());
+		GridBagConstraints captchaCST = new GridBagConstraints();
+		captchaCST.gridx = 0;		captchaCST.gridy = 0;
+		captchaCST.gridwidth = 1;	captchaCST.gridheight = 1;
+		captchaCST.weightx = 0;		captchaCST.weighty = 0;
+		captchaCST.fill = GridBagConstraints.BOTH;
+		captchaBottomPanel.add(new DLabel(this, captchaText, DefaultLanguage.CAPTCHA), captchaCST);
+		captchaCST.gridy = 1;
+		captchaBottomPanel.add(getVerticalSpace(), captchaCST);
+		captchaCST.gridx = 1;		captchaCST.gridy = 0;
+		captchaBottomPanel.add(getHorizontalSpace(), captchaCST);
+		captchaCST.gridx = 2;		captchaCST.weightx = 1;
+		captchaBottomPanel.add(captchaText, captchaCST);
+		captchaCST.gridx = 0;		captchaCST.gridy = 2;
+		captchaCST.gridwidth = 3;
+		captchaBottomPanel.add(new DButton(this, DefaultLanguage.REFRESH_CAPTCHA), captchaCST);
+		
+		JPanel captchaPanel = getVerticalStack(getVerticalStack(new DButton(this, DefaultLanguage.CAPTCHA), captchaBottomPanel), new JSeparator(SwingConstants.HORIZONTAL));
+		
+		//USER PANEL
 		JPanel fullPanel = new JPanel();
 		fullPanel.setLayout(new BorderLayout());
 		fullPanel.add(getSpacedPanel(titleLabel, 0, 0, true, false, true, true), BorderLayout.NORTH);
-		fullPanel.add(this.getSpacedPanel(loginPanel, 1, 0, true, true, true, true), BorderLayout.CENTER);
+		
+		if(useCaptcha)
+		{
+			fullPanel.add(getSpacedPanel(getVerticalStack(captchaPanel, loginPanel), 1, 0, true, true, true, true), BorderLayout.CENTER);
+			
+		}//IF
+		else
+		{
+			fullPanel.add(getSpacedPanel(loginPanel, 1, 0, true, true, true, true), BorderLayout.CENTER);
+		
+		}//ELSE
 		
 		return fullPanel;
 		

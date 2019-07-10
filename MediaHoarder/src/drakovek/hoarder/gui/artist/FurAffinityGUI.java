@@ -22,7 +22,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	 */
 	public FurAffinityGUI(DSettings settings)
 	{
-		super(settings, new LoginGUI(settings, DefaultLanguage.FUR_AFFINITY_LOGIN), DefaultLanguage.FUR_AFFINITY_MODE, DefaultLanguage.CHOOSE_FUR_AFFINITY_FOLDER);
+		super(settings, new LoginGUI(settings, DefaultLanguage.FUR_AFFINITY_LOGIN, true), DefaultLanguage.FUR_AFFINITY_MODE, DefaultLanguage.CHOOSE_FUR_AFFINITY_FOLDER);
 		
 	}//CONSTRUCTOR
 

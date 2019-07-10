@@ -206,6 +206,33 @@ public abstract class BaseGUI implements DEvent
 	}//METHOD
 	
 	/**
+	 * Creates a JPanel That consists of two components stacked vertically with default space in between.
+	 * 
+	 * @param topComponent Component to place on top
+	 * @param bottomComponent Component to place on bottom
+	 * @return Vertical Stack Panel
+	 * @since 2.0
+	 */
+	public JPanel getVerticalStack(Component topComponent, Component bottomComponent)
+	{
+		JPanel stackPanel = new JPanel();
+		stackPanel.setLayout(new GridBagLayout());
+		GridBagConstraints stackCST = new GridBagConstraints();
+		stackCST.gridx = 1;			stackCST.gridy = 1;
+		stackCST.gridwidth = 1;		stackCST.gridheight = 1;
+		stackCST.weightx = 0;		stackCST.weighty = 0;
+		stackCST.fill = GridBagConstraints.BOTH;
+		stackPanel.add(getVerticalSpace(), stackCST);
+		stackCST.gridx = 0;			stackCST.gridy = 0;
+		stackCST.gridwidth = 3;		stackCST.weightx = 1;
+		stackPanel.add(topComponent, stackCST);
+		stackCST.gridy = 2;
+		stackPanel.add(bottomComponent, stackCST);
+		
+		return stackPanel;
+	}//METHOD
+	
+	/**
 	 * Returns a rigid area component with the width of the default space for the program.
 	 * 
 	 * @return Rigid Area Component

@@ -22,7 +22,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 */
 	public DeviantArtGUI(DSettings settings)
 	{
-		super(settings, new LoginGUI(settings, DefaultLanguage.DEVIANTART_LOGIN), DefaultLanguage.DEVIANTART_MODE, DefaultLanguage.CHOOSE_DEVIANTART_FOLDER);
+		super(settings, new LoginGUI(settings, DefaultLanguage.DEVIANTART_LOGIN, false), DefaultLanguage.DEVIANTART_MODE, DefaultLanguage.CHOOSE_DEVIANTART_FOLDER);
 		
 	}//CONSTRUCTOR
 
