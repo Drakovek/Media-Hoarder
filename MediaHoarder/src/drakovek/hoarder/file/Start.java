@@ -64,6 +64,7 @@ public class Start
 		testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		testFrame.setLocationRelativeTo(null);
 		testFrame.setVisible(true);
+		imagePanel.scaleImage();
     	
 	}//METHOD
 	

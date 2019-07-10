@@ -1,6 +1,9 @@
 package drakovek.hoarder.media;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -203,6 +206,94 @@ public class ImageHandler
 		}//IF
 		
 		return getIcon(file);
+		
+	}//METHOD
+	
+	/**
+	 * Gets the dimensions necessary to scale an image to fit inside given dimensions with a given scale type.
+	 * 
+	 * @param scaleType Int value indicating the type of scaling to use
+	 * @param imageWidth Width of the initial image
+	 * @param imageHeight Height of the initial image
+	 * @param paneWidth Width of the pane to fit image within
+	 * @param paneHeight Height of pane to fit image within
+	 * @return Dimensions to fit image into given dimensions
+	 * @since 2.0
+	 */
+	public static Dimension getScaleDimensions(final int scaleType, final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight)
+	{
+		return new Dimension(imageWidth/2, imageHeight/2);
+		
+	}//METHOD
+	
+	/**
+	 * Returns an image scaled to given dimensions.
+	 * 
+	 * @param inputImage Image to scale
+	 * @param scaleWidth Width to scale image
+	 * @param scaleHeight Height to scale image
+	 * @return Scaled BufferedImage
+	 */
+	public static BufferedImage getScaledImage(final BufferedImage inputImage, final int scaleWidth, final int scaleHeight)
+	{
+		int currentWidth = inputImage.getWidth();
+		int currentHeight = inputImage.getHeight();
+		
+		if(currentWidth == scaleWidth && currentHeight == scaleHeight)
+		{
+			return inputImage;
+			
+		}//IF
+		
+		int newWidth = scaleWidth;
+		int newHeight = scaleHeight;
+		
+		if(newWidth < 1)
+		{
+			newWidth = 1;
+			
+		}//IF (newWidth < 1)
+		
+		if(newHeight < 1)
+		{
+			newHeight = 1;
+			
+		}//IF (newHeight < 1)
+		
+		BufferedImage mediaImage = inputImage;
+		
+		while(currentWidth > newWidth * 2)
+		{
+			currentWidth = (int)((double)currentWidth / 2.0);
+			currentHeight = (int)((double)currentHeight / 2.0);
+			
+			if(currentWidth < newWidth)
+			{
+				currentWidth = newWidth;
+			
+			}//IF
+			
+			if(currentHeight< newHeight)
+			{
+				currentHeight = newWidth;
+				
+			}//IF
+			
+			BufferedImage interImage = new BufferedImage(currentWidth, currentHeight, BufferedImage.TYPE_INT_ARGB);
+			Graphics2D interG2D = (Graphics2D)interImage.createGraphics();
+			interG2D.addRenderingHints(new RenderingHints(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR));
+			interG2D.drawImage(mediaImage, 0, 0, currentWidth, currentHeight, null);
+			
+			mediaImage = interImage;
+			
+		}//WHILE
+		
+		BufferedImage finalImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D finalG2D = (Graphics2D)finalImage.createGraphics();
+		finalG2D.addRenderingHints(new RenderingHints(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC));
+		finalG2D.drawImage(mediaImage, 0, 0, newWidth, newHeight, null);
+		
+		return finalImage;
 		
 	}//METHOD
 	

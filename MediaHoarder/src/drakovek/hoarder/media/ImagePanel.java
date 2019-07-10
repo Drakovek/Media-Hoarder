@@ -150,6 +150,8 @@ public class ImagePanel extends JPanel implements Scrollable
 			
 		}//ELSE
 		
+		repaint();
+		
 	}//METHOD
 	
 	/**
@@ -163,6 +165,7 @@ public class ImagePanel extends JPanel implements Scrollable
 		scaledImage = null;
 		gifImage = null;
 		originalImage = imageHandler.getImage(file, true);
+		imageDimension = new Dimension(0, 0);
 		scaleImage();
 		
 	}//METHOD
@@ -174,17 +177,53 @@ public class ImagePanel extends JPanel implements Scrollable
 	 */
 	public void scaleImage()
 	{
-		scaledImage = originalImage;
-		if(scaledImage != null)
+		if(originalImage != null)
 		{
-			imageDimension = new Dimension(scaledImage.getWidth(), scaledImage.getHeight());
+			Dimension scaledDimension;
+			try
+			{
+				scaledDimension = ImageHandler.getScaleDimensions(-1, originalImage.getWidth(), originalImage.getHeight(), this.getParent().getWidth(), this.getParent().getHeight());
+			
+			}//TRY
+			catch(NullPointerException e)
+			{
+				//IF PARENT DOES NOT YET EXIST
+				scaledDimension = new Dimension(originalImage.getWidth(), originalImage.getHeight());
+				
+			}//CATCH
+			
+			//TEST IF IMAGE NEEDS TO BE RESCALED
+			if((int)scaledDimension.getWidth() != (int)imageDimension.getWidth() || (int)scaledDimension.getHeight() != (int)imageDimension.getHeight())
+			{
+				//TEST IF ORIGINAL IMAGE CAN BE USED
+				if((int)scaledDimension.getWidth() == originalImage.getWidth() && (int)scaledDimension.getHeight() == originalImage.getHeight())
+				{
+					scaledImage = originalImage;
+					
+				}//IF
+				else
+				{
+					scaledImage = ImageHandler.getScaledImage(originalImage, (int)scaledDimension.getWidth(), (int)scaledDimension.getHeight());
+							
+				}//ELSE
+				
+				if(scaledImage != null)
+				{
+					imageDimension = new Dimension(scaledImage.getWidth(), scaledImage.getHeight());
+					
+				}//IF
+				else
+				{
+					imageDimension = new Dimension(0, 0);
+					
+				}//ELSE
+				
+				repaint();
+				
+				
+			}//IF
 			
 		}//IF
-		else
-		{
-			imageDimension = new Dimension(0, 0);
-			
-		}//ELSE
 		
 	}//METHOD
 	
