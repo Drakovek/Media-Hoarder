@@ -64,7 +64,27 @@ public class Start
 		testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		testFrame.setLocationRelativeTo(null);
 		testFrame.setVisible(true);
-		imagePanel.scaleImage();
+		
+		imageFile = null;
+		while(imageFile == null || !imageFile.exists() || imageFile.isDirectory())
+		{
+			System.out.println("Enter Image File"); //$NON-NLS-1$
+			try
+			{
+				imageFile = null;
+				String input = bufferedReader.readLine();
+				if(input != null)
+				{
+					imageFile = new File(input);
+					
+				}//IF
+				
+			}//TRY
+			catch(IOException e){}
+			
+		}//WHILE
+		
+		imagePanel.setFile(imageFile);
     	
 	}//METHOD
 	

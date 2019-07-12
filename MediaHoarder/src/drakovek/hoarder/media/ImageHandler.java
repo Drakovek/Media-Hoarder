@@ -25,6 +25,49 @@ import drakovek.hoarder.file.DSettings;
  */
 public class ImageHandler
 {
+
+	/**
+	 * Static int for full scale (Doesn't scale image)
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SCALE_FULL = 0;
+	
+	/**
+	 * Static int for 2D Fit Scale (Fits full image in frame)
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SCALE_2D_FIT = 1;
+	
+	/**
+	 * Static int for 2D Stretch Scale (Fits full image in frame, stretching to frame size if smaller than frame)
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SCALE_2D_STRETCH = 2;
+	
+	/**
+	 * Static int for 1D Fit Scale (Fits one dimension in frame)
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SCALE_1D_FIT = 3;
+	
+	/**
+	 * Static int for 1D Stretch Scale (Fits one dimension in frame, stretching to frame size if smaller than frame)
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SCALE_1D_STRETCH = 4;
+	
+	/**
+	 * Static int for Direct Scale (Scales image by a given multiplier)
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SCALE_DIRECT = 5;
+	
 	/**
 	 * ImageInputStream used for loading animated GIFs.
 	 * 
@@ -75,6 +118,13 @@ public class ImageHandler
 	private BufferedImage unknownIcon;
 	
 	/**
+	 * Program Settings
+	 * 
+	 * @since 2.0
+	 */
+	private DSettings settings;
+	
+	/**
 	 * Initializes the ImageHandler class.
 	 * 
 	 * @param settings Program Settings
@@ -83,6 +133,7 @@ public class ImageHandler
 	public ImageHandler(DSettings settings)
 	{
 		fileTypeHandler = new FileTypeHandler(settings);
+		this.settings = settings;
 		
 		//GET FILE TYPE ICONS
 		audioIcon = null;
@@ -212,7 +263,6 @@ public class ImageHandler
 	/**
 	 * Gets the dimensions necessary to scale an image to fit inside given dimensions with a given scale type.
 	 * 
-	 * @param scaleType Int value indicating the type of scaling to use
 	 * @param imageWidth Width of the initial image
 	 * @param imageHeight Height of the initial image
 	 * @param paneWidth Width of the pane to fit image within
@@ -220,9 +270,151 @@ public class ImageHandler
 	 * @return Dimensions to fit image into given dimensions
 	 * @since 2.0
 	 */
-	public static Dimension getScaleDimensions(final int scaleType, final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight)
+	public Dimension getScaleDimensions(final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight)
 	{
-		return new Dimension(imageWidth/2, imageHeight/2);
+		return getScaleDimensions(-1, -1, imageWidth, imageHeight, paneWidth, paneHeight);
+		
+	}//METHOD
+	
+	/**
+	 * Gets the dimensions necessary to scale an image to fit inside given dimensions with a given scale type.
+	 * 
+	 * @param scaleType Int value indicating the type of scaling to use
+	 * @param scaleAmount Double value to multiply image size by when scaling directly
+	 * @param imageWidth Width of the initial image
+	 * @param imageHeight Height of the initial image
+	 * @param paneWidth Width of the pane to fit image within
+	 * @param paneHeight Height of pane to fit image within
+	 * @return Dimensions to fit image into given dimensions
+	 * @since 2.0
+	 */
+	public Dimension getScaleDimensions(final int scaleType, final double scaleAmount, final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight)
+	{
+		int myScaleType;
+		double myScaleAmount;
+		
+		if(scaleType < 0 || scaleType > 5)
+		{
+			myScaleType = settings.getScaleType();
+					
+		}//IF
+		else
+		{
+			myScaleType = scaleType;
+			
+		}//ELSE
+		
+		if(scaleAmount <= 0)
+		{
+			myScaleAmount = settings.getScaleAmount();
+			
+		}//IF
+		else
+		{
+			myScaleAmount = scaleAmount;
+			
+		}//ELSE
+		
+		switch(myScaleType)
+		{
+			case SCALE_2D_STRETCH:
+			{
+				int newWidth = paneWidth;
+				double ratio = (double)imageHeight / (double)imageWidth;
+				int newHeight = (int)(ratio * (double)newWidth);
+				
+				if(newHeight > paneHeight)
+				{
+					newHeight = paneHeight;
+					ratio = (double)imageWidth / (double)imageHeight;
+					newWidth = (int)(ratio * (double)newHeight);
+					
+				}//IF
+				
+				return new Dimension(newWidth, newHeight);
+				
+			}//CASE
+			case SCALE_2D_FIT:
+			{
+				int newWidth = paneWidth;
+				double ratio = (double)imageHeight / (double)imageWidth;
+				int newHeight = (int)(ratio * (double)newWidth);
+				
+				if(newHeight > paneHeight)
+				{
+					newHeight = paneHeight;
+					ratio = (double)imageWidth / (double)imageHeight;
+					newWidth = (int)(ratio * (double)newHeight);
+					
+				}//IF
+				
+				if(!(newWidth > imageWidth || newHeight > imageHeight))
+				{
+					return new Dimension(newWidth, newHeight);
+				
+				}//IF
+				
+				break;
+				
+			}//CASE
+			case SCALE_1D_STRETCH:
+			{
+				int newWidth = 1;
+				int newHeight = 1;
+				double ratio = 1;
+				if(imageWidth < imageHeight)
+				{
+					newWidth = paneWidth;
+					ratio = (double)imageHeight / (double)imageWidth;
+					newHeight = (int)(ratio * (double)newWidth);
+				
+				}//IF
+				else
+				{
+					newHeight = paneHeight;
+					ratio = (double)imageWidth / (double)imageHeight;
+					newWidth = (int)(ratio * (double)newHeight);
+				
+				}//ELSE
+				
+				return new Dimension(newWidth, newHeight);
+				
+			}//CASE
+			case SCALE_1D_FIT:
+			{
+				int newWidth = 1;
+				int newHeight = 1;
+				double ratio = 1;
+				if(imageWidth < imageHeight && imageWidth > paneWidth)
+				{
+					newWidth = paneWidth;
+					ratio = (double)imageHeight / (double)imageWidth;
+					newHeight = (int)(ratio * (double)newWidth);
+					return new Dimension(newWidth, newHeight);
+					
+				}//IF
+				
+				if(imageWidth >= imageHeight && imageHeight > paneHeight)
+				{
+					newHeight = paneHeight;
+					ratio = (double)imageWidth / (double)imageHeight;
+					newWidth = (int)(ratio * (double)newHeight);
+					return new Dimension(newWidth, newHeight);
+
+				}//IF
+				
+				break;
+				
+			}//CASE
+			case SCALE_DIRECT:
+			{
+				return new Dimension((int)((double)imageWidth * myScaleAmount), (int)((double)imageHeight * myScaleAmount));
+				
+			}//CASE
+			
+		}//SWITCH	
+		
+		return new Dimension(imageWidth, imageHeight);
 		
 	}//METHOD
 	

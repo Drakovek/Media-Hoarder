@@ -116,10 +116,24 @@ public class DSettings
 	
 	/**
 	 * INI Variable for the size of DMF preview thumbnails.
-	 * 
+	 *
 	 * @since 2.0
 	 */
 	private static final String PREVIEW_SIZE = "preview_size"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the scale type.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SCALE_TYPE = "scale_type"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the scale amount.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SCALE_AMOUNT = "scale_amount"; //$NON-NLS-1$
 	
 	/**
 	 * Program's data folder located in the main program directory.
@@ -230,6 +244,20 @@ public class DSettings
 	private int previewSize;
 	
 	/**
+	 * Int value representing the type of scaling to use on images.
+	 * 
+	 * @since 2.0
+	 */
+	private int scaleType;
+	
+	/**
+	 * Double to multiply image size by when scaling directly.
+	 * 
+	 * @since 2.0
+	 */
+	private double scaleAmount;
+	
+	/**
 	 * Initializes the DSettings Class
 	 * 
 	 * @since 2.0
@@ -297,6 +325,8 @@ public class DSettings
 		
 		//VIEWER
 		previewSize = 100;
+		scaleType = 0;
+		scaleAmount = 1.0;
 		
 	}//METHOD
 	
@@ -334,6 +364,8 @@ public class DSettings
 			
 			//VIEWER
 			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
+			scaleType = ParseINI.getIntValue(null, SCALE_TYPE, settingsInfo, scaleType);
+			scaleAmount = ParseINI.getDoubleValue(null, SCALE_AMOUNT, settingsInfo, scaleAmount);
 			
 		}//IF
 		
@@ -375,6 +407,8 @@ public class DSettings
 		settingsInfo.add(new String());
 		settingsInfo.add("[VIEWER]"); //$NON-NLS-1$
 		settingsInfo.add(ParseINI.getAssignmentString(PREVIEW_SIZE, previewSize));
+		settingsInfo.add(ParseINI.getAssignmentString(SCALE_TYPE, scaleType));
+		settingsInfo.add(ParseINI.getAssignmentString(SCALE_AMOUNT, scaleAmount));
 		
 		if(dataFolder != null && dataFolder.isDirectory())
 		{
@@ -697,6 +731,54 @@ public class DSettings
 	public int getPreviewSize()
 	{
 		return previewSize;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the scale type.
+	 * 
+	 * @param scaleType Scale Type
+	 * @since 2.0
+	 */
+	public void setScaleType(final int scaleType)
+	{
+		this.scaleType = scaleType;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the scale type.
+	 * 
+	 * @return Scale Type
+	 * @since 2.0
+	 */
+	public int getScaleType()
+	{
+		return scaleType;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the scale amount.
+	 * 
+	 * @param scaleAmount Scale Amount
+	 * @since 2.0
+	 */
+	public void setScaleAmount(final double scaleAmount)
+	{
+		this.scaleAmount = scaleAmount;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the scale amount.
+	 * 
+	 * @return Scale Amount
+	 * @since 2.0
+	 */
+	public double getScaleAmount()
+	{
+		return scaleAmount;
 		
 	}//METHOD
 	

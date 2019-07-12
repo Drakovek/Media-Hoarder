@@ -135,7 +135,7 @@ public class ImagePanel extends JPanel implements Scrollable
 	 * @since 2.0
 	 */
 	private void setGifImage(final File file)
-	{
+	{		
 		originalImage = null;
 		scaledImage = null;
 		gifImage = ImageHandler.getGifImage(file);
@@ -182,7 +182,7 @@ public class ImagePanel extends JPanel implements Scrollable
 			Dimension scaledDimension;
 			try
 			{
-				scaledDimension = ImageHandler.getScaleDimensions(-1, originalImage.getWidth(), originalImage.getHeight(), this.getParent().getWidth(), this.getParent().getHeight());
+				scaledDimension = imageHandler.getScaleDimensions(originalImage.getWidth(), originalImage.getHeight(), this.getParent().getWidth(), this.getParent().getHeight());
 			
 			}//TRY
 			catch(NullPointerException e)
@@ -194,7 +194,7 @@ public class ImagePanel extends JPanel implements Scrollable
 			
 			//TEST IF IMAGE NEEDS TO BE RESCALED
 			if((int)scaledDimension.getWidth() != (int)imageDimension.getWidth() || (int)scaledDimension.getHeight() != (int)imageDimension.getHeight())
-			{
+			{	
 				//TEST IF ORIGINAL IMAGE CAN BE USED
 				if((int)scaledDimension.getWidth() == originalImage.getWidth() && (int)scaledDimension.getHeight() == originalImage.getHeight())
 				{
@@ -220,7 +220,6 @@ public class ImagePanel extends JPanel implements Scrollable
 				
 				repaint();
 				
-				
 			}//IF
 			
 		}//IF
@@ -236,15 +235,15 @@ public class ImagePanel extends JPanel implements Scrollable
 		int offsetX = 0;
 		int offsetY = 0;
 		
-		if(getWidth() > imageDimension.getWidth())
+		if(getParent().getWidth() > imageDimension.getWidth())
 		{
-			offsetX = (int)(((double)getWidth() - imageDimension.getWidth()) / 2);
+			offsetX = (int)(((double)getParent().getWidth() - imageDimension.getWidth()) / 2);
 			
 		}//IF
 		
-		if(getHeight() > imageDimension.getHeight())
+		if(getParent().getHeight() > imageDimension.getHeight())
 		{
-			offsetY = (int)(((double)getHeight() - imageDimension.getHeight()) / 2);
+			offsetY = (int)(((double)getParent().getHeight() - imageDimension.getHeight()) / 2);
 			
 		}//IF
 		
