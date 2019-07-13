@@ -1,18 +1,8 @@
 package drakovek.hoarder.file;
 
-import java.awt.BorderLayout;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import javax.swing.JFrame;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
 
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
-import drakovek.hoarder.media.ImageHandler;
-import drakovek.hoarder.media.ImageScrollPane;
 
 /**
  * Main class for starting the Media Hoarder Program
@@ -31,63 +21,7 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
-		//startGUI();
-		//TODO Reinstate commented out code. Following code is for test purposes only.
-		
-		//GET IMAGE FILE
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-		File imageFile = null;
-		while(imageFile == null || !imageFile.exists() || imageFile.isDirectory())
-		{
-			System.out.println("Enter Image File"); //$NON-NLS-1$
-			try
-			{
-				imageFile = null;
-				String input = bufferedReader.readLine();
-				if(input != null)
-				{
-					imageFile = new File(input);
-					
-				}//IF
-				
-			}//TRY
-			catch(IOException e){}
-			
-		}//WHILE
-		
-		DSettings settings = new DSettings();
-		JFrame testFrame = new JFrame("Test Frame"); //$NON-NLS-1$
-		ImageScrollPane imageScroll = new ImageScrollPane(settings, imageFile);
-		imageScroll.resetBottomRight();
-		imageScroll.resetTopLeft();
-		testFrame.getContentPane().add(imageScroll, BorderLayout.CENTER);
-		testFrame.pack();
-		testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		testFrame.setLocationRelativeTo(null);
-		testFrame.setVisible(true);
-		
-		imageFile = null;
-		while(imageFile == null || !imageFile.exists() || imageFile.isDirectory())
-		{
-			System.out.println("Enter Image File"); //$NON-NLS-1$
-			try
-			{
-				imageFile = null;
-				String input = bufferedReader.readLine();
-				if(input != null)
-				{
-					imageFile = new File(input);
-					
-				}//IF
-				
-			}//TRY
-			catch(IOException e){}
-			
-		}//WHILE
-		
-		settings.setScaleType(ImageHandler.SCALE_DIRECT);
-		settings.setScaleAmount(0.25);
-		imageScroll.setFile(imageFile);
+		startGUI();
     	
 	}//METHOD
 	
