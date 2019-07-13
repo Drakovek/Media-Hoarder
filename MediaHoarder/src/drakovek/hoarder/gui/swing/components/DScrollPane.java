@@ -61,6 +61,13 @@ public class DScrollPane extends JScrollPane implements Worker
 	private DSettings settings;
 	
 	/**
+	 * Component used in the scroll pane's viewport.
+	 * 
+	 * @since 2.0
+	 */
+	private Component view;
+	
+	/**
 	 * Initializes the scroll pane
 	 * 
 	 * @param settings Program Settings
@@ -71,6 +78,7 @@ public class DScrollPane extends JScrollPane implements Worker
 	{
 		super(view);
 		this.settings = settings;
+		this.view = view;
 		setScrollUnit();
 		
 	}//METHOD DScrollPane(Component view, UserPreferences userPreferences)
@@ -88,6 +96,7 @@ public class DScrollPane extends JScrollPane implements Worker
 	{
 		super(view, vsbPolicy, hsbPolicy);
 		this.settings = settings;
+		this.view = view;
 		setScrollUnit();
 		
 	}//METHOD DScrollPane(Component view, UserPreferences userPreferences)
@@ -103,6 +112,18 @@ public class DScrollPane extends JScrollPane implements Worker
 		this.getVerticalScrollBar().setUnitIncrement(settings.getScrollUnit());
 		
 	}//METHOD setScrollUnit()
+	
+	/**
+	 * Returns the component used in the scroll pane's viewport.
+	 * 
+	 * @return Viewport Component
+	 * @since 2.0
+	 */
+	public Component getView()
+	{
+		return view;
+		
+	}//METHOD
 	
 	/**
 	 * Sets the Scroll Pane to the top left.
