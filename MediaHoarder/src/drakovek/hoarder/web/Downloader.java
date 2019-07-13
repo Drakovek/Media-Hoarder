@@ -53,9 +53,7 @@ public class Downloader
 	 * @since 2.0
 	 */
 	public Downloader(ClientMethods clientMethods)
-	{
-		clientMethods.setNewClient();
-		
+	{	
 	}//CONSTRUCTOR
 	
 	/**
