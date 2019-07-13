@@ -92,6 +92,20 @@ public class ImagePanel extends JPanel implements Scrollable
 	private int scrollHeight;
 	
 	/**
+	 * Int value indicating the type of scaling to use
+	 * 
+	 * @since 2.0
+	 */
+	private int scaleType;
+	
+	/**
+	 * Double value to multiply image size by when scaling directly
+	 * 
+	 * @since 2.0
+	 */
+	private double scaleAmount;
+	
+	/**
 	 * Initializes the ImagePanel to have now image to start with.
 	 * 
 	 * @param settings Program Settings
@@ -109,6 +123,8 @@ public class ImagePanel extends JPanel implements Scrollable
 		gapHeight = 0;
 		scrollWidth = 0;
 		scrollHeight = 0;
+		scaleType = -1;
+		scaleAmount = -1;
 		
 	}//CONSTRUCTOR
 	
@@ -126,6 +142,20 @@ public class ImagePanel extends JPanel implements Scrollable
 		this.gapHeight = gapHeight;
 		this.scrollWidth = scrollWidth;
 		this.scrollHeight = scrollHeight;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the scaleType and scaleAmount for the class.
+	 * 
+	 * @param scaleType Int value indicating the type of scaling to use
+	 * @param scaleAmount Double value to multiply image size by when scaling directly
+	 * @since 2.0
+	 */
+	public void setScale(final int scaleType, final double scaleAmount)
+	{
+		this.scaleType = scaleType;
+		this.scaleAmount = scaleAmount;
 		
 	}//METHOD
 	
@@ -204,7 +234,7 @@ public class ImagePanel extends JPanel implements Scrollable
 			Dimension scaledDimension;
 			try
 			{
-				scaledDimension = imageHandler.getScaleDimensions(originalImage.getWidth(), originalImage.getHeight(), getParent().getParent().getWidth() - gapWidth, getParent().getParent().getHeight() - gapHeight, scrollWidth, scrollHeight);
+				scaledDimension = imageHandler.getScaleDimensions(scaleType, scaleAmount, originalImage.getWidth(), originalImage.getHeight(), getParent().getParent().getWidth() - gapWidth, getParent().getParent().getHeight() - gapHeight, scrollWidth, scrollHeight);
 			
 			}//TRY
 			catch(NullPointerException e)
@@ -245,6 +275,18 @@ public class ImagePanel extends JPanel implements Scrollable
 			}//IF
 			
 		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Returns the dimension of the currently displayed image.
+	 * 
+	 * @return Image Dimensions
+	 * @since 2.0
+	 */
+	public Dimension getImageDimension()
+	{
+		return imageDimension;
 		
 	}//METHOD
 	

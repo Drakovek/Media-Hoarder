@@ -266,7 +266,7 @@ public class FileTypeHandler
 	 */
 	public boolean isAudioFile(final File file)
 	{
-		return isFileType(file.getAbsolutePath(), EMBEDDED_AUDIO, userAudio);
+		return isFileType(file, EMBEDDED_AUDIO, userAudio);
 		
 	}//METHOD
 	
@@ -279,7 +279,7 @@ public class FileTypeHandler
 	 */
 	public boolean isImageFile(final File file)
 	{
-		return isFileType(file.getAbsolutePath(), EMBEDDED_IMAGE, userImage);
+		return isFileType(file, EMBEDDED_IMAGE, userImage);
 		
 	}//METHOD
 	
@@ -292,7 +292,7 @@ public class FileTypeHandler
 	 */
 	public boolean isTextFile(final File file)
 	{
-		return isFileType(file.getAbsolutePath(), EMBEDDED_TEXT, userText);
+		return isFileType(file, EMBEDDED_TEXT, userText);
 		
 	}//METHOD
 	
@@ -305,39 +305,28 @@ public class FileTypeHandler
 	 */
 	public boolean isVideoFile(final File file)
 	{
-		return isFileType(file.getAbsolutePath(), EMBEDDED_VIDEO, userVideo);
+		return isFileType(file, EMBEDDED_VIDEO, userVideo);
 		
 	}//METHOD
 	
 	/**
 	 * Determines if the filename given is a certain file type based on whether it uses one of the given extensions.
 	 * 
-	 * @param filename Filename to check
+	 * @param file File to check
 	 * @param embedded Embedded extensions to check against
 	 * @param userExtensions User added extensions to check against
 	 * @return Whether the given filename has any of the given extensions
 	 * @since 2.0
 	 */
-	private static boolean isFileType(final String filename, final String[] embedded, final ArrayList<String> userExtensions)
+	private static boolean isFileType(final File file, final String[] embedded, final ArrayList<String> userExtensions)
 	{
 		boolean isType = false;
 		
-		for(int i = 0; i < embedded.length; i++)
+		if(file != null)
 		{
-			if(filename.endsWith(Character.toString('.') + embedded[i]))
+			for(int i = 0; i < embedded.length; i++)
 			{
-				isType = true;
-				break;
-				
-			}//IF
-			
-		}//FOR
-		
-		if(!isType)
-		{
-			for(int i = 0; i < userExtensions.size(); i++)
-			{
-				if(filename.endsWith(Character.toString('.') + userExtensions.get(i)))
+				if(file.getAbsolutePath().endsWith(Character.toString('.') + embedded[i]))
 				{
 					isType = true;
 					break;
@@ -345,6 +334,21 @@ public class FileTypeHandler
 				}//IF
 				
 			}//FOR
+			
+			if(!isType)
+			{
+				for(int i = 0; i < userExtensions.size(); i++)
+				{
+					if(file.getAbsolutePath().endsWith(Character.toString('.') + userExtensions.get(i)))
+					{
+						isType = true;
+						break;
+						
+					}//IF
+					
+				}//FOR
+				
+			}//IF
 			
 		}//IF
 		

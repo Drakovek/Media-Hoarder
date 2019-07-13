@@ -1,6 +1,7 @@
 package drakovek.hoarder.media;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.File;
 
@@ -119,6 +120,19 @@ public class ImageScrollPane extends DScrollPane
 	}//METHOD
 	
 	/**
+	 * Sets the scaleType and scaleAmount for the class.
+	 * 
+	 * @param scaleType Int value indicating the type of scaling to use
+	 * @param scaleAmount Double value to multiply image size by when scaling directly
+	 * @since 2.0
+	 */
+	public void setScale(final int scaleType, final double scaleAmount)
+	{
+		imagePanel.setScale(scaleType, scaleAmount);
+		
+	}//METHOD
+	
+	/**
 	 * Resets the scroll pane to match the scroll bar needs of the current image.
 	 * 
 	 * @since 2.0
@@ -131,5 +145,17 @@ public class ImageScrollPane extends DScrollPane
 		revalidate();
 		
 	}//PRIVATE
+	
+	/**
+	 * Returns the dimension of the currently displayed image.
+	 * 
+	 * @return Image Dimensions
+	 * @since 2.0
+	 */
+	public Dimension getImageDimension()
+	{
+		return imagePanel.getImageDimension();
+		
+	}//METHOD
 	
 }//CLASS

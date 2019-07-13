@@ -163,7 +163,7 @@ public class ImageHandler
 	 */
 	public static boolean isAnimatedGif(final File file)
 	{
-		if(!file.getAbsolutePath().toLowerCase().endsWith(".gif")) //$NON-NLS-1$
+		if(file == null || !file.getAbsolutePath().toLowerCase().endsWith(".gif")) //$NON-NLS-1$
 		{
 			return false;
 			

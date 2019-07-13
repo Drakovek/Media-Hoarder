@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import com.gargoylesoftware.htmlunit.CookieManager;
+
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.language.DefaultLanguage;
@@ -28,6 +30,8 @@ import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
 import drakovek.hoarder.processing.StringMethods;
+import drakovek.hoarder.web.ClientMethods;
+import drakovek.hoarder.web.Downloader;
 
 /**
  * Creates GUI for downloading files from artist hosting websites.
@@ -36,7 +40,7 @@ import drakovek.hoarder.processing.StringMethods;
  * @version 2.0
  * @since 2.0
  */
-public abstract class ArtistHostingGUI extends FrameGUI implements LoginMethods
+public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods
 {
 	/**
 	 * Settings Bar for the GUI
@@ -58,6 +62,13 @@ public abstract class ArtistHostingGUI extends FrameGUI implements LoginMethods
 	 * @since 2.0
 	 */
 	private LoginGUI loginGUI;
+	
+	/**
+	 * Downloader object for downloading information.
+	 * 
+	 * @since 2.0
+	 */
+	private Downloader downloader;
 	
 	/**
 	 * Object for handling the artist list
@@ -136,6 +147,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements LoginMethods
 		super(settings, subtitleID);
 		fileChooser = new DFileChooser(settings);
 		artistHandler = new ArtistHandler(settings, subtitleID);
+		downloader = new Downloader(this);
 		this.loginGUI = loginGUI;
 		this.loginGUI.setLoginMethods(this);
 		
@@ -341,6 +353,30 @@ public abstract class ArtistHostingGUI extends FrameGUI implements LoginMethods
 		favoriteCheck.setEnabled(true);
 		
 	}//METHOD
+	
+	/**
+	 * Returns the object's Downloader object.
+	 * 
+	 * @return Downloader
+	 * @since 2.0
+	 */
+	public Downloader getDownloader()
+	{
+		return downloader;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the directory for holding image captchas.
+	 * 
+	 * @return Captcha Folder
+	 * @since 2.0
+	 */
+	public File getCaptchaFolder()
+	{
+		return loginGUI.getCaptchaFolder();
+		
+	}//METHOD
 
 	@Override
 	public void disableAll()
@@ -435,6 +471,16 @@ public abstract class ArtistHostingGUI extends FrameGUI implements LoginMethods
 			}
 			
 		}//SWITCH
+		
+	}//METHOD
+	
+	@Override
+	public void setPage(String url)
+	{
+		CookieManager cookies = getDownloader().getClient().getCookieManager();
+		setNewClient();
+		getDownloader().getClient().setCookieManager(cookies);
+		getDownloader().setPage(url);
 		
 	}//METHOD
 	

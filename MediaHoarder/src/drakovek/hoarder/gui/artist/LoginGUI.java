@@ -1,15 +1,19 @@
 package drakovek.hoarder.gui.artist;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.io.File;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
@@ -19,6 +23,8 @@ import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DPasswordField;
 import drakovek.hoarder.gui.swing.components.DTextField;
+import drakovek.hoarder.media.ImageHandler;
+import drakovek.hoarder.media.ImageScrollPane;
 
 /**
  * GUI for remotely logging into a website.
@@ -29,6 +35,13 @@ import drakovek.hoarder.gui.swing.components.DTextField;
  */
 public class LoginGUI extends BaseGUI
 {
+	/**
+	 * Name of the captcha file to load before any actual captcha has been loaded from online.
+	 * 
+	 * @since 2.0
+	 */
+	private static String TEMP_CAPTCHA_FILE = "captcha.png"; //$NON-NLS-1$
+	
 	/**
 	 * Main dialog for showing the login GUI
 	 * 
@@ -79,6 +92,20 @@ public class LoginGUI extends BaseGUI
 	private DPasswordField passwordText;
 	
 	/**
+	 * ImageScrollPane for holding image captchas.
+	 * 
+	 * @since 2.0
+	 */
+	private ImageScrollPane imageScroll;
+	
+	/**
+	 * directory for holding image captchas.
+	 * 
+	 * @since 2.0
+	 */
+	private File captchaFolder;
+	
+	/**
 	 * Initializes the LoginGUI class
 	 * 
 	 * @param settings Program Settings
@@ -93,6 +120,24 @@ public class LoginGUI extends BaseGUI
 		this.useCaptcha = useCaptcha;
 		usernameText = new DTextField(this, DefaultLanguage.USERNAME);
 		passwordText = new DPasswordField(this, DefaultLanguage.PASSWORD);
+		imageScroll = new ImageScrollPane(settings);
+		
+		//GET CAPTCHA FOLDER AND REMOVE OLD IMAGES
+		captchaFolder = DReader.getDirectory(settings.getDataFolder(), "captcha"); //$NON-NLS-1$
+		if(captchaFolder != null && captchaFolder.isDirectory())
+		{
+			File[] captchaFiles = captchaFolder.listFiles();
+			for(int i = 0; i < captchaFiles.length; i++)
+			{
+				if(!captchaFiles[i].getName().equals(TEMP_CAPTCHA_FILE) && !captchaFiles[i].isDirectory())
+				{
+					captchaFiles[i].delete();
+					
+				}//IF
+				
+			}//FOR
+			
+		}//IF
 		
 	}//CONSTRUCTOR
 	
@@ -186,7 +231,29 @@ public class LoginGUI extends BaseGUI
 		captchaCST.gridwidth = 3;
 		captchaBottomPanel.add(new DButton(this, DefaultLanguage.REFRESH_CAPTCHA), captchaCST);
 		
-		JPanel captchaPanel = getVerticalStack(getVerticalStack(new DButton(this, DefaultLanguage.CAPTCHA), captchaBottomPanel), new JSeparator(SwingConstants.HORIZONTAL));
+		imageScroll.setScale(ImageHandler.SCALE_FULL, 1);
+		if(captchaFolder != null && captchaFolder.isDirectory())
+		{
+			imageScroll.setFile(new File(captchaFolder, TEMP_CAPTCHA_FILE));
+			
+		}//IF
+		
+		Dimension imageDimension = new Dimension(1, (int)imageScroll.getImageDimension().getHeight() + 10);
+		JPanel imagePanel = new JPanel();
+		imagePanel.setLayout(new GridBagLayout());
+		GridBagConstraints imageCST = new GridBagConstraints();
+		imageCST.gridx = 0;			imageCST.gridy = 0;
+		imageCST.gridwidth = 1;		imageCST.gridheight = 3;
+		imageCST.weightx = 0;		imageCST.weighty = 0;
+		imageCST.fill = GridBagConstraints.BOTH;
+		imagePanel.add(Box.createRigidArea(imageDimension), imageCST);
+		imageCST.gridx = 2;
+		imagePanel.add(Box.createRigidArea(imageDimension), imageCST);
+		imageCST.gridx = 1;
+		imageCST.weightx = 1;		imageCST.weighty = 1;
+		imagePanel.add(imageScroll, imageCST);
+		
+		JPanel captchaPanel = getVerticalStack(getVerticalStack(imagePanel, captchaBottomPanel), new JSeparator(SwingConstants.HORIZONTAL));
 		
 		//USER PANEL
 		JPanel fullPanel = new JPanel();
@@ -207,11 +274,33 @@ public class LoginGUI extends BaseGUI
 		return fullPanel;
 		
 	}//METHOD
+	
+	/**
+	 * Returns the directory for holding image captchas.
+	 * 
+	 * @return Captcha Folder
+	 * @since 2.0
+	 */
+	public File getCaptchaFolder()
+	{
+		return captchaFolder;
+		
+	}//METHOD
 
 	@Override
 	public void event(String id, int value)
 	{
-
+		switch(id)
+		{
+			case DefaultLanguage.REFRESH_CAPTCHA:
+			{
+				imageScroll.setFile(loginMethods.getCaptcha());
+				break;
+				
+			}//CASE
+			
+		}//SWITCH
+		
 	}//METHOD
 	
 }//CLASS

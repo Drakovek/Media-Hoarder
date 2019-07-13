@@ -2,6 +2,8 @@ package drakovek.hoarder.file;
 
 import javax.swing.UIManager;
 
+import org.apache.commons.logging.LogFactory;
+
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 
 /**
@@ -33,18 +35,13 @@ public class Start
 	public static void startGUI()
 	{
 		DSettings settings = new DSettings();
-		startGUI(settings);
-	
-	}//METHOD
-	
-	/**
-	 * Starts the GUI for the program based on the program settings.
-	 * 
-	 * @param settings Program Settings
-	 * @since 2.0
-	 */
-	public static void startGUI(DSettings settings)
-	{
+		
+		//Turn off HtmlUnit warnings
+		LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog"); //$NON-NLS-1$ //$NON-NLS-2$
+		java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(java.util.logging.Level.OFF); //$NON-NLS-1$
+	    java.util.logging.Logger.getLogger("org.apache.http").setLevel(java.util.logging.Level.OFF); //$NON-NLS-1$
+	    
+		
 		//SET ANTIALIASING
 		if(settings.getFontAA())
 		{
@@ -58,6 +55,19 @@ public class Start
 			System.setProperty("swing.aatext", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 			
 		}//ELSE
+		
+		startGUI(settings);
+	
+	}//METHOD
+	
+	/**
+	 * Starts the GUI for the program based on the program settings.
+	 * 
+	 * @param settings Program Settings
+	 * @since 2.0
+	 */
+	public static void startGUI(DSettings settings)
+	{
 		
 		//SET LOOK AND FEEL
         try
