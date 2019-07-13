@@ -64,6 +64,34 @@ public class ImagePanel extends JPanel implements Scrollable
 	private ImageHandler imageHandler;
 	
 	/**
+	 * Width of the gap between the panel and its parent scroll pane
+	 * 
+	 * @since 2.0
+	 */
+	private int gapWidth;
+	
+	/**
+	 * Height of the gap between the panel and its parent scroll pane
+	 * 
+	 * @since 2.0
+	 */
+	private int gapHeight;
+	
+	/**
+	 * Width of a vertical scroll bar
+	 * 
+	 * @since 2.0
+	 */
+	private int scrollWidth;
+	
+	/**
+	 * Height of a horizontal scroll bar
+	 * 
+	 * @since 2.0
+	 */
+	private int scrollHeight;
+	
+	/**
 	 * Initializes the ImagePanel to have now image to start with.
 	 * 
 	 * @param settings Program Settings
@@ -72,38 +100,32 @@ public class ImagePanel extends JPanel implements Scrollable
 	public ImagePanel(DSettings settings)
 	{
 		super();
-		initializeClass(settings);
-		
-	}//CONSTRUCTOR
-	
-	/**
-	 * Initializes the ImagePanel to start displaying an image from a given file.
-	 * 
-	 * @param settings Program Settings
-	 * @param file Image file to display.
-	 * @since 2.0
-	 */
-	public ImagePanel(DSettings settings, final File file)
-	{
-		super();
-		initializeClass(settings);
-		setFile(file);
-		
-	}//CONSTRUCTOR
-	
-	/**
-	 * Initializes all the instance variables for the class.
-	 * 
-	 * @param settings Program Settings
-	 * @since 2.0
-	 */
-	private void initializeClass(DSettings settings)
-	{
 		gifImage = null;
 		scaledImage = null;
 		originalImage = null;
 		imageDimension = new Dimension(0, 0);
-		imageHandler = new ImageHandler(settings);
+		imageHandler = new ImageHandler(settings);	
+		gapWidth = 0;
+		gapHeight = 0;
+		scrollWidth = 0;
+		scrollHeight = 0;
+		
+	}//CONSTRUCTOR
+	
+	/**
+	 * Sets the size values relevant to properly fitting an image into frame.
+	 * 
+	 * @param gapWidth Width of the gap between the panel and its parent scroll pane
+	 * @param gapHeight Height of the gap between the panel and its parent scroll pane
+	 * @param scrollWidth Width of a vertical scroll bar
+	 * @param scrollHeight Height of a horizontal scroll bar
+	 */
+	public void setSizes(final int gapWidth, final int gapHeight, final int scrollWidth, final int scrollHeight)
+	{
+		this.gapWidth = gapWidth;
+		this.gapHeight = gapHeight;
+		this.scrollWidth = scrollWidth;
+		this.scrollHeight = scrollHeight;
 		
 	}//METHOD
 	
@@ -182,7 +204,7 @@ public class ImagePanel extends JPanel implements Scrollable
 			Dimension scaledDimension;
 			try
 			{
-				scaledDimension = imageHandler.getScaleDimensions(originalImage.getWidth(), originalImage.getHeight(), this.getParent().getWidth(), this.getParent().getHeight());
+				scaledDimension = imageHandler.getScaleDimensions(originalImage.getWidth(), originalImage.getHeight(), getParent().getParent().getWidth() - gapWidth, getParent().getParent().getHeight() - gapHeight, scrollWidth, scrollHeight);
 			
 			}//TRY
 			catch(NullPointerException e)
@@ -299,7 +321,7 @@ public class ImagePanel extends JPanel implements Scrollable
 	public boolean getScrollableTracksViewportWidth()
 	{
 		return getPreferredSize().width <= getParent().getSize().width;
-		
+
 	}//METHOD
 
 	@Override

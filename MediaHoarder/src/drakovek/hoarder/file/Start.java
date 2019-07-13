@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
-import drakovek.hoarder.media.ImagePanel;
+import drakovek.hoarder.media.ImageHandler;
+import drakovek.hoarder.media.ImageScrollPane;
 
 /**
  * Main class for starting the Media Hoarder Program
@@ -57,8 +57,9 @@ public class Start
 		
 		DSettings settings = new DSettings();
 		JFrame testFrame = new JFrame("Test Frame"); //$NON-NLS-1$
-		ImagePanel imagePanel = new ImagePanel(settings, imageFile);
-		JScrollPane imageScroll = new JScrollPane(imagePanel);
+		ImageScrollPane imageScroll = new ImageScrollPane(settings, imageFile);
+		imageScroll.resetBottomRight();
+		imageScroll.resetTopLeft();
 		testFrame.getContentPane().add(imageScroll, BorderLayout.CENTER);
 		testFrame.pack();
 		testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -84,7 +85,9 @@ public class Start
 			
 		}//WHILE
 		
-		imagePanel.setFile(imageFile);
+		settings.setScaleType(ImageHandler.SCALE_DIRECT);
+		settings.setScaleAmount(0.25);
+		imageScroll.setFile(imageFile);
     	
 	}//METHOD
 	

@@ -268,11 +268,13 @@ public class ImageHandler
 	 * @param paneWidth Width of the pane to fit image within
 	 * @param paneHeight Height of pane to fit image within
 	 * @return Dimensions to fit image into given dimensions
+	 * @param scrollWidth Width of a vertical scroll bar, used to properly fit image in frame
+	 * @param scrollHeight Height of a horizontal scroll bar, used to properly fit image in frame
 	 * @since 2.0
 	 */
-	public Dimension getScaleDimensions(final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight)
+	public Dimension getScaleDimensions(final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight, final int scrollWidth, final int scrollHeight)
 	{
-		return getScaleDimensions(-1, -1, imageWidth, imageHeight, paneWidth, paneHeight);
+		return getScaleDimensions(-1, -1, imageWidth, imageHeight, paneWidth, paneHeight, scrollWidth, scrollHeight);
 		
 	}//METHOD
 	
@@ -285,10 +287,12 @@ public class ImageHandler
 	 * @param imageHeight Height of the initial image
 	 * @param paneWidth Width of the pane to fit image within
 	 * @param paneHeight Height of pane to fit image within
+	 * @param scrollWidth Width of a vertical scroll bar, used to properly fit image in frame
+	 * @param scrollHeight Height of a horizontal scroll bar, used to properly fit image in frame
 	 * @return Dimensions to fit image into given dimensions
 	 * @since 2.0
 	 */
-	public Dimension getScaleDimensions(final int scaleType, final double scaleAmount, final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight)
+	public Dimension getScaleDimensions(final int scaleType, final double scaleAmount, final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight, final int scrollWidth, final int scrollHeight)
 	{
 		int myScaleType;
 		double myScaleAmount;
@@ -368,16 +372,31 @@ public class ImageHandler
 					ratio = (double)imageHeight / (double)imageWidth;
 					newHeight = (int)(ratio * (double)newWidth);
 				
+					//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
+					if(scrollWidth == 0 || newHeight <= paneHeight)
+					{
+						return new Dimension(newWidth, newHeight);
+						
+					}//IF
+					
+					return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth - scrollWidth, paneHeight, 0, 0);
+					
+					
 				}//IF
-				else
+				
+				newHeight = paneHeight;
+				ratio = (double)imageWidth / (double)imageHeight;
+				newWidth = (int)(ratio * (double)newHeight);
+				
+				//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
+				if(scrollHeight == 0 || newWidth <= paneWidth)
 				{
-					newHeight = paneHeight;
-					ratio = (double)imageWidth / (double)imageHeight;
-					newWidth = (int)(ratio * (double)newHeight);
+					return new Dimension(newWidth, newHeight);
+					
+				}//IF
 				
-				}//ELSE
+				return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth, paneHeight - scrollHeight, 0, 0);
 				
-				return new Dimension(newWidth, newHeight);
 				
 			}//CASE
 			case SCALE_1D_FIT:
@@ -390,7 +409,15 @@ public class ImageHandler
 					newWidth = paneWidth;
 					ratio = (double)imageHeight / (double)imageWidth;
 					newHeight = (int)(ratio * (double)newWidth);
-					return new Dimension(newWidth, newHeight);
+					
+					//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
+					if(scrollWidth == 0 || newHeight <= paneHeight)
+					{
+						return new Dimension(newWidth, newHeight);
+						
+					}//IF
+					
+					return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth - scrollWidth, paneHeight, 0, 0);
 					
 				}//IF
 				
@@ -399,8 +426,17 @@ public class ImageHandler
 					newHeight = paneHeight;
 					ratio = (double)imageWidth / (double)imageHeight;
 					newWidth = (int)(ratio * (double)newHeight);
-					return new Dimension(newWidth, newHeight);
-
+					
+					//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
+					if(scrollHeight == 0 || newWidth <= paneWidth)
+					{
+						return new Dimension(newWidth, newHeight);
+						
+					}//IF
+					
+					return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth, paneHeight - scrollHeight, 0, 0);
+					
+					
 				}//IF
 				
 				break;
