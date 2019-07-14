@@ -30,14 +30,48 @@ public class DDialog extends JDialog
 	 * @param ownerFrame Frame linked to the DDialog
 	 * @param dialogPanel Panel contained in the DDialog
 	 * @param title Title of the dialog
-	 * @param width Desired width of the dialog. If 0, the dialog will use it's default value.
-	 * @param height Desired height of the dialog. If 0, the dialog will use it's default value.
-	 * @since 1.0
+	 * @param modal Whether the dialog is modal (Disables the ownerFrame)
+	 * @param width Desired width of the dialog. If 0, the dialog will use it's default value
+	 * @param height Desired height of the dialog. If 0, the dialog will use it's default value
+	 * @since 2.0
 	 */
-	public DDialog(DFrame ownerFrame, JPanel dialogPanel, final String title, final int width, final int height)
+	public DDialog(DFrame ownerFrame, JPanel dialogPanel, final String title, final boolean modal, final int width, final int height)
 	{
-		super(ownerFrame, title, true);
+		super(ownerFrame, title, modal);
+		initializeDialog(dialogPanel, width, height);
+		this.setLocationRelativeTo(ownerFrame);
 		
+	}//CONSTRUCTOR
+	
+	/**
+	 * Initializes the DDialog class.
+	 * 
+	 * @param ownerDialog Dialog linked to the DDialog
+	 * @param dialogPanel Panel contained in the DDialog
+	 * @param title Title of the dialog
+	 * @param modal Whether the dialog is modal (Disables the ownerDialog)
+	 * @param width Desired width of the dialog. If 0, the dialog will use it's default value
+	 * @param height Desired height of the dialog. If 0, the dialog will use it's default value
+	 * @since 2.0
+	 */
+	public DDialog(DDialog ownerDialog, JPanel dialogPanel, final String title, final boolean modal, final int width, final int height)
+	{
+		super(ownerDialog, title, modal);
+		initializeDialog(dialogPanel, width, height);
+		this.setLocationRelativeTo(ownerDialog);
+		
+	}//CONSTRUCTOR
+	
+	/**
+	 * Initializes the dialog.
+	 * 
+	 * @param dialogPanel Panel contained in the DDialog
+	 * @param width Desired width of the dialog. If 0, the dialog will use it's default value
+	 * @param height Desired height of the dialog. If 0, the dialog will use it's default value
+	 * @since 2.0
+	 */
+	private void initializeDialog(JPanel dialogPanel, final int width, final int height)
+	{
 		//ADD PANEL
 		this.getContentPane().add(dialogPanel, BorderLayout.CENTER);
 				
@@ -89,8 +123,7 @@ public class DDialog extends JDialog
 		
 		//FINALIZE
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.setLocationRelativeTo(ownerFrame);
 		
-	}//CONSTRUCTOR
+	}//METHOD
 
 }//CLASS

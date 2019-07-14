@@ -17,14 +17,18 @@ import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DDialog;
 import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DPasswordField;
 import drakovek.hoarder.gui.swing.components.DTextField;
+import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.media.ImageHandler;
 import drakovek.hoarder.media.ImageScrollPane;
+import drakovek.hoarder.work.DSwingWorker;
+import drakovek.hoarder.work.Worker;
 
 /**
  * GUI for remotely logging into a website.
@@ -33,14 +37,21 @@ import drakovek.hoarder.media.ImageScrollPane;
  * @version 2.0
  * @since 2.0
  */
-public class LoginGUI extends BaseGUI
+public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 {
 	/**
 	 * Name of the captcha file to load before any actual captcha has been loaded from online.
 	 * 
 	 * @since 2.0
 	 */
-	private static String TEMP_CAPTCHA_FILE = "captcha.png"; //$NON-NLS-1$
+	private static final String TEMP_CAPTCHA_FILE = "captcha.png"; //$NON-NLS-1$
+	
+	/**
+	 * Action ID for loading image captcha
+	 * 
+	 * @since 2.0
+	 */
+	private static final String LOAD_CAPTCHA = "load_captcha"; //$NON-NLS-1$
 	
 	/**
 	 * Main dialog for showing the login GUI
@@ -55,6 +66,13 @@ public class LoginGUI extends BaseGUI
 	 * @since 2.0
 	 */
 	private LoginMethods loginMethods;
+	
+	/**
+	 * Dialog for showing progress
+	 * 
+	 * @since 2.0
+	 */
+	private DProgressDialog progressDialog;
 	
 	/**
 	 * Language ID for the title for the login dialog
@@ -83,6 +101,20 @@ public class LoginGUI extends BaseGUI
 	 * @since 2.0
 	 */
 	private DTextField usernameText;
+	
+	/**
+	 * Button to login
+	 * 
+	 * @since 2.0
+	 */
+	private DButton loginButton;
+	
+	/**
+	 * Button for refreshing the image captcha
+	 * 
+	 * @since 2.0
+	 */
+	private DButton captchaButton;
 	
 	/**
 	 * Password field for the user to input their password
@@ -118,6 +150,7 @@ public class LoginGUI extends BaseGUI
 		super(settings);
 		this.titleID = titleID;
 		this.useCaptcha = useCaptcha;
+		progressDialog = new DProgressDialog(settings);
 		usernameText = new DTextField(this, DefaultLanguage.USERNAME);
 		passwordText = new DPasswordField(this, DefaultLanguage.PASSWORD);
 		imageScroll = new ImageScrollPane(settings);
@@ -162,7 +195,7 @@ public class LoginGUI extends BaseGUI
 	public void openLoginDialog(DFrame owner)
 	{
 		owner.setAllowExit(false);
-		dialog = new DDialog(owner, getLoginPanel(), titleID, getSettings().getFontSize() * getSettings().getFrameWidth(), 0);
+		dialog = new DDialog(owner, getLoginPanel(), titleID, true, getSettings().getFontSize() * getSettings().getFrameWidth(), 0);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 		owner.setAllowExit(true);
@@ -209,7 +242,8 @@ public class LoginGUI extends BaseGUI
 		loginPanel.add(textPanel, loginCST);
 		loginCST.gridx = 0;			loginCST.gridy = 2;
 		loginCST.gridwidth = 3;
-		loginPanel.add(new DButton(this, DefaultLanguage.LOGIN), loginCST);
+		loginButton = new DButton(this, DefaultLanguage.LOGIN);
+		loginPanel.add(loginButton, loginCST);
 		
 		//CREATE CAPTCHA PANEL
 		JPanel captchaBottomPanel = new JPanel();
@@ -229,7 +263,8 @@ public class LoginGUI extends BaseGUI
 		captchaBottomPanel.add(captchaText, captchaCST);
 		captchaCST.gridx = 0;		captchaCST.gridy = 2;
 		captchaCST.gridwidth = 3;
-		captchaBottomPanel.add(new DButton(this, DefaultLanguage.REFRESH_CAPTCHA), captchaCST);
+		captchaButton = new DButton(this, DefaultLanguage.REFRESH_CAPTCHA);
+		captchaBottomPanel.add(captchaButton, captchaCST);
 		
 		imageScroll.setScale(ImageHandler.SCALE_FULL, 1);
 		if(captchaFolder != null && captchaFolder.isDirectory())
@@ -286,6 +321,22 @@ public class LoginGUI extends BaseGUI
 		return captchaFolder;
 		
 	}//METHOD
+	
+	/**
+	 * Loads image captcha
+	 * 
+	 * @since 2.0
+	 */
+	private void loadCaptcha()
+	{
+		disableAll();
+		progressDialog.setProcessLabel(DefaultLanguage.LOAD_CAPTCHA);
+		progressDialog.setDetailLabel(new String());
+		progressDialog.setProgressBar(true, false, 0, 0, null);
+		progressDialog.startProgressDialog(dialog, DefaultLanguage.LOAD_CAPTCHA_TITLE);
+		(new DSwingWorker(this, LOAD_CAPTCHA)).execute();
+		
+	}//METHOD
 
 	@Override
 	public void event(String id, int value)
@@ -294,12 +345,67 @@ public class LoginGUI extends BaseGUI
 		{
 			case DefaultLanguage.REFRESH_CAPTCHA:
 			{
-				imageScroll.setFile(loginMethods.getCaptcha());
+				loadCaptcha();
 				break;
 				
 			}//CASE
 			
 		}//SWITCH
+		
+	}//METHOD
+
+	@Override
+	public void run(String id)
+	{
+		switch(id)
+		{
+			case LOAD_CAPTCHA:
+			{
+				imageScroll.setFile(loginMethods.getCaptcha());
+				progressDialog.closeProgressDialog();
+				break;
+				
+			}//CASE
+			
+		}//SWITCH
+		
+	}//METHOD
+
+	@Override
+	public void done(String id)
+	{
+		switch(id)
+		{
+			case LOAD_CAPTCHA:
+			{
+				enableAll();
+				break;
+				
+			}//CASE
+			
+		}//SWITCH
+		
+	}//METHOD
+
+	@Override
+	public void enableAll()
+	{
+		usernameText.setEnabled(true);
+		passwordText.setEnabled(true);
+		captchaText.setEnabled(true);
+		loginButton.setEnabled(true);
+		captchaButton.setEnabled(true);
+		
+	}//METHOD
+
+	@Override
+	public void disableAll()
+	{
+		usernameText.setEnabled(false);
+		passwordText.setEnabled(false);
+		captchaText.setEnabled(false);
+		loginButton.setEnabled(false);
+		captchaButton.setEnabled(false);
 		
 	}//METHOD
 	

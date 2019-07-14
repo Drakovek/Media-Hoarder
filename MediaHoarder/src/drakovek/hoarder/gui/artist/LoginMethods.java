@@ -16,9 +16,10 @@ public interface LoginMethods
 	 * 
 	 * @param username User's username
 	 * @param password User's password
+	 * @param captcha Text for the image captcha.
 	 * @since 2.0
 	 */
-	public void login(final String username, final String password);
+	public void login(final String username, final String password, final String captcha);
 	
 	/**
 	 * Checks if the user is currently logged into a given website

@@ -70,7 +70,7 @@ public class DTextDialog extends BaseGUI
 	{
 		owner.setAllowExit(false);
 		returnString = null;
-		dialog = new DDialog(owner, getDialogPanel(messageIDs, fieldText), getSettings().getLanuageText(titleID), getSettings().getFontSize() * getSettings().getFrameWidth(), 0);
+		dialog = new DDialog(owner, getDialogPanel(messageIDs, fieldText), getSettings().getLanuageText(titleID), true, getSettings().getFontSize() * getSettings().getFrameWidth(), 0);
 		dialog.setVisible(true);
 		dialog = null;
 		owner.setAllowExit(true);

@@ -17,4 +17,12 @@ public interface Worker
 	 */
 	public void run(final String id);
 	
+	/**
+	 * Called when a worker ends.
+	 * 
+	 * @param id ID of the work
+	 * @since 2.0
+	 */
+	public void done(final String id);
+	
 }//CLASS

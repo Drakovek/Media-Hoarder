@@ -43,7 +43,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	}//METHOD
 
 	@Override
-	public void login(String username, String password)
+	public void login(final String username, final String password, final String captcha)
 	{
 		
 	}//METHOD

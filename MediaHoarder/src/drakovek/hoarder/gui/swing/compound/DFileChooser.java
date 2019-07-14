@@ -231,7 +231,7 @@ public class DFileChooser extends BaseGUI
 		owner.setAllowExit(false);
 		returnFile = null;
 		initializeChooser(new String[0], startDirectory);
-		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), getSettings().getFontSize() * 30, getSettings().getFontSize() * 20);
+		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), true, getSettings().getFontSize() * 30, getSettings().getFontSize() * 20);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		if(startDirectory != null && startDirectory.isDirectory())

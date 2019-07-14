@@ -206,5 +206,8 @@ public class DScrollPane extends JScrollPane implements Worker
 		}//SWITCH
 		
 	}//METHOD
+
+	@Override
+	public void done(String id){}
 	
 }//CLASS
