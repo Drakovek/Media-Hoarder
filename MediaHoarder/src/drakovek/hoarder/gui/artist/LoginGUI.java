@@ -24,6 +24,7 @@ import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DPasswordField;
 import drakovek.hoarder.gui.swing.components.DTextField;
+import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.media.ImageHandler;
 import drakovek.hoarder.media.ImageScrollPane;
@@ -45,13 +46,6 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 	 * @since 2.0
 	 */
 	private static final String TEMP_CAPTCHA_FILE = "captcha.png"; //$NON-NLS-1$
-	
-	/**
-	 * Action ID for loading image captcha
-	 * 
-	 * @since 2.0
-	 */
-	private static final String LOAD_CAPTCHA = "load_captcha"; //$NON-NLS-1$
 	
 	/**
 	 * Main dialog for showing the login GUI
@@ -323,18 +317,37 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 	}//METHOD
 	
 	/**
-	 * Loads image captcha
+	 * Starts the worker to load an image captcha
 	 * 
 	 * @since 2.0
 	 */
 	private void loadCaptcha()
 	{
 		disableAll();
+		captchaText.setText(new String());
 		progressDialog.setProcessLabel(DefaultLanguage.LOAD_CAPTCHA);
-		progressDialog.setDetailLabel(new String());
 		progressDialog.setProgressBar(true, false, 0, 0, null);
 		progressDialog.startProgressDialog(dialog, DefaultLanguage.LOAD_CAPTCHA_TITLE);
-		(new DSwingWorker(this, LOAD_CAPTCHA)).execute();
+		(new DSwingWorker(this, DefaultLanguage.CAPTCHA)).execute();
+		
+	}//METHOD
+	
+	/**
+	 * Starts the worker that attempts login.
+	 * 
+	 * @since 2.0
+	 */
+	private void login()
+	{
+		if(usernameText.getText().length() > 0 && passwordText.getPassword().length > 0 && (!useCaptcha || captchaText.getText().length() > 0))
+		{
+			disableAll();
+			progressDialog.setProcessLabel(DefaultLanguage.LOGIN);
+			progressDialog.setProgressBar(true, false, 0, 0, null);
+			progressDialog.startProgressDialog(dialog, DefaultLanguage.ATTEMPT_LOGIN);
+			(new DSwingWorker(this, DefaultLanguage.LOGIN)).execute();
+		
+		}//IF
 		
 	}//METHOD
 
@@ -349,6 +362,12 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 				break;
 				
 			}//CASE
+			case DefaultLanguage.LOGIN:
+			{
+				login();
+				break;
+				
+			}//CASE
 			
 		}//SWITCH
 		
@@ -359,10 +378,23 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 	{
 		switch(id)
 		{
-			case LOAD_CAPTCHA:
+			case DefaultLanguage.CAPTCHA:
 			{
 				imageScroll.setFile(loginMethods.getCaptcha());
-				progressDialog.closeProgressDialog();
+				break;
+				
+			}//CASE
+			case DefaultLanguage.LOGIN:
+			{
+				char[] passwordArray = passwordText.getPassword();
+				StringBuilder builder = new StringBuilder();
+				for(char passwordChar: passwordArray)
+				{
+					builder.append(passwordChar);
+					
+				}//FOR
+				
+				loginMethods.login(usernameText.getText(), builder.toString(), captchaText.getText());
 				break;
 				
 			}//CASE
@@ -376,9 +408,33 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 	{
 		switch(id)
 		{
-			case LOAD_CAPTCHA:
+			case DefaultLanguage.CAPTCHA:
 			{
 				enableAll();
+				progressDialog.closeProgressDialog();
+				break;
+				
+			}//CASE
+			case DefaultLanguage.LOGIN:
+			{
+				enableAll();
+				progressDialog.closeProgressDialog();
+				
+				if(loginMethods.isLoggedIn())
+				{
+					dialog.dispose();
+					dialog = null;
+					
+				}//IF
+				else
+				{
+					DButtonDialog buttonDialog = new DButtonDialog(getSettings());
+					String[] messageIDs = {DefaultLanguage.LOGIN_FAILED};
+					String[] buttonIDs = {DefaultLanguage.OK};
+					buttonDialog.openButtonDialog(this, dialog, DefaultLanguage.LOGIN_FAILED, messageIDs, buttonIDs);
+					loadCaptcha();
+					
+				}//ELSE
 				break;
 				
 			}//CASE

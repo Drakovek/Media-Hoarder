@@ -1,10 +1,13 @@
 package drakovek.hoarder.gui.artist;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.html.DomAttr;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.DefaultLanguage;
@@ -46,14 +49,61 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	}//METHOD
 
 	@Override
-	public void login(final String username, final String password, final String Captcha)
+	public void login(final String username, final String password, final String captcha)
 	{
+		if(getDownloader().getPage() != null)
+		{
+			//FILL USERNAME
+			List<HtmlInput> usernameText = getDownloader().getPage().getByXPath("//input[@id='login']"); //$NON-NLS-1$
+			if(usernameText.size() > 0)
+			{
+				usernameText.get(0).setValueAttribute(username);
+				
+			}//IF
+			
+			//FILL PASSWORD
+			List<HtmlInput> passwordText = getDownloader().getPage().getByXPath("//input[@name='pass']"); //$NON-NLS-1$
+			if(passwordText.size() > 0)
+			{
+				passwordText.get(0).setValueAttribute(password);
+				
+			}//IF
+			
+			//FILL CAPTCHA
+			List<HtmlInput> captchaText = getDownloader().getPage().getByXPath("//input[@id='captcha']"); //$NON-NLS-1$
+			if(captchaText.size() > 0)
+			{
+				captchaText.get(0).setValueAttribute(captcha);
+				
+			}//IF
+			
+			//PRESS LOGIN BUTTON
+			List<HtmlInput> loginButton = getDownloader().getPage().getByXPath("//input[@name='login']"); //$NON-NLS-1$
+			if(loginButton.size() > 0)
+			{
+				try
+				{
+					getDownloader().setPage((HtmlPage)loginButton.get(0).click());
+				
+				}//TRY
+				catch (IOException e){}
+				
+			}//IF
+			
+		}//IF
 		
 	}//METHOD
 
 	@Override
 	public boolean isLoggedIn()
 	{
+		if(getDownloader().getPage() != null)
+		{
+			List<DomAttr> myUsername = getDownloader().getPage().getByXPath("//a[@id='my-username']"); //$NON-NLS-1$
+			return myUsername.size() > 0;
+		
+		}//IF
+		
 		return false;
 		
 	}//METHOD

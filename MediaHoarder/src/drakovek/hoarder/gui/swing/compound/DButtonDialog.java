@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DDialog;
 import drakovek.hoarder.gui.swing.components.DFrame;
@@ -70,6 +71,29 @@ public class DButtonDialog extends BaseGUI
     	dialog.setVisible(true);
     	dialog = null;
     	owner.setAllowExit(true);
+    	return returnString;
+	
+	}//METHOD
+	
+	/**
+	 * Creates a dialog with buttons as inputs.
+	 * 
+	 * @param disabler Object with components to disable
+	 * @param owner DDialog parent of the button dialog
+	 * @param titleID Language ID for the dialog Title
+	 * @param messageIDs Language IDs for the dialog message(s)
+	 * @param buttonIDs Language IDs for the dialog buttons
+	 * @return Language ID from buttonIDs corresponding to the button pressed by the user
+	 * @since 2.0
+	 */
+	public String openButtonDialog(ComponentDisabler disabler, DDialog owner, final String titleID, final String[] messageIDs, final String[] buttonIDs)
+	{
+		returnString = null;
+		disabler.disableAll();
+    	dialog = new DDialog(owner, getDialogPanel(messageIDs, buttonIDs), getSettings().getLanuageText(titleID), true, 0, 0);
+    	dialog.setVisible(true);
+    	dialog = null;
+    	disabler.enableAll();
     	return returnString;
 	
 	}//METHOD

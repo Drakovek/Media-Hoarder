@@ -179,6 +179,7 @@ public class DProgressDialog extends BaseGUI
 	public void setProcessLabel(final String id)
 	{
 		processLabel.setTextID(id, false);
+		detailLabel.setTextID(DefaultLanguage.RUNNING, false);
 		
 	}//METHOD
 	
@@ -214,7 +215,7 @@ public class DProgressDialog extends BaseGUI
 			case DefaultLanguage.CANCEL:
 			{
 				cancelled = true;
-				setDetailLabel(DefaultLanguage.CANCELING);
+				setDetailLabel(getSettings().getLanuageText(DefaultLanguage.CANCELING));
 				setProgressBar(true, false, 0, 0, null);
 				
 			}//CASE

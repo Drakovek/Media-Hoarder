@@ -228,6 +228,18 @@ public class Downloader
 	}//METHOD
 	
 	/**
+	 * Sets the main HtmlPage to a separate given HtmlPage
+	 * 
+	 * @param page Input HtmlPage
+	 * @since 2.0
+	 */
+	public void setPage(HtmlPage page)
+	{
+		this.page = page;
+		
+	}//METHOD
+	
+	/**
 	 * Sets the main WebClient as a new WebClient object.
 	 * 
 	 * @since 2.0

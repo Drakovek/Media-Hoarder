@@ -452,9 +452,32 @@ public class DefaultLanguage
 	public static final String LOAD_CAPTCHA = "load_captcha"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for title of the "Attempt Login" progress dialog.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ATTEMPT_LOGIN = "attempt_login"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "login failed" message if attempted login fails.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOGIN_FAILED = "login_failed"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Canceling" label when canceling a process
+	 * 
+	 * @since 2.0
 	 */
 	public static final String CANCELING = "canceling"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Running" label default when a process is running
+	 * 
+	 * @since 2.0
+	 */
+	public static final String RUNNING = "running"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of the login GUI when logging into DeviantArt.
@@ -545,6 +568,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(EXIT, "^Exit")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCELING, "Canceling...")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RUNNING, "Running...")); //$NON-NLS-1$
 		
 		//FRAME
 		languageFile.add(new String());
@@ -613,6 +637,10 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[0], "Some of the listed artists don't have folders.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[1], "You may be using the wrong directory.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[2], "Use this directory?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_LOGIN, "DeviantArt Login")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_LOGIN, "Fur Affinity Login")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CHOOSE_FUR_AFFINITY_FOLDER, "^Choose Fur Affinity Folder")); //$NON-NLS-1$
 		
 		//LOGIN
 		languageFile.add(new String());
@@ -624,10 +652,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(REFRESH_CAPTCHA, "^Refresh Captcha")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOAD_CAPTCHA_TITLE, "Loading Captcha")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOAD_CAPTCHA, "Loading Image Captcha")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_LOGIN, "DeviantArt Login")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_LOGIN, "Fur Affinity Login")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(CHOOSE_FUR_AFFINITY_FOLDER, "^Choose Fur Affinity Folder")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ATTEMPT_LOGIN, "Attempting Login")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOGIN_FAILED, "Login Failed")); //$NON-NLS-1$
 		
 		//VIEWER
 		languageFile.add(new String());
