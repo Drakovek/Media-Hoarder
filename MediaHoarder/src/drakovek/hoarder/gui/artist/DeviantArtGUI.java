@@ -5,6 +5,7 @@ import java.io.File;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 
 /**
@@ -20,11 +21,12 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 * Initializes DeviantArtGUI class.
 	 * 
 	 * @param settings Program Settings
+	 * @param dmfHandler Program's DmfHandler
 	 * @since 2.0
 	 */
-	public DeviantArtGUI(DSettings settings)
+	public DeviantArtGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, new LoginGUI(settings, DefaultLanguage.DEVIANTART_LOGIN, false), DefaultLanguage.DEVIANTART_MODE, DefaultLanguage.CHOOSE_DEVIANTART_FOLDER);
+		super(settings, dmfHandler, new LoginGUI(settings, DefaultLanguage.DEVIANTART_LOGIN, false), DefaultLanguage.DEVIANTART_MODE, DefaultLanguage.CHOOSE_DEVIANTART_FOLDER);
 		
 	}//CONSTRUCTOR
 

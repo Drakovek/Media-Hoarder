@@ -1,6 +1,7 @@
 package drakovek.hoarder.gui;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DFrame;
 
@@ -21,16 +22,25 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	private DFrame frame;
 	
 	/**
+	 * Program's DmfHandler
+	 * 
+	 * @since 2.0
+	 */
+	private DmfHandler dmfHandler;
+	
+	/**
 	 * Initializes the FrameGUI Object
 	 * 
 	 * @param settings Program Settings
+	 * @param dmfHandler Program's DmfHanlder
 	 * @param subtitleID ID of the subtitle. If null, just uses the default title
-	 * @since
+	 * @since 2.0
 	 */
-	public FrameGUI(DSettings settings, final String subtitleID)
+	public FrameGUI(DSettings settings, DmfHandler dmfHandler, final String subtitleID)
 	{
 		super(settings);
 		frame = new DFrame(this, settings, getTitle(subtitleID));
+		this.dmfHandler = dmfHandler;
 		
 	}//CONSTRUCTOR
 	
@@ -43,6 +53,18 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	public DFrame getFrame()
 	{
 		return frame;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DmfHandler.
+	 * 
+	 * @return DmfHandler
+	 * @since 2.0
+	 */
+	public DmfHandler getDmfHandler()
+	{
+		return dmfHandler;
 		
 	}//METHOD
 	

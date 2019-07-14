@@ -46,7 +46,7 @@ public class ModesGUI extends ModeBaseGUI
 			}//CASE
 			case DefaultLanguage.VIEW_MODE:
 			{
-				new ViewBrowserGUI(getSettings());
+				new ViewBrowserGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
 				

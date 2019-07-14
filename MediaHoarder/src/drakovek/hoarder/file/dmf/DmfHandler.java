@@ -34,6 +34,13 @@ public class DmfHandler
 	private DmfDatabase database;
 	
 	/**
+	 * Current directory loaded by the DmfHandler
+	 * 
+	 * @since 2.0
+	 */
+	private File directory;
+	
+	/**
 	 * Initializes DmfHandler class
 	 * 
 	 * @since 2.0
@@ -51,6 +58,7 @@ public class DmfHandler
 	 */
 	private void clearDMFs()
 	{
+		directory = null;
 		database = new DmfDatabase();
 		sorted = new ArrayList<>();
 		filtered = new ArrayList<>();
@@ -65,8 +73,9 @@ public class DmfHandler
 	 * @param saveIndexes Whether to save DmfDirectory objects to index files
 	 * @since 2.0
 	 */
-	public void loadDMFs(File dmfFolder, final boolean useIndexes, final boolean saveIndexes)
+	public void loadDMFs(final File dmfFolder, final boolean useIndexes, final boolean saveIndexes)
 	{
+		directory = dmfFolder;
 		database.loadDMFs(dmfFolder, useIndexes, saveIndexes);
 		resetSorted();
 		resetFiltered();
@@ -104,6 +113,49 @@ public class DmfHandler
 			filtered.add(sorted.get(i));
 			
 		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Returns the currently loaded directory of the DmfHandler
+	 * 
+	 * @return Current Directory
+	 * @since 2.0
+	 */
+	public File getDirectory()
+	{
+		return directory;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given directory has been loaded by the DmfHandler
+	 * (Returns true if given directory is equal to the current directory or is a sub-directory of the current directory)
+	 * 
+	 * @param inputDirectory Given Directory
+	 * @return Whether the given directory has been loaded by the dmfHandler
+	 * @since 2.0
+	 */
+	public boolean containsFile(final File inputDirectory)
+	{
+		if(inputDirectory != null)
+		{
+			File file = inputDirectory;
+			while(file != null && file.isDirectory())
+			{
+				if(directory.equals(file))
+				{
+					return true;
+				
+				}//IF
+			
+				file = file.getParentFile();
+			
+			}//WHILE
+			
+		}//IF
+		
+		return false;
 		
 	}//METHOD
 	

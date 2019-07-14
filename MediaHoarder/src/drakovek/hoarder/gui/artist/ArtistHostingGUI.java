@@ -16,6 +16,7 @@ import com.gargoylesoftware.htmlunit.CookieManager;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
@@ -137,14 +138,15 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Initializes the ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
+	 * @param dmfHandler Program's DmfHandler
 	 * @param loginGUI GUI for logging into the artist hosting website
 	 * @param subtitleID ID for the sub-title of the frame
 	 * @param openID Language ID for the "open" menu item
 	 * @since 2.0
 	 */
-	public ArtistHostingGUI(DSettings settings, LoginGUI loginGUI, final String subtitleID, final String openID)
+	public ArtistHostingGUI(DSettings settings, DmfHandler dmfHandler, LoginGUI loginGUI, final String subtitleID, final String openID)
 	{
-		super(settings, subtitleID);
+		super(settings, dmfHandler, subtitleID);
 		fileChooser = new DFileChooser(settings);
 		artistHandler = new ArtistHandler(settings, subtitleID);
 		downloader = new Downloader(this);
@@ -340,21 +342,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 	}//METHOD
 	
-	@Override
-	public void enableAll()
-	{
-		settingsBar.enableAll();
-		newButton.setEnabled(true);
-		allButton.setEnabled(true);
-		singleButton.setEnabled(true);
-		artistList.setEnabled(true);
-		addButton.setEnabled(true);
-		removeButton.setEnabled(true);
-		journalCheck.setEnabled(true);
-		favoriteCheck.setEnabled(true);
-		
-	}//METHOD
-	
 	/**
 	 * Returns the object's Downloader object.
 	 * 
@@ -376,6 +363,21 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	public File getCaptchaFolder()
 	{
 		return loginGUI.getCaptchaFolder();
+		
+	}//METHOD
+	
+	@Override
+	public void enableAll()
+	{
+		settingsBar.enableAll();
+		newButton.setEnabled(true);
+		allButton.setEnabled(true);
+		singleButton.setEnabled(true);
+		artistList.setEnabled(true);
+		addButton.setEnabled(true);
+		removeButton.setEnabled(true);
+		journalCheck.setEnabled(true);
+		favoriteCheck.setEnabled(true);
 		
 	}//METHOD
 
@@ -450,7 +452,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			}//CASE
 			case DefaultLanguage.RESTART_PROGRAM:
 			{
-				Start.startGUI(getSettings());
+				Start.startGUI(getSettings(), getDmfHandler());
 				
 			}//CASE
 			case DefaultLanguage.EXIT:

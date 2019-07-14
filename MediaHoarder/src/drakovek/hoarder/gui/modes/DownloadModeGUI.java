@@ -40,14 +40,14 @@ public class DownloadModeGUI extends ModeBaseGUI
 		{
 			case DefaultLanguage.DEVIANTART_MODE:
 			{
-				new DeviantArtGUI(getSettings());
+				new DeviantArtGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
 				
 			}//CASE
 			case DefaultLanguage.FUR_AFFINITY_MODE:
 			{
-				new FurAffinityGUI(getSettings());
+				new FurAffinityGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
 				

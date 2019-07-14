@@ -490,7 +490,7 @@ public class SettingsGUI extends BaseGUI
 		if(reset)
 		{
 			ownerGUI.dispose();
-			Start.startGUI(getSettings());
+			Start.startGUI(getSettings(), ownerGUI.getDmfHandler());
 			
 		}//IF
 		

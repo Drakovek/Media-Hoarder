@@ -4,6 +4,7 @@ import javax.swing.UIManager;
 
 import org.apache.commons.logging.LogFactory;
 
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 
 /**
@@ -35,6 +36,7 @@ public class Start
 	public static void startGUI()
 	{
 		DSettings settings = new DSettings();
+		DmfHandler dmfHandler = new DmfHandler();
 		
 		//Turn off HtmlUnit warnings
 		LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -56,7 +58,7 @@ public class Start
 			
 		}//ELSE
 		
-		startGUI(settings);
+		startGUI(settings, dmfHandler);
 	
 	}//METHOD
 	
@@ -64,11 +66,11 @@ public class Start
 	 * Starts the GUI for the program based on the program settings.
 	 * 
 	 * @param settings Program Settings
+	 * @param dmfHandler Program's DmfHandler
 	 * @since 2.0
 	 */
-	public static void startGUI(DSettings settings)
+	public static void startGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		
 		//SET LOOK AND FEEL
         try
         {
@@ -81,7 +83,7 @@ public class Start
 
         }//CATCH (Exception e)
         
-		new ModeContainerGUI(settings);
+		new ModeContainerGUI(settings, dmfHandler);
 		
 	}//METHOD
 	

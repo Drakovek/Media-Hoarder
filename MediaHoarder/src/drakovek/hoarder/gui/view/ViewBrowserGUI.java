@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.ScreenDimensions;
@@ -110,11 +111,12 @@ public class ViewBrowserGUI extends FrameGUI
 	 * Initializes the ViewBrowserGUI class.
 	 * 
 	 * @param settings Program Settings
+	 * @param dmfHandler Program's DmfHandler
 	 * @since 2.0
 	 */
-	public ViewBrowserGUI(DSettings settings)
+	public ViewBrowserGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, DefaultLanguage.VIEWER_TITLE);
+		super(settings, dmfHandler, DefaultLanguage.VIEWER_TITLE);
 		fileChooser = new DFileChooser(settings);
 		createPreviewPanels();
 		previewWidth = 0;
@@ -309,7 +311,7 @@ public class ViewBrowserGUI extends FrameGUI
 			}//CASE
 			case DefaultLanguage.RESTART_PROGRAM:
 			{
-				Start.startGUI(getSettings());
+				Start.startGUI(getSettings(), getDmfHandler());
 				
 			}//CASE
 			case DefaultLanguage.EXIT:

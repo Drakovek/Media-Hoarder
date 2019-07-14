@@ -3,6 +3,7 @@ package drakovek.hoarder.gui.modes;
 import java.awt.BorderLayout;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 
@@ -33,11 +34,12 @@ public class ModeContainerGUI extends FrameGUI
 	 * Initializes the ModeContainerGUI Class.
 	 * 
 	 * @param settings Program Settings
+	 * @param dmfHandler Program's DmfHandler
 	 * @since 2.0
 	 */
-	public ModeContainerGUI(DSettings settings)
+	public ModeContainerGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, null);
+		super(settings, dmfHandler, null);
 
 		settingsBar = new SettingsBarGUI(this);
 		

@@ -10,6 +10,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.web.Downloader;
 
@@ -26,11 +27,12 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	 * Initializes FurAffinityGUI class.
 	 * 
 	 * @param settings Program Settings
+	 * @param dmfHandler Program's DmfHandler
 	 * @since 2.0
 	 */
-	public FurAffinityGUI(DSettings settings)
+	public FurAffinityGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, new LoginGUI(settings, DefaultLanguage.FUR_AFFINITY_LOGIN, true), DefaultLanguage.FUR_AFFINITY_MODE, DefaultLanguage.CHOOSE_FUR_AFFINITY_FOLDER);
+		super(settings, dmfHandler, new LoginGUI(settings, DefaultLanguage.FUR_AFFINITY_LOGIN, true), DefaultLanguage.FUR_AFFINITY_MODE, DefaultLanguage.CHOOSE_FUR_AFFINITY_FOLDER);
 
 	}//CONSTRUCTOR
 
