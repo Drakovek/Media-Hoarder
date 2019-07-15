@@ -70,13 +70,13 @@ public class DmfHandler
 	 * 
 	 * @param dmfFolder Input Folder
 	 * @param useIndexes Whether to use index files to load DmfDirectory object
-	 * @param saveIndexes Whether to save DmfDirectory objects to index files
+	 * @param updateIndexes Whether to update index files to reflect changes in DMFs
 	 * @since 2.0
 	 */
-	public void loadDMFs(final File dmfFolder, final boolean useIndexes, final boolean saveIndexes)
+	public void loadDMFs(final File dmfFolder, final boolean useIndexes, final boolean updateIndexes)
 	{
 		directory = dmfFolder;
-		database.loadDMFs(dmfFolder, useIndexes, saveIndexes);
+		database.loadDMFs(dmfFolder, useIndexes, updateIndexes);
 		resetSorted();
 		resetFiltered();
 		
@@ -93,7 +93,7 @@ public class DmfHandler
 		int size = database.getSize();
 		for(int i = 0; i < size; i++)
 		{
-			sorted.add(new Integer(i));
+			sorted.add(Integer.valueOf(i));
 			
 		}//FOR
 		

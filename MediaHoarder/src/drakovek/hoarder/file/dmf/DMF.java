@@ -321,7 +321,7 @@ public class DMF
 	/**
 	 * Array of IDs directly proceeding the current DMF in a sequence. If there are multiple IDs, this means the DMF leads to multiple branching paths.
 	 * 
-	 * @since
+	 * @since 2.0
 	 */
 	private String[] nextIDs;
 	
@@ -1245,7 +1245,7 @@ public class DMF
 	 * Sets all the sequence data based on the old DMF sequence data standards.
 	 * 
 	 * @param sequenceData Sequence Data String
-	 * @since
+	 * @since 2.0
 	 */
 	private void setSequenceData(final String sequenceData)
 	{

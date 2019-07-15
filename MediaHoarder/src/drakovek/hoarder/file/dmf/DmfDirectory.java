@@ -260,6 +260,18 @@ public class DmfDirectory implements Serializable
 	private void addDMF(final File dmfFile)
 	{
 		DMF dmf = new DMF(dmfFile);
+		addDMF(dmf);
+		
+	}//METHOD
+	
+	/**
+	 * Adds the information from a single DMF to the object's list of DMF information
+	 * 
+	 * @param dmf Given DMF
+	 * @since 2.0
+	 */
+	public void addDMF(DMF dmf)
+	{
 		if(dmf.isValid())
 		{
 			//DMF
@@ -269,7 +281,7 @@ public class DmfDirectory implements Serializable
 			//INFO
 			titles.add(dmf.getTitle());
 			artists.add(dmf.getArtists());
-			times.add(new Long(dmf.getTime()));
+			times.add(Long.valueOf(dmf.getTime()));
 			webTags.add(dmf.getWebTags());
 			descriptions.add(dmf.getDescription());
 
@@ -281,16 +293,16 @@ public class DmfDirectory implements Serializable
 			mediaFiles.add(dmf.getMediaFile());
 			lastIDs.add(dmf.getLastIDs());
 			nextIDs.add(dmf.getNextIDs());
-			isFirst.add(new Boolean(dmf.isFirstInSection()));
-			isLast.add(new Boolean(dmf.isLastInSection()));
+			isFirst.add(Boolean.valueOf(dmf.isFirstInSection()));
+			isLast.add(Boolean.valueOf(dmf.isLastInSection()));
 
 			//USER
 			sequenceTitles.add(dmf.getSequenceTitle());
 			sectionTitles.add(dmf.getSectionTitle());
 			branchTitles.add(dmf.getBranchTitles());
-			ratings.add(new Integer(dmf.getRating()));
+			ratings.add(Integer.valueOf(dmf.getRating()));
 			userTags.add(dmf.getUserTags());
-			
+		
 		}//IF
 		
 	}//METHOD
@@ -365,6 +377,112 @@ public class DmfDirectory implements Serializable
 		}//IF
 		
 		return valid;
+		
+	}//METHOD
+	
+	/**
+	 * Updates the current DMF info to reflect any changes in the DMFs of the loaded directory.
+	 * 
+	 * @param lastModified Time and date the index file for this directory was last modified
+	 * @since 2.0
+	 */
+	public void updateDirectory(final long lastModified)
+	{
+		for(int i = 0; i < dmfFiles.size(); i++)
+		{
+			if(dmfFiles.get(i) == null || !dmfFiles.get(i).exists())
+			{
+				//REMOVE DMFS THAT NO LONGER EXIST
+				
+				//DMF
+				dmfFiles.remove(i);
+				ids.remove(i);
+				
+				//INFO
+				titles.remove(i);
+				artists.remove(i);
+				times.remove(i);
+				webTags.remove(i);
+				descriptions.remove(i);
+
+				//WEB
+				pageURLs.remove(i);
+				mediaURLs.remove(i);
+				
+				//FILE
+				mediaFiles.remove(i);
+				lastIDs.remove(i);
+				nextIDs.remove(i);
+				isFirst.remove(i);
+				isLast.remove(i);
+
+				//USER
+				sequenceTitles.remove(i);
+				sectionTitles.remove(i);
+				branchTitles.remove(i);
+				ratings.remove(i);
+				userTags.remove(i);
+				i--;
+				
+			}//IF
+			else if(lastModified < dmfFiles.get(i).lastModified())
+			{
+				//UPDATE DMFS THAT HAVE BEEN EDITED
+				
+				DMF dmf = new DMF(dmfFiles.get(i));
+				
+				//DMF
+				dmfFiles.set(i, dmf.getDmfFile());
+				ids.set(i, dmf.getID());
+				
+				//INFO
+				titles.set(i, dmf.getTitle());
+				artists.set(i, dmf.getArtists());
+				times.set(i, Long.valueOf(dmf.getTime()));
+				webTags.set(i, dmf.getWebTags());
+				descriptions.set(i, dmf.getDescription());
+
+				//WEB
+				pageURLs.set(i, dmf.getPageURL());
+				mediaURLs.set(i, dmf.getMediaURL());
+				
+				//FILE
+				mediaFiles.set(i, dmf.getMediaFile());
+				lastIDs.set(i, dmf.getLastIDs());
+				nextIDs.set(i, dmf.getNextIDs());
+				isFirst.set(i, Boolean.valueOf(dmf.isFirstInSection()));
+				isLast.set(i, Boolean.valueOf(dmf.isLastInSection()));
+
+				//USER
+				sequenceTitles.set(i, dmf.getSequenceTitle());
+				sectionTitles.set(i, dmf.getSectionTitle());
+				branchTitles.set(i, dmf.getBranchTitles());
+				ratings.set(i, Integer.valueOf(dmf.getRating()));
+				userTags.set(i, dmf.getUserTags());
+				
+				dmf = null;
+				
+			}//ELSE IF
+			
+		}//FOR
+		
+		//ADDS NEW DMFS
+		String[] extension = {DMF.DMF_EXTENSION};
+		File[] allDmfFiles = getDirectory().listFiles(new ExtensionFilter(extension));
+		for(File dmfFile: allDmfFiles)
+		{
+			if(!dmfFiles.contains(dmfFile))
+			{
+				DMF dmf = new DMF(dmfFile);
+				if(!ids.contains(dmf.getID()))
+				{
+					addDMF(dmf);
+					
+				}//IF
+				
+			}//IF
+			
+		}//FOR
 		
 	}//METHOD
 	

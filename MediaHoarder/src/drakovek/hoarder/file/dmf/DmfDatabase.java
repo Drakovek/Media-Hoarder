@@ -10,7 +10,7 @@ import drakovek.hoarder.file.ExtensionFilter;
  * 
  * @author Drakovek
  * @version 2.0
- * @since
+ * @since 2.0
  */
 public class DmfDatabase
 {
@@ -202,19 +202,19 @@ public class DmfDatabase
 	 * 
 	 * @param dmfFolder Input Folder
 	 * @param useIndexes Whether to use index files to load DmfDirectory object
-	 * @param saveIndexes Whether to save DmfDirectory objects to index files
+	 * @param updateIndexes Whether to update index files to reflect changes in DMFs
 	 * @since 2.0
 	 */
-	public void loadDMFs(File dmfFolder, final boolean useIndexes, final boolean saveIndexes)
+	public void loadDMFs(File dmfFolder, final boolean useIndexes, final boolean updateIndexes)
 	{
 		ArrayList<File> dmfFolders = getDmfFolders(dmfFolder);
 		DmfIndexing indexing = new DmfIndexing();
 		
 		for(File folder: dmfFolders)
 		{
-			DmfDirectory dmfDirectory = indexing.loadDMFs(folder, useIndexes);
+			DmfDirectory dmfDirectory = indexing.loadDMFs(folder, useIndexes, updateIndexes);
 			
-			if(saveIndexes)
+			if(useIndexes)
 			{
 				indexing.saveIndex(dmfDirectory);
 				
