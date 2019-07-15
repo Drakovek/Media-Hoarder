@@ -104,6 +104,13 @@ public class DefaultLanguage
 	public static final String EXIT = "exit"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for "Save"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SAVE = "save"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "Restart Program"
 	 * 
 	 * @since 2.0
@@ -566,6 +573,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FILE, "^File")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN, "^Open")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(EXIT, "^Exit")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SAVE, "^Save")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCELING, "Canceling...")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RUNNING, "Running...")); //$NON-NLS-1$
