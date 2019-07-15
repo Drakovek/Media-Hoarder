@@ -131,18 +131,19 @@ public class DmfIndexing
 	 * 
 	 * @param directory Directory from which to load DMFs
 	 * @param useIndex Whether to use index files to load DMF info rather than directly
+	 * @param updateIndex Whether to update index file to reflect changes in DMFs
 	 * @return DmfDirectory with DMFs loaded from given directory
 	 * @since 2.0
 	 */
-	public DmfDirectory loadDMFs(final File directory, final boolean useIndex)
+	public DmfDirectory loadDMFs(final File directory, final boolean useIndex, final boolean updateIndex)
 	{	
 		DmfDirectory dmfDirectory = new DmfDirectory();
 		boolean directLoad = true;
-		
+		File indexFile = null;
 		if(useIndex)
 		{
 			int index = indexedDirectories.indexOf(directory.getAbsolutePath());
-			File indexFile = new File(indexFolder, Integer.toString(index));
+			indexFile = new File(indexFolder, Integer.toString(index));
 			
 			if(indexFile.exists())
 			{
@@ -184,6 +185,11 @@ public class DmfIndexing
 			dmfDirectory.loadDMFs(directory);
 			
 		}//IF
+		else if(updateIndex && indexFile != null)
+		{
+			dmfDirectory.updateDirectory(indexFile.lastModified());
+			
+		}//ELSE IF
 		
 		return dmfDirectory;
 		
@@ -211,7 +217,7 @@ public class DmfIndexing
 		}//IF
 		
 		indexedDirectories.set(index, dmfDirectory.getDirectory().getAbsolutePath());
-		lastRead.set(index, new Integer(0));
+		lastRead.set(index, Integer.valueOf(0));
 		
 		File indexFile = new File(indexFolder, Integer.toString(index));
 		if(indexFile.exists())
@@ -417,7 +423,7 @@ public class DmfIndexing
 						lastRead.add(null);
 						
 					}//WHILE
-					lastRead.set(index, new Integer(readNum));
+					lastRead.set(index, Integer.valueOf(readNum));
 					
 				}//TRY
 				catch(NumberFormatException e){}
