@@ -12,6 +12,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
@@ -75,11 +76,25 @@ public class SettingsGUI extends BaseGUI
 	private DList settingsList;
 	
 	/**
-	 * Button for applying the currently edited settings.
+	 * Button for applying the currently edited settings
 	 * 
 	 * @since 2.0
 	 */
 	private DButton applyButton;
+	
+	/**
+	 * Button for applying the currently edited settings, then closing the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	private DButton saveButton;
+	
+	/**
+	 * Boolean determining if any settings have changed
+	 * 
+	 * @since 2.0
+	 */
+	private boolean changed;
 	
 	/**
 	 * Initializes the SettingsGUI
@@ -96,12 +111,14 @@ public class SettingsGUI extends BaseGUI
 		frame = new DFrame(settings, DefaultLanguage.SETTINGS);
 		frame.interceptFrameClose(this);
 		modeGUI = null;
+		changed = false;
 		
 		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		buttonPanel.add(new DButton(this, DefaultLanguage.CANCEL));
-		buttonPanel.add(new DButton(this, DefaultLanguage.SAVE));
+		buttonPanel.add(new DButton(this, DefaultLanguage.CLOSE));
+		saveButton = new DButton(this, DefaultLanguage.SAVE);
+		buttonPanel.add(saveButton);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridBagLayout());
@@ -191,6 +208,13 @@ public class SettingsGUI extends BaseGUI
 		frame = null;
 		ownerGUI.getFrame().setAllowExit(true);
 		
+		if(changed)
+		{
+			ownerGUI.dispose();
+			Start.startGUI(getSettings(), ownerGUI.getDmfHandler());
+			
+		}//IF
+		
 	}//METHOD
 	
 	/**
@@ -229,6 +253,7 @@ public class SettingsGUI extends BaseGUI
 	public void applyEnable()
 	{
 		applyButton.setEnabled(true);
+		saveButton.setEnabled(true);
 		
 	}//METHOD
 	
@@ -240,6 +265,24 @@ public class SettingsGUI extends BaseGUI
 	public void applyDisable()
 	{
 		applyButton.setEnabled(false);
+		saveButton.setEnabled(false);
+		
+	}//METHOD
+	
+	/**
+	 * Applies the currently edited settings.
+	 * 
+	 * @since 2.0
+	 */
+	private void apply()
+	{
+		if(modeGUI != null)
+		{
+			modeGUI.apply();
+			applyDisable();
+			changed = true;
+			
+		}//IF
 		
 	}//METHOD
 	
@@ -256,18 +299,17 @@ public class SettingsGUI extends BaseGUI
 			}//CASE
 			case DefaultLanguage.APPLY:
 			{
-				if(modeGUI != null)
-				{
-					modeGUI.apply();
-					applyDisable();
-					
-				}//IF
-				
+				apply();
 				break;
 				
 			}//METHOD
+			case DefaultLanguage.SAVE:
+			{
+				apply();
+				
+			}//CASE
 			case DCloseListener.FRAME_CLOSE_EVENT:
-			case DefaultLanguage.CANCEL:
+			case DefaultLanguage.CLOSE:
 			{
 				dispose();
 				break;
