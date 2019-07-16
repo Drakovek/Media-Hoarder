@@ -327,118 +327,163 @@ public class DFileChooser extends BaseGUI
 		}//IF
 		
 	}//METHOD
+	
+	/**
+	 * Sets the name text field to the selected file.
+	 * 
+	 * @since 2.0
+	 */
+	private void setNameFromFile()
+	{
+		int selected = fileList.getSelectedIndex();
+		if(selected != -1)
+		{
+			nameText.setText(files[selected].getAbsolutePath());
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Sets the displayed directory to the selected root directory.
+	 * 
+	 * @since 2.0
+	 */
+	private void setDirectoryFromRoot()
+	{
+		int selected = rootList.getSelectedIndex();
+		if(selected != -1)
+		{
+			setDirectory(roots[selected]);
+			
+		}//IF
+		
+	}//METHOD
 
+	/**
+	 * Sets the displayed directory to the currently selected file.
+	 * 
+	 * @since 2.0
+	 */
+	private void setDirectoryFromFile()
+	{
+		int selected = fileList.getSelectedIndex();
+		if(selected != -1)
+		{
+			setDirectory(files[selected]);
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Sets the displayed directory to the file at the given index value.
+	 * 
+	 * @param index Index Value of Directory to be displayed
+	 * @since 2.0
+	 */
+	private void setDirectoryFromFileIndex(final int index)
+	{
+		if(index != -1 && index < files.length)
+		{
+			setDirectory(files[index]);
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Sets the displayed directory to the directory last selected.
+	 * 
+	 * @since 2.0
+	 */
+	private void setDirectoryToPrevious()
+	{
+		if(fileHistory.size() > 1)
+		{
+			fileHistory.remove(fileHistory.size() - 1);
+			setDirectory(fileHistory.get(fileHistory.size() - 1));
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Sets the displayed directory to the parent of the currently displayed directory.
+	 * 
+	 * @since 2.0
+	 */
+	private void setDirectoryToParent()
+	{
+		if(fileHistory.size() > 0)
+		{
+			setDirectory(fileHistory.get(fileHistory.size() - 1).getParentFile());
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Finalizes the open process by setting the returnFile to the selected directory and then closes the dialog.
+	 * 
+	 * @since 2.0
+	 */
+	private void open()
+	{
+		returnFile = new File(nameText.getText());
+		if(returnFile == null || !returnFile.isDirectory())
+		{
+			if(fileHistory.size() > 0)
+			{
+				returnFile = fileHistory.get(fileHistory.size() - 1);
+			}
+			else
+			{
+				returnFile = null;
+				
+			}//ELSE
+					
+		}//IF
+	
+		dialog.dispose();
+		
+	}//METHOD
+	
 	@Override
 	public void event(String id, int value)
 	{
 		switch(id)
 		{
 			case DefaultLanguage.FILES:
-			{
-				int selected = fileList.getSelectedIndex();
-				if(selected != -1)
-				{
-					nameText.setText(files[selected].getAbsolutePath());
-					
-				}//IF
+				setNameFromFile();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.ROOTS:
-			{
-				int selected = rootList.getSelectedIndex();
-				if(selected != -1)
-				{
-					setDirectory(roots[selected]);
-					
-				}//IF
+				setDirectoryFromRoot();
 				break;
-				
-			}//CASE
 			case ROOT_ENTER_ACTION:
-			{
 				fileList.requestFocusInWindow();
 				break;
-				
-			}//CASE
 			case FILE_ENTER_ACTION:
-			{
-				int selected = fileList.getSelectedIndex();
-				if(selected != -1)
-				{
-					setDirectory(files[selected]);
-					
-				}//IF
+				setDirectoryFromFile();
 				break;
-				
-			}//CASE
 			case FILE_CLICK_ACTION:
-			{
-				if(value != -1 && value < files.length)
-				{
-					setDirectory(files[value]);
-					
-				}//IF
-				
+				setDirectoryFromFileIndex(value);
 				break;
-				
-			}//CASE
 			case DefaultLanguage.NAME:
-			{
 				setDirectory(new File(nameText.getText()));
 				break;
-				
-			}//CASE
 			case DefaultLanguage.BACK:
-			{
-				if(fileHistory.size() > 1)
-				{
-					fileHistory.remove(fileHistory.size() - 1);
-					setDirectory(fileHistory.get(fileHistory.size() - 1));
-					
-				}//IF
-				
+				setDirectoryToPrevious();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.PARENT:
-			{
-				if(fileHistory.size() > 0)
-				{
-					setDirectory(fileHistory.get(fileHistory.size() - 1).getParentFile());
-					
-				}//IF
-				
+				setDirectoryToParent();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.OPEN:
-			{
-				returnFile = new File(nameText.getText());
-				if(returnFile == null || !returnFile.isDirectory())
-				{
-					if(fileHistory.size() > 0)
-					{
-						returnFile = fileHistory.get(fileHistory.size() - 1);
-					}
-					else
-					{
-						returnFile = null;
-						
-					}//ELSE
-							
-				}//IF
-			
-				dialog.dispose();
+				open();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.CANCEL:
-			{
 				dialog.dispose();
 				break;
-				
-			}//CASE
 			
 		}//SWITCH
 		
