@@ -1,10 +1,12 @@
 package drakovek.hoarder.gui.settings;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -45,6 +47,13 @@ public class SettingsGUI extends BaseGUI
 	private FrameGUI ownerGUI;
 	
 	/**
+	 * GUI for setting particular settings to include within the main settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	private SettingsModeGUI modeGUI;
+	
+	/**
 	 * The main frame for the settings GUI
 	 * 
 	 * @since 2.0
@@ -66,6 +75,13 @@ public class SettingsGUI extends BaseGUI
 	private DList settingsList;
 	
 	/**
+	 * Button for applying the currently edited settings.
+	 * 
+	 * @since 2.0
+	 */
+	private DButton applyButton;
+	
+	/**
 	 * Initializes the SettingsGUI
 	 * 
 	 * @param ownerGUI FrameGUI that opened the settings GUI
@@ -79,11 +95,7 @@ public class SettingsGUI extends BaseGUI
 		ownerGUI.getFrame().setAllowExit(false);
 		frame = new DFrame(settings, DefaultLanguage.SETTINGS);
 		frame.interceptFrameClose(this);
-		
-		//CREATE TOP PANEL
-		DLabel settingsLabel = new DLabel(this, null, DefaultLanguage.SETTINGS);
-		settingsLabel.setFontLarge();
-		JPanel topPanel = getVerticalStack(settingsLabel, new JSeparator(SwingConstants.HORIZONTAL));
+		modeGUI = null;
 		
 		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
@@ -107,7 +119,7 @@ public class SettingsGUI extends BaseGUI
 		bottomCST.gridy = 0;		bottomCST.gridwidth = 3;
 		bottomPanel.add(new JSeparator(SwingConstants.HORIZONTAL), bottomCST);
 		
-		//CREATE CENTER PANEL
+		//CREATE MODE PANEL
 		String[] listData = new String[settingsEvents.length];
 		for(int i = 0; i < listData.length; i++)
 		{
@@ -118,8 +130,22 @@ public class SettingsGUI extends BaseGUI
 		settingsList = new DList(this, false, DefaultLanguage.SETTINGS);
 		settingsList.setListData(listData);
 		DScrollPane settingsScroll = new DScrollPane(settings, settingsList);
+		
+		JPanel modePanel = new JPanel();
+		modePanel.setLayout(new BorderLayout());
+		Dimension modeSpace = new Dimension(getSettings().getFontSize() * 8, 1);
+		modePanel.add(Box.createRigidArea(modeSpace), BorderLayout.NORTH);
+		modePanel.add(settingsScroll, BorderLayout.CENTER);
+		modePanel.add(Box.createRigidArea(modeSpace), BorderLayout.SOUTH);
+		
+		//CREATE CENTER PANEL
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new GridLayout(1, 1));
+		
+		JPanel applyPanel = new JPanel();
+		applyButton = new DButton(this, DefaultLanguage.APPLY);
+		applyPanel.setLayout(new BorderLayout());
+		applyPanel.add(applyButton, BorderLayout.EAST);
 		
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridBagLayout());
@@ -128,11 +154,21 @@ public class SettingsGUI extends BaseGUI
 		centerCST.gridwidth = 1;	centerCST.gridheight = 3;
 		centerCST.weightx = 0;		centerCST.weighty = 1;
 		centerCST.fill = GridBagConstraints.BOTH;
-		centerPanel.add(settingsScroll, centerCST);
+		centerPanel.add(modePanel, centerCST);
 		centerCST.gridx = 1;
 		centerPanel.add(getHorizontalSpace(), centerCST);
-		centerCST.gridx = 1;		centerCST.weightx = 1;
+		centerCST.gridx = 2;		centerCST.gridheight = 1;
+		centerCST.weightx = 1;
 		centerPanel.add(contentPanel, centerCST);
+		centerCST.gridy = 1;		centerCST.weighty = 0;
+		centerPanel.add(getVerticalSpace(), centerCST);
+		centerCST.gridy = 2;
+		centerPanel.add(applyPanel, centerCST);
+		
+		//CREATE TOP PANEL
+		DLabel settingsLabel = new DLabel(this, settingsList, DefaultLanguage.SETTINGS);
+		settingsLabel.setFontLarge();
+		JPanel topPanel = getVerticalStack(settingsLabel, new JSeparator(SwingConstants.HORIZONTAL));
 		
 		//FINALIZE FRAME
 		frame.getContentPane().add(getSpacedPanel(centerPanel), BorderLayout.CENTER);
@@ -157,11 +193,79 @@ public class SettingsGUI extends BaseGUI
 		
 	}//METHOD
 	
+	/**
+	 * Called when one of the settings options is selected. Sets main settings panel to GUI for editing the settings specified.
+	 * 
+	 * @since 2.0
+	 */
+	private void settingSelected()
+	{
+		int selected = settingsList.getSelectedIndex();
+		if(selected != -1)
+		{
+			switch(settingsEvents[selected])
+			{
+				case DefaultLanguage.THEME:
+				{
+					modeGUI = new ThemeSettingsGUI(this);
+					contentPanel.removeAll();
+					contentPanel.add(modeGUI.getPanel());
+					contentPanel.revalidate();
+					break;
+					
+				}//CASE
+				
+			}//SWITCH
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Enables the "Apply" button.
+	 * 
+	 * @since 2.0
+	 */
+	public void applyEnable()
+	{
+		applyButton.setEnabled(true);
+		
+	}//METHOD
+	
+	/**
+	 * Disables the "Apply" button.
+	 * 
+	 * @since 2.0
+	 */
+	public void applyDisable()
+	{
+		applyButton.setEnabled(false);
+		
+	}//METHOD
+	
 	@Override
 	public void event(String id, int value)
 	{
 		switch(id)
 		{
+			case DefaultLanguage.SETTINGS:
+			{
+				settingSelected();
+				break;
+				
+			}//CASE
+			case DefaultLanguage.APPLY:
+			{
+				if(modeGUI != null)
+				{
+					modeGUI.apply();
+					applyDisable();
+					
+				}//IF
+				
+				break;
+				
+			}//METHOD
 			case DCloseListener.FRAME_CLOSE_EVENT:
 			case DefaultLanguage.CANCEL:
 			{

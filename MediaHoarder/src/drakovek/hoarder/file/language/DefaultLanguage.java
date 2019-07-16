@@ -143,6 +143,13 @@ public class DefaultLanguage
 	public static final String SETTINGS = "settings"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Apply" button in the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String APPLY = "apply"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Language" label in the settings GUI
 	 * 
 	 * @since 2.0
@@ -589,6 +596,7 @@ public class DefaultLanguage
 		languageFile.add(new String());
 		languageFile.add("[SETTINGS]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SETTINGS, "S^ettings")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(APPLY, "^Apply")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LANGUAGE, "^Language")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(THEME, "^Theme")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT, "^Font")); //$NON-NLS-1$
