@@ -229,17 +229,22 @@ public class SettingsGUI extends BaseGUI
 		{
 			switch(settingsEvents[selected])
 			{
-				case DefaultLanguage.THEME:
-				{
-					modeGUI = new ThemeSettingsGUI(this);
-					contentPanel.removeAll();
-					contentPanel.add(modeGUI.getPanel());
-					contentPanel.revalidate();
+				case DefaultLanguage.LANGUAGE:
+					modeGUI = new LanguageSettingsGUI(this);
 					break;
-					
-				}//CASE
+				case DefaultLanguage.THEME:
+					modeGUI = new ThemeSettingsGUI(this);
+					break;
 				
 			}//SWITCH
+			
+			if(modeGUI != null)
+			{
+				contentPanel.removeAll();
+				contentPanel.add(modeGUI.getPanel());
+				contentPanel.revalidate();
+				
+			}//IF
 			
 		}//IF
 		

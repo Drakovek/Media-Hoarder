@@ -13,7 +13,7 @@ import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 
 /**
- * Settings Mode GUI for selecting the program's theme (Swing Look and Feel)
+ * Settings Mode GUI for selecting the program's theme (Swing Look and Feel).
  * 
  * @author Drakovek
  * @version 2.0
@@ -53,18 +53,31 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 		super(settingsGUI);
 		
 		//GET LIST OF THEMES
-		theme = new String();
+		theme = getSettings().getTheme();
 		themes = UIManager.getInstalledLookAndFeels();
 		String[] themeStrings = new String[themes.length];
+		int selected = -1;
 		for(int i = 0; i < themes.length; i++)
 		{
 			themeStrings[i] = themes[i].getName();
+			
+			if(getSettings().getTheme().equals(themes[i].getClassName()))
+			{
+				selected = i;
+				
+			}//IF
 			
 		}//FOR
 		
 		//CREATE THEME GUI
 		themeList = new DList(this, false, DefaultLanguage.THEME);
 		themeList.setListData(themeStrings);
+		if(selected != -1)
+		{
+			themeList.setSelectedIndex(selected);
+			
+		}//IF
+		
 		DScrollPane themeScroll = new DScrollPane(getSettings(), ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, themeList);
 		getPanel().setLayout(new GridBagLayout());
 		GridBagConstraints panelCST = new GridBagConstraints();
