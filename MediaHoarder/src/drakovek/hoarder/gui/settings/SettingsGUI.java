@@ -297,29 +297,17 @@ public class SettingsGUI extends BaseGUI
 		switch(id)
 		{
 			case DefaultLanguage.SETTINGS:
-			{
 				settingSelected();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.APPLY:
-			{
 				apply();
 				break;
-				
-			}//METHOD
 			case DefaultLanguage.SAVE:
-			{
 				apply();
-				
-			}//CASE
 			case DCloseListener.FRAME_CLOSE_EVENT:
 			case DefaultLanguage.CLOSE:
-			{
 				dispose();
 				break;
-			
-			}//CASE
 		
 		}//SWITCH
 		

@@ -350,6 +350,53 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 		}//IF
 		
 	}//METHOD
+	
+	/**
+	 * Gets the login information provided by the user, then passes it to the loginMethods object.
+	 * 
+	 * @since 2.0
+	 */
+	private void loginWork()
+	{
+		char[] passwordArray = passwordText.getPassword();
+		StringBuilder builder = new StringBuilder();
+		for(char passwordChar: passwordArray)
+		{
+			builder.append(passwordChar);
+			
+		}//FOR
+		
+		loginMethods.login(usernameText.getText(), builder.toString(), captchaText.getText());
+	
+	}//METHOD
+	
+	/**
+	 * Finishes the login process and checks if the login was successful, closing the dialog if it was.
+	 * 
+	 * @since 2.0
+	 */
+	private void loginEnd()
+	{
+		enableAll();
+		progressDialog.closeProgressDialog();
+		
+		if(loginMethods.isLoggedIn())
+		{
+			dialog.dispose();
+			dialog = null;
+			
+		}//IF
+		else
+		{
+			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
+			String[] messageIDs = {DefaultLanguage.LOGIN_FAILED};
+			String[] buttonIDs = {DefaultLanguage.OK};
+			buttonDialog.openButtonDialog(this, dialog, DefaultLanguage.LOGIN_FAILED, messageIDs, buttonIDs);
+			loadCaptcha();
+			
+		}//ELSE
+		
+	}//METHOD
 
 	@Override
 	public void event(String id, int value)
@@ -357,17 +404,11 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 		switch(id)
 		{
 			case DefaultLanguage.REFRESH_CAPTCHA:
-			{
 				loadCaptcha();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.LOGIN:
-			{
 				login();
 				break;
-				
-			}//CASE
 			
 		}//SWITCH
 		
@@ -379,25 +420,11 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 		switch(id)
 		{
 			case DefaultLanguage.CAPTCHA:
-			{
 				imageScroll.setFile(loginMethods.getCaptcha());
 				break;
-				
-			}//CASE
 			case DefaultLanguage.LOGIN:
-			{
-				char[] passwordArray = passwordText.getPassword();
-				StringBuilder builder = new StringBuilder();
-				for(char passwordChar: passwordArray)
-				{
-					builder.append(passwordChar);
-					
-				}//FOR
-				
-				loginMethods.login(usernameText.getText(), builder.toString(), captchaText.getText());
+				loginWork();
 				break;
-				
-			}//CASE
 			
 		}//SWITCH
 		
@@ -409,35 +436,12 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 		switch(id)
 		{
 			case DefaultLanguage.CAPTCHA:
-			{
 				enableAll();
 				progressDialog.closeProgressDialog();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.LOGIN:
-			{
-				enableAll();
-				progressDialog.closeProgressDialog();
-				
-				if(loginMethods.isLoggedIn())
-				{
-					dialog.dispose();
-					dialog = null;
-					
-				}//IF
-				else
-				{
-					DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-					String[] messageIDs = {DefaultLanguage.LOGIN_FAILED};
-					String[] buttonIDs = {DefaultLanguage.OK};
-					buttonDialog.openButtonDialog(this, dialog, DefaultLanguage.LOGIN_FAILED, messageIDs, buttonIDs);
-					loadCaptcha();
-					
-				}//ELSE
+				loginEnd();
 				break;
-				
-			}//CASE
 			
 		}//SWITCH
 		
