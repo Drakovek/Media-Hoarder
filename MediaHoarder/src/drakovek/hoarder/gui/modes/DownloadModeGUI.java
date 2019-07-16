@@ -39,36 +39,21 @@ public class DownloadModeGUI extends ModeBaseGUI
 		switch(id)
 		{
 			case DefaultLanguage.DEVIANTART_MODE:
-			{
 				new DeviantArtGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.FUR_AFFINITY_MODE:
-			{
 				new FurAffinityGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.INKBUNNY_MODE:
-			{
 				break;
-				
-			}//CASE	
 			case DefaultLanguage.TRANSFUR_MODE:
-			{
 				break;
-				
-			}//CASE
 			case DefaultLanguage.MODE_BACK:
 			case DefaultLanguage.MODE_START:
-			{
 				setContentPanel(new ModesGUI(getParentGUI()));
 				break;
-				
-			}//CASE
 			
 		}//SWITCH
 		
