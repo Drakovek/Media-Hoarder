@@ -213,12 +213,9 @@ public class DProgressDialog extends BaseGUI
 		switch(id)
 		{
 			case DefaultLanguage.CANCEL:
-			{
 				cancelled = true;
 				setDetailLabel(getSettings().getLanuageText(DefaultLanguage.CANCELING));
 				setProgressBar(true, false, 0, 0, null);
-				
-			}//CASE
 			
 		}//SWITCH
 		

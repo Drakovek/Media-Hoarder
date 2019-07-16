@@ -93,31 +93,40 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 		
 	}//CONSTRUCTOR
 
+	/**
+	 * Sets the current theme to the theme selected by the user.
+	 * 
+	 * @since 2.0
+	 */
+	private void setThemeSelected()
+	{
+		int selected = themeList.getSelectedIndex();
+		if(selected != -1)
+		{
+			theme = themes[selected].getClassName();
+			if(getSettings().getTheme().equals(theme))
+			{
+				getSettingsGUI().applyDisable();
+				
+			}//IF
+			else
+			{
+				getSettingsGUI().applyEnable();
+				
+			}//ELSE
+			
+		}//IF
+		
+	}//METHOD
+	
 	@Override
 	public void event(String id, int value)
 	{
 		switch(id)
 		{
 			case DefaultLanguage.THEME:
-			{
-				int selected = themeList.getSelectedIndex();
-				if(selected != -1)
-				{
-					theme = themes[selected].getClassName();
-					if(getSettings().getTheme().equals(theme))
-					{
-						getSettingsGUI().applyDisable();
-						
-					}//IF
-					else
-					{
-						getSettingsGUI().applyEnable();
-						
-					}//ELSE
-					
-				}//IF
-				
-			}//CASE
+				setThemeSelected();
+				break;
 			
 		}//SWITCH
 		

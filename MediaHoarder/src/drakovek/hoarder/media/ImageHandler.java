@@ -319,71 +319,105 @@ public class ImageHandler
 			
 		}//ELSE
 		
-		switch(myScaleType)
+		if(myScaleType == SCALE_2D_STRETCH)
 		{
-			case SCALE_2D_STRETCH:
+			int newWidth = paneWidth;
+			double ratio = (double)imageHeight / (double)imageWidth;
+			int newHeight = (int)(ratio * (double)newWidth);
+			
+			if(newHeight > paneHeight)
 			{
-				int newWidth = paneWidth;
-				double ratio = (double)imageHeight / (double)imageWidth;
-				int newHeight = (int)(ratio * (double)newWidth);
+				newHeight = paneHeight;
+				ratio = (double)imageWidth / (double)imageHeight;
+				newWidth = (int)(ratio * (double)newHeight);
 				
-				if(newHeight > paneHeight)
-				{
-					newHeight = paneHeight;
-					ratio = (double)imageWidth / (double)imageHeight;
-					newWidth = (int)(ratio * (double)newHeight);
-					
-				}//IF
+			}//IF
+			
+			return new Dimension(newWidth, newHeight);
+			
+		}//IF
+		else if(myScaleType == SCALE_2D_FIT)
+		{
+			int newWidth = paneWidth;
+			double ratio = (double)imageHeight / (double)imageWidth;
+			int newHeight = (int)(ratio * (double)newWidth);
+			
+			if(newHeight > paneHeight)
+			{
+				newHeight = paneHeight;
+				ratio = (double)imageWidth / (double)imageHeight;
+				newWidth = (int)(ratio * (double)newHeight);
 				
+			}//IF
+			
+			if(!(newWidth > imageWidth || newHeight > imageHeight))
+			{
 				return new Dimension(newWidth, newHeight);
-				
-			}//CASE
-			case SCALE_2D_FIT:
+			
+			}//IF
+			
+		}//ELSE IF
+		else if(myScaleType == SCALE_1D_STRETCH)
+		{
+			int newWidth = 1;
+			int newHeight = 1;
+			double ratio = 1;
+			if(imageWidth < imageHeight)
 			{
-				int newWidth = paneWidth;
-				double ratio = (double)imageHeight / (double)imageWidth;
-				int newHeight = (int)(ratio * (double)newWidth);
-				
-				if(newHeight > paneHeight)
-				{
-					newHeight = paneHeight;
-					ratio = (double)imageWidth / (double)imageHeight;
-					newWidth = (int)(ratio * (double)newHeight);
-					
-				}//IF
-				
-				if(!(newWidth > imageWidth || newHeight > imageHeight))
+				newWidth = paneWidth;
+				ratio = (double)imageHeight / (double)imageWidth;
+				newHeight = (int)(ratio * (double)newWidth);
+			
+				//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
+				if(scrollWidth == 0 || newHeight <= paneHeight)
 				{
 					return new Dimension(newWidth, newHeight);
-				
+					
 				}//IF
 				
-				break;
+				return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth - scrollWidth, paneHeight, 0, 0);
 				
-			}//CASE
-			case SCALE_1D_STRETCH:
+				
+			}//IF
+			
+			newHeight = paneHeight;
+			ratio = (double)imageWidth / (double)imageHeight;
+			newWidth = (int)(ratio * (double)newHeight);
+			
+			//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
+			if(scrollHeight == 0 || newWidth <= paneWidth)
 			{
-				int newWidth = 1;
-				int newHeight = 1;
-				double ratio = 1;
-				if(imageWidth < imageHeight)
-				{
-					newWidth = paneWidth;
-					ratio = (double)imageHeight / (double)imageWidth;
-					newHeight = (int)(ratio * (double)newWidth);
+				return new Dimension(newWidth, newHeight);
 				
-					//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
-					if(scrollWidth == 0 || newHeight <= paneHeight)
-					{
-						return new Dimension(newWidth, newHeight);
-						
-					}//IF
-					
-					return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth - scrollWidth, paneHeight, 0, 0);
-					
+			}//IF
+			
+			return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth, paneHeight - scrollHeight, 0, 0);
+			
+		}//ELSE IF
+		else if(myScaleType == SCALE_1D_FIT)
+		{
+			int newWidth = 1;
+			int newHeight = 1;
+			double ratio = 1;
+			if(imageWidth < imageHeight && imageWidth > paneWidth)
+			{
+				newWidth = paneWidth;
+				ratio = (double)imageHeight / (double)imageWidth;
+				newHeight = (int)(ratio * (double)newWidth);
+				
+				//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
+				if(scrollWidth == 0 || newHeight <= paneHeight)
+				{
+					return new Dimension(newWidth, newHeight);
 					
 				}//IF
 				
+				return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth - scrollWidth, paneHeight, 0, 0);
+				
+			}//IF
+			
+			if(imageWidth >= imageHeight && imageHeight > paneHeight)
+			{
 				newHeight = paneHeight;
 				ratio = (double)imageWidth / (double)imageHeight;
 				newWidth = (int)(ratio * (double)newHeight);
@@ -398,57 +432,14 @@ public class ImageHandler
 				return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth, paneHeight - scrollHeight, 0, 0);
 				
 				
-			}//CASE
-			case SCALE_1D_FIT:
-			{
-				int newWidth = 1;
-				int newHeight = 1;
-				double ratio = 1;
-				if(imageWidth < imageHeight && imageWidth > paneWidth)
-				{
-					newWidth = paneWidth;
-					ratio = (double)imageHeight / (double)imageWidth;
-					newHeight = (int)(ratio * (double)newWidth);
-					
-					//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
-					if(scrollWidth == 0 || newHeight <= paneHeight)
-					{
-						return new Dimension(newWidth, newHeight);
-						
-					}//IF
-					
-					return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth - scrollWidth, paneHeight, 0, 0);
-					
-				}//IF
-				
-				if(imageWidth >= imageHeight && imageHeight > paneHeight)
-				{
-					newHeight = paneHeight;
-					ratio = (double)imageWidth / (double)imageHeight;
-					newWidth = (int)(ratio * (double)newHeight);
-					
-					//CHECK IF SCROLL BAR WILL OBSCURE IMAGE
-					if(scrollHeight == 0 || newWidth <= paneWidth)
-					{
-						return new Dimension(newWidth, newHeight);
-						
-					}//IF
-					
-					return getScaleDimensions(scaleType, scaleAmount, imageWidth, imageHeight, paneWidth, paneHeight - scrollHeight, 0, 0);
-					
-					
-				}//IF
-				
-				break;
-				
-			}//CASE
-			case SCALE_DIRECT:
-			{
-				return new Dimension((int)((double)imageWidth * myScaleAmount), (int)((double)imageHeight * myScaleAmount));
-				
-			}//CASE
+			}//IF
 			
-		}//SWITCH	
+		}//ELSE IF
+		else if(myScaleType == SCALE_DIRECT)
+		{
+			return new Dimension((int)((double)imageWidth * myScaleAmount), (int)((double)imageHeight * myScaleAmount));
+			
+		}//ELSE IF
 		
 		return new Dimension(imageWidth, imageHeight);
 		

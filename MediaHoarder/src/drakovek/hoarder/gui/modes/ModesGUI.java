@@ -34,23 +34,14 @@ public class ModesGUI extends ModeBaseGUI
 		switch(id)
 		{
 			case DefaultLanguage.DOWNLOAD_MODE:
-			{
 				setContentPanel(new DownloadModeGUI(getParentGUI()));
 				break;
-				
-			}//CASE
 			case DefaultLanguage.MANAGE_MODE:
-			{
 				break;
-				
-			}//CASE
 			case DefaultLanguage.VIEW_MODE:
-			{
 				new ViewBrowserGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
-				
-			}//CASE
 			
 		}//SWITCH
 		

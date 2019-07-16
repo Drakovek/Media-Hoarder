@@ -128,16 +128,10 @@ public class DTextDialog extends BaseGUI
 		switch(id)
 		{
 			case DefaultLanguage.OK:
-			{
 				returnString = textField.getText();
-				
-			}//CASE
 			case DefaultLanguage.CANCEL:
-			{
 				dialog.dispose();
 				break;
-				
-			}//CASE
 			
 		}//CASE
 		
