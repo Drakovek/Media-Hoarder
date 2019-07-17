@@ -129,6 +129,50 @@ public class DFrame extends JFrame
 		processRunning = false;
 	
 	}//METHOD
+	
+	/**
+	 * Sets the minimum size of the frame, ensuring it does not exceed the screen dimensions.
+	 * 
+	 * @param width Frame Width
+	 * @param height Frame Height
+	 * @since 2.0
+	 */
+	public void setSizeRestrictive(final int width, final int height)
+	{
+		int minWidth = (int)getMinimumSize().getWidth();
+		int minHeight = (int)getMinimumSize().getHeight();
+		
+		int newWidth = width;
+		int newHeight = height;
+		ScreenDimensions screen = new ScreenDimensions();
+		
+		if(newWidth < minWidth)
+		{
+			newWidth = minWidth;
+			
+		}//IF
+		
+		if(newWidth > screen.getMaximumWidth())
+		{
+			newWidth = screen.getMaximumWidth();
+		
+		}//IF
+		
+		if(newHeight < minHeight)
+		{
+			newHeight = minHeight;
+			
+		}//IF
+		
+		if(height > screen.getMaximumHeight())
+		{
+			newHeight = screen.getMaximumHeight();
+		
+		}//IF
+		
+		this.setMinimumSize(new Dimension(width, height));
+		
+	}//METHOD
     
 	/**
 	 * Sets the Frame to call a DEvent when user attempts to close the frame, rather than handling the event internally.
