@@ -37,14 +37,14 @@ public class DProgressBar extends JProgressBar
 	 * Sets the state of the progress bar.
 	 * 
 	 * @param indeterminate Whether the process is of indeterminate length
-	 * @param painted Whether to show a string value on the progress bar.
+	 * @param painted Whether to show a percentage value on the progress bar.
 	 * @param maximum Maximum value for the progress bar (N/A if indeterminate)
 	 * @param value Current value of the progress bar (N/A if indeterminate)
-	 * @param progressString String to show on the progress bar (N/A if not painted)
 	 * @since 2.0
 	 */
-	public void setProgressBar(final boolean indeterminate, final boolean painted, final int maximum, final int value, final String progressString)
+	public void setProgressBar(final boolean indeterminate, final boolean painted, final int maximum, final int value)
 	{
+		
 		setIndeterminate(indeterminate);
 		setMinimum(0);
 		
@@ -61,10 +61,10 @@ public class DProgressBar extends JProgressBar
 		
 		}//ELSE
 		
-		if(painted && progressString != null && progressString.length() > 0)
+		if(painted)
 		{
 			setStringPainted(true);
-			setString(progressString);
+			setString(Integer.toString((int)(((double)value / (double)maximum) * (double)100)) + Character.toString('%'));
 		
 		}//IF
 		else

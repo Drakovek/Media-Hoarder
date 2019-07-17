@@ -1,6 +1,8 @@
 package drakovek.hoarder.gui.swing.compound;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -92,7 +94,7 @@ public class DProgressDialog extends BaseGUI
 	public void startProgressDialog(DFrame ownerFrame, final String titleID)
 	{
 		cancelled = false;
-		dialog = new DDialog(ownerFrame, getProgressPanel(), getSettings().getLanuageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 0);
+		dialog = new DDialog(ownerFrame, getProgressPanel(), getSettings().getLanuageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 12 * getSettings().getFontSize());
 		dialog.setResizable(false);
 		dialog.setVisible(true);
 		
@@ -108,7 +110,7 @@ public class DProgressDialog extends BaseGUI
 	public void startProgressDialog(DDialog ownerDialog, final String titleID)
 	{
 		cancelled = false;
-		dialog = new DDialog(ownerDialog, getProgressPanel(), getSettings().getLanuageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 0);
+		dialog = new DDialog(ownerDialog, getProgressPanel(), getSettings().getLanuageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 12 * getSettings().getFontSize());
 		dialog.setResizable(false);
 		dialog.setVisible(true);
 		
@@ -123,16 +125,28 @@ public class DProgressDialog extends BaseGUI
 	public JPanel getProgressPanel()
 	{
 		//LABEL PANEL
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new GridLayout(2, 1, 0, getSettings().getSpaceSize()));
+		labelPanel.add(processLabel);
+		labelPanel.add(detailLabel);
+		
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new GridLayout(3, 1, 0, getSettings().getSpaceSize()));
-		centerPanel.add(processLabel);
-		centerPanel.add(detailLabel);
-		centerPanel.add(progressBar);
+		centerPanel.setLayout(new GridBagLayout());
+		GridBagConstraints centerCST = new GridBagConstraints();
+		centerCST.gridx = 0;		centerCST.gridy = 0;
+		centerCST.gridwidth = 3;	centerCST.gridheight = 1;
+		centerCST.weightx = 1;		centerCST.weighty = 0;
+		centerCST.fill = GridBagConstraints.BOTH;
+		centerPanel.add(labelPanel, centerCST);
+		centerCST.gridy = 1;
+		centerPanel.add(getVerticalSpace(), centerCST);
+		centerCST.gridy = 2;		centerCST.weighty = 1;
+		centerPanel.add(progressBar, centerCST);
 		
 		JPanel progressPanel = new JPanel();
 		progressPanel.setLayout(new BorderLayout());
-		progressPanel.add(this.getSpacedPanel(centerPanel, 1, 0, true, false, true, true), BorderLayout.CENTER);
-		progressPanel.add(getSpacedPanel(cancelButton, 0, 0, true, true, true, true), BorderLayout.SOUTH);
+		progressPanel.add(this.getSpacedPanel(centerPanel), BorderLayout.CENTER);
+		progressPanel.add(getSpacedPanel(cancelButton, 0, 0, false, true, true, true), BorderLayout.SOUTH);
 		
 		return progressPanel;
 		
@@ -164,9 +178,9 @@ public class DProgressDialog extends BaseGUI
 	 * @param progressString String to show on the progress bar (N/A if not painted)
 	 * @since 2.0
 	 */
-	public void setProgressBar(final boolean indeterminate, final boolean painted, final int maximum, final int value, final String progressString)
+	public void setProgressBar(final boolean indeterminate, final boolean painted, final int maximum, final int value)
 	{
-		progressBar.setProgressBar(indeterminate, painted, maximum, value, progressString);
+		progressBar.setProgressBar(indeterminate, painted, maximum, value);
 		
 	}//METHOD
 	
@@ -179,7 +193,6 @@ public class DProgressDialog extends BaseGUI
 	public void setProcessLabel(final String id)
 	{
 		processLabel.setTextID(id, false);
-		detailLabel.setTextID(DefaultLanguage.RUNNING, false);
 		
 	}//METHOD
 	
@@ -207,6 +220,18 @@ public class DProgressDialog extends BaseGUI
 		
 	}//METHOD
 	
+	/**
+	 * Sets whether the current process is cancelled
+	 * 
+	 * @param cancelled Whether the current process is cancelled.
+	 * @since 2.0
+	 */
+	public void setCancelled(final boolean cancelled)
+	{
+		this.cancelled = cancelled;
+		
+	}//METHOD
+	
 	@Override
 	public void event(String id, int value)
 	{
@@ -215,7 +240,7 @@ public class DProgressDialog extends BaseGUI
 			case DefaultLanguage.CANCEL:
 				cancelled = true;
 				setDetailLabel(getSettings().getLanuageText(DefaultLanguage.CANCELING));
-				setProgressBar(true, false, 0, 0, null);
+				setProgressBar(true, false, 0, 0);
 			
 		}//SWITCH
 		

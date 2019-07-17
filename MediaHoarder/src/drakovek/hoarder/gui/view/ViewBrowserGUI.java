@@ -19,7 +19,10 @@ import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
+import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
+import drakovek.hoarder.work.DSwingWorker;
+import drakovek.hoarder.work.Worker;
 
 /**
  * Creates the browser GUI for viewing DMF Media.
@@ -28,7 +31,7 @@ import drakovek.hoarder.gui.swing.listeners.DResizeListener;
  * @version 2.0
  * @since 2.0
  */
-public class ViewBrowserGUI extends FrameGUI
+public class ViewBrowserGUI extends FrameGUI implements Worker
 {
 	/**
 	 * Action for when pageText event occurs.
@@ -38,11 +41,25 @@ public class ViewBrowserGUI extends FrameGUI
 	private static final String PAGE_ACTION = "page"; //$NON-NLS-1$
 	
 	/**
+	 * Main settings bar for the class.
+	 * 
+	 * @since 2.0
+	 */
+	private SettingsBarGUI settingsBar;
+	
+	/**
 	 * File Chooser for choosing a directory from which to search for DMFs
 	 * 
 	 * @since 2.0
 	 */
 	private DFileChooser fileChooser;
+	
+	/**
+	 * Main progress dialog for the class
+	 * 
+	 * @since 2.0
+	 */
+	private DProgressDialog progressDialog;
 	
 	/**
 	 * Panel within which to hold image previews and titles of DMF media.
@@ -118,6 +135,7 @@ public class ViewBrowserGUI extends FrameGUI
 	{
 		super(settings, dmfHandler, DefaultLanguage.VIEWER_TITLE);
 		fileChooser = new DFileChooser(settings);
+		progressDialog = new DProgressDialog(settings);
 		createPreviewPanels();
 		previewWidth = 0;
 		previewHeight = 0;
@@ -127,7 +145,7 @@ public class ViewBrowserGUI extends FrameGUI
 		//FILE MENU ITEMS
 		DMenu fileMenu = new DMenu(this, DefaultLanguage.FILE);
 		DMenuItem openItem = new DMenuItem(this, DefaultLanguage.OPEN);
-		DMenuItem updateItem = new DMenuItem(this, DefaultLanguage.UPDATE_INDEXES);
+		DMenuItem updateItem = new DMenuItem(this, DefaultLanguage.OPEN_WITHOUT_INDEXES);
 		DMenuItem resetItem = new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM);
 		DMenuItem exitItem = new DMenuItem(this, DefaultLanguage.EXIT);
 		fileMenu.add(openItem);
@@ -159,13 +177,16 @@ public class ViewBrowserGUI extends FrameGUI
 		viewPanel.add(getSpacedPanel(bottomPanel, 1, 1, false, false, true, true), BorderLayout.SOUTH);
 		
 		//FINALIZE FRAME
-		SettingsBarGUI settingsBar = new SettingsBarGUI(this);
+		settingsBar = new SettingsBarGUI(this);
 		getFrame().setJMenuBar(menubar);
 		getFrame().getContentPane().add(viewPanel, BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
 		getFrame().packRestricted();
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
+		
+		settingsBar.setLabel(settings.getViewerDirectory());
+		loadDirectory(settings.getViewerDirectory(), true);
 		
 	}//CONSTRUCTOR
 
@@ -269,9 +290,41 @@ public class ViewBrowserGUI extends FrameGUI
 		
 	}//METHOD
 	
+	/**
+	 * Starts the process for loading DMFs from a directory.
+	 * 
+	 * @param directory Directory to load DMFs from
+	 * @param useIndexSettings Whether to use the user's settings for reading DMF indexes. If false, DmfHanlder will load DMFs without using index files.
+	 * @since 2.0
+	 */
+	private void loadDirectory(final File directory, final boolean useIndexSettings)
+	{
+		if(directory != null && directory.isDirectory() && (!useIndexSettings || getDmfHandler().getDirectory() == null || !getDmfHandler().getDirectory().equals(directory)))
+		{
+			getSettings().setViewerDirectory(directory);
+			getFrame().setProcessRunning(true);
+			progressDialog.setCancelled(false);
+			progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
+			
+			if(useIndexSettings)
+			{
+				(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
+				
+			}//IF
+			else
+			{
+				(new DSwingWorker(this, DefaultLanguage.OPEN_WITHOUT_INDEXES)).execute();
+				
+			}//ELSE
+			
+		}//IF
+		
+	}//METHOD
+	
 	@Override
 	public void enableAll() 
 	{
+		settingsBar.enableAll();
 		previousButton.setEnabled(true);
 		nextButton.setEnabled(true);
 		pageText.setEnabled(true);
@@ -281,6 +334,7 @@ public class ViewBrowserGUI extends FrameGUI
 	@Override
 	public void disableAll()
 	{
+		settingsBar.disableAll();
 		previousButton.setEnabled(false);
 		nextButton.setEnabled(false);
 		pageText.setEnabled(false);
@@ -293,34 +347,47 @@ public class ViewBrowserGUI extends FrameGUI
 		switch(id)
 		{
 			case DResizeListener.RESIZE:
-			{
 				previewResized();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.OPEN:
-			{
-				File openFile = fileChooser.getFileOpen(getFrame(), new File(new String()));
-				if(openFile != null && openFile.isDirectory())
-				{
-					System.out.println(openFile.getAbsolutePath());
-					
-				}//IF
+				loadDirectory(fileChooser.getFileOpen(getFrame(), getSettings().getViewerDirectory()), true);
 				break;
-				
-			}//CASE
+			case DefaultLanguage.OPEN_WITHOUT_INDEXES:
+				loadDirectory(fileChooser.getFileOpen(getFrame(), getSettings().getViewerDirectory()), false);
+				break;
 			case DefaultLanguage.RESTART_PROGRAM:
-			{
 				Start.startGUI(getSettings(), getDmfHandler());
-				
-			}//CASE
 			case DefaultLanguage.EXIT:
-			{
 				dispose();
 				break;
-			}//CASE
 			
 		}//SWITCH
+		
+	}//METHOD
+
+	@Override
+	public void run(String id)
+	{
+		switch(id)
+		{
+			case DefaultLanguage.LOADING_DMFS:
+				this.getDmfHandler().loadDMFs(getSettings().getViewerDirectory(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
+				break;
+			case DefaultLanguage.OPEN_WITHOUT_INDEXES:
+				this.getDmfHandler().loadDMFs(getSettings().getViewerDirectory(), progressDialog, false, getSettings().getUseIndexes(), false);
+				break;
+				
+		}//SWITCH
+		
+	}//METHOD
+
+	@Override
+	public void done(String id)
+	{
+		progressDialog.setCancelled(false);
+		progressDialog.closeProgressDialog();
+		getFrame().setProcessRunning(false);
+		settingsBar.setLabel(getDmfHandler().getDirectory());
 		
 	}//METHOD
 	

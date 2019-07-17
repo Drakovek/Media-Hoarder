@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
+import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.processing.ParseINI;
 
 /**
@@ -130,12 +132,13 @@ public class DmfIndexing
 	 * Loads DMFs from a directory, either directly or from an index file as specified.
 	 * 
 	 * @param directory Directory from which to load DMFs
+	 * @param progressDialog DProgress dialog to show progress of loading DMFs, used here to show when an index file is being loaded.
 	 * @param useIndex Whether to use index files to load DMF info rather than directly
 	 * @param updateIndex Whether to update index file to reflect changes in DMFs
 	 * @return DmfDirectory with DMFs loaded from given directory
 	 * @since 2.0
 	 */
-	public DmfDirectory loadDMFs(final File directory, final boolean useIndex, final boolean updateIndex)
+	public DmfDirectory loadDMFs(final File directory, DProgressDialog progressDialog, final boolean useIndex, final boolean updateIndex)
 	{	
 		DmfDirectory dmfDirectory = new DmfDirectory();
 		boolean directLoad = true;
@@ -147,6 +150,7 @@ public class DmfIndexing
 			
 			if(indexFile.exists())
 			{
+				progressDialog.setProcessLabel(DefaultLanguage.LOADING_INDEX);
 				fileInputStream = null;
 				objectInputStream = null;
 				

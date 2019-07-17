@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import drakovek.hoarder.file.ExtensionFilter;
+import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 
 /**
  * Class for handling large amounts of DMF information.
@@ -201,21 +203,33 @@ public class DmfDatabase
 	 * Loads the information from all DMFs in a given folder and in its sub-directories.
 	 * 
 	 * @param dmfFolder Input Folder
+	 * @param progressDialog DProgress dialog to show progress of loading DMFs
 	 * @param useIndexes Whether to use index files to load DmfDirectory object
+	 * @param saveIndexes Whether to save DmfDirectories as index files
 	 * @param updateIndexes Whether to update index files to reflect changes in DMFs
+	 * @return Whether all DMFs were successfully loaded
+	 * @version 2.0
 	 * @since 2.0
 	 */
-	public void loadDMFs(File dmfFolder, final boolean useIndexes, final boolean updateIndexes)
+	public boolean loadDMFs(File dmfFolder, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
 	{
+		progressDialog.setProcessLabel(DefaultLanguage.GETTING_FOLDERS);
+		progressDialog.setDetailLabel(dmfFolder.getName());
+		progressDialog.setProgressBar(true, false, 0, 0);
 		ArrayList<File> dmfFolders = getDmfFolders(dmfFolder);
 		DmfIndexing indexing = new DmfIndexing();
 		
-		for(File folder: dmfFolders)
+		for(int i = 0; !progressDialog.isCancelled() && i < dmfFolders.size(); i++)
 		{
-			DmfDirectory dmfDirectory = indexing.loadDMFs(folder, useIndexes, updateIndexes);
+			progressDialog.setProcessLabel(DefaultLanguage.LOADING_DMFS);
+			progressDialog.setDetailLabel(dmfFolders.get(i).getName());
+			progressDialog.setProgressBar(false, true, dmfFolders.size(), i);
+			DmfDirectory dmfDirectory = indexing.loadDMFs(dmfFolders.get(i), progressDialog, useIndexes, updateIndexes);
 			
-			if(useIndexes)
+			if(!progressDialog.isCancelled() && saveIndexes)
 			{
+				progressDialog.setProcessLabel(DefaultLanguage.SAVING_INDEX);
+				progressDialog.setDetailLabel(dmfFolders.get(i).getName());
 				indexing.saveIndex(dmfDirectory);
 				
 			}//IF
@@ -225,6 +239,8 @@ public class DmfDatabase
 		}//FOR
 		
 		indexing.close();
+		
+		return !progressDialog.isCancelled();
 		
 	}//METHOD
 	

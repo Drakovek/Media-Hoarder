@@ -217,6 +217,41 @@ public class DefaultLanguage
 	 */
 	public static final String NO_DIRECTORY = "no_directory"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for the title of the progress dialog for loading DMFs
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOADING_DMFS_TITLE = "loading_dmfs_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the DMF loading progress dialog when searching for folders containing DMFs
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GETTING_FOLDERS = "getting_folders"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the DMF loading progress dialog when loading DMFs
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOADING_DMFS = "loading_dmfs"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the DMF loading progress dialog when loading a DMF index file
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOADING_INDEX = "loading_index"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the DMF loading progress dialog when saving a DMF index file
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SAVING_INDEX = "saving_index"; //$NON-NLS-1$
+	
 	//MODES
 	
 	/**
@@ -550,11 +585,11 @@ public class DefaultLanguage
 	public static final String NEXT = "next"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Update Indexes" menu option in the view GUI.
+	 * Language variable for the "Open Without Indexes" menu item in the viewer GUI
 	 * 
 	 * @since 2.0
 	 */
-	public static final String UPDATE_INDEXES = "update_indexes"; //$NON-NLS-1$
+	public static final String OPEN_WITHOUT_INDEXES = "open_without_indexes"; //$NON-NLS-1$
 	
 	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
@@ -612,6 +647,15 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FONT_SIZE, "^Size")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT_PREVIEW, "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG?! the quick brown fox jumps over the lazy dog. 0123456789")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORY, "(No Directory Selected)")); //$NON-NLS-1$
+		
+		//DMF LOADING
+		languageFile.add(new String());
+		languageFile.add("[DMF LOADING]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_DMFS_TITLE, "Loading DMFs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(GETTING_FOLDERS, "Getting Folders:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_DMFS, "Loading DMFs:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_INDEX, "Loading DMF Index:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SAVING_INDEX, "Saving DMF Index:")); //$NON-NLS-1$
 		
 		//MODES
 		languageFile.add(new String());
@@ -673,8 +717,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(CAPTCHA, "^Captcha:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REFRESH_CAPTCHA, "^Refresh Captcha")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOAD_CAPTCHA_TITLE, "Loading Captcha")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(LOAD_CAPTCHA, "Loading Image Captcha")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(ATTEMPT_LOGIN, "Attempting Login")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOAD_CAPTCHA, "Loading Image Captcha:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ATTEMPT_LOGIN, "Attempting Login:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOGIN_FAILED, "Login Failed")); //$NON-NLS-1$
 		
 		//VIEWER
@@ -683,7 +727,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(VIEWER_TITLE, "Viewer")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PREVIOUS, "< ^Previous")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(UPDATE_INDEXES, "^Update Indexes")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(OPEN_WITHOUT_INDEXES, "Open ^Without Indexes")); //$NON-NLS-1$
 		
 		
 		

@@ -326,7 +326,7 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 		disableAll();
 		captchaText.setText(new String());
 		progressDialog.setProcessLabel(DefaultLanguage.LOAD_CAPTCHA);
-		progressDialog.setProgressBar(true, false, 0, 0, null);
+		progressDialog.setProgressBar(true, false, 0, 0);
 		progressDialog.startProgressDialog(dialog, DefaultLanguage.LOAD_CAPTCHA_TITLE);
 		(new DSwingWorker(this, DefaultLanguage.CAPTCHA)).execute();
 		
@@ -343,7 +343,7 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 		{
 			disableAll();
 			progressDialog.setProcessLabel(DefaultLanguage.LOGIN);
-			progressDialog.setProgressBar(true, false, 0, 0, null);
+			progressDialog.setProgressBar(true, false, 0, 0);
 			progressDialog.startProgressDialog(dialog, DefaultLanguage.ATTEMPT_LOGIN);
 			(new DSwingWorker(this, DefaultLanguage.LOGIN)).execute();
 		

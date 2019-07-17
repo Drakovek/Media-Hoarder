@@ -1,5 +1,6 @@
 package drakovek.hoarder.processing;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -121,6 +122,36 @@ public class ParseINI
     	}//IF
     	
     	return value;
+    	
+    }//METHOD
+    
+	/**
+	 * Gets a File value for a given variable under a given header from .ini formatted text.
+	 * 
+	 * @param header INI Header
+	 * @param variable INI Variable
+	 * @param iniText INI Formatted Text
+	 * @param defaultValue Value returned if no relevant value is found
+	 * @return String Value of variable
+	 * @since 2.0
+	 */
+    public static File getFileValue(final String header, final String variable, final ArrayList<String> iniText, final File defaultValue)
+    {
+    	String value = getValue(header, variable, iniText);
+    	if(value == null)
+    	{
+    		return defaultValue;
+    	
+    	}//IF
+    	
+    	File file = new File(value);
+    	if(file.exists())
+    	{
+    		return file;
+    		
+    	}//IF
+    	
+    	return defaultValue;
     	
     }//METHOD
     
@@ -313,5 +344,26 @@ public class ParseINI
     	return getAssignmentString(variable, StringMethods.arrayToString(value));
    
     }//METHOD
+    
+    /**
+     * Creates an .ini assignment string from a given variable and File value.
+     * 
+     * @param variable Name of .ini Variable
+     * @param value Value of variable
+     * @return .ini Assignment String
+     * @since 2.0
+     */
+    public static String getAssignmentString(final String variable, final File value)
+    {
+    	if(value != null && value.exists())
+    	{
+    		return getAssignmentString(variable, value.getAbsolutePath());
+    		
+    	}//IF
+    	
+    	return getAssignmentString(variable, new String());
+   
+    }//METHOD
+    
     
 }//CLASS

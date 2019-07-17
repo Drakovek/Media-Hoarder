@@ -38,6 +38,20 @@ public class DSettings
 	private static final String LANGUAGE_NAME = "language_name"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for whether to use DMF indexes.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String USE_INDEXES = "use_indexes"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether to update DMF indexes when they are loaded.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String UPDATE_INDEXES = "update_indexes"; //$NON-NLS-1$
+	
+	/**
 	 * INI Variable for the space multiplier.
 	 * 
 	 * @since 2.0
@@ -115,6 +129,13 @@ public class DSettings
 	private static final String FUR_AFFINITY_DIRECTORY = "fur_affinity_directory"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for the viewer directory
+	 * 
+	 * @since 2.0
+	 */
+	private static final String VIEWER_DIRECTORY = "viewer_directory"; //$NON-NLS-1$
+	
+	/**
 	 * INI Variable for the size of DMF preview thumbnails.
 	 *
 	 * @since 2.0
@@ -158,6 +179,20 @@ public class DSettings
 	 * @since 2.0
 	 */
 	private String languageName;
+	
+	/**
+	 * Whether the user prefers to use index files to load DMF directories.
+	 * 
+	 * @since 2.0
+	 */
+	private boolean useIndexes;
+	
+	/**
+	 * Whether the user prefers to update indexes when using index files to load DMF directories.
+	 * 
+	 * @since 2.0
+	 */
+	private boolean updateIndexes;
 	
 	/**
 	 * Multiplied by fontSize to get the default space between Swing components.
@@ -237,6 +272,13 @@ public class DSettings
 	private File furAffinityDirectory;
 	
 	/**
+	 * Directory to use for viewing DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private File viewerDirectory;
+	
+	/**
 	 * Size of the preview thumbnails in the viewer GUI
 	 * 
 	 * @since 2.0
@@ -308,6 +350,10 @@ public class DSettings
 		//GENERAL
 		languageName = new String();
 		
+		//DMF
+		useIndexes = true;
+		updateIndexes = true;
+		
 		//SWING
 		spaceMultiplier = 0.5;
 		frameWidth = 20;
@@ -324,6 +370,7 @@ public class DSettings
 		furAffinityDirectory = null;
 		
 		//VIEWER
+		viewerDirectory = null;
 		previewSize = 100;
 		scaleType = 0;
 		scaleAmount = 1.0;
@@ -347,6 +394,10 @@ public class DSettings
 			//GENERAL
 			languageName = ParseINI.getStringValue(null, LANGUAGE_NAME, settingsInfo, languageName);
 			
+			//DMF
+			useIndexes = ParseINI.getBooleanValue(null, USE_INDEXES, settingsInfo, useIndexes);
+			updateIndexes = ParseINI.getBooleanValue(null, UPDATE_INDEXES, settingsInfo, updateIndexes);
+			
 			//SWING
 			spaceMultiplier = ParseINI.getDoubleValue(null, SPACE_MULTIPLIER, settingsInfo, spaceMultiplier);
 			frameWidth = ParseINI.getIntValue(null, FRAME_WIDTH, settingsInfo, frameWidth);
@@ -359,10 +410,11 @@ public class DSettings
 			fontAA = ParseINI.getBooleanValue(null, FONT_AA, settingsInfo, fontAA);
 			
 			//DOWNLOAD
-			deviantArtDirectory = new File(ParseINI.getStringValue(null, DEVIANTART_DIRECTORY, settingsInfo, new String()));
-			furAffinityDirectory = new File(ParseINI.getStringValue(null, FUR_AFFINITY_DIRECTORY, settingsInfo, new String()));
+			deviantArtDirectory = ParseINI.getFileValue(null, DEVIANTART_DIRECTORY, settingsInfo, null);
+			furAffinityDirectory = ParseINI.getFileValue(null, FUR_AFFINITY_DIRECTORY, settingsInfo, null);
 			
 			//VIEWER
+			viewerDirectory = ParseINI.getFileValue(null, VIEWER_DIRECTORY, settingsInfo, null);
 			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
 			scaleType = ParseINI.getIntValue(null, SCALE_TYPE, settingsInfo, scaleType);
 			scaleAmount = ParseINI.getDoubleValue(null, SCALE_AMOUNT, settingsInfo, scaleAmount);
@@ -397,15 +449,22 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_BOLD, fontBold));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_AA, fontAA));
 		
+		//DMF
+		settingsInfo.add(new String());
+		settingsInfo.add("[DMF]"); //$NON-NLS-1$
+		settingsInfo.add(ParseINI.getAssignmentString(USE_INDEXES, useIndexes));
+		settingsInfo.add(ParseINI.getAssignmentString(UPDATE_INDEXES, updateIndexes));
+		
 		//DOWNLOAD
 		settingsInfo.add(new String());
 		settingsInfo.add("[DOWNLOAD]"); //$NON-NLS-1$
-		settingsInfo.add(ParseINI.getAssignmentString(DEVIANTART_DIRECTORY, deviantArtDirectory.getAbsolutePath()));
-		settingsInfo.add(ParseINI.getAssignmentString(FUR_AFFINITY_DIRECTORY, furAffinityDirectory.getAbsolutePath()));
+		settingsInfo.add(ParseINI.getAssignmentString(DEVIANTART_DIRECTORY, deviantArtDirectory));
+		settingsInfo.add(ParseINI.getAssignmentString(FUR_AFFINITY_DIRECTORY, furAffinityDirectory));
 		
 		//VIEWER
 		settingsInfo.add(new String());
 		settingsInfo.add("[VIEWER]"); //$NON-NLS-1$
+		settingsInfo.add(ParseINI.getAssignmentString(VIEWER_DIRECTORY, viewerDirectory));
 		settingsInfo.add(ParseINI.getAssignmentString(PREVIEW_SIZE, previewSize));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_TYPE, scaleType));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_AMOUNT, scaleAmount));
@@ -470,6 +529,7 @@ public class DSettings
 		
 	}//METHOD
 	
+	
 	/**
 	 * Returns the program's data folder located in the main program directory.
 	 * 
@@ -494,6 +554,53 @@ public class DSettings
 		
 	}//METHOD
 	
+	/**
+	 * Sets value of useIndexes.
+	 * 
+	 * @param useIndexes useIndexes
+	 * @since 2.0
+	 */
+	public void setUseIndexes(final boolean useIndexes)
+	{
+		this.useIndexes = useIndexes;
+		
+	}//METHOD
+	
+	/**
+	 * Returns value of useIndexes.
+	 * 
+	 * @return useIndexes
+	 * @since 2.0
+	 */
+	public boolean getUseIndexes()
+	{
+		return useIndexes;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the value of updateIndexes.
+	 * 
+	 * @param updateIndexes updateIndexes
+	 * @since 2.0
+	 */
+	public void setUpdateIndexes(final boolean updateIndexes)
+	{
+		this.updateIndexes = updateIndexes;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the value of updateIndexes.
+	 * 
+	 * @return updateIndexes
+	 * @since 2.0
+	 */
+	public boolean getUpdateIndexes()
+	{
+		return updateIndexes;
+		
+	}//METHOD
 	/**
 	 * Gets the Space Multiplier
 	 * 
@@ -719,6 +826,30 @@ public class DSettings
 	public File getFurAffinityDirectory()
 	{
 		return furAffinityDirectory;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the viewer directory.
+	 * 
+	 * @param viewerDirectory Viewer Directory
+	 * @since 2.0
+	 */
+	public void setViewerDirectory(final File viewerDirectory)
+	{
+		this.viewerDirectory = viewerDirectory;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the viewer directory.
+	 * 
+	 * @return Viewer Directory
+	 * @since 2.0
+	 */
+	public File getViewerDirectory()
+	{
+		return viewerDirectory;
 		
 	}//METHOD
 	

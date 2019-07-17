@@ -3,6 +3,8 @@ package drakovek.hoarder.file.dmf;
 import java.io.File;
 import java.util.ArrayList;
 
+import drakovek.hoarder.gui.swing.compound.DProgressDialog;
+
 /**
  * Class for other objects to access DMF information.
  * 
@@ -69,14 +71,21 @@ public class DmfHandler
 	 * Loads the information from all DMFs in a given folder and in its sub-directories.
 	 * 
 	 * @param dmfFolder Input Folder
+	 * @param progressDialog DProgress dialog to show progress of loading DMFx
 	 * @param useIndexes Whether to use index files to load DmfDirectory object
+	 * @param saveIndexes Whether to save DmfDirectories as index files
 	 * @param updateIndexes Whether to update index files to reflect changes in DMFs
 	 * @since 2.0
 	 */
-	public void loadDMFs(final File dmfFolder, final boolean useIndexes, final boolean updateIndexes)
+	public void loadDMFs(final File dmfFolder, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
 	{
 		directory = dmfFolder;
-		database.loadDMFs(dmfFolder, useIndexes, updateIndexes);
+		if(!database.loadDMFs(dmfFolder, progressDialog, useIndexes, saveIndexes, updateIndexes))
+		{
+			directory = null;
+			
+		}//IF
+		
 		resetSorted();
 		resetFiltered();
 		
