@@ -242,7 +242,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		getFrame().getContentPane().add(this.getSpacedPanel(titlePanel, 1, 0, true, true, true, true), BorderLayout.NORTH);
 		getFrame().getContentPane().add(fullPanel, BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
-		getFrame().pack();
+		getFrame().packRestricted();
 		getFrame().setMinimumSize(getFrame().getSize());
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
