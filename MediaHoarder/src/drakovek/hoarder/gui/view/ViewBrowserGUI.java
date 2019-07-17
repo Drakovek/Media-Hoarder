@@ -1,11 +1,18 @@
 package drakovek.hoarder.gui.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+
+import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
@@ -15,6 +22,7 @@ import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.ScreenDimensions;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
+import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DTextField;
@@ -74,6 +82,20 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	 * @since 2.0
 	 */
 	private JPanel[] previewPanels;
+	
+	/**
+	 * Array of buttons used to show previews of DMFs and open DMF media.
+	 * 
+	 * @since 2.0
+	 */
+	private DButton[] previewButtons;
+	
+	/**
+	 * Array of labels to show previews of DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private DLabel[] previewLabels;
 	
 	/**
 	 * Button to show DMF media prior to the current page
@@ -136,7 +158,6 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		super(settings, dmfHandler, DefaultLanguage.VIEWER_TITLE);
 		fileChooser = new DFileChooser(settings);
 		progressDialog = new DProgressDialog(settings);
-		createPreviewPanels();
 		previewWidth = 0;
 		previewHeight = 0;
 		
@@ -177,6 +198,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		viewPanel.add(getSpacedPanel(bottomPanel, 1, 1, false, false, true, true), BorderLayout.SOUTH);
 		
 		//FINALIZE FRAME
+		createPreviewPanels();
 		settingsBar = new SettingsBarGUI(this);
 		getFrame().setJMenuBar(menubar);
 		getFrame().getContentPane().add(viewPanel, BorderLayout.CENTER);
@@ -232,14 +254,41 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		//CREATE PREVIEW PANELS
 		int width = (int)Math.ceil((double)screen.getLargeScreenHeight() / (double)sectionWidth);
 		int height = (int)Math.ceil((double)screen.getLargeScreenHeight() / (double)sectionHeight);
+		
 		int total = width * height;
 		previewPanels = new JPanel[total];
+		previewButtons = new DButton[total];
+		previewLabels = new DLabel[total];
+		Dimension previewSpace = new Dimension(getSettings().getPreviewSize() + (getSettings().getSpaceSize() * 2), 1);
 		
 		for(int i = 0; i < total; i++)
 		{
-			previewPanels[i] = new JPanel();
-			previewPanels[i].setLayout(new GridLayout(1,1));
-			previewPanels[i].add(new DButton(this, Integer.toString(i)));
+			previewLabels[i] = new DLabel(this, null, new String());
+			previewLabels[i].setHorizontalAlignment(SwingConstants.LEFT);
+			previewLabels[i].setVerticalAlignment(SwingConstants.TOP);
+			previewButtons[i] = new DButton(this, Integer.toString(i));
+			
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridBagLayout());
+			GridBagConstraints previewCST = new GridBagConstraints();
+			previewCST.gridx = 0;		previewCST.gridy = 0;
+			previewCST.gridwidth = 1;	previewCST.gridheight = 1;
+			previewCST.weightx = 0;		previewCST.weighty = 0;
+			previewCST.fill = GridBagConstraints.BOTH;
+			panel.add(Box.createRigidArea(previewSpace), previewCST);
+			previewCST.gridy = 2;
+			panel.add(Box.createRigidArea(previewSpace), previewCST);
+			previewCST.gridx = 1;		previewCST.gridy = 1;
+			panel.add(getHorizontalSpace(), previewCST);
+			previewCST.gridx = 0;		previewCST.weighty = 1;
+			panel.add(previewButtons[i], previewCST);
+			previewCST.gridx = 2;		previewCST.gridy = 0;
+			previewCST.gridheight = 3;	previewCST.weightx = 1;
+			panel.add(previewLabels[i], previewCST);
+			
+			previewPanels[i] = getSpacedPanel(panel);
+			
+			previewPanels[i].setBorder(BorderFactory.createLineBorder(pageText.getDisabledTextColor()));
 			
 		}//FOR
 		
