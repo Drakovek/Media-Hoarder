@@ -193,7 +193,7 @@ public class SettingsGUI extends BaseGUI
 		frame.getContentPane().add(this.getSpacedPanel(topPanel, 1, 0, true, false, true, true), BorderLayout.NORTH);
 		frame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsList.setSelectedIndex(0);
-		frame.pack();
+		frame.packRestricted();
 		frame.setLocationRelativeTo(ownerGUI.getFrame());
 		frame.setVisible(true);
 
