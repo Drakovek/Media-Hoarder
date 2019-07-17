@@ -242,7 +242,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		getFrame().getContentPane().add(this.getSpacedPanel(titlePanel, 1, 0, true, true, true, true), BorderLayout.NORTH);
 		getFrame().getContentPane().add(fullPanel, BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
-		getFrame().pack();
+		getFrame().packRestricted();
 		getFrame().setMinimumSize(getFrame().getSize());
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
@@ -396,82 +396,94 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 	}//METHOD
 
+	/**
+	 * Selects the main directory for this object.
+	 * 
+	 * @since 2.0
+	 */
+	private void selectDirectory()
+	{
+		File file = fileChooser.getFileOpen(getFrame(), getDirectory());
+		
+		if(file != null && file.isDirectory())
+		{
+			setDirectory(file);
+			settingsBar.setLabel(getDirectory());
+		
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Adds a given artist to the list of artists.
+	 * 
+	 * @since 2.0
+	 */
+	private void addArtist()
+	{
+		DTextDialog textDialog = new DTextDialog(getSettings());
+		String artist = textDialog.openTextDialog(getFrame(), DefaultLanguage.ADD_ARTIST, DefaultLanguage.NAME_OF_ARTIST, null);
+		
+		if(artist != null)
+		{
+			artistHandler.addArtist(artist);
+			updateArtistList();
+			artistHandler.saveArtists();
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Removes selected artist(s) from the list of artists.
+	 * 
+	 * @since 2.0
+	 */
+	private void removeArtists()
+	{
+		int[] selected = artistList.getSelectedIndices();
+		if(selected.length > 0)
+		{
+			DButtonDialog buttonDialog = new DButtonDialog(getSettings());;
+			String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
+			String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.DELETE_ARTIST_MESSAGES, buttonIDs);
+			if(result != null && result.equals(DefaultLanguage.YES))
+			{
+				artistHandler.deleteArtists(selected);
+				updateArtistList();
+				artistHandler.saveArtists();
+				
+			}//IF
+			
+		}//IF
+		
+	}//METHOD
+	
 	@Override
 	public void event(String id, int value)
 	{
 		switch(id)
 		{
 			case DefaultLanguage.OPEN:
-			{
-				File file = fileChooser.getFileOpen(getFrame(), getDirectory());
-			
-				if(file != null && file.isDirectory())
-				{
-					setDirectory(file);
-					settingsBar.setLabel(getDirectory());
-				
-				}//IF
-				
+				selectDirectory();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.ADD:
-			{
-				DTextDialog textDialog = new DTextDialog(getSettings());
-				String artist = textDialog.openTextDialog(getFrame(), DefaultLanguage.ADD_ARTIST, DefaultLanguage.NAME_OF_ARTIST, null);
-				
-				if(artist != null)
-				{
-					artistHandler.addArtist(artist);
-					updateArtistList();
-					artistHandler.saveArtists();
-					
-				}//IF
-				
+				addArtist();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.REMOVE:
-			{
-				int[] selected = artistList.getSelectedIndices();
-				if(selected.length > 0)
-				{
-					DButtonDialog buttonDialog = new DButtonDialog(getSettings());;
-					String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-					String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.DELETE_ARTIST_MESSAGES, buttonIDs);
-					if(result != null && result.equals(DefaultLanguage.YES))
-					{
-						artistHandler.deleteArtists(selected);
-						updateArtistList();
-						artistHandler.saveArtists();
-						
-					}//IF
-					
-				}//IF
+				removeArtists();
 				break;
-			}//CASE
 			case DefaultLanguage.RESTART_PROGRAM:
-			{
 				Start.startGUI(getSettings(), getDmfHandler());
-				
-			}//CASE
 			case DefaultLanguage.EXIT:
-			{
 				dispose();
 				break;
-				
-			}//CASE
 			case DefaultLanguage.CHECK_NEW:
-			{
 				checkPages(false);
 				break;
-				
-			}//CASE
 			case DefaultLanguage.CHECK_ALL:
-			{
 				checkPages(true);
 				break;
-			}
 			
 		}//SWITCH
 		

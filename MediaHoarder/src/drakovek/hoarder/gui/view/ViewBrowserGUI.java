@@ -163,7 +163,7 @@ public class ViewBrowserGUI extends FrameGUI
 		getFrame().setJMenuBar(menubar);
 		getFrame().getContentPane().add(viewPanel, BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
-		getFrame().pack();
+		getFrame().packRestricted();
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
 		

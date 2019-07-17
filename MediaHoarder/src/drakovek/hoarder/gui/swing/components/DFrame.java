@@ -108,26 +108,82 @@ public class DFrame extends JFrame
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new DCloseListener(this));
 		
-		ScreenDimensions screen = new ScreenDimensions();
-		int width = settings.getFontSize() * settings.getFrameWidth();
-		if(width > screen.getMaximumWidth())
-		{
-			width = screen.getMaximumWidth();
-		
-		}//IF
-		
-		int height = settings.getFontSize() * settings.getFrameHeight();
-		if(height > screen.getMaximumHeight())
-		{
-			height = screen.getMaximumHeight();
-		
-		}//IF
-		
-		this.setMinimumSize(new Dimension(width, height));
+		this.setMinimumSize(getRestrictedDimensions(0, 0));
 		
 		allowExit = true;
 		processRunning = false;
 	
+	}//METHOD
+	
+	/**
+	 * Sets the minimum size of the frame, ensuring it does not exceed the screen dimensions.
+	 * 
+	 * @param width Frame Width
+	 * @param height Frame Height
+	 * @since 2.0
+	 */
+	public void setSizeRestrictive(final int width, final int height)
+	{
+		this.setMinimumSize(getRestrictedDimensions(width, height));
+		
+	}//METHOD
+	
+	/**
+	 * Packs the frame while ensuring it does not exceed the screen dimensions.
+	 * 
+	 * @since 2.0
+	 */
+	public void packRestricted()
+	{
+		pack();
+		setSize(getRestrictedDimensions(getWidth(), getHeight()));
+		
+	}//METHOD
+	
+	/**
+	 * Returns dimension based on the desired width and height that does not exceed the screen dimensions, and is not smaller than the minimum frame size, if possible.
+	 * 
+	 * @param width Desired Width
+	 * @param height Desired Height
+	 * @return Restricted Dimension
+	 * @since 2.0
+	 */
+	private Dimension getRestrictedDimensions(final int width, final int height)
+	{
+		int newWidth = width;
+		int newHeight = height;
+		
+		//MAKE SURE DIMENSIONS AREN'T TOO SMALL
+		int minWidth = settings.getFrameWidth() * settings.getFontSize();
+		int minHeight = settings.getFrameHeight() * settings.getFontSize();
+		if(newWidth < minWidth)
+		{
+			newWidth = minWidth;
+			
+		}//IF
+		
+		if(newHeight < minHeight)
+		{
+			newHeight = minHeight;
+			
+		}//IF
+		
+		//MAKE SURE DIMENSIONS AREN'T TOO LARGE
+		ScreenDimensions screen = new ScreenDimensions();
+		if(newWidth > screen.getMaximumWidth())
+		{
+			newWidth = screen.getMaximumWidth();
+			
+		}//IF
+		
+		if(newHeight > screen.getMaximumHeight())
+		{
+			newHeight = screen.getMaximumHeight();
+			
+		}//IF
+		
+		return new Dimension(newWidth, newHeight);
+		
 	}//METHOD
     
 	/**

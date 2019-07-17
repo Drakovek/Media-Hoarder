@@ -1,18 +1,15 @@
 package drakovek.hoarder.gui.settings;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GraphicsEnvironment;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
@@ -20,16 +17,11 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
-import drakovek.hoarder.gui.swing.components.DCheckBox;
 import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
-import drakovek.hoarder.gui.swing.components.DScrollablePanel;
-import drakovek.hoarder.gui.swing.components.DTextArea;
-import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
-import drakovek.hoarder.processing.BooleanInt;
 import drakovek.hoarder.processing.StringMethods;
 
 /**
@@ -42,32 +34,11 @@ import drakovek.hoarder.processing.StringMethods;
 public class SettingsGUI extends BaseGUI
 {
 	/**
-	 * Array containing all the fonts available for Swing to use.
+	 * List of action/language IDs for the possible settings modes the user can choose.
 	 * 
 	 * @since 2.0
 	 */
-	private String[] fonts;
-	
-	/**
-	 * Array containing all the "Look and Feel"s for Swing to use.
-	 * 
-	 * @since 2.0
-	 */
-	private LookAndFeelInfo[] themes;
-	
-	/**
-	 * Array containing all the languages available for the program to use.
-	 * 
-	 * @since 2.0
-	 */
-	private String[] languages;
-	
-	/**
-	 * Main frame for containing components to adjust the program settings.
-	 * 
-	 * @since 2.0
-	 */
-	private DFrame settingsFrame;
+	private static final String[] settingsEvents = {DefaultLanguage.LANGUAGE, DefaultLanguage.THEME, DefaultLanguage.FONT};
 	
 	/**
 	 * FrameGUI that opened the settings GUI
@@ -77,163 +48,78 @@ public class SettingsGUI extends BaseGUI
 	private FrameGUI ownerGUI;
 	
 	/**
-	 * List showing available languages for the program
+	 * GUI for setting particular settings to include within the main settings GUI
 	 * 
 	 * @since 2.0
 	 */
-	private DList languageList;
+	private SettingsModeGUI modeGUI;
 	
 	/**
-	 * List showing available Swing "Look and Feel"s for the program
+	 * The main frame for the settings GUI
 	 * 
 	 * @since 2.0
 	 */
-	private DList themeList;
+	private DFrame frame;
 	
 	/**
-	 * List showing available fonts for the program
+	 * Panel to contain GUI for changing settings
 	 * 
 	 * @since 2.0
 	 */
-	private DList fontList;
+	private JPanel contentPanel;
 	
 	/**
-	 * Text Field for inputting the desired text size.
+	 * List to select the current settings mode
 	 * 
 	 * @since 2.0
 	 */
-	private DTextField sizeText;
+	private DList settingsList;
 	
 	/**
-	 * Text Area that shows a preview for the chosen font.
+	 * Button for applying the currently edited settings
 	 * 
 	 * @since 2.0
 	 */
-	private DTextArea previewText;
+	private DButton applyButton;
 	
 	/**
-	 * Edited setting for the program's language
+	 * Button for applying the currently edited settings, then closing the settings GUI
 	 * 
 	 * @since 2.0
 	 */
-	private String language;
+	private DButton saveButton;
 	
 	/**
-	 * Edited setting for the program's theme
+	 * Boolean determining if any settings have changed
 	 * 
 	 * @since 2.0
 	 */
-	private String theme;
+	private boolean changed;
 	
 	/**
-	 * Edited setting for the program's default font
-	 * 
-	 * @since 2.0
-	 */
-	private String font;
-	
-	/**
-	 * Edited setting for the program's font size
-	 * 
-	 * @since 2.0
-	 */
-	private int size;
-	
-	/**
-	 * Edited setting for whether the program's default font should be bold
-	 * 
-	 * @since 2.0
-	 */
-	private boolean bold;
-	
-	/**
-	 * Edited setting for whether the program's fonts should be anti-aliased
-	 * 
-	 * @since 2.0
-	 */
-	private boolean aa;
-	
-	/**
-	 * Initializes the SettingsGUI class.
+	 * Initializes the SettingsGUI
 	 * 
 	 * @param ownerGUI FrameGUI that opened the settings GUI
 	 * @param settings Program Settings
+	 * @since 2.0
 	 */
 	public SettingsGUI(FrameGUI ownerGUI, DSettings settings)
 	{
 		super(settings);
 		this.ownerGUI = ownerGUI;
 		ownerGUI.getFrame().setAllowExit(false);
+		frame = new DFrame(settings, getTitle(DefaultLanguage.SETTINGS));
+		frame.setSizeRestrictive(getSettings().getFontSize() * 40, getSettings().getFontSize() * 30);
+		frame.interceptFrameClose(this);
+		modeGUI = null;
+		changed = false;
 		
-		settingsFrame = new DFrame(settings, getTitle(DefaultLanguage.SETTINGS));
-		settingsFrame.interceptFrameClose(this);
-		
-		//LIST PANELS
-		languageList = new DList(this, false, DefaultLanguage.LANGUAGE);
-		themeList = new DList(this, false, DefaultLanguage.THEME);
-		fontList = new DList(this, false, DefaultLanguage.FONT);
-		previewText = new DTextArea(this);
-		
-		JPanel textPanel = new JPanel();
-		textPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		textPanel.add(getScrollLabelPanel(fontList, DefaultLanguage.FONT));
-		textPanel.add(getScrollLabelPanel(previewText, DefaultLanguage.PREVIEW));
-		
-		JPanel listPanel = new JPanel();
-		listPanel.setLayout(new GridLayout(3, 1, 0, settings.getSpaceSize()));
-		listPanel.add(getScrollLabelPanel(languageList, DefaultLanguage.LANGUAGE));
-		listPanel.add(getScrollLabelPanel(themeList, DefaultLanguage.THEME));
-		listPanel.add(textPanel);
-		
-		//CREATE TEXT OPTION PANEL
-		bold = getSettings().getFontBold();
-		aa = getSettings().getFontAA();
-		DCheckBox boldCheck = new DCheckBox(this, bold, DefaultLanguage.FONT_BOLD);
-		DCheckBox aaCheck = new DCheckBox(this, aa, DefaultLanguage.FONT_AA);
-		sizeText = new DTextField(this, DefaultLanguage.FONT_SIZE);
-		DLabel sizeLabel = new DLabel(this, sizeText, DefaultLanguage.FONT_SIZE);
-		JPanel sizePanel = new JPanel();
-		sizePanel.setLayout(new GridBagLayout());
-		GridBagConstraints sizeCST = new GridBagConstraints();
-		sizeCST.gridx = 0;			sizeCST.gridy = 0;
-		sizeCST.gridwidth = 1;		sizeCST.gridheight = 3;
-		sizeCST.weightx = 0;		sizeCST.weighty = 0;
-		sizeCST.fill = GridBagConstraints.BOTH;
-		sizePanel.add(sizeLabel, sizeCST);
-		sizeCST.gridx = 1;
-		sizePanel.add(getHorizontalSpace(), sizeCST);
-		sizeCST.gridx = 2;			sizeCST.weightx = 1;
-		sizePanel.add(sizeText, sizeCST);
-		JPanel textTopPanel = new JPanel();
-		textTopPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		textTopPanel.add(boldCheck);
-		textTopPanel.add(sizePanel);
-		JPanel textOptionPanel = new JPanel();
-		textOptionPanel.setLayout(new GridLayout(2, 1, 0, settings.getSpaceSize()));
-		textOptionPanel.add(textTopPanel);
-		textOptionPanel.add(aaCheck);
-		
-		//CREATE SETTINGS PANEL
-		JPanel settingsPanel = new JPanel();
-		settingsPanel.setLayout(new GridBagLayout());
-		GridBagConstraints settingsCST = new GridBagConstraints();
-		settingsCST.gridx = 0;			settingsCST.gridy = 0;
-		settingsCST.gridwidth = 3;		settingsCST.gridheight = 1;
-		settingsCST.weightx = 1;		settingsCST.weighty = 0;
-		settingsCST.fill = GridBagConstraints.BOTH;
-		settingsPanel.add(listPanel, settingsCST);
-		settingsCST.gridy = 1;
-		settingsPanel.add(getVerticalSpace(), settingsCST);
-		settingsCST.gridy = 2;
-		settingsPanel.add(textOptionPanel, settingsCST);
-		
-		//BOTTOM FRAME
-		DButton okButton = new DButton(this, DefaultLanguage.OK);
-		DButton cancelButton = new DButton(this, DefaultLanguage.CANCEL);
+		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		buttonPanel.add(okButton);
-		buttonPanel.add(cancelButton);
+		buttonPanel.add(new DButton(this, DefaultLanguage.CLOSE));
+		saveButton = new DButton(this, DefaultLanguage.SAVE);
+		buttonPanel.add(saveButton);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridBagLayout());
@@ -245,249 +131,87 @@ public class SettingsGUI extends BaseGUI
 		bottomPanel.add(buttonPanel, bottomCST);
 		bottomCST.gridy = 1;
 		bottomPanel.add(getVerticalSpace(), bottomCST);
-		bottomCST.gridx = 0;		bottomCST.gridwidth = 2;
-		bottomCST.weightx = 1;
+		bottomCST.gridx = 0;		bottomCST.gridy = 2;
+		bottomCST.gridwidth = 2;	bottomCST.weightx = 1;
 		bottomPanel.add(getHorizontalSpace(), bottomCST);
 		bottomCST.gridy = 0;		bottomCST.gridwidth = 3;
 		bottomPanel.add(new JSeparator(SwingConstants.HORIZONTAL), bottomCST);
 		
-		DScrollablePanel scrollPanel = new DScrollablePanel(getSpacedPanel(settingsPanel, 1, 0, true, true, true, true), true, false);
-		DScrollPane settingsScroll = new DScrollPane(getSettings(), scrollPanel);
+		//CREATE MODE PANEL
+		String[] listData = new String[settingsEvents.length];
+		for(int i = 0; i < listData.length; i++)
+		{
+			listData[i] = settings.getLanuageText(settingsEvents[i]) + StringMethods.extendCharacter(' ', 5);
+		
+		}//FOR
+		
+		settingsList = new DList(this, false, DefaultLanguage.SETTINGS);
+		settingsList.setListData(listData);
+		DScrollPane settingsScroll = new DScrollPane(settings, settingsList);
+		
+		JPanel modePanel = new JPanel();
+		modePanel.setLayout(new BorderLayout());
+		Dimension modeSpace = new Dimension(getSettings().getFontSize() * 8, 1);
+		modePanel.add(Box.createRigidArea(modeSpace), BorderLayout.NORTH);
+		modePanel.add(settingsScroll, BorderLayout.CENTER);
+		modePanel.add(Box.createRigidArea(modeSpace), BorderLayout.SOUTH);
+		
+		//CREATE CENTER PANEL
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new GridLayout(1, 1));
+		
+		JPanel applyPanel = new JPanel();
+		applyButton = new DButton(this, DefaultLanguage.APPLY);
+		applyPanel.setLayout(new BorderLayout());
+		applyPanel.add(applyButton, BorderLayout.EAST);
+		
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new GridBagLayout());
+		GridBagConstraints centerCST = new GridBagConstraints();
+		centerCST.gridx = 0;		centerCST.gridy = 0;
+		centerCST.gridwidth = 1;	centerCST.gridheight = 3;
+		centerCST.weightx = 0;		centerCST.weighty = 1;
+		centerCST.fill = GridBagConstraints.BOTH;
+		centerPanel.add(modePanel, centerCST);
+		centerCST.gridx = 1;
+		centerPanel.add(getHorizontalSpace(), centerCST);
+		centerCST.gridx = 2;		centerCST.gridheight = 1;
+		centerCST.weightx = 1;
+		centerPanel.add(contentPanel, centerCST);
+		centerCST.gridy = 1;		centerCST.weighty = 0;
+		centerPanel.add(getVerticalSpace(), centerCST);
+		centerCST.gridy = 2;
+		centerPanel.add(applyPanel, centerCST);
+		
+		//CREATE TOP PANEL
+		DLabel settingsLabel = new DLabel(this, settingsList, DefaultLanguage.SETTINGS);
+		settingsLabel.setFontLarge();
+		JPanel topPanel = getVerticalStack(settingsLabel, new JSeparator(SwingConstants.HORIZONTAL));
 		
 		//FINALIZE FRAME
-		settingsFrame.getContentPane().add(getSpacedPanel(settingsScroll, 1, 1, true, true, true, true), BorderLayout.CENTER);
-		settingsFrame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
-		settingsFrame.pack();
-		settingsFrame.setLocationRelativeTo(ownerGUI.getFrame());
-		settingsFrame.setMinimumSize(settingsFrame.getSize());
-		settingsFrame.setVisible(true);
-		
-		initializeSettings();
+		frame.getContentPane().add(getSpacedPanel(centerPanel), BorderLayout.CENTER);
+		frame.getContentPane().add(this.getSpacedPanel(topPanel, 1, 0, true, false, true, true), BorderLayout.NORTH);
+		frame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
+		settingsList.setSelectedIndex(0);
+		frame.packRestricted();
+		frame.setLocationRelativeTo(ownerGUI.getFrame());
+		frame.setVisible(true);
+
 		
 	}//CONSTRUCTOR
 	
 	/**
-	 * Sets the Settings GUI to reflect the current settings of the program.
+	 * Disposes of the main settings frame.
 	 * 
 	 * @since 2.0
 	 */
-	private void initializeSettings()
+	private void dispose()
 	{
-		//SET DEFAULT SETTINGS
-		language = getSettings().getLanguageName();
-		theme = getSettings().getTheme();
-		font = getSettings().getFontName();
-		size = getSettings().getFontSize();
-		bold = getSettings().getFontBold();
-		aa = getSettings().getFontAA();
-		
-		sizeText.setText(Integer.toString(size));
-		
-		//LANGUAGES LIST
-		languages = StringMethods.arrayListToArray(getSettings().getLanguages());
-		languageList.setListData(languages);
-		int selection = -1;
-		for(int i = 0; i < languages.length; i++)
-		{
-			if(language.equals(languages[i]))
-			{
-				selection = i;
-				break;
-				
-			}//IF
-			
-		}//FOR
-		
-		if(selection == -1)
-		{
-			selection = 0;
-			
-		}//IF
-		
-		languageList.setSelectedIndex(selection);
-		languageList.ensureIndexIsVisible(selection);
-				
-		//THEMES LIST
-		themes = UIManager.getInstalledLookAndFeels();
-		String[] themeStrings = new String[themes.length];
-		selection = -1;
-		for(int i = 0; i < themes.length; i++)
-		{
-			themeStrings[i] = themes[i].getName();
-			
-			if(theme.equals(themes[i].getClassName()))
-			{
-				selection = i;
-				
-			}//IF
-					
-		}//FOR
-		
-		themeList.setListData(themeStrings);
-		
-		if(selection == -1)
-		{
-			selection = 0;
-		
-		}//IF
-		
-		themeList.setSelectedIndex(selection);
-		themeList.ensureIndexIsVisible(selection);
-		
-		//FONT LIST
-		selection = -1;
-		fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		fontList.setListData(fonts);
-		for(int i = 0; i < fonts.length; i++)
-		{
-			if(font.equals(fonts[i]))
-			{
-				selection = i;
-				break;
-				
-			}//IF
-			
-		}//FOR
-	
-		if(selection == -1)
-		{
-			selection = 0;
-			
-		}//IF
-		
-		fontList.setSelectedIndex(selection);
-		fontList.ensureIndexIsVisible(selection);
-		
-		previewText.setText(getSettings().getLanuageText(DefaultLanguage.FONT_PREVIEW));
-		updateFontPreview();
-		
-	}//METHOD
-	
-	/**
-	 * Returns a panel filled with a scaled component in a scroll pane along with a left-aligned label.
-	 * 
-	 * @param component Component to show in the scroll pane.
-	 * @param id ID for the label
-	 * @return Scroll Label Panel
-	 * @since 2.0
-	 */
-	private JPanel getScrollLabelPanel(Component component, final String id)
-	{
-		DScrollPane scroll = new DScrollPane(getSettings(), ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, component);
-		DLabel scrollLabel = new DLabel(this, component, id);
-		JPanel scrollPanel = new JPanel();
-		scrollPanel.setLayout(new GridBagLayout());
-	
-		GridBagConstraints scrollCST = new GridBagConstraints();
-		scrollCST.gridx = 0;			scrollCST.gridy = 0;
-		scrollCST.gridwidth = 1;		scrollCST.gridheight = 1;
-		scrollCST.weightx = 0;			scrollCST.weighty = 0;
-		scrollCST.fill = GridBagConstraints.BOTH;
-		scrollPanel.add(scrollLabel, scrollCST);
-		scrollCST.gridy = 1;
-		scrollPanel.add(getVerticalSpace(), scrollCST);
-		scrollCST.gridy = 2;		scrollCST.gridwidth = 3;
-		scrollCST.weightx = 1;		scrollCST.weighty = 1;
-		scrollPanel.add(scroll, scrollCST);
-
-		return scrollPanel;
-		
-	}//METHOD
-	
-	/**
-	 * Resets the font preview to show the currently selected font.
-	 * 
-	 * @since 2.0
-	 */
-	private void updateFontPreview()
-	{
-		previewText.setFont(font, bold, size);
-		
-	}//METHOD
-	
-	/**
-	 * Attempts to update the font size from a value given by the user in the font size text field.
-	 * 
-	 * @since 2.0
-	 */
-	private void updateFontSize()
-	{
-		try
-		{
-			int trySize = Integer.parseInt(sizeText.getText());
-			size = trySize;
-			updateFontPreview();
-			
-		}//TRY
-		catch(NumberFormatException e)
-		{
-			sizeText.setText(Integer.toString(size));
-			
-		}//CATCH
-		
-	}//METHOD
-	
-	/**
-	 * Disposes the settings frame when done with changing settings. Saves settings if called for.
-	 * 
-	 * @param save Whether to save the edited settings
-	 * @since 2.0
-	 */
-	private void dispose(final boolean save)
-	{
-		boolean reset = false;
-		updateFontSize();
-		
-		if(save)
-		{
-			if(!getSettings().getLanguageName().equals(language))
-			{
-				getSettings().setLanguageName(language);
-				reset = true;
-				
-			}//IF
-			
-			if(!getSettings().getTheme().equals(theme))
-			{
-				getSettings().setTheme(theme);
-				reset = true;
-				
-			}//IF
-			
-			if(!getSettings().getFontName().equals(font))
-			{
-				getSettings().setFontName(font);
-				reset = true;
-				
-			}//IF
-			
-			if(getSettings().getFontBold() != bold)
-			{
-				getSettings().setFontBold(bold);
-				reset = true;
-				
-			}//IF
-			
-			if(getSettings().getFontAA() != aa)
-			{
-				getSettings().setFontAA(aa);
-				reset = true;
-				
-			}//IF
-			
-			if(getSettings().getFontSize() != size)
-			{
-				getSettings().setFontSize(size);
-				reset = true;
-				
-			}//IF
-			
-		}//IF
-		
-		settingsFrame.dispose();
+		frame.dispose();
+		frame = null;
 		ownerGUI.getFrame().setAllowExit(true);
 		
-		if(reset)
+		if(changed)
 		{
 			ownerGUI.dispose();
 			Start.startGUI(getSettings(), ownerGUI.getDmfHandler());
@@ -496,79 +220,101 @@ public class SettingsGUI extends BaseGUI
 		
 	}//METHOD
 	
+	/**
+	 * Called when one of the settings options is selected. Sets main settings panel to GUI for editing the settings specified.
+	 * 
+	 * @since 2.0
+	 */
+	private void settingSelected()
+	{
+		int selected = settingsList.getSelectedIndex();
+		if(selected != -1)
+		{
+			switch(settingsEvents[selected])
+			{
+				case DefaultLanguage.LANGUAGE:
+					modeGUI = new LanguageSettingsGUI(this);
+					break;
+				case DefaultLanguage.THEME:
+					modeGUI = new ThemeSettingsGUI(this);
+					break;
+				case DefaultLanguage.FONT:
+					modeGUI = new FontSettings(this);
+					break;
+				
+			}//SWITCH
+			
+			if(modeGUI != null)
+			{
+				contentPanel.removeAll();
+				contentPanel.add(modeGUI.getPanel());
+				contentPanel.revalidate();
+				
+			}//IF
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Enables the "Apply" button.
+	 * 
+	 * @since 2.0
+	 */
+	public void applyEnable()
+	{
+		applyButton.setEnabled(true);
+		saveButton.setEnabled(true);
+		
+	}//METHOD
+	
+	/**
+	 * Disables the "Apply" button.
+	 * 
+	 * @since 2.0
+	 */
+	public void applyDisable()
+	{
+		applyButton.setEnabled(false);
+		saveButton.setEnabled(false);
+		
+	}//METHOD
+	
+	/**
+	 * Applies the currently edited settings.
+	 * 
+	 * @since 2.0
+	 */
+	private void apply()
+	{
+		if(modeGUI != null)
+		{
+			modeGUI.apply();
+			applyDisable();
+			changed = true;
+			
+		}//IF
+		
+	}//METHOD
+	
 	@Override
 	public void event(String id, int value)
 	{
-		int selected;
 		switch(id)
 		{
-			case DefaultLanguage.FONT_SIZE:
-			{
-				updateFontSize();
+			case DefaultLanguage.SETTINGS:
+				settingSelected();
 				break;
-				
-			}//CASE
-			case DefaultLanguage.FONT_BOLD:
-			{
-				bold = BooleanInt.getBoolean(value);
-				updateFontPreview();
+			case DefaultLanguage.APPLY:
+				apply();
 				break;
-				
-			}//CASE
-			case DefaultLanguage.FONT_AA:
-			{
-				aa = BooleanInt.getBoolean(value);
-				break;
-				
-			}//CASE
-			case DefaultLanguage.FONT:
-			{
-				selected = fontList.getSelectedIndex();
-				if(selected != -1)
-				{
-					font = fonts[selected];
-					updateFontPreview();
-					
-				}//IF
-				break;
-				
-			}//CASE
-			case DefaultLanguage.THEME:
-			{
-				selected = themeList.getSelectedIndex();
-				if(selected != -1)
-				{
-					theme = themes[selected].getClassName();
-					
-				}//IF
-				break;
-				
-			}//CASE
-			case DefaultLanguage.LANGUAGE:
-			{
-				selected = languageList.getSelectedIndex();
-				if(selected != -1)
-				{
-					language = languages[selected];
-					
-				}//IF
-				break;
-				
-			}//CASE
-			case DefaultLanguage.OK:
-			{
-				dispose(true);
-				break;
-				
-			}//CASE
+			case DefaultLanguage.SAVE:
+				apply();
 			case DCloseListener.FRAME_CLOSE_EVENT:
-			case DefaultLanguage.CANCEL:
-			{
-				dispose(false);
+			case DefaultLanguage.CLOSE:
+				dispose();
 				break;
-				
-			}//CASE
-				
+		
 		}//SWITCH
 		
 	}//METHOD

@@ -83,6 +83,11 @@ public class DefaultLanguage
 	public static final String CANCEL = "cancel"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for "Close"
+	 */
+	public static final String CLOSE = "close"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "File"
 	 * 
 	 * @since 2.0
@@ -102,6 +107,13 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String EXIT = "exit"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "Save"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SAVE = "save"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Restart Program"
@@ -134,6 +146,13 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String SETTINGS = "settings"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Apply" button in the settings GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String APPLY = "apply"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Language" label in the settings GUI
@@ -559,6 +578,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(TITLE_VALUE, "Drak's Digital Hoarder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OK, "^OK")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCEL, "^Cancel")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CLOSE, "^Close")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD, "^Add")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REMOVE, "^Remove")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(YES, "^Yes")); //$NON-NLS-1$
@@ -566,6 +586,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FILE, "^File")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN, "^Open")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(EXIT, "^Exit")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SAVE, "^Save")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCELING, "Canceling...")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RUNNING, "Running...")); //$NON-NLS-1$
@@ -581,6 +602,7 @@ public class DefaultLanguage
 		languageFile.add(new String());
 		languageFile.add("[SETTINGS]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SETTINGS, "S^ettings")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(APPLY, "^Apply")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LANGUAGE, "^Language")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(THEME, "^Theme")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT, "^Font")); //$NON-NLS-1$
