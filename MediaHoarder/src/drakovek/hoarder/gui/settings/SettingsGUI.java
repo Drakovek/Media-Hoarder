@@ -109,6 +109,7 @@ public class SettingsGUI extends BaseGUI
 		this.ownerGUI = ownerGUI;
 		ownerGUI.getFrame().setAllowExit(false);
 		frame = new DFrame(settings, getTitle(DefaultLanguage.SETTINGS));
+		frame.setSizeRestrictive(getSettings().getFontSize() * 40, getSettings().getFontSize() * 30);
 		frame.interceptFrameClose(this);
 		modeGUI = null;
 		changed = false;
