@@ -33,6 +33,7 @@ public class DTextArea extends JTextArea
 		this.setEditable(false);
 		this.setLineWrap(true);
 		this.setWrapStyleWord(true);
+		this.setMargin(baseGUI.getButtonInsets());
 		
 	}//CONSTRUCTOR
 	

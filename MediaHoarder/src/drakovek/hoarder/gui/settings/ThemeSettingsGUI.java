@@ -75,6 +75,7 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 		if(selected != -1)
 		{
 			themeList.setSelectedIndex(selected);
+			themeList.ensureIndexIsVisible(selected);
 			
 		}//IF
 		

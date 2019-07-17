@@ -72,6 +72,7 @@ public class LanguageSettingsGUI extends SettingsModeGUI
 		if(selected != -1)
 		{
 			languageList.setSelectedIndex(selected);
+			languageList.ensureIndexIsVisible(selected);
 			
 		}//IF
 		

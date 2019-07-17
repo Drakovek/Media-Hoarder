@@ -108,7 +108,7 @@ public class SettingsGUI extends BaseGUI
 		super(settings);
 		this.ownerGUI = ownerGUI;
 		ownerGUI.getFrame().setAllowExit(false);
-		frame = new DFrame(settings, DefaultLanguage.SETTINGS);
+		frame = new DFrame(settings, getTitle(DefaultLanguage.SETTINGS));
 		frame.interceptFrameClose(this);
 		modeGUI = null;
 		changed = false;
@@ -191,9 +191,11 @@ public class SettingsGUI extends BaseGUI
 		frame.getContentPane().add(getSpacedPanel(centerPanel), BorderLayout.CENTER);
 		frame.getContentPane().add(this.getSpacedPanel(topPanel, 1, 0, true, false, true, true), BorderLayout.NORTH);
 		frame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
+		settingsList.setSelectedIndex(0);
 		frame.pack();
 		frame.setLocationRelativeTo(ownerGUI.getFrame());
 		frame.setVisible(true);
+
 		
 	}//CONSTRUCTOR
 	
@@ -234,6 +236,9 @@ public class SettingsGUI extends BaseGUI
 					break;
 				case DefaultLanguage.THEME:
 					modeGUI = new ThemeSettingsGUI(this);
+					break;
+				case DefaultLanguage.FONT:
+					modeGUI = new FontSettings(this);
 					break;
 				
 			}//SWITCH
