@@ -29,6 +29,7 @@ import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
+import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.Worker;
 
@@ -98,6 +99,13 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	private DLabel[] previewLabels;
 	
 	/**
+	 * Index values for all the previews in the preview panel
+	 * 
+	 * @since 2.0
+	 */
+	private int[] previewValues;
+	
+	/**
 	 * Button to show DMF media prior to the current page
 	 * 
 	 * @since 2.0
@@ -147,6 +155,13 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	private int previewHeight;
 	
 	/**
+	 * Value showing the index value for the first preview in the preview panel.
+	 * 
+	 * @since 2.0
+	 */
+	private int offset;
+	
+	/**
 	 * Initializes the ViewBrowserGUI class.
 	 * 
 	 * @param settings Program Settings
@@ -160,6 +175,10 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		progressDialog = new DProgressDialog(settings);
 		previewWidth = 0;
 		previewHeight = 0;
+		offset = 0;
+		pageText = new DTextField(this, PAGE_ACTION);
+		pageText.setHorizontalAlignment(SwingConstants.CENTER);
+		createPreviewPanels();
 		
 		JMenuBar menubar = new JMenuBar();
 		
@@ -181,7 +200,6 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		bottomPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
 		previousButton = new DButton(this, DefaultLanguage.PREVIOUS);
 		nextButton = new DButton(this, DefaultLanguage.NEXT);
-		pageText = new DTextField(this, PAGE_ACTION);
 		bottomPanel.add(previousButton);
 		bottomPanel.add(pageText);
 		bottomPanel.add(nextButton);
@@ -194,16 +212,24 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		//CREATE VIEW PANEL
 		JPanel viewPanel = new JPanel();
 		viewPanel.setLayout(new BorderLayout());
-		viewPanel.add(getSpacedPanel(previewPanel), BorderLayout.CENTER);
+		
+		Dimension sectionDimension = new Dimension(1, sectionHeight);
+		JPanel spacedPanel = new JPanel();
+		spacedPanel.setLayout(new BorderLayout());
+		spacedPanel.add(Box.createRigidArea(sectionDimension), BorderLayout.WEST);
+		spacedPanel.add(Box.createRigidArea(sectionDimension), BorderLayout.EAST);
+		spacedPanel.add(previewPanel, BorderLayout.CENTER);
+		
+		viewPanel.add(getSpacedPanel(spacedPanel), BorderLayout.CENTER);
 		viewPanel.add(getSpacedPanel(bottomPanel, 1, 1, false, false, true, true), BorderLayout.SOUTH);
 		
 		//FINALIZE FRAME
-		createPreviewPanels();
 		settingsBar = new SettingsBarGUI(this);
 		getFrame().setJMenuBar(menubar);
 		getFrame().getContentPane().add(viewPanel, BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
 		getFrame().packRestricted();
+		getFrame().setMinimumSize(getFrame().getSize());
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
 		
@@ -259,6 +285,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		previewPanels = new JPanel[total];
 		previewButtons = new DButton[total];
 		previewLabels = new DLabel[total];
+		previewValues = new int[total];
 		Dimension previewSpace = new Dimension(getSettings().getPreviewSize() + (getSettings().getSpaceSize() * 2), 1);
 		
 		for(int i = 0; i < total; i++)
@@ -267,6 +294,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			previewLabels[i].setHorizontalAlignment(SwingConstants.LEFT);
 			previewLabels[i].setVerticalAlignment(SwingConstants.TOP);
 			previewButtons[i] = new DButton(this, Integer.toString(i));
+			previewValues[i] = -1;
 			
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridBagLayout());
@@ -334,6 +362,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			previewPanel.removeAll();
 			previewPanel.add(previewPNL);
 			previewPanel.revalidate();
+			launchPreviewUpdate();
 			
 		}//IF (width != previewWidth && height != previewHeight)
 		
@@ -348,7 +377,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	 */
 	private void loadDirectory(final File directory, final boolean useIndexSettings)
 	{
-		if(directory != null && directory.isDirectory() && (!useIndexSettings || getDmfHandler().getDirectory() == null || !getDmfHandler().getDirectory().equals(directory)))
+		if(!getFrame().isProcessRunning() && directory != null && directory.isDirectory() && (!useIndexSettings || getDmfHandler().getDirectory() == null || !getDmfHandler().getDirectory().equals(directory)))
 		{
 			getSettings().setViewerDirectory(directory);
 			getFrame().setProcessRunning(true);
@@ -370,13 +399,238 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		
 	}//METHOD
 	
+	/**
+	 * Starts the process of updating previews, if necessary.
+	 * 
+	 * @since 2.0
+	 */
+	private void launchPreviewUpdate()
+	{
+		if(!getFrame().isProcessRunning())
+		{
+			disableAll();
+			int total = previewWidth * previewHeight;
+			String text = ((offset / total) + 1) + Character.toString('/') + (int)Math.ceil((double)getDmfHandler().getSize() / (double)total);
+			
+			if(offset % total != 0)
+			{
+				text = text + DefaultLanguage.OFFSET + (offset - ((int)Math.floor((double)offset / (double)total) * total));
+			
+			}//IF
+			
+			pageText.setText(text);
+			
+			boolean newPreviews = false;
+			for(int i = 0; i < previewValues.length && i < total; i++)
+			{
+				if(previewValues[i] != (offset + i))
+				{
+					newPreviews = true;
+					break;
+					
+				}//IF
+				
+			}//FOR
+			
+			if(newPreviews)
+			{
+				getFrame().setProcessRunning(true);
+				progressDialog.setCancelled(false);
+				progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_PREVIEWS_TITLE);
+				progressDialog.setProcessLabel(DefaultLanguage.LOADING_PREVIEWS);
+				progressDialog.setDetailLabel(DefaultLanguage.RUNNING);
+				(new DSwingWorker(this, DefaultLanguage.LOADING_PREVIEWS)).execute();
+			
+			}//IF
+			else
+			{
+				enableAll();
+				
+			}//ELSE
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Updates the preview panel.
+	 * 
+	 * @since 2.0
+	 */
+	private void updatePreview()
+	{
+		int total = previewWidth * previewHeight;
+		progressDialog.setProgressBar(true, false, 0, 0);
+		//LOAD TEXT
+		for(int i = 0; i < previewValues.length && i < total; i++)
+		{
+			if(previewValues[i] != (offset + i))
+			{
+				if((offset + i) < getDmfHandler().getSize())
+				{
+					previewValues[i] = offset + i;
+					previewLabels[i].setText("<html>" +  //$NON-NLS-1$
+											getDmfHandler().getTitle(offset + i) + 
+											"<br/><i>" + //$NON-NLS-1$
+											StringMethods.arrayToString(getDmfHandler().getArtists(offset + i)) +
+											"</i></html>"); //$NON-NLS-1$
+					
+				}//IF
+				else
+				{
+					previewValues[i] = -1;
+					previewLabels[i].setText(new String());
+					
+				}//ELSE
+				
+			}//IF
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Updates panel to the next page of previews.
+	 * 
+	 * @since 2.0
+	 */
+	private void nextPage()
+	{
+		int total = previewWidth * previewHeight;
+		int newOffset;
+		if(offset % total == 0)
+		{
+			newOffset = offset + total;
+			
+		}//IF
+		else
+		{
+			newOffset = (int)Math.ceil((double)offset / (double)total) * total;
+			
+		}//ELSE
+		
+		if(newOffset < getDmfHandler().getSize())
+		{
+			offset = newOffset;
+			launchPreviewUpdate();
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Updates panel to the previous page of previews.
+	 * 
+	 * @since 2.0
+	 */
+	private void previousPage()
+	{
+		int total = previewWidth * previewHeight;
+		int newOffset;
+		if(offset % total == 0)
+		{
+			newOffset = offset - total;
+			
+		}//IF
+		else
+		{
+			newOffset = (int)Math.floor((double)offset / (double)total) * total;
+			
+		}//ELSE
+		
+		if(newOffset > -1)
+		{
+			offset = newOffset;
+			launchPreviewUpdate();
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Deals with text being entered to move to a new page or search for a title with a given query.
+	 * 
+	 * @since 2.0
+	 */
+	private void textEntered()
+	{
+		String text = pageText.getText().toLowerCase();
+		
+		try
+		{
+			//GET PAGE IF NUMBER
+			
+			int page = Integer.parseInt(text) - 1;
+			
+			if(page < 0)
+			{
+				page = 0;
+				
+			}//IF
+			
+			int total = previewWidth * previewHeight;
+			if(page > ((int)Math.ceil((double)getDmfHandler().getSize() / (double)total) - 1))
+			{
+				page = (int)Math.ceil((double)getDmfHandler().getSize() / (double)total) - 1;
+				
+			}//IF
+			
+			offset = page * total;
+			
+			
+		}//TRY
+		catch(NumberFormatException e)
+		{
+			//GET TITLE IF NOT NUMBER
+			if(text.length() > 0)
+			{
+				int size = getDmfHandler().getSize();
+				for(int i = 0; i < size; i++)
+				{
+					if(getDmfHandler().getTitle(i).toLowerCase().contains(text))
+					{
+						offset = i;
+						break;
+						
+					}//IF
+					
+				}//FOR
+				
+			}//IF
+
+		}//CATCH
+		
+		launchPreviewUpdate();
+		
+	}//METHOD
+	
 	@Override
 	public void enableAll() 
 	{
+		if(offset > 0)
+		{
+			previousButton.setEnabled(true);
+			
+		}//IF
+		
+		if((offset + (previewWidth * previewHeight)) < getDmfHandler().getSize())
+		{
+			nextButton.setEnabled(true);
+			
+		}//IF
+		
 		settingsBar.enableAll();
-		previousButton.setEnabled(true);
-		nextButton.setEnabled(true);
 		pageText.setEnabled(true);
+		
+		for(int i = 0; i < previewButtons.length; i++)
+		{
+			if(previewValues[i] != -1)
+			{
+				previewButtons[i].setEnabled(true);
+				
+			}//IF
+			
+		}//FOR
 		
 	}//METHOD
 
@@ -388,6 +642,12 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		nextButton.setEnabled(false);
 		pageText.setEnabled(false);
 		
+		for(int i = 0; i < previewButtons.length; i++)
+		{
+			previewButtons[i].setEnabled(false);
+			
+		}//FOR
+		
 	}//METHOD
 
 	@Override
@@ -395,6 +655,15 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	{
 		switch(id)
 		{
+			case DefaultLanguage.NEXT:
+				nextPage();
+				break;
+			case DefaultLanguage.PREVIOUS:
+				previousPage();
+				break;
+			case PAGE_ACTION:
+				textEntered();
+				break;
 			case DResizeListener.RESIZE:
 				previewResized();
 				break;
@@ -425,6 +694,9 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			case DefaultLanguage.OPEN_WITHOUT_INDEXES:
 				this.getDmfHandler().loadDMFs(getSettings().getViewerDirectory(), progressDialog, false, getSettings().getUseIndexes(), false);
 				break;
+			case DefaultLanguage.LOADING_PREVIEWS:
+				updatePreview();
+				break;
 				
 		}//SWITCH
 		
@@ -436,7 +708,16 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		progressDialog.setCancelled(false);
 		progressDialog.closeProgressDialog();
 		getFrame().setProcessRunning(false);
-		settingsBar.setLabel(getDmfHandler().getDirectory());
+		
+		switch(id)
+		{
+			case DefaultLanguage.OPEN_WITHOUT_INDEXES:
+			case DefaultLanguage.LOADING_DMFS:
+				settingsBar.setLabel(getDmfHandler().getDirectory());
+				launchPreviewUpdate();
+				break;
+				
+		}//SWITCH
 		
 	}//METHOD
 	

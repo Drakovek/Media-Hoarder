@@ -585,11 +585,32 @@ public class DefaultLanguage
 	public static final String NEXT = "next"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for showing an offset value in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String OFFSET = "offset"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Open Without Indexes" menu item in the viewer GUI
 	 * 
 	 * @since 2.0
 	 */
 	public static final String OPEN_WITHOUT_INDEXES = "open_without_indexes"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for viewer GUI's preview loading process title
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOADING_PREVIEWS_TITLE = "loading_previews_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for viewer GUI's preview loading process label
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOADING_PREVIEWS = "loading_previews"; //$NON-NLS-1$
 	
 	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
@@ -727,8 +748,10 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(VIEWER_TITLE, "Viewer")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PREVIOUS, "< ^Previous")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(OFFSET, " - OFF: ")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN_WITHOUT_INDEXES, "Open ^Without Indexes")); //$NON-NLS-1$
-		
+		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS_TITLE, "Loading Previews")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS, "Loading Previews:")); //$NON-NLS-1$
 		
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())
