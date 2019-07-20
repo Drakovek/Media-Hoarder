@@ -293,8 +293,18 @@ public class DmfIndexing
 			{
 				if(lastRead.get(i) != null && lastRead.get(i).intValue() > 15)
 				{
-					indexedDirectories.set(i, null);
-					lastRead.set(i, null);
+					File testFile = new File(indexedDirectories.get(i));
+					if(testFile.exists())
+					{
+						lastRead.set(i, Integer.valueOf(0));
+						
+					}//IF
+					else
+					{
+						indexedDirectories.set(i, null);
+						lastRead.set(i, null);
+						
+					}//ELSE
 					
 				}//IF
 				else

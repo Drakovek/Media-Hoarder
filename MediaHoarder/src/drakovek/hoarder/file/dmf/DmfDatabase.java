@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import drakovek.hoarder.file.ExtensionFilter;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
+import drakovek.hoarder.processing.sort.FileSort;
 
 /**
  * Class for handling large amounts of DMF information.
@@ -213,6 +214,7 @@ public class DmfDatabase
 	 */
 	public boolean loadDMFs(File dmfFolder, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
 	{
+		clearDMFs();
 		progressDialog.setProcessLabel(DefaultLanguage.GETTING_FOLDERS);
 		progressDialog.setDetailLabel(dmfFolder.getName());
 		progressDialog.setProgressBar(true, false, 0, 0);
@@ -291,7 +293,7 @@ public class DmfDatabase
 				
 			}//WHILE
 			
-			return dmfFolders;
+			return FileSort.sortFiles(dmfFolders);
 			
 		}//IF
 		

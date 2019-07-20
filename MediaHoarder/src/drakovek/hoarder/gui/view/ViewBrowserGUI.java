@@ -22,6 +22,7 @@ import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.ScreenDimensions;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
+import drakovek.hoarder.gui.swing.components.DCheckBoxMenuItem;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
@@ -29,6 +30,8 @@ import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
+import drakovek.hoarder.media.PreviewButton;
+import drakovek.hoarder.processing.BooleanInt;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.Worker;
@@ -89,7 +92,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	 * 
 	 * @since 2.0
 	 */
-	private DButton[] previewButtons;
+	private PreviewButton[] previewButtons;
 	
 	/**
 	 * Array of labels to show previews of DMFs
@@ -104,6 +107,20 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	 * @since 2.0
 	 */
 	private int[] previewValues;
+	
+	/**
+	 * File Menu for the GUI
+	 * 
+	 * @since 2.0
+	 */
+	private DMenu fileMenu;
+	
+	/**
+	 * View Menu for the GUI
+	 * 
+	 * @since 2.0
+	 */
+	private DMenu viewMenu;
 	
 	/**
 	 * Button to show DMF media prior to the current page
@@ -183,7 +200,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		JMenuBar menubar = new JMenuBar();
 		
 		//FILE MENU ITEMS
-		DMenu fileMenu = new DMenu(this, DefaultLanguage.FILE);
+		fileMenu = new DMenu(this, DefaultLanguage.FILE);
 		DMenuItem openItem = new DMenuItem(this, DefaultLanguage.OPEN);
 		DMenuItem updateItem = new DMenuItem(this, DefaultLanguage.OPEN_WITHOUT_INDEXES);
 		DMenuItem resetItem = new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM);
@@ -194,6 +211,12 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		fileMenu.add(resetItem);
 		fileMenu.add(exitItem);
 		menubar.add(fileMenu);
+		
+		//VIEW MENU ITEMS
+		viewMenu = new DMenu(this, DefaultLanguage.VIEW);
+		DCheckBoxMenuItem thumbnailCheck = new DCheckBoxMenuItem(this, settings.getUseThumbnails(), DefaultLanguage.USE_THUMBNAILS);
+		viewMenu.add(thumbnailCheck);
+		menubar.add(viewMenu);
 		
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
@@ -283,7 +306,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		
 		int total = width * height;
 		previewPanels = new JPanel[total];
-		previewButtons = new DButton[total];
+		previewButtons = new PreviewButton[total];
 		previewLabels = new DLabel[total];
 		previewValues = new int[total];
 		Dimension previewSpace = new Dimension(getSettings().getPreviewSize() + (getSettings().getSpaceSize() * 2), 1);
@@ -293,7 +316,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			previewLabels[i] = new DLabel(this, null, new String());
 			previewLabels[i].setHorizontalAlignment(SwingConstants.LEFT);
 			previewLabels[i].setVerticalAlignment(SwingConstants.TOP);
-			previewButtons[i] = new DButton(this, Integer.toString(i));
+			previewButtons[i] = new PreviewButton(this, getSettings(), i);
 			previewValues[i] = -1;
 			
 			JPanel panel = new JPanel();
@@ -400,6 +423,21 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	}//METHOD
 	
 	/**
+	 * Resets the preview values.
+	 * 
+	 * @since 2.0
+	 */
+	private void resetValues()
+	{
+		for(int i = 0; i < previewValues.length; i++)
+		{
+			previewValues[i] = -1;
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
 	 * Starts the process of updating previews, if necessary.
 	 * 
 	 * @since 2.0
@@ -464,6 +502,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		//LOAD TEXT
 		for(int i = 0; i < previewValues.length && i < total; i++)
 		{
+			progressDialog.setProgressBar(false, true, total, i);
 			if(previewValues[i] != (offset + i))
 			{
 				if((offset + i) < getDmfHandler().getSize())
@@ -475,11 +514,20 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 											StringMethods.arrayToString(getDmfHandler().getArtists(offset + i)) +
 											"</i></html>"); //$NON-NLS-1$
 					
+					previewButtons[i].setFile(getDmfHandler().getMediaFile(offset + i), progressDialog.isCancelled() || !getSettings().getUseThumbnails());
+					
+					if(progressDialog.isCancelled())
+					{
+						previewValues[i] = -1;
+						
+					}//IF
+					
 				}//IF
 				else
 				{
 					previewValues[i] = -1;
 					previewLabels[i].setText(new String());
+					previewButtons[i].setFile(null, false);
 					
 				}//ELSE
 				
@@ -621,6 +669,8 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		
 		settingsBar.enableAll();
 		pageText.setEnabled(true);
+		fileMenu.setEnabled(true);
+		viewMenu.setEnabled(true);
 		
 		for(int i = 0; i < previewButtons.length; i++)
 		{
@@ -641,6 +691,8 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		previousButton.setEnabled(false);
 		nextButton.setEnabled(false);
 		pageText.setEnabled(false);
+		fileMenu.setEnabled(false);
+		viewMenu.setEnabled(false);
 		
 		for(int i = 0; i < previewButtons.length; i++)
 		{
@@ -666,6 +718,11 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 				break;
 			case DResizeListener.RESIZE:
 				previewResized();
+				break;
+			case DefaultLanguage.USE_THUMBNAILS:
+				getSettings().setUseThumbnails(BooleanInt.getBoolean(value));
+				resetValues();
+				launchPreviewUpdate();
 				break;
 			case DefaultLanguage.OPEN:
 				loadDirectory(fileChooser.getFileOpen(getFrame(), getSettings().getViewerDirectory()), true);

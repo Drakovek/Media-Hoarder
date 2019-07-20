@@ -240,7 +240,7 @@ public class ImageHandler
 	{
 		BufferedImage bufferedImage = null;
 		
-		if(fileTypeHandler.isImageFile(file))
+		if(!useIcon && fileTypeHandler.isImageFile(file))
 		{
 			try
 			{
@@ -550,6 +550,44 @@ public class ImageHandler
 		}//IF
 		
 		return unknownIcon;
+		
+	}//METHOD
+	
+	/**
+	 * Gets a Buffered Image from a given file that fits within the program's default preview size.
+	 * 
+	 * @param file Given image file
+	 * @param useIcon Whether to use an icon rather than a thumbnail
+	 * @return Preview Image
+	 * @since 2.0
+	 */
+	public BufferedImage getPreview(final File file, final boolean useIcon)
+	{
+		BufferedImage image = getImage(file, useIcon);
+		
+		if(image != null)
+		{
+			Dimension scaledDimensions = getScaleDimensions(SCALE_2D_FIT, -1, image.getWidth(), image.getHeight(), settings.getPreviewSize(), settings.getPreviewSize(), 0, 0);
+			int minSize = (int)((double)settings.getPreviewSize() / (double)2);
+			
+			if(scaledDimensions.getWidth() < minSize)
+			{
+				scaledDimensions = getScaleDimensions(SCALE_2D_FIT, -1, image.getWidth(), image.getHeight(), minSize, image.getHeight(), 0, 0);
+				return getScaledImage(image, (int)scaledDimensions.getWidth(), (int)scaledDimensions.getHeight()).getSubimage(0, 0, (int)scaledDimensions.getWidth(), settings.getPreviewSize());
+				
+			}//IF
+			else if(scaledDimensions.getHeight() < minSize)
+			{
+				scaledDimensions = getScaleDimensions(SCALE_2D_FIT, -1, image.getWidth(), image.getHeight(), image.getWidth(), minSize, 0, 0);
+				return getScaledImage(image, (int)scaledDimensions.getWidth(), (int)scaledDimensions.getHeight()).getSubimage(0, 0, settings.getPreviewSize(), (int)scaledDimensions.getHeight());
+				
+			}//IF
+			
+			return getScaledImage(image, (int)scaledDimensions.getWidth(), (int)scaledDimensions.getHeight());
+			
+		}//IF
+		
+		return null;
 		
 	}//METHOD
 	

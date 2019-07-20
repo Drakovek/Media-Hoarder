@@ -157,6 +157,13 @@ public class DSettings
 	private static final String SCALE_AMOUNT = "scale_amount"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for using thumbnails
+	 * 
+	 * @since 2.0
+	 */
+	private static final String USE_THUMBNAILS = "use_thumbnails"; //$NON-NLS-1$
+	
+	/**
 	 * Program's data folder located in the main program directory.
 	 * 
 	 * @since 2.0
@@ -300,6 +307,13 @@ public class DSettings
 	private double scaleAmount;
 	
 	/**
+	 * Whether to use thumbnails in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	private boolean useThumbnails;
+	
+	/**
 	 * Initializes the DSettings Class
 	 * 
 	 * @since 2.0
@@ -374,6 +388,7 @@ public class DSettings
 		previewSize = 100;
 		scaleType = 0;
 		scaleAmount = 1.0;
+		useThumbnails = true;
 		
 	}//METHOD
 	
@@ -418,6 +433,7 @@ public class DSettings
 			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
 			scaleType = ParseINI.getIntValue(null, SCALE_TYPE, settingsInfo, scaleType);
 			scaleAmount = ParseINI.getDoubleValue(null, SCALE_AMOUNT, settingsInfo, scaleAmount);
+			useThumbnails = ParseINI.getBooleanValue(null, USE_THUMBNAILS, settingsInfo, useThumbnails);
 			
 		}//IF
 		
@@ -468,6 +484,7 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(PREVIEW_SIZE, previewSize));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_TYPE, scaleType));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_AMOUNT, scaleAmount));
+		settingsInfo.add(ParseINI.getAssignmentString(USE_THUMBNAILS, useThumbnails));
 		
 		if(dataFolder != null && dataFolder.isDirectory())
 		{
@@ -910,6 +927,30 @@ public class DSettings
 	public double getScaleAmount()
 	{
 		return scaleAmount;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to use thumbnails.
+	 * 
+	 * @param useThumbnails Use Thumbnails
+	 * @since 2.0
+	 */
+	public void setUseThumbnails(final boolean useThumbnails)
+	{
+		this.useThumbnails = useThumbnails;
+		
+	}//METHOD
+	
+	/**
+	 * Gets whether to use thumbnails.
+	 * 
+	 * @return Use Thumbnails
+	 * @since 2.0
+	 */
+	public boolean getUseThumbnails()
+	{
+		return useThumbnails;
 		
 	}//METHOD
 	

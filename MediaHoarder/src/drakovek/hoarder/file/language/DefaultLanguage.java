@@ -95,6 +95,13 @@ public class DefaultLanguage
 	public static final String FILE = "file"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for "View"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String VIEW = "view"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "Open"
 	 * 
 	 * @since 2.0
@@ -599,6 +606,13 @@ public class DefaultLanguage
 	public static final String OPEN_WITHOUT_INDEXES = "open_without_indexes"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Use Thumbnails" menu item in the viewer GUI.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String USE_THUMBNAILS = "use_thumbnails"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for viewer GUI's preview loading process title
 	 * 
 	 * @since 2.0
@@ -640,6 +654,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(YES, "^Yes")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO, "^No")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FILE, "^File")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(VIEW, "^View")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN, "^Open")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(EXIT, "^Exit")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE, "^Save")); //$NON-NLS-1$
@@ -750,6 +765,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OFFSET, " - OFF: ")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN_WITHOUT_INDEXES, "Open ^Without Indexes")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(USE_THUMBNAILS, "^Use Thumbnails")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS_TITLE, "Loading Previews")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS, "Loading Previews:")); //$NON-NLS-1$
 		

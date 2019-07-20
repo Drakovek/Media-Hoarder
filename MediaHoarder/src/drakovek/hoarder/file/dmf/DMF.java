@@ -505,7 +505,7 @@ public class DMF
 				
 				//FILE
 				setMediaFile(ParseINI.getStringValue(null, MEDIA_FILE, contents, new String()));
-				if(getMediaFile() == null)
+				if(getMediaFile() == null || !getMediaFile().exists())
 				{
 					//IF NEW MEDIA FILE VARIABLE DOESN'T WORK, USE OLD FILENAME VARIABLE
 					setMediaFile(ParseINI.getStringValue(null, OLD_FILENAME, contents, new String()));
@@ -1087,7 +1087,7 @@ public class DMF
 	public void setMediaFile(final String filename)
 	{
 		boolean failed = true;
-		if(dmfFile != null)
+		if(dmfFile != null && filename.length() > 0)
 		{
 			File parent = dmfFile.getParentFile();
 			if(parent != null && parent.isDirectory())
