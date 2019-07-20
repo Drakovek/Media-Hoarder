@@ -200,11 +200,21 @@ public class DProgressDialog extends BaseGUI
 	 * Sets the text of the detail label.
 	 * 
 	 * @param text Text for detail label
+	 * @param isID Whether the text is a language ID or not
 	 * @since 2.0
 	 */
-	public void setDetailLabel(final String text)
+	public void setDetailLabel(final String text, final boolean isID)
 	{
-		detailLabel.setText(text);
+		if(isID)
+		{
+			detailLabel.setTextID(text, false);
+			
+		}//IF
+		else
+		{
+			detailLabel.setText(text);
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -239,7 +249,7 @@ public class DProgressDialog extends BaseGUI
 		{
 			case DefaultLanguage.CANCEL:
 				cancelled = true;
-				setDetailLabel(getSettings().getLanuageText(DefaultLanguage.CANCELING));
+				setDetailLabel(DefaultLanguage.CANCELING, true);
 				setProgressBar(true, false, 0, 0);
 			
 		}//SWITCH

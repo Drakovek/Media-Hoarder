@@ -164,6 +164,34 @@ public class DSettings
 	private static final String USE_THUMBNAILS = "use_thumbnails"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for the default sort type.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SORT_TYPE = "sort_type"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether to group artists.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String GROUP_ARTISTS = "group_artists"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether to group sequences
+	 * 
+	 * @since 2.0
+	 */
+	private static final String GROUP_SEQUENCES = "group_sequences"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether to group sections
+	 * 
+	 * @since 2.0
+	 */
+	private static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
+	
+	/**
 	 * Program's data folder located in the main program directory.
 	 * 
 	 * @since 2.0
@@ -314,6 +342,34 @@ public class DSettings
 	private boolean useThumbnails;
 	
 	/**
+	 * Default sort type for the program.
+	 * 
+	 * @since 2.0
+	 */
+	private int sortType;
+	
+	/**
+	 * Whether to group artists when sorting DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private boolean groupArtists;
+	
+	/**
+	 * Whether to group sequences when sorting DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private boolean groupSequences;
+	
+	/**
+	 * Whether to group sections when sorting DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private boolean groupSections;
+	
+	/**
 	 * Initializes the DSettings Class
 	 * 
 	 * @since 2.0
@@ -389,6 +445,10 @@ public class DSettings
 		scaleType = 0;
 		scaleAmount = 1.0;
 		useThumbnails = true;
+		sortType = 0;
+		groupArtists = false;
+		groupSequences = false;
+		groupSections = false;
 		
 	}//METHOD
 	
@@ -434,6 +494,10 @@ public class DSettings
 			scaleType = ParseINI.getIntValue(null, SCALE_TYPE, settingsInfo, scaleType);
 			scaleAmount = ParseINI.getDoubleValue(null, SCALE_AMOUNT, settingsInfo, scaleAmount);
 			useThumbnails = ParseINI.getBooleanValue(null, USE_THUMBNAILS, settingsInfo, useThumbnails);
+			sortType = ParseINI.getIntValue(null, SORT_TYPE, settingsInfo, sortType);
+			groupArtists = ParseINI.getBooleanValue(null, GROUP_ARTISTS, settingsInfo, groupArtists);
+			groupSequences = ParseINI.getBooleanValue(null, GROUP_SEQUENCES, settingsInfo, groupSequences);
+			groupSections = ParseINI.getBooleanValue(null, GROUP_SECTIONS, settingsInfo, groupSections);
 			
 		}//IF
 		
@@ -485,6 +549,10 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_TYPE, scaleType));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_AMOUNT, scaleAmount));
 		settingsInfo.add(ParseINI.getAssignmentString(USE_THUMBNAILS, useThumbnails));
+		settingsInfo.add(ParseINI.getAssignmentString(SORT_TYPE, sortType));
+		settingsInfo.add(ParseINI.getAssignmentString(GROUP_ARTISTS, groupArtists));
+		settingsInfo.add(ParseINI.getAssignmentString(GROUP_SEQUENCES, groupSequences));
+		settingsInfo.add(ParseINI.getAssignmentString(GROUP_SECTIONS, groupSections));
 		
 		if(dataFolder != null && dataFolder.isDirectory())
 		{
@@ -509,13 +577,13 @@ public class DSettings
 	}//METHOD
 	
 	/**
-	 * Gets the mnemonic for a given variable in the from the currently selected language.
+	 * Returns values for a mnemonic based on a language ID
 	 * 
-	 * @param id Language ID Variable
-	 * @return Mnemonic for the given Language ID
+	 * @param id Language ID
+	 * @return [0] int value of mnemonic keystroke, [1] character index to show as mnemonic
 	 * @since 2.0
 	 */
-	public int getLanguageMnemonic(final String id)
+	public int[] getLanguageMnemonic(final String id)
 	{
 		return languageHandler.getLanguageMnemonic(id);
 		
@@ -951,6 +1019,102 @@ public class DSettings
 	public boolean getUseThumbnails()
 	{
 		return useThumbnails;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the sort type.
+	 * 
+	 * @param sortType Sort Type
+	 * @since 2.0
+	 */
+	public void setSortType(final int sortType)
+	{
+		this.sortType = sortType;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the sort type.
+	 * 
+	 * @return Sort Type
+	 * @since 2.0
+	 */
+	public int getSortType()
+	{
+		return sortType;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to group artists.
+	 * 
+	 * @param groupArtists Whether to group artists
+	 * @since 2.0
+	 */
+	public void setGroupArtists(final boolean groupArtists)
+	{
+		this.groupArtists = groupArtists;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether to group artists.
+	 * 
+	 * @return Whether to group artists
+	 * @since 2.0
+	 */
+	public boolean getGroupArtists()
+	{
+		return groupArtists;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to group sequences.
+	 * 
+	 * @param groupSequences Whether to group sequences
+	 * @since 2.0
+	 */
+	public void setGroupSequences(final boolean groupSequences)
+	{
+		this.groupSequences = groupSequences;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether to group sequences.
+	 * 
+	 * @return Whether to group sequences
+	 * @since 2.0
+	 */
+	public boolean getGroupSequences()
+	{
+		return groupSequences;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to group sections.
+	 * 
+	 * @param groupSections Whether to group sections
+	 * @since 2.0
+	 */
+	public void setGroupSections(final boolean groupSections)
+	{
+		this.groupSections = groupSections;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether to group sections.
+	 * 
+	 * @return Whether to group sections
+	 * @since 2.0
+	 */
+	public boolean getGroupSections()
+	{
+		return groupSections;
 		
 	}//METHOD
 	

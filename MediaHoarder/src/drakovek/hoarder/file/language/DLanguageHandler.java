@@ -157,15 +157,15 @@ public class DLanguageHandler
 	}//METHOD
 	
 	/**
-	 * Gets the mnemonic for a given variable in the from the currently selected language.
+	 * Returns values for a mnemonic based on a language ID
 	 * 
-	 * @param id Language ID Variable
-	 * @return Mnemonic for the given Language ID
+	 * @param id Language ID
+	 * @return [0] int value of mnemonic keystroke, [1] character index to show as mnemonic
 	 * @since 2.0
 	 */
-	public int getLanguageMnemonic(final String id)
+	public int[] getLanguageMnemonic(final String id)
 	{
-		int mnemonic = -1;
+		int[] mnemonic = {-1, -1};
 		
 		String value = ParseINI.getStringValue(null, id, languageInfo, id).toUpperCase();
 		int charNum;
@@ -174,7 +174,8 @@ public class DLanguageHandler
 		
 		if(charNum < value.length())
 		{
-			mnemonic = KeyStroke.getKeyStroke(value.charAt(charNum), 0).getKeyCode();
+			mnemonic[0] = KeyStroke.getKeyStroke(value.charAt(charNum), 0).getKeyCode();
+			mnemonic[1] = charNum - 1;
 			
 		}//IF
 		

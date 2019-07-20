@@ -38,7 +38,9 @@ public class DMenuItem extends JMenuItem
 	{
 		super(baseGUI.getSettings().getLanuageText(id));
 		this.baseGUI = baseGUI;
-		this.setMnemonic(baseGUI.getSettings().getLanguageMnemonic(id));
+		int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
+		this.setMnemonic(mnemonic[0]);
+		this.setDisplayedMnemonicIndex(mnemonic[1]);
 		this.setFont(baseGUI.getFont());
 		this.setMargin(baseGUI.getButtonInsets());
 		this.addActionListener(new DActionListener(baseGUI, id));
@@ -54,7 +56,9 @@ public class DMenuItem extends JMenuItem
 	public void setTextID(final String id)
 	{
 		this.setText(baseGUI.getSettings().getLanuageText(id));
-		this.setMnemonic(baseGUI.getSettings().getLanguageMnemonic(id));
+		int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
+		this.setMnemonic(mnemonic[0]);
+		this.setDisplayedMnemonicIndex(mnemonic[1]);
 		
 	}//METHOD
 	

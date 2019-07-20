@@ -1,33 +1,35 @@
 package drakovek.hoarder.gui.swing.components;
 
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.listeners.DCheckBoxListener;
 
 /**
- * Default CheckBoxMenuItem for the program.
+ * Default RadioButtonMenuItem for the program.
  * 
  * @author Drakovek
  * @version 2.0
  * @since 2.0
  */
-public class DCheckBoxMenuItem extends JCheckBoxMenuItem
+public class DRadioButtonMenuItem extends JRadioButtonMenuItem
 {
 	/**
 	 * SerialVersionUID
-	 */
-	private static final long serialVersionUID = -2574455893303996405L;
-
-	/**
-	 * Initializes the DCheckBox class.
 	 * 
-	 * @param baseGUI Linked BaseGUI
-	 * @param selected Whether the CheckBox starts as selected
-	 * @param id Action ID for the CheckBox
 	 * @since 2.0
 	 */
-	public DCheckBoxMenuItem(BaseGUI baseGUI, final boolean selected, final String id)
+	private static final long serialVersionUID = 8547747358488635526L;
+
+	/**
+	 * Initializes the DRadioButtonMenuItem class.
+	 * 
+	 * @param baseGUI Linked BaseGUI
+	 * @param selected Whether the radio button should start selected
+	 * @param id Action/Language ID for the object
+	 * @since 2.0
+	 */
+	public DRadioButtonMenuItem(BaseGUI baseGUI, final boolean selected, final String id)
 	{
 		super(baseGUI.getSettings().getLanuageText(id));
 		int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);

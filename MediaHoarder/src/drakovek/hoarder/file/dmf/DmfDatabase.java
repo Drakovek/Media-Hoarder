@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import drakovek.hoarder.file.ExtensionFilter;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
+import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.processing.sort.FileSort;
 
 /**
@@ -216,7 +217,7 @@ public class DmfDatabase
 	{
 		clearDMFs();
 		progressDialog.setProcessLabel(DefaultLanguage.GETTING_FOLDERS);
-		progressDialog.setDetailLabel(dmfFolder.getName());
+		progressDialog.setDetailLabel(dmfFolder.getName(), false);
 		progressDialog.setProgressBar(true, false, 0, 0);
 		ArrayList<File> dmfFolders = getDmfFolders(dmfFolder);
 		DmfIndexing indexing = new DmfIndexing();
@@ -224,14 +225,14 @@ public class DmfDatabase
 		for(int i = 0; !progressDialog.isCancelled() && i < dmfFolders.size(); i++)
 		{
 			progressDialog.setProcessLabel(DefaultLanguage.LOADING_DMFS);
-			progressDialog.setDetailLabel(dmfFolders.get(i).getName());
+			progressDialog.setDetailLabel(dmfFolders.get(i).getName(), false);
 			progressDialog.setProgressBar(false, true, dmfFolders.size(), i);
 			DmfDirectory dmfDirectory = indexing.loadDMFs(dmfFolders.get(i), progressDialog, useIndexes, updateIndexes);
 			
 			if(!progressDialog.isCancelled() && saveIndexes)
 			{
 				progressDialog.setProcessLabel(DefaultLanguage.SAVING_INDEX);
-				progressDialog.setDetailLabel(dmfFolders.get(i).getName());
+				progressDialog.setDetailLabel(dmfFolders.get(i).getName(), false);
 				indexing.saveIndex(dmfDirectory);
 				
 			}//IF
@@ -341,6 +342,229 @@ public class DmfDatabase
 	}//METHOD
 	
 	/**
+	 * Gets an ArrayList of indexes for a sequence given a single index.
+	 * 
+	 * @param index DMF Index
+	 * @param sectionTitle Section Title of the section to include in the list (if null, returns the full sequence)
+	 * @return ArrayList<Integer> of indexes in a sequence.
+	 * @since 2.0
+	 */
+	public ArrayList<Integer> getSequenceList(final int index, final String sectionTitle)
+	{	
+		ArrayList<String> tree = getSequenceIdTree(index);
+		ArrayList<Integer> sequenceList = new ArrayList<>();
+		
+		for(int i = 0; i < tree.size(); i++)
+		{
+			if(!tree.get(i).contains(Character.toString('(')) && !tree.get(i).contains(Character.toString('*')))
+			{
+				int currentIndex = getIdIndex(tree.get(i).replaceAll(Character.toString('>'), new String()));
+				
+				if(currentIndex != -1)
+				{
+					sequenceList.add(new Integer(currentIndex));
+					
+				}//IF
+				
+			}//IF
+			
+		}//FOR
+		
+		if(sectionTitle != null && sectionTitle.length() > 0)
+		{
+			for(int i = 0; i < sequenceList.size(); i++)
+			{
+				if(!getSectionTitle(sequenceList.get(i).intValue()).equals(sectionTitle))
+				{
+					sequenceList.remove(i);
+					i--;
+					
+				}//IF
+			
+			}//FOR
+			
+		}//IF
+		
+		return sequenceList;
+
+	}//METHOD
+	
+	/**
+	 * Gets a sequence ID tree in ArrayList<String> form from a DMF index
+	 * 
+	 * @param index DMF Index
+	 * @return Sequence ID Tree
+	 * @since 2.0
+	 */
+	private ArrayList<String> getSequenceIdTree(final int index)
+	{
+		ArrayList<Integer> tempIndexes = new ArrayList<>();
+		tempIndexes.add(Integer.valueOf(index));
+		int currentIndex;
+		
+		while(true)
+		{
+			if(getLastIDs(tempIndexes.get(0).intValue()).length > 0)
+			{
+				currentIndex = getIdIndex(getLastIDs(tempIndexes.get(0).intValue())[0]);
+				if(currentIndex == -1 || tempIndexes.contains(Integer.valueOf(currentIndex)))
+				{
+					break;
+				
+				}//IF
+
+				tempIndexes.add(0, Integer.valueOf(currentIndex));
+			
+			}//IF
+			else
+			{
+				break;
+			
+			}//ELSE
+		
+		}//WHILE
+		
+		return getTreeFromIndex(tempIndexes.get(0).intValue(), 1, new ArrayList<String>());
+	
+	}//METHOD
+	
+	/**
+	 * Recursive Method to get Sequence ID Tree
+	 * 
+	 * @param index Index to start with.
+	 * @param level Level of the Start index
+	 * @param currentTree Tree passed in to expand on
+	 * @return Sequence ID Tree
+	 * @since 2.0
+	 */
+	private ArrayList<String> getTreeFromIndex(final int index, final int level, final ArrayList<String> currentTree)
+	{
+		boolean isContained;
+		String ID;
+		ArrayList<String> tree = new ArrayList<>();
+		tree.addAll(currentTree);
+		
+		isContained = false;
+		ID = Character.toString('>') + getID(index);
+		for(int i = 0; i < tree.size(); i++)
+		{
+			if(tree.get(i).endsWith(ID))
+			{
+				isContained = true;
+				break;
+				
+			}//IF
+		
+		}//FOR
+		
+		if(isContained)
+		{
+			tree.add(StringMethods.extendCharacter('>', level) + getID(index) + Character.toString('*'));
+
+		}//IF
+		else
+		{
+			tree.add(StringMethods.extendCharacter('>', level) + getID(index));
+			int currentIndex = index;
+			
+			while(true)
+			{
+				if(getNextIDs(currentIndex).length == 0)
+				{
+					break;
+			
+				}//IF
+				
+				if(getNextIDs(currentIndex).length == 1)
+				{
+					int nextIndex = getIdIndex(getNextIDs(currentIndex)[0]);
+					
+					if(nextIndex == -1)
+					{
+						break;
+						
+					}//IF
+					
+					isContained = false;
+					ID = Character.toString('>') + getID(nextIndex);
+					for(int i = 0; i < tree.size(); i++)
+					{
+						if(tree.get(i).endsWith(ID))
+						{
+							isContained = true;
+							break;
+							
+						}//IF
+					
+					}//FOR
+					
+					if(isContained)
+					{
+						tree.add(StringMethods.extendCharacter('>', level) + getID(nextIndex) + Character.toString('*'));
+						break;
+					
+					}//IF
+
+					tree.add(StringMethods.extendCharacter('>', level) + getID(nextIndex));
+					currentIndex = nextIndex;
+					
+					
+				}//IF
+				else
+				{
+					for(int branchNum = 0; branchNum < getNextIDs(currentIndex).length; branchNum++)
+					{
+						int nextIndex = getIdIndex(getNextIDs(currentIndex)[branchNum]);
+						if(nextIndex != -1)
+						{
+							String branchName = new String();
+							if(branchNum < getBranchTitles(currentIndex).length)
+							{
+								branchName = getBranchTitles(currentIndex)[branchNum];
+					
+							}//IF
+							
+							branchName = Character.toString('(') + branchName + Character.toString(')');
+							
+							tree.add(StringMethods.extendCharacter('>', level) + branchName);
+							tree = getTreeFromIndex(nextIndex, level + 1, tree);
+							
+						}//IF
+						
+					}//FOR
+					
+					break;
+					
+				}//ELSE
+				
+			}//WHILE
+			
+		}//ELSE
+		
+		return tree;
+	
+	}//METHOD getTreeFromIndex(final int index, final int level, final ArrayList<String> currentTree)
+	
+	/**
+	 * Gets the index of a given ID
+	 * 
+	 * @param ID DMF ID
+	 * @return DMF Index (-1 if DMF with given ID does not exist)
+	 * @since 2.0
+	 */
+	private int getIdIndex(final String ID)
+	{
+		if(ID == null || ID.length() == 0 || ID.equals(DMF.EMPTY_ID))
+		{
+			return -1;
+		
+		}//IF
+
+		return ids.indexOf(ID);
+		
+	}//METHOD
+	
+	/**
 	 * Returns the number of DMFs loaded.
 	 * 
 	 * @return Number of DMFs loaded
@@ -362,6 +586,45 @@ public class DmfDatabase
 	public File getDmfFile(final int index)
 	{
 		return dmfFiles.get(index);
+		
+	}//METHOD
+	
+	/**
+	 * Returns if DMF at a given index is a single DMF.
+	 * 
+	 * @param index DMF Index
+	 * @return Whether DMF at a given index is a single DMF
+	 * @since 2.0
+	 */
+	public boolean isSingle(final int index)
+	{
+		return isFirstInSequence(index) && isLastInSequence(index);
+				
+	}//METHOD
+	
+	/**
+	 * Returns if DMF at a given index is the first in a sequence.
+	 * 
+	 * @param index DMF Index
+	 * @return Whether DMF at a given index is the first in a sequence
+	 * @since 2.0
+	 */
+	public boolean isFirstInSequence(final int index)
+	{
+		return getLastIDs(index).length == 0 || getLastIDs(index)[0].equals(DMF.EMPTY_ID);
+		
+	}//METHOD
+	
+	/**
+	 * Returns if DMF at a given index is the last in a sequence.
+	 * 
+	 * @param index DMF Index
+	 * @return Whether DMF at a given index is the last in a sequence
+	 * @since 2.0
+	 */
+	public boolean isLastInSequence(final int index)
+	{
+		return getNextIDs(index).length == 0 || getNextIDs(index)[0].equals(DMF.EMPTY_ID);
 		
 	}//METHOD
 	

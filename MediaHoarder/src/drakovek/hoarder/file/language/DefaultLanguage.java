@@ -613,6 +613,55 @@ public class DefaultLanguage
 	public static final String USE_THUMBNAILS = "use_thumbnails"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Sort" menu in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SORT = "sort"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the radio button menu item in the viewer GUI for sorting by time.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SORT_TIME = "sort_time"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the radio button menu item in the viewer GUI for sorting alpha-numerically.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SORT_ALPHA = "sort_alpha"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the radio button menu item in the viewer GUI for sorting by rating.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SORT_RATING = "sort_rating"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the check box menu item in the viewer GUI for grouping artists when sorting.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GROUP_ARTISTS = "group_artists"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the check box menu item in the viewer GUI for grouping sequences when sorting.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GROUP_SEQUENCES = "group_sequences"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the check box menu item in the viewer GUI for grouping sections when sorting.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for viewer GUI's preview loading process title
 	 * 
 	 * @since 2.0
@@ -625,6 +674,20 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String LOADING_PREVIEWS = "loading_previews"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the view GUI's DMF sorting process title
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SORTING_DMFS_TITLE = "sorting_dmfs_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the view GUI's DMF sorting process label
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SORTING_DMFS = "sorting_dmfs"; //$NON-NLS-1$
 	
 	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
@@ -766,8 +829,17 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(OFFSET, " - OFF: ")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN_WITHOUT_INDEXES, "Open ^Without Indexes")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(USE_THUMBNAILS, "^Use Thumbnails")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SORT, "^Sort")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SORT_TIME, "Sort by ^Time Published")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SORT_ALPHA, "Sort A^lphabetically")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SORT_RATING, "Sort by ^Rating")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(GROUP_ARTISTS, "Group ^Artists")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(GROUP_SEQUENCES, "Group Se^quences")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(GROUP_SECTIONS, "Group ^Sections")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS_TITLE, "Loading Previews")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS, "Loading Previews:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS_TITLE, "Sorting DMFs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS, "Sorting DMFs:")); //$NON-NLS-1$
 		
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())

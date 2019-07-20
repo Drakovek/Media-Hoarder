@@ -38,7 +38,10 @@ public class DButton extends JButton
 	public DButton(BaseGUI baseGUI, final String id)
 	{
 		super(baseGUI.getSettings().getLanuageText(id));
-		this.setMnemonic(baseGUI.getSettings().getLanguageMnemonic(id));
+		
+		int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
+		this.setMnemonic(mnemonic[0]);
+		this.setDisplayedMnemonicIndex(mnemonic[1]);
 		this.setFont(baseGUI.getFont());
 		this.setMargin(baseGUI.getButtonInsets());
 		this.addActionListener(new DActionListener(baseGUI, id));
@@ -67,7 +70,10 @@ public class DButton extends JButton
 	public void setTextID(final String id)
 	{
 		this.setText(baseGUI.getSettings().getLanuageText(id));
-		this.setMnemonic(baseGUI.getSettings().getLanguageMnemonic(id));
+		
+		int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
+		this.setMnemonic(mnemonic[0]);
+		this.setDisplayedMnemonicIndex(mnemonic[1]);
 		
 	}//METHOD
 	

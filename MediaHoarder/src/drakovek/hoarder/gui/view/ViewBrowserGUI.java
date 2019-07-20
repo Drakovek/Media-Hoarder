@@ -9,6 +9,7 @@ import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
@@ -26,6 +27,7 @@ import drakovek.hoarder.gui.swing.components.DCheckBoxMenuItem;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
+import drakovek.hoarder.gui.swing.components.DRadioButtonMenuItem;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
@@ -123,6 +125,13 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	private DMenu viewMenu;
 	
 	/**
+	 * Sort Menu for the GUI
+	 * 
+	 * @since 2.0
+	 */
+	private DMenu sortMenu;
+	
+	/**
 	 * Button to show DMF media prior to the current page
 	 * 
 	 * @since 2.0
@@ -201,22 +210,35 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		
 		//FILE MENU ITEMS
 		fileMenu = new DMenu(this, DefaultLanguage.FILE);
-		DMenuItem openItem = new DMenuItem(this, DefaultLanguage.OPEN);
-		DMenuItem updateItem = new DMenuItem(this, DefaultLanguage.OPEN_WITHOUT_INDEXES);
-		DMenuItem resetItem = new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM);
-		DMenuItem exitItem = new DMenuItem(this, DefaultLanguage.EXIT);
-		fileMenu.add(openItem);
-		fileMenu.add(updateItem);
+		fileMenu.add(new DMenuItem(this, DefaultLanguage.OPEN));
+		fileMenu.add(new DMenuItem(this, DefaultLanguage.OPEN_WITHOUT_INDEXES));
 		fileMenu.addSeparator();
-		fileMenu.add(resetItem);
-		fileMenu.add(exitItem);
+		fileMenu.add(new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM));
+		fileMenu.add(new DMenuItem(this, DefaultLanguage.EXIT));
 		menubar.add(fileMenu);
 		
 		//VIEW MENU ITEMS
 		viewMenu = new DMenu(this, DefaultLanguage.VIEW);
-		DCheckBoxMenuItem thumbnailCheck = new DCheckBoxMenuItem(this, settings.getUseThumbnails(), DefaultLanguage.USE_THUMBNAILS);
-		viewMenu.add(thumbnailCheck);
+		viewMenu.add(new DCheckBoxMenuItem(this, settings.getUseThumbnails(), DefaultLanguage.USE_THUMBNAILS));
 		menubar.add(viewMenu);
+		
+		//SORT MENU ITEMS
+		sortMenu = new DMenu(this, DefaultLanguage.SORT);
+		ButtonGroup sortGroup = new ButtonGroup();
+		DRadioButtonMenuItem alphaSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_ALPHA, DefaultLanguage.SORT_ALPHA);
+		DRadioButtonMenuItem timeSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_TIME, DefaultLanguage.SORT_TIME);
+		DRadioButtonMenuItem ratingSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_RATING, DefaultLanguage.SORT_RATING);
+		sortGroup.add(alphaSort);
+		sortGroup.add(timeSort);
+		sortGroup.add(ratingSort);
+		sortMenu.add(alphaSort);
+		sortMenu.add(timeSort);
+		sortMenu.add(ratingSort);
+		sortMenu.addSeparator();
+		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupArtists(), DefaultLanguage.GROUP_ARTISTS));
+		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSequences(), DefaultLanguage.GROUP_SEQUENCES));
+		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSections(), DefaultLanguage.GROUP_SECTIONS));
+		menubar.add(sortMenu);
 		
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
@@ -452,7 +474,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			
 			if(offset % total != 0)
 			{
-				text = text + DefaultLanguage.OFFSET + (offset - ((int)Math.floor((double)offset / (double)total) * total));
+				text = text + getSettings().getLanuageText(DefaultLanguage.OFFSET) + (offset - ((int)Math.floor((double)offset / (double)total) * total));
 			
 			}//IF
 			
@@ -476,7 +498,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 				progressDialog.setCancelled(false);
 				progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_PREVIEWS_TITLE);
 				progressDialog.setProcessLabel(DefaultLanguage.LOADING_PREVIEWS);
-				progressDialog.setDetailLabel(DefaultLanguage.RUNNING);
+				progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
 				(new DSwingWorker(this, DefaultLanguage.LOADING_PREVIEWS)).execute();
 			
 			}//IF
@@ -671,6 +693,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		pageText.setEnabled(true);
 		fileMenu.setEnabled(true);
 		viewMenu.setEnabled(true);
+		sortMenu.setEnabled(true);
 		
 		for(int i = 0; i < previewButtons.length; i++)
 		{
@@ -693,12 +716,48 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		pageText.setEnabled(false);
 		fileMenu.setEnabled(false);
 		viewMenu.setEnabled(false);
+		sortMenu.setEnabled(false);
 		
 		for(int i = 0; i < previewButtons.length; i++)
 		{
 			previewButtons[i].setEnabled(false);
 			
 		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Runs when one of the sorting radio buttons is pressed. Sets the appropriate sort type then starts sorting DMFs.
+	 * 
+	 * @param sortType Sort Type
+	 * @param isSelected Whether the sort type was selected or deselected. If deselected, does nothing.
+	 * @since 2.0
+	 */
+	private void sortRadioPressed(final int sortType, final boolean isSelected)
+	{
+		if(isSelected)
+		{
+			getSettings().setSortType(sortType);
+			sort();
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Starts the DMF sorting process.
+	 * 
+	 * @since 2.0
+	 */
+	private void sort()
+	{
+		getFrame().setProcessRunning(true);
+		progressDialog.setCancelled(false);
+		progressDialog.startProgressDialog(getFrame(), DefaultLanguage.SORTING_DMFS_TITLE);
+		progressDialog.setProcessLabel(DefaultLanguage.SORTING_DMFS);
+		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+		progressDialog.setProgressBar(true, false, 0, 0);
+		(new DSwingWorker(this, DefaultLanguage.SORT)).execute();
 		
 	}//METHOD
 
@@ -723,6 +782,27 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 				getSettings().setUseThumbnails(BooleanInt.getBoolean(value));
 				resetValues();
 				launchPreviewUpdate();
+				break;
+			case DefaultLanguage.SORT_ALPHA:
+				sortRadioPressed(DmfHandler.SORT_ALPHA, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.SORT_TIME:
+				sortRadioPressed(DmfHandler.SORT_TIME, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.SORT_RATING:
+				sortRadioPressed(DmfHandler.SORT_RATING, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.GROUP_ARTISTS:
+				getSettings().setGroupArtists(BooleanInt.getBoolean(value));
+				sort();
+				break;
+			case DefaultLanguage.GROUP_SEQUENCES:
+				getSettings().setGroupSequences(BooleanInt.getBoolean(value));
+				sort();
+				break;
+			case DefaultLanguage.GROUP_SECTIONS:
+				getSettings().setGroupSections(BooleanInt.getBoolean(value));
+				if(!getSettings().getGroupSequences()) sort();
 				break;
 			case DefaultLanguage.OPEN:
 				loadDirectory(fileChooser.getFileOpen(getFrame(), getSettings().getViewerDirectory()), true);
@@ -754,6 +834,9 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			case DefaultLanguage.LOADING_PREVIEWS:
 				updatePreview();
 				break;
+			case DefaultLanguage.SORT:
+				this.getDmfHandler().sort(getSettings().getSortType(), getSettings().getGroupArtists(), getSettings().getGroupSequences(), getSettings().getGroupSections());
+				break;
 				
 		}//SWITCH
 		
@@ -771,6 +854,11 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			case DefaultLanguage.OPEN_WITHOUT_INDEXES:
 			case DefaultLanguage.LOADING_DMFS:
 				settingsBar.setLabel(getDmfHandler().getDirectory());
+				sort();
+				break;
+			case DefaultLanguage.SORT:
+				offset = 0;
+				resetValues();
 				launchPreviewUpdate();
 				break;
 				

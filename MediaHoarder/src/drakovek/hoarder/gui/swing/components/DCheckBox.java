@@ -30,7 +30,9 @@ public class DCheckBox extends JCheckBox
 	public DCheckBox(BaseGUI baseGUI, final boolean selected, final String id)
 	{
 		super(baseGUI.getSettings().getLanuageText(id));
-		this.setMnemonic(baseGUI.getSettings().getLanguageMnemonic(id));
+		int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
+		this.setMnemonic(mnemonic[0]);
+		this.setDisplayedMnemonicIndex(mnemonic[1]);
 		this.setFont(baseGUI.getFont());
 		this.setSelected(selected);
 		this.addItemListener(new DCheckBoxListener(baseGUI, id));

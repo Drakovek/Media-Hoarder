@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
+import drakovek.hoarder.processing.StringMethods;
+import drakovek.hoarder.processing.sort.AlphaNumSort;
 
 /**
  * Class for other objects to access DMF information.
@@ -14,6 +16,27 @@ import drakovek.hoarder.gui.swing.compound.DProgressDialog;
  */
 public class DmfHandler
 {
+	/**
+	 * Int value indicating to sort DMFs by time published.
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SORT_TIME = 0;
+	
+	/**
+	 * Int value indicating to sort DMFs Alpha-numerically by title.
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SORT_ALPHA = 1;
+	
+	/**
+	 * Int value indicating to sort dmfs by rating.
+	 * 
+	 * @since 2.0
+	 */
+	public static final int SORT_RATING = 2;
+	
 	/**
 	 * ArrayList full of indexes referencing DMFs loaded in DmfDatabase, sorted in a given order.
 	 * 
@@ -166,6 +189,201 @@ public class DmfHandler
 		
 		return false;
 		
+	}//METHOD
+	
+	/**
+	 * Sorts the currently loaded DMFs.
+	 * 
+	 * @param sortType Sort Type
+	 * @param groupArtists Whether to group artists
+	 * @param groupSequences Whether to group sequences
+	 * @param groupSections Whether to group sections
+	 * @since 2.0
+	 */
+	public void sort(final int sortType, final boolean groupArtists, final boolean groupSequences, final boolean groupSections)
+	{
+		//POPULATE SORTED ARRAYLIST
+		sorted = new ArrayList<>();
+		for(int i = 0; i < database.getSize(); i++)
+		{
+			//Add items to sorted list
+			if((groupSequences == false && groupSections == false) ||
+			   (groupSequences == false && groupSections == true && ((sortType == SORT_TIME && database.getIsLast(i)) || (sortType != SORT_TIME && database.getIsFirst(i)) || database.isSingle(i))) ||
+			   (groupSequences == true && ((sortType == SORT_TIME && database.isLastInSequence(i)) || (sortType != SORT_TIME && database.isFirstInSequence(i)) || database.isSingle(i))))
+			{
+				sorted.add(Integer.valueOf(i));
+			
+			}//IF
+			
+		}//FOR
+		
+		//SORT LIST
+		sorted = sortMerge(sorted, sortType, groupArtists);
+		
+		//ADD SEQUENCES BACK TO ARRAY, IF NECESSARY
+		if(groupSequences || groupSections)
+		{
+			ArrayList<Integer> newList = new ArrayList<>();
+			for(int i = sorted.size() - 1; i > -1; i--)
+			{
+				if(!database.isSingle(sorted.get(i).intValue()))
+				{
+					if(!newList.contains(sorted.get(i)))
+					{
+						if(groupSections && !groupSequences)
+						{
+							newList.addAll(0, database.getSequenceList(sorted.get(i).intValue(), database.getSectionTitle(sorted.get(i).intValue())));
+							
+						}//IF
+						else
+						{
+							newList.addAll(0, database.getSequenceList(sorted.get(i).intValue(), null));
+					
+						}//ELSE
+						
+					}//IF
+				
+				}//IF
+				else
+				{
+					newList.add(0, sorted.get(i));
+				
+				}//ELSE
+				
+			}//FOR
+			
+			sorted = new ArrayList<>();
+			sorted.addAll(newList);
+			newList = null;
+			
+		}//IF (groupSequences == true || groupSections == true)
+		
+		resetFiltered();
+		
+	}//METHOD
+	
+	/**
+	 * Sorts a list of DMF indexes using merge sort.
+	 * 
+	 * @param startList Given list of DMF indexes to sort.
+	 * @param sortType Sort Type
+	 * @param groupArtists Whether to group artists together
+	 * @return Sorted list of DMF indexes
+	 * @since 2.0
+	 */
+	private ArrayList<Integer> sortMerge(final ArrayList<Integer> startList, final int sortType, final boolean groupArtists)
+	{
+		if(startList.size() > 1)
+		{
+			//SPLIT INITIAL ARRAYLIST
+			int half = startList.size() / 2;
+			ArrayList<Integer> aList = new ArrayList<>();
+			ArrayList<Integer> bList = new ArrayList<>();
+			
+			for(int i = 0; i < half; i++)
+			{
+				aList.add(startList.get(i));
+				
+			}//FOR
+			
+			for(int i = half; i < startList.size(); i++)
+			{
+				bList.add(startList.get(i));
+				
+			}//FOR
+			
+			//SORT SPLIT LISTS
+			aList = sortMerge(aList, sortType, groupArtists);
+			bList = sortMerge(bList, sortType, groupArtists);
+			
+			//MERGE LISTS
+			ArrayList<Integer> returnList = new ArrayList<>();
+			while(aList.size() > 0 && bList.size() > 0)
+			{
+				if(compareDMFs(aList.get(0).intValue(), bList.get(0).intValue(), sortType, groupArtists) < 0)
+                {
+                    returnList.add(aList.get(0));
+                    aList.remove(0);
+                    
+                }//IF
+                else
+                {
+                    returnList.add(bList.get(0));
+                    bList.remove(0);
+                    
+                }//ELSE
+				
+			}//WHILE
+			
+			returnList.addAll(aList);
+			returnList.addAll(bList);
+			
+			return returnList;
+			
+		}//IF
+		
+		return startList;
+		
+	}//METHOD
+	
+	/**
+	 * Compares two DMFs given their indexes.
+	 * 
+	 * @param dmfA Index of the first DMF
+	 * @param dmfB Index of the second DMF
+	 * @param sortType Sort Type, used to determine which criteria to compare DMFs by
+	 * @param groupArtists Whether to group artists together
+	 * @return int value showing how the DMFs compare
+	 * @since 2.0
+	 */
+	private int compareDMFs(final int dmfA, final int dmfB, final int sortType, final boolean groupArtists)
+	{
+		int result = 0;
+		
+		if(groupArtists == true)
+		{
+			result = AlphaNumSort.compareAlpha(StringMethods.arrayToString(database.getArtists(dmfA)), StringMethods.arrayToString(database.getArtists(dmfB)));
+		
+		}//IF
+		
+		if(result == 0 && sortType == SORT_RATING)
+		{
+			if(database.getRating(dmfA) > database.getRating(dmfB))
+			{
+				result = -1;
+				
+			}//IF
+			else if(database.getRating(dmfA) < database.getRating(dmfB))
+			{
+				result = 1;
+				
+			}//ELSE IF
+		
+		}//IF
+		
+		if(result == 0 && (sortType == SORT_TIME || sortType == SORT_RATING))
+		{
+			if(database.getTime(dmfA) > database.getTime(dmfB))
+			{
+				result = 1;
+				
+			}//IF
+			else if(database.getTime(dmfA) < database.getTime(dmfB))
+			{
+				result = -1;
+			
+			}//ELSE IF
+		
+		}//IF
+		
+		if(result == 0)
+		{
+			result = AlphaNumSort.compareAlpha(database.getTitle(dmfA), database.getTitle(dmfB));
+		
+		}//IF
+		
+		return result;
+	
 	}//METHOD
 	
 	/**

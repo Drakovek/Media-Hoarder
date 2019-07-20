@@ -43,7 +43,9 @@ public class DLabel extends JLabel
 		
 		if(component != null)
 		{
-			this.setDisplayedMnemonic(baseGUI.getSettings().getLanguageMnemonic(id));
+			int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
+			this.setDisplayedMnemonic(mnemonic[0]);
+			this.setDisplayedMnemonicIndex(mnemonic[1]);
 			this.setLabelFor(component);
 			
 		}//IF
@@ -76,7 +78,9 @@ public class DLabel extends JLabel
 		
 		if(useMnemonic)
 		{
-			this.setDisplayedMnemonic(baseGUI.getSettings().getLanguageMnemonic(id));
+			int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
+			this.setDisplayedMnemonic(mnemonic[0]);
+			this.setDisplayedMnemonicIndex(mnemonic[1]);
 	
 		}//IF
 		
