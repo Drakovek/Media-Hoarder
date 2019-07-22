@@ -29,7 +29,7 @@ public class DMenu extends JMenu
 	 */
 	public DMenu(BaseGUI baseGUI, final String id)
 	{
-		super(baseGUI.getSettings().getLanuageText(id));
+		super(baseGUI.getSettings().getLanguageText(id));
 		int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
 		this.setMnemonic(mnemonic[0]);
 		this.setDisplayedMnemonicIndex(mnemonic[1]);

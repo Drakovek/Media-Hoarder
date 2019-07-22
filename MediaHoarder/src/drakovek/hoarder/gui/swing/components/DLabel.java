@@ -38,7 +38,7 @@ public class DLabel extends JLabel
 	 */
 	public DLabel(BaseGUI baseGUI, Component component, final String id)
 	{
-		super(baseGUI.getSettings().getLanuageText(id));
+		super(baseGUI.getSettings().getLanguageText(id));
 		this.setFont(baseGUI.getFont());
 		
 		if(component != null)
@@ -74,7 +74,7 @@ public class DLabel extends JLabel
 	 */
 	public void setTextID(final String id, final boolean useMnemonic)
 	{
-		this.setText(baseGUI.getSettings().getLanuageText(id));
+		this.setText(baseGUI.getSettings().getLanguageText(id));
 		
 		if(useMnemonic)
 		{

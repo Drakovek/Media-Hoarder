@@ -148,7 +148,7 @@ public class DFileChooser extends BaseGUI
 		
 		//CREATE FILE LIST PANEL
 		fileList = new DList(this, false, DefaultLanguage.FILES);
-		fileList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		fileList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fileList.addMouseListener(new DListClickListener(this, fileList, FILE_CLICK_ACTION));
 		DScrollPane fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, fileList);
 		JPanel fileListPanel = getSpacedPanel(fileScroll, 1, 1, true, true, false, false);

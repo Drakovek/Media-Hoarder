@@ -98,7 +98,7 @@ public class FontSettings extends SettingsModeGUI
 		
 		fontList = new DList(this, false, DefaultLanguage.FONT);
 		previewText = new DTextArea(this);
-		previewText.setText(getSettings().getLanuageText(DefaultLanguage.FONT_PREVIEW));
+		previewText.setText(getSettings().getLanguageText(DefaultLanguage.FONT_PREVIEW));
 		
 		fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		fontList.setListData(fonts);

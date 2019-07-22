@@ -140,7 +140,7 @@ public class SettingsGUI extends FrameGUI
 		String[] listData = new String[settingsEvents.length];
 		for(int i = 0; i < listData.length; i++)
 		{
-			listData[i] = settings.getLanuageText(settingsEvents[i]) + StringMethods.extendCharacter(' ', 5);
+			listData[i] = settings.getLanguageText(settingsEvents[i]) + StringMethods.extendCharacter(' ', 5);
 		
 		}//FOR
 		

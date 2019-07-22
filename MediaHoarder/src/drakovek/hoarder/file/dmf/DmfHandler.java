@@ -59,11 +59,11 @@ public class DmfHandler
 	private DmfDatabase database;
 	
 	/**
-	 * Current directory loaded by the DmfHandler
+	 * Boolean to show if DMFs were loaded properly
 	 * 
 	 * @since 2.0
 	 */
-	private File directory;
+	private boolean loaded;
 	
 	/**
 	 * Initializes DmfHandler class
@@ -81,9 +81,9 @@ public class DmfHandler
 	 * 
 	 * @since 2.0
 	 */
-	private void clearDMFs()
+	public void clearDMFs()
 	{
-		directory = null;
+		loaded = false;
 		database = new DmfDatabase();
 		sorted = new ArrayList<>();
 		filtered = new ArrayList<>();
@@ -93,6 +93,7 @@ public class DmfHandler
 	/**
 	 * Loads the information from all DMFs in a given folder and in its sub-directories.
 	 * 
+	 * @param dmfDirectories Directories with DMFs to load
 	 * @param dmfFolder Input Folder
 	 * @param progressDialog DProgress dialog to show progress of loading DMFx
 	 * @param useIndexes Whether to use index files to load DmfDirectory object
@@ -100,17 +101,24 @@ public class DmfHandler
 	 * @param updateIndexes Whether to update index files to reflect changes in DMFs
 	 * @since 2.0
 	 */
-	public void loadDMFs(final File dmfFolder, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
+	public void loadDMFs(final ArrayList<File> dmfDirectories, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
 	{
-		directory = dmfFolder;
-		if(!database.loadDMFs(dmfFolder, progressDialog, useIndexes, saveIndexes, updateIndexes))
-		{
-			directory = null;
-			
-		}//IF
+		loaded = database.loadDMFs(dmfDirectories, progressDialog, useIndexes, saveIndexes, updateIndexes);
 		
 		resetSorted();
 		resetFiltered();
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether DMFs loaded properly.
+	 * 
+	 * @return Whether DMFs loaded properly
+	 * @since 2.0
+	 */
+	public boolean isLoaded()
+	{
+		return loaded;
 		
 	}//METHOD
 	
@@ -145,49 +153,6 @@ public class DmfHandler
 			filtered.add(sorted.get(i));
 			
 		}//FOR
-		
-	}//METHOD
-	
-	/**
-	 * Returns the currently loaded directory of the DmfHandler
-	 * 
-	 * @return Current Directory
-	 * @since 2.0
-	 */
-	public File getDirectory()
-	{
-		return directory;
-		
-	}//METHOD
-	
-	/**
-	 * Returns whether the given directory has been loaded by the DmfHandler
-	 * (Returns true if given directory is equal to the current directory or is a sub-directory of the current directory)
-	 * 
-	 * @param inputDirectory Given Directory
-	 * @return Whether the given directory has been loaded by the dmfHandler
-	 * @since 2.0
-	 */
-	public boolean containsFile(final File inputDirectory)
-	{
-		if(inputDirectory != null)
-		{
-			File file = inputDirectory;
-			while(file != null && file.isDirectory())
-			{
-				if(directory.equals(file))
-				{
-					return true;
-				
-				}//IF
-			
-				file = file.getParentFile();
-			
-			}//WHILE
-			
-		}//IF
-		
-		return false;
 		
 	}//METHOD
 	

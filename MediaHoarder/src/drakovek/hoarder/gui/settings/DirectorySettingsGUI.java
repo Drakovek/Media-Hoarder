@@ -229,6 +229,7 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 	public void apply()
 	{
 		getSettings().setDmfDirectories(dmfDirectories);
+		getSettingsGUI().getDmfHandler().clearDMFs();
 		
 	}//METHOD
 	

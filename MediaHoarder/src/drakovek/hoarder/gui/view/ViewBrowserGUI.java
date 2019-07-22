@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,7 +28,6 @@ import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DRadioButtonMenuItem;
 import drakovek.hoarder.gui.swing.components.DTextField;
-import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
 import drakovek.hoarder.media.PreviewButton;
@@ -60,13 +58,6 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	 * @since 2.0
 	 */
 	private SettingsBarGUI settingsBar;
-	
-	/**
-	 * File Chooser for choosing a directory from which to search for DMFs
-	 * 
-	 * @since 2.0
-	 */
-	private DFileChooser fileChooser;
 	
 	/**
 	 * Main progress dialog for the class
@@ -197,7 +188,6 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	public ViewBrowserGUI(DSettings settings, DmfHandler dmfHandler)
 	{
 		super(settings, dmfHandler, DefaultLanguage.VIEWER_TITLE);
-		fileChooser = new DFileChooser(settings);
 		progressDialog = new DProgressDialog(settings);
 		previewWidth = 0;
 		previewHeight = 0;
@@ -210,8 +200,8 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		
 		//FILE MENU ITEMS
 		fileMenu = new DMenu(this, DefaultLanguage.FILE);
-		fileMenu.add(new DMenuItem(this, DefaultLanguage.OPEN));
-		fileMenu.add(new DMenuItem(this, DefaultLanguage.OPEN_WITHOUT_INDEXES));
+		fileMenu.add(new DMenuItem(this, DefaultLanguage.RELOAD_DMFS));
+		fileMenu.add(new DMenuItem(this, DefaultLanguage.RELOAD_WITHOUT_INDEXES));
 		fileMenu.addSeparator();
 		fileMenu.add(new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM));
 		fileMenu.add(new DMenuItem(this, DefaultLanguage.EXIT));
@@ -278,8 +268,8 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
 		
-		settingsBar.setLabel(settings.getViewerDirectory());
-		loadDirectory(settings.getViewerDirectory(), true);
+		settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
+		loadDirectory(true);
 		
 	}//CONSTRUCTOR
 
@@ -416,15 +406,13 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 	/**
 	 * Starts the process for loading DMFs from a directory.
 	 * 
-	 * @param directory Directory to load DMFs from
 	 * @param useIndexSettings Whether to use the user's settings for reading DMF indexes. If false, DmfHanlder will load DMFs without using index files.
 	 * @since 2.0
 	 */
-	private void loadDirectory(final File directory, final boolean useIndexSettings)
+	private void loadDirectory(final boolean useIndexSettings)
 	{
-		if(!getFrame().isProcessRunning() && directory != null && directory.isDirectory() && (!useIndexSettings || getDmfHandler().getDirectory() == null || !getDmfHandler().getDirectory().equals(directory)))
+		if(!getFrame().isProcessRunning() && (!useIndexSettings || !getDmfHandler().isLoaded()))
 		{
-			getSettings().setViewerDirectory(directory);
 			getFrame().setProcessRunning(true);
 			progressDialog.setCancelled(false);
 			progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
@@ -436,7 +424,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			}//IF
 			else
 			{
-				(new DSwingWorker(this, DefaultLanguage.OPEN_WITHOUT_INDEXES)).execute();
+				(new DSwingWorker(this, DefaultLanguage.RELOAD_WITHOUT_INDEXES)).execute();
 				
 			}//ELSE
 			
@@ -474,7 +462,7 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 			
 			if(offset % total != 0)
 			{
-				text = text + getSettings().getLanuageText(DefaultLanguage.OFFSET) + (offset - ((int)Math.floor((double)offset / (double)total) * total));
+				text = text + getSettings().getLanguageText(DefaultLanguage.OFFSET) + (offset - ((int)Math.floor((double)offset / (double)total) * total));
 			
 			}//IF
 			
@@ -804,11 +792,11 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 				getSettings().setGroupSections(BooleanInt.getBoolean(value));
 				if(!getSettings().getGroupSequences()) sort();
 				break;
-			case DefaultLanguage.OPEN:
-				loadDirectory(fileChooser.getFileOpen(getFrame(), getSettings().getViewerDirectory()), true);
+			case DefaultLanguage.RELOAD_DMFS:
+				loadDirectory(true);
 				break;
-			case DefaultLanguage.OPEN_WITHOUT_INDEXES:
-				loadDirectory(fileChooser.getFileOpen(getFrame(), getSettings().getViewerDirectory()), false);
+			case DefaultLanguage.RELOAD_WITHOUT_INDEXES:
+				loadDirectory(false);
 				break;
 			case DefaultLanguage.RESTART_PROGRAM:
 				Start.startGUI(getSettings(), getDmfHandler());
@@ -826,10 +814,10 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		switch(id)
 		{
 			case DefaultLanguage.LOADING_DMFS:
-				this.getDmfHandler().loadDMFs(getSettings().getViewerDirectory(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
+				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
 				break;
-			case DefaultLanguage.OPEN_WITHOUT_INDEXES:
-				this.getDmfHandler().loadDMFs(getSettings().getViewerDirectory(), progressDialog, false, getSettings().getUseIndexes(), false);
+			case DefaultLanguage.RELOAD_WITHOUT_INDEXES:
+				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, false, getSettings().getUseIndexes(), false);
 				break;
 			case DefaultLanguage.LOADING_PREVIEWS:
 				updatePreview();
@@ -851,9 +839,9 @@ public class ViewBrowserGUI extends FrameGUI implements Worker
 		
 		switch(id)
 		{
-			case DefaultLanguage.OPEN_WITHOUT_INDEXES:
+			case DefaultLanguage.RELOAD_WITHOUT_INDEXES:
 			case DefaultLanguage.LOADING_DMFS:
-				settingsBar.setLabel(getDmfHandler().getDirectory());
+				settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
 				sort();
 				break;
 			case DefaultLanguage.SORT:

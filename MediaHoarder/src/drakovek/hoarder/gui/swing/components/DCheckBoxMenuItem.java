@@ -29,7 +29,7 @@ public class DCheckBoxMenuItem extends JCheckBoxMenuItem
 	 */
 	public DCheckBoxMenuItem(BaseGUI baseGUI, final boolean selected, final String id)
 	{
-		super(baseGUI.getSettings().getLanuageText(id));
+		super(baseGUI.getSettings().getLanguageText(id));
 		int[] mnemonic = baseGUI.getSettings().getLanguageMnemonic(id);
 		this.setMnemonic(mnemonic[0]);
 		this.setDisplayedMnemonicIndex(mnemonic[1]);

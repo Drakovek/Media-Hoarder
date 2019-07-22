@@ -136,13 +136,6 @@ public class DSettings
 	private static final String FUR_AFFINITY_DIRECTORY = "fur_affinity_directory"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for the viewer directory
-	 * 
-	 * @since 2.0
-	 */
-	private static final String VIEWER_DIRECTORY = "viewer_directory"; //$NON-NLS-1$
-	
-	/**
 	 * INI Variable for the size of DMF preview thumbnails.
 	 *
 	 * @since 2.0
@@ -321,13 +314,6 @@ public class DSettings
 	private File furAffinityDirectory;
 	
 	/**
-	 * Directory to use for viewing DMFs
-	 * 
-	 * @since 2.0
-	 */
-	private File viewerDirectory;
-	
-	/**
 	 * Size of the preview thumbnails in the viewer GUI
 	 * 
 	 * @since 2.0
@@ -455,7 +441,6 @@ public class DSettings
 		furAffinityDirectory = null;
 		
 		//VIEWER
-		viewerDirectory = null;
 		previewSize = 100;
 		scaleType = 0;
 		scaleAmount = 1.0;
@@ -505,7 +490,6 @@ public class DSettings
 			furAffinityDirectory = ParseINI.getFileValue(null, FUR_AFFINITY_DIRECTORY, settingsInfo, null);
 			
 			//VIEWER
-			viewerDirectory = ParseINI.getFileValue(null, VIEWER_DIRECTORY, settingsInfo, null);
 			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
 			scaleType = ParseINI.getIntValue(null, SCALE_TYPE, settingsInfo, scaleType);
 			scaleAmount = ParseINI.getDoubleValue(null, SCALE_AMOUNT, settingsInfo, scaleAmount);
@@ -566,7 +550,6 @@ public class DSettings
 		//VIEWER
 		settingsInfo.add(new String());
 		settingsInfo.add("[VIEWER]"); //$NON-NLS-1$
-		settingsInfo.add(ParseINI.getAssignmentString(VIEWER_DIRECTORY, viewerDirectory));
 		settingsInfo.add(ParseINI.getAssignmentString(PREVIEW_SIZE, previewSize));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_TYPE, scaleType));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_AMOUNT, scaleAmount));
@@ -592,7 +575,7 @@ public class DSettings
 	 * @return Text for the given Language ID
 	 * @since 2.0
 	 */
-	public String getLanuageText(final String id)
+	public String getLanguageText(final String id)
 	{
 		return languageHandler.getLanuageText(id);
 		
@@ -960,30 +943,6 @@ public class DSettings
 	public File getFurAffinityDirectory()
 	{
 		return furAffinityDirectory;
-		
-	}//METHOD
-	
-	/**
-	 * Sets the viewer directory.
-	 * 
-	 * @param viewerDirectory Viewer Directory
-	 * @since 2.0
-	 */
-	public void setViewerDirectory(final File viewerDirectory)
-	{
-		this.viewerDirectory = viewerDirectory;
-		
-	}//METHOD
-	
-	/**
-	 * Returns the viewer directory.
-	 * 
-	 * @return Viewer Directory
-	 * @since 2.0
-	 */
-	public File getViewerDirectory()
-	{
-		return viewerDirectory;
 		
 	}//METHOD
 	

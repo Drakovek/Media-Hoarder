@@ -67,7 +67,7 @@ public class DButtonDialog extends BaseGUI
 	{
 		returnString = null;
 		owner.setAllowExit(false);
-    	dialog = new DDialog(owner, getDialogPanel(messageIDs, buttonIDs), getSettings().getLanuageText(titleID), true, 0, 0);
+    	dialog = new DDialog(owner, getDialogPanel(messageIDs, buttonIDs), getSettings().getLanguageText(titleID), true, 0, 0);
     	dialog.setVisible(true);
     	dialog = null;
     	owner.setAllowExit(true);
@@ -90,7 +90,7 @@ public class DButtonDialog extends BaseGUI
 	{
 		returnString = null;
 		disabler.disableAll();
-    	dialog = new DDialog(owner, getDialogPanel(messageIDs, buttonIDs), getSettings().getLanuageText(titleID), true, 0, 0);
+    	dialog = new DDialog(owner, getDialogPanel(messageIDs, buttonIDs), getSettings().getLanguageText(titleID), true, 0, 0);
     	dialog.setVisible(true);
     	dialog = null;
     	disabler.enableAll();

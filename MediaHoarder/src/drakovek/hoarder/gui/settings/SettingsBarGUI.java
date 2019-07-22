@@ -116,7 +116,28 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 		}//IF
 		else
 		{
-			label.setText(getSettings().getLanuageText(DefaultLanguage.NO_DIRECTORY));
+			label.setText(getSettings().getLanguageText(DefaultLanguage.NO_DIRECTORY));
+			
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Sets the main label of the settings bar to show if the multiple directories have been properly loaded.
+	 * 
+	 * @param loaded Whether DMF directories have been properly loaded
+	 * @since 2.0
+	 */
+	public void setLabelLoaded(final boolean loaded)
+	{
+		if(loaded)
+		{
+			label.setText(getSettings().getLanguageText(DefaultLanguage.DIRECTORIES_LOADED));
+			
+		}//IF
+		else
+		{
+			label.setText(getSettings().getLanguageText(DefaultLanguage.NO_DIRECTORY));
 			
 		}//ELSE
 		

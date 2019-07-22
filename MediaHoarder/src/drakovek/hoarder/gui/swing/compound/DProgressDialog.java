@@ -94,7 +94,7 @@ public class DProgressDialog extends BaseGUI
 	public void startProgressDialog(DFrame ownerFrame, final String titleID)
 	{
 		cancelled = false;
-		dialog = new DDialog(ownerFrame, getProgressPanel(), getSettings().getLanuageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 12 * getSettings().getFontSize());
+		dialog = new DDialog(ownerFrame, getProgressPanel(), getSettings().getLanguageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 12 * getSettings().getFontSize());
 		dialog.setResizable(false);
 		dialog.setVisible(true);
 		
@@ -110,7 +110,7 @@ public class DProgressDialog extends BaseGUI
 	public void startProgressDialog(DDialog ownerDialog, final String titleID)
 	{
 		cancelled = false;
-		dialog = new DDialog(ownerDialog, getProgressPanel(), getSettings().getLanuageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 12 * getSettings().getFontSize());
+		dialog = new DDialog(ownerDialog, getProgressPanel(), getSettings().getLanguageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 12 * getSettings().getFontSize());
 		dialog.setResizable(false);
 		dialog.setVisible(true);
 		

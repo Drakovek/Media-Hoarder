@@ -232,6 +232,13 @@ public class DefaultLanguage
 	public static final String NO_DIRECTORY = "no_directory"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the text used to show that DMF Directories have been properly loaded
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DIRECTORIES_LOADED = "directories_loaded"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the title of the progress dialog for loading DMFs
 	 * 
 	 * @since 2.0
@@ -606,11 +613,18 @@ public class DefaultLanguage
 	public static final String OFFSET = "offset"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Open Without Indexes" menu item in the viewer GUI
+	 * Language variable for the "Reload DMFs" menu item in the viewer GUI
+	 *
+	 * @since 2.0
+	 */
+	public static final String RELOAD_DMFS = "reload_dmfs"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Reload DMFs Without Indexes" menu item in the viewer GUI
 	 * 
 	 * @since 2.0
 	 */
-	public static final String OPEN_WITHOUT_INDEXES = "open_without_indexes"; //$NON-NLS-1$
+	public static final String RELOAD_WITHOUT_INDEXES = "reload_without_indexes"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Use Thumbnails" menu item in the viewer GUI.
@@ -754,6 +768,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FONT_SIZE, "^Size")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FONT_PREVIEW, "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG?! the quick brown fox jumps over the lazy dog. 0123456789")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORY, "(No Directory Selected)")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DIRECTORIES_LOADED, "(DMF Directories Loaded)")); //$NON-NLS-1$
 		
 		//DMF LOADING
 		languageFile.add(new String());
@@ -835,7 +850,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(PREVIOUS, "< ^Previous")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OFFSET, " - OFF: ")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(OPEN_WITHOUT_INDEXES, "Open ^Without Indexes")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RELOAD_DMFS, "^Reload DMFs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RELOAD_WITHOUT_INDEXES, "Reload DMFs ^Without Indexes")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(USE_THUMBNAILS, "^Use Thumbnails")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORT, "^Sort")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORT_TIME, "Sort by ^Time Published")); //$NON-NLS-1$

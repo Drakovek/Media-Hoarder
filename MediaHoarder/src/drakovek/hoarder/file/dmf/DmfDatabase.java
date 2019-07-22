@@ -204,7 +204,7 @@ public class DmfDatabase
 	/**
 	 * Loads the information from all DMFs in a given folder and in its sub-directories.
 	 * 
-	 * @param dmfFolder Input Folder
+	 * @param dmfDirectories Directories with DMFs to load
 	 * @param progressDialog DProgress dialog to show progress of loading DMFs
 	 * @param useIndexes Whether to use index files to load DmfDirectory object
 	 * @param saveIndexes Whether to save DmfDirectories as index files
@@ -213,13 +213,13 @@ public class DmfDatabase
 	 * @version 2.0
 	 * @since 2.0
 	 */
-	public boolean loadDMFs(File dmfFolder, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
+	public boolean loadDMFs(final ArrayList<File> dmfDirectories, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
 	{
 		clearDMFs();
 		progressDialog.setProcessLabel(DefaultLanguage.GETTING_FOLDERS);
-		progressDialog.setDetailLabel(dmfFolder.getName(), false);
+		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
-		ArrayList<File> dmfFolders = getDmfFolders(dmfFolder);
+		ArrayList<File> dmfFolders = getDmfFolders(dmfDirectories);
 		DmfIndexing indexing = new DmfIndexing();
 		
 		for(int i = 0; !progressDialog.isCancelled() && i < dmfFolders.size(); i++)
@@ -248,13 +248,49 @@ public class DmfDatabase
 	}//METHOD
 	
 	/**
+	 * Returns a list of all the directories and sub-directories within given folders that contain DMF files.
+	 * 
+	 * @param dmfDirectories Given Directories
+	 * @return List of Directories containing DMFs
+	 * @since 2.0
+	 */
+	private static ArrayList<File> getDmfFolders(final ArrayList<File> dmfDirectories)
+	{
+		ArrayList<File> directories = new ArrayList<>();
+		for(File directory: dmfDirectories)
+		{
+			directories.addAll(getDmfFolders(directory));
+			
+		}//FOR
+		
+		//REMOVE DUPLICATES
+		for(int i = 0; i < directories.size(); i++)
+		{
+			for(int k = i + 1; k < directories.size(); k++)
+			{
+				if(directories.get(i).equals(directories.get(k)))
+				{
+					directories.remove(k);
+					k--;
+					
+				}//IF
+				
+			}//FOR
+			
+		}//FOR
+		
+		return FileSort.sortFiles(directories);
+		
+	}//METHOD
+	
+	/**
 	 * Returns a list of all the directories and sub-directories within a given folder that contain DMF files.
 	 * 
 	 * @param inputFolder Given Directory
 	 * @return List of Directories containing DMFs
 	 * @since 2.0
 	 */
-	private static ArrayList<File> getDmfFolders(File inputFolder)
+	private static ArrayList<File> getDmfFolders(final File inputFolder)
 	{
 		if(inputFolder != null && inputFolder.isDirectory())
 		{
