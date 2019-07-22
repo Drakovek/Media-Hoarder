@@ -13,11 +13,10 @@ import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
+import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
-import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
-import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
@@ -31,14 +30,14 @@ import drakovek.hoarder.processing.StringMethods;
  * @version 2.0
  * @since 2.0
  */
-public class SettingsGUI extends BaseGUI
+public class SettingsGUI extends FrameGUI
 {
 	/**
 	 * List of action/language IDs for the possible settings modes the user can choose.
 	 * 
 	 * @since 2.0
 	 */
-	private static final String[] settingsEvents = {DefaultLanguage.LANGUAGE, DefaultLanguage.THEME, DefaultLanguage.FONT};
+	private static final String[] settingsEvents = {DefaultLanguage.LANGUAGE, DefaultLanguage.DMF_DIRECTORIES, DefaultLanguage.THEME, DefaultLanguage.FONT};
 	
 	/**
 	 * FrameGUI that opened the settings GUI
@@ -53,13 +52,6 @@ public class SettingsGUI extends BaseGUI
 	 * @since 2.0
 	 */
 	private SettingsModeGUI modeGUI;
-	
-	/**
-	 * The main frame for the settings GUI
-	 * 
-	 * @since 2.0
-	 */
-	private DFrame frame;
 	
 	/**
 	 * Panel to contain GUI for changing settings
@@ -99,25 +91,32 @@ public class SettingsGUI extends BaseGUI
 	/**
 	 * Initializes the SettingsGUI
 	 * 
-	 * @param ownerGUI FrameGUI that opened the settings GUI
 	 * @param settings Program Settings
+	 * @param dmfHandler Program's DmfHandler
+	 * @param ownerGUI FrameGUI that opened the settings GUI, if applicable
 	 * @since 2.0
 	 */
-	public SettingsGUI(FrameGUI ownerGUI, DSettings settings)
+	public SettingsGUI(DSettings settings, DmfHandler dmfHandler, FrameGUI ownerGUI)
 	{
-		super(settings);
+		super(settings, dmfHandler, DefaultLanguage.SETTINGS);
 		this.ownerGUI = ownerGUI;
-		ownerGUI.getFrame().setAllowExit(false);
-		frame = new DFrame(settings, getTitle(DefaultLanguage.SETTINGS));
-		frame.setSizeRestrictive(getSettings().getFontSize() * 40, getSettings().getFontSize() * 30);
-		frame.interceptFrameClose(this);
+		if(ownerGUI != null)
+		{
+			ownerGUI.getFrame().setAllowExit(false);
+			
+		}//IF
+		
+		getFrame().setSizeRestrictive(getSettings().getFontSize() * 40, getSettings().getFontSize() * 30);
+		getFrame().interceptFrameClose(this);
 		modeGUI = null;
 		changed = false;
 		
 		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
+		buttonPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
 		buttonPanel.add(new DButton(this, DefaultLanguage.CLOSE));
+		applyButton = new DButton(this, DefaultLanguage.APPLY);
+		buttonPanel.add(applyButton);
 		saveButton = new DButton(this, DefaultLanguage.SAVE);
 		buttonPanel.add(saveButton);
 		
@@ -160,11 +159,6 @@ public class SettingsGUI extends BaseGUI
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new GridLayout(1, 1));
 		
-		JPanel applyPanel = new JPanel();
-		applyButton = new DButton(this, DefaultLanguage.APPLY);
-		applyPanel.setLayout(new BorderLayout());
-		applyPanel.add(applyButton, BorderLayout.EAST);
-		
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridBagLayout());
 		GridBagConstraints centerCST = new GridBagConstraints();
@@ -178,10 +172,6 @@ public class SettingsGUI extends BaseGUI
 		centerCST.gridx = 2;		centerCST.gridheight = 1;
 		centerCST.weightx = 1;
 		centerPanel.add(contentPanel, centerCST);
-		centerCST.gridy = 1;		centerCST.weighty = 0;
-		centerPanel.add(getVerticalSpace(), centerCST);
-		centerCST.gridy = 2;
-		centerPanel.add(applyPanel, centerCST);
 		
 		//CREATE TOP PANEL
 		DLabel settingsLabel = new DLabel(this, settingsList, DefaultLanguage.SETTINGS);
@@ -189,34 +179,50 @@ public class SettingsGUI extends BaseGUI
 		JPanel topPanel = getVerticalStack(settingsLabel, new JSeparator(SwingConstants.HORIZONTAL));
 		
 		//FINALIZE FRAME
-		frame.getContentPane().add(getSpacedPanel(centerPanel), BorderLayout.CENTER);
-		frame.getContentPane().add(this.getSpacedPanel(topPanel, 1, 0, true, false, true, true), BorderLayout.NORTH);
-		frame.getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
+		getFrame().getContentPane().add(getSpacedPanel(centerPanel), BorderLayout.CENTER);
+		getFrame().getContentPane().add(this.getSpacedPanel(topPanel, 1, 0, true, false, true, true), BorderLayout.NORTH);
+		getFrame().getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		settingsList.setSelectedIndex(0);
-		frame.packRestricted();
-		frame.setLocationRelativeTo(ownerGUI.getFrame());
-		frame.setVisible(true);
+		getFrame().packRestricted();
+		
+		if(ownerGUI != null)
+		{
+			getFrame().setLocationRelativeTo(ownerGUI.getFrame());
+			
+		}//IF
+		else
+		{
+			getFrame().setLocationRelativeTo(null);
+			
+		}//ELSE
+		getFrame().setVisible(true);
 
 		
 	}//CONSTRUCTOR
 	
 	/**
-	 * Disposes of the main settings frame.
-	 * 
-	 * @since 2.0
+	 * Handles the finishing operations of the SettingsGUI, closing the frame, and restarting the program if necessary.
 	 */
-	private void dispose()
+	private void finish()
 	{
-		frame.dispose();
-		frame = null;
-		ownerGUI.getFrame().setAllowExit(true);
+		dispose();
 		
 		if(changed)
 		{
-			ownerGUI.dispose();
-			Start.startGUI(getSettings(), ownerGUI.getDmfHandler());
+			if(ownerGUI != null)
+			{
+				ownerGUI.dispose();
+				
+			}//IF
+			
+			Start.startGUI(getSettings(), getDmfHandler());
 			
 		}//IF
+		else if(ownerGUI != null)
+		{
+			ownerGUI.getFrame().setAllowExit(true);
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -234,6 +240,9 @@ public class SettingsGUI extends BaseGUI
 			{
 				case DefaultLanguage.LANGUAGE:
 					modeGUI = new LanguageSettingsGUI(this);
+					break;
+				case DefaultLanguage.DMF_DIRECTORIES:
+					modeGUI = new DirectorySettingsGUI(this);
 					break;
 				case DefaultLanguage.THEME:
 					modeGUI = new ThemeSettingsGUI(this);
@@ -312,11 +321,17 @@ public class SettingsGUI extends BaseGUI
 				apply();
 			case DCloseListener.FRAME_CLOSE_EVENT:
 			case DefaultLanguage.CLOSE:
-				dispose();
+				finish();
 				break;
 		
 		}//SWITCH
 		
 	}//METHOD
+
+	@Override
+	public void enableAll(){}
+
+	@Override
+	public void disableAll(){}
 	
 }//CLASS

@@ -52,6 +52,13 @@ public class DSettings
 	private static final String UPDATE_INDEXES = "update_indexes"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for user's DMF directories
+	 * 
+	 * @since 2.0
+	 */
+	private static final String DMF_DIRECTORY = "dmf_directory"; //$NON-NLS-1$
+	
+	/**
 	 * INI Variable for the space multiplier.
 	 * 
 	 * @since 2.0
@@ -228,6 +235,13 @@ public class DSettings
 	 * @since 2.0
 	 */
 	private boolean updateIndexes;
+	
+	/**
+	 * ArrayList containing the user's selected directories for storing and loading DMFs
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<File> dmfDirectories;
 	
 	/**
 	 * Multiplied by fontSize to get the default space between Swing components.
@@ -423,6 +437,7 @@ public class DSettings
 		//DMF
 		useIndexes = true;
 		updateIndexes = true;
+		dmfDirectories = new ArrayList<>();
 		
 		//SWING
 		spaceMultiplier = 0.5;
@@ -470,6 +485,7 @@ public class DSettings
 			languageName = ParseINI.getStringValue(null, LANGUAGE_NAME, settingsInfo, languageName);
 			
 			//DMF
+			dmfDirectories = ParseINI.getFileValues(null, DMF_DIRECTORY, settingsInfo, new ArrayList<File>());
 			useIndexes = ParseINI.getBooleanValue(null, USE_INDEXES, settingsInfo, useIndexes);
 			updateIndexes = ParseINI.getBooleanValue(null, UPDATE_INDEXES, settingsInfo, updateIndexes);
 			
@@ -532,8 +548,14 @@ public class DSettings
 		//DMF
 		settingsInfo.add(new String());
 		settingsInfo.add("[DMF]"); //$NON-NLS-1$
+		for(File dmfDirectory: dmfDirectories)
+		{
+			settingsInfo.add(ParseINI.getAssignmentString(DMF_DIRECTORY, dmfDirectory));
+			
+		}//FOR
 		settingsInfo.add(ParseINI.getAssignmentString(USE_INDEXES, useIndexes));
 		settingsInfo.add(ParseINI.getAssignmentString(UPDATE_INDEXES, updateIndexes));
+		
 		
 		//DOWNLOAD
 		settingsInfo.add(new String());
@@ -686,6 +708,33 @@ public class DSettings
 		return updateIndexes;
 		
 	}//METHOD
+	
+	/**
+	 * Sets the DMF directories.
+	 * 
+	 * @param dmfDirectories DMF Directories
+	 * @since 2.0
+	 */
+	public void setDmfDirectories(final ArrayList<File> dmfDirectories)
+	{
+		this.dmfDirectories = dmfDirectories;
+		
+	}//METHOD
+	
+	/**
+	 * Returns list of DMF Directories.
+	 * 
+	 * @return DMF Directories
+	 * @since 2.0
+	 */
+	public ArrayList<File> getDmfDirectories()
+	{
+		ArrayList<File> files = new ArrayList<>();
+		files.addAll(dmfDirectories);
+		return files;
+		
+	}//METHOD
+	
 	/**
 	 * Gets the Space Multiplier
 	 * 

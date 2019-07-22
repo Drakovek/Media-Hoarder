@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
+import drakovek.hoarder.gui.settings.SettingsGUI;
 
 /**
  * Main class for starting the Media Hoarder Program
@@ -83,7 +84,17 @@ public class Start
 
         }//CATCH (Exception e)
         
-		new ModeContainerGUI(settings, dmfHandler);
+        
+        if(settings.getDmfDirectories().size() > 0)
+        {
+        	new ModeContainerGUI(settings, dmfHandler);
+        	
+        }//IF
+        else
+        {
+        	new SettingsGUI(settings, dmfHandler, null);
+        	
+        }//ELSE
 		
 	}//METHOD
 	

@@ -125,7 +125,7 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	@Override
 	public void event(String id, int value)
 	{
-		new SettingsGUI(ownerGUI, getSettings());
+		new SettingsGUI(getSettings(), ownerGUI.getDmfHandler(), ownerGUI);
 		
 	}//METHOD
 

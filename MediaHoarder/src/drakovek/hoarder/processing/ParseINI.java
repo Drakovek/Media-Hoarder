@@ -3,6 +3,8 @@ package drakovek.hoarder.processing;
 import java.io.File;
 import java.util.ArrayList;
 
+import drakovek.hoarder.processing.sort.FileSort;
+
 /**
  * Gets Information from .ini formatted text
  *
@@ -47,62 +49,86 @@ public class ParseINI
 	}//METHOD
 	
 	/**
-	 * Gets a String value for a given variable under a given header from .ini formatted text.
+	 * Gets String values for a given variable under a given header from .ini formatted text.
 	 * 
 	 * @param header INI Header
 	 * @param variable INI Variable
 	 * @param iniText INI Formatted Text
-	 * @return String Value of variable
+	 * @return String Values of variable
 	 * @since 2.0
 	 */
-	private static String getValue(final String header, final String variable, final ArrayList<String> iniText)
+	private static ArrayList<String> getValues(final String header, final String variable, final ArrayList<String> iniText)
 	{
-		String value = null;
+		ArrayList<String> values = new ArrayList<>();
 		if(header != null && header.length() > 0)
 		{
-			value = getValue(variable, getSection(header, iniText));
+			values = getValues(variable, getSection(header, iniText));
 			
 		}//IF
 		else
 		{
-			value = getValue(variable, iniText);
+			values = getValues(variable, iniText);
 			
 		}//ELSE
 		
-		return value;
+		return values;
 		
 	}//METHOD
 	
 	/**
-	 * Gets a String value for a given variable from .ini formatted text.
+	 * Gets String values for a given variable from .ini formatted text.
 	 * 
 	 * @param variable INI Variable
 	 * @param iniText INI Formatted Text
-	 * @return String Value of variable
+	 * @return String Values of variable
 	 * @since 2.0
 	 */
-	private static String getValue(final String variable, final ArrayList<String> iniText)
+	private static ArrayList<String> getValues(final String variable, final ArrayList<String> iniText)
 	{
-		int lineNum;
-		String returnString = null;
-		for(lineNum = 0; lineNum < iniText.size() && !iniText.get(lineNum).startsWith(variable + '='); lineNum++);
-		
-		if(lineNum < iniText.size())
+		ArrayList<String> returnValues = new ArrayList<>();
+		for(int i = 0; i < iniText.size(); i++)
 		{
-			int charNum = iniText.get(lineNum).indexOf('=') + 1;
-			if(charNum < iniText.get(lineNum).length())
+			if(iniText.get(i).startsWith(variable + '='))
 			{
-				returnString = iniText.get(lineNum).substring(charNum);
-			
+				int charNum = iniText.get(i).indexOf('=') + 1;
+				if(charNum < iniText.get(i).length())
+				{
+					returnValues.add(iniText.get(i).substring(charNum));
+				
+				}//IF
+				
 			}//IF
 			
-		}//IF
+		}//FOR
 		
-		return returnString;
+		return returnValues;
 		
 	}//METHOD
 	
 	/**
+	 * Gets String values for a given variable under a given header from .ini formatted text.
+	 * 
+	 * @param header INI Header
+	 * @param variable INI Variable
+	 * @param iniText INI Formatted Text
+	 * @param defaultValue Value returned if no relevant value is found
+	 * @return String Values of variable
+	 * @since 2.0
+	 */
+    public static ArrayList<String> getStringValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<String> defaultValue)
+    {
+    	ArrayList<String> values = getValues(header, variable, iniText);
+    	if(values.size() == 0)
+    	{
+    		return defaultValue;
+    	
+    	}//IF
+    	
+    	return values;
+    	
+    }//METHOD
+    
+    /**
 	 * Gets a String value for a given variable under a given header from .ini formatted text.
 	 * 
 	 * @param header INI Header
@@ -114,14 +140,51 @@ public class ParseINI
 	 */
     public static String getStringValue(final String header, final String variable, final ArrayList<String> iniText, final String defaultValue)
     {
-    	String value = getValue(header, variable, iniText);
-    	if(value == null)
+    	ArrayList<String> values = getValues(header, variable, iniText);
+    	if(values.size() == 0)
     	{
     		return defaultValue;
     	
     	}//IF
     	
-    	return value;
+    	return values.get(0);
+    	
+    }//METHOD
+    
+	/**
+	 * Gets File values for a given variable under a given header from .ini formatted text.
+	 * 
+	 * @param header INI Header
+	 * @param variable INI Variable
+	 * @param iniText INI Formatted Text
+	 * @param defaultValue Value returned if no relevant value is found
+	 * @return File Values of variable
+	 * @since 2.0
+	 */
+    public static ArrayList<File> getFileValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<File> defaultValue)
+    {
+    	ArrayList<String> values = getValues(header, variable, iniText);
+    	
+    	//REMOVE INVALID FILES
+    	ArrayList<File> files = new ArrayList<>();
+    	for(int i = 0; i < values.size(); i++)
+    	{
+    		File file = new File(values.get(i));
+    		if(file.exists())
+    		{
+    			files.add(file);
+    			
+    		}//IF
+    		
+    	}//FOR
+    		
+    	if(files.size() == 0)
+    	{
+    		return defaultValue;
+    	
+    	}//IF
+    
+    	return FileSort.sortFiles(files);
     	
     }//METHOD
     
@@ -132,26 +195,50 @@ public class ParseINI
 	 * @param variable INI Variable
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
-	 * @return String Value of variable
+	 * @return File Value of variable
 	 * @since 2.0
 	 */
     public static File getFileValue(final String header, final String variable, final ArrayList<String> iniText, final File defaultValue)
     {
-    	String value = getValue(header, variable, iniText);
-    	if(value == null)
+    	ArrayList<File> files = getFileValues(header, variable, iniText, new ArrayList<File>());
+    	
+    	if(files.size() == 0)
+    	{
+    		return defaultValue;
+    		
+    	}//IF
+    	
+    	return files.get(0);
+    	
+    }//METHOD
+    
+	/**
+	 * Gets boolean values for a given variable under a given header from .ini formatted text.
+	 * 
+	 * @param header INI Header
+	 * @param variable INI Variable
+	 * @param iniText INI Formatted Text
+	 * @param defaultValue Value returned if no relevant value is found
+	 * @return Boolean Values of variable
+	 * @since 2.0
+	 */
+    public static ArrayList<Boolean> getBooleanValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<Boolean> defaultValue)
+    {
+    	ArrayList<String> values = getValues(header, variable, iniText);
+    	ArrayList<Boolean> booleans = new ArrayList<>();
+    	for(String value: values)
+    	{
+    		booleans.add(Boolean.valueOf(Boolean.toString(true).toLowerCase().equals(value.toLowerCase())));
+    		
+    	}//FOR
+    	
+    	if(booleans.size() == 0)
     	{
     		return defaultValue;
     	
     	}//IF
     	
-    	File file = new File(value);
-    	if(file.exists())
-    	{
-    		return file;
-    		
-    	}//IF
-    	
-    	return defaultValue;
+    	return booleans;
     	
     }//METHOD
     
@@ -162,19 +249,20 @@ public class ParseINI
 	 * @param variable INI Variable
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
-	 * @return String Value of variable
+	 * @return Boolean Value of variable
 	 * @since 2.0
 	 */
     public static boolean getBooleanValue(final String header, final String variable, final ArrayList<String> iniText, final boolean defaultValue)
     {
-    	String value = getValue(header, variable, iniText);
-    	if(value == null)
+    	ArrayList<Boolean> values = getBooleanValues(header, variable, iniText, new ArrayList<Boolean>());
+    	
+    	if(values.size() == 0)
     	{
     		return defaultValue;
-    	
+    		
     	}//IF
     	
-    	return Boolean.toString(true).toLowerCase().equals(value.toLowerCase());
+    	return values.get(0).booleanValue();
     	
     }//METHOD
     
@@ -190,12 +278,14 @@ public class ParseINI
 	 */
     public static ArrayList<String> getStringListValue(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<String> defaultValue)
     {
-    	String value = getValue(variable, iniText);
-    	if(value == null)
+    	ArrayList<String> values = getValues(header, variable, iniText);
+    	if(values.size() == 0)
         {
     		return defaultValue;
     		
         }//IF
+    	
+    	String value = values.get(0);
     	
     	ArrayList<String> returnList = new ArrayList<>();
     	int end;
@@ -224,6 +314,43 @@ public class ParseINI
     }//METHOD
     
 	/**
+	 * Gets int values for a given variable under a given header from .ini formatted text.
+	 * 
+	 * @param header INI Header
+	 * @param variable INI Variable
+	 * @param iniText INI Formatted Text
+	 * @param defaultValue Value returned if no relevant value is found
+	 * @return int Values of variable
+	 * @since 2.0
+	 */
+    public static ArrayList<Integer> getIntValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<Integer> defaultValue)
+    {
+    	ArrayList<String> values = getValues(header, variable, iniText);
+    	ArrayList<Integer> ints = new ArrayList<>();
+    	
+    	for(String value: values)
+    	{
+    		try
+    		{
+    			int intValue = Integer.parseInt(value);
+    			ints.add(Integer.valueOf(intValue));
+    			
+    		}//TRY
+    		catch(Exception e){}
+    		
+    	}//FOR
+    	
+    	if(ints.size() == 0)
+    	{
+    		return defaultValue;
+    		
+    	}//IF
+    	
+    	return ints;
+    	
+    }//METHOD
+    
+	/**
 	 * Gets an int value for a given variable under a given header from .ini formatted text.
 	 * 
 	 * @param header INI Header
@@ -235,17 +362,52 @@ public class ParseINI
 	 */
     public static int getIntValue(final String header, final String variable, final ArrayList<String> iniText, final int defaultValue)
     {
-    	try
-    	{
-    		int value = Integer.parseInt(getValue(variable, iniText));
-    		return value;
-    		
-    	}//TRY
-    	catch(Exception e)
+    	ArrayList<Integer> ints = getIntValues(header, variable, iniText, new ArrayList<Integer>());
+    	
+    	if(ints.size() == 0)
     	{
     		return defaultValue;
     		
-    	}//CATCH
+    	}//IF
+    	
+    	return ints.get(0).intValue();
+    	
+    }//METHOD
+    
+	/**
+	 * Gets double values for a given variable under a given header from .ini formatted text.
+	 * 
+	 * @param header INI Header
+	 * @param variable INI Variable
+	 * @param iniText INI Formatted Text
+	 * @param defaultValue Value returned if no relevant value is found
+	 * @return Double Values of variable
+	 * @since 2.0
+	 */
+    public static ArrayList<Double> getDoubleValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<Double> defaultValue)
+    {
+    	ArrayList<String> values = getValues(header, variable, iniText);
+    	ArrayList<Double> doubles = new ArrayList<>();
+    	
+    	for(String value: values)
+    	{
+    		try
+    		{
+    			double doubleValue = Double.parseDouble(value);
+    			doubles.add(Double.valueOf(doubleValue));
+    			
+    		}//TRY
+    		catch(Exception e){}
+    		
+    	}//FOR
+    	
+    	if(doubles.size() == 0)
+    	{
+    		return defaultValue;
+    		
+    	}//IF
+    	
+    	return doubles;
     	
     }//METHOD
     
@@ -256,23 +418,20 @@ public class ParseINI
 	 * @param variable INI Variable
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
-	 * @return int Value of variable
+	 * @return Doubel Value of variable
 	 * @since 2.0
 	 */
     public static double getDoubleValue(final String header, final String variable, final ArrayList<String> iniText, final double defaultValue)
     {
-    	try
-    	{
-    		double value = Double.parseDouble(getValue(variable, iniText));
-    		return value;
-    		
-    	}//TRY
-    	catch(Exception e)
+    	ArrayList<Double> doubles = getDoubleValues(header, variable, iniText, new ArrayList<Double>());
+    	
+    	if(doubles.size() == 0)
     	{
     		return defaultValue;
     		
-    	}//CATCH
+    	}//IF
     	
+    	return doubles.get(0).doubleValue();
     }//METHOD
     
     /**

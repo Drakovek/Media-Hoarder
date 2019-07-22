@@ -43,7 +43,7 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 	private String theme;
 	
 	/**
-	 * Initializes the ThemeSettingsGUI class
+	 * Initializes the ThemeSettingsGUI class.
 	 * 
 	 * @param settingsGUI Parent SettingsGUI
 	 * @since 2.0

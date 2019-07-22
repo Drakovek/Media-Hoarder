@@ -362,7 +362,7 @@ public class DmfDatabase
 				
 				if(currentIndex != -1)
 				{
-					sequenceList.add(new Integer(currentIndex));
+					sequenceList.add(Integer.valueOf(currentIndex));
 					
 				}//IF
 				
