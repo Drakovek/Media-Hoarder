@@ -23,16 +23,16 @@ public class DSwingWorker extends SwingWorker<int[], Void>
 	 * 
 	 * @since 2.0
 	 */
-	private Worker worker;
+	private DWorker worker;
 	
 	/**
 	 * Initializes the DSwingWorker class.
 	 * 
-	 * @param worker Object implementing Worker interface
+	 * @param worker Object implementing DWorker interface
 	 * @param id ID of the work
 	 * @since 2.0
 	 */
-	public DSwingWorker(Worker worker, final String id)
+	public DSwingWorker(DWorker worker, final String id)
 	{
 		this.worker = worker;
 		this.id = id;

@@ -122,7 +122,7 @@ public class DProgressDialog extends BaseGUI
 	 * @return Progress Panel
 	 * @since 2.0
 	 */
-	public JPanel getProgressPanel()
+	private JPanel getProgressPanel()
 	{
 		//LABEL PANEL
 		JPanel labelPanel = new JPanel();

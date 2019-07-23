@@ -7,7 +7,7 @@ package drakovek.hoarder.work;
  * @version 2.0
  * @since 2.0
  */
-public interface Worker
+public interface DWorker
 {
 	/**
 	 * Called when a worker starts.

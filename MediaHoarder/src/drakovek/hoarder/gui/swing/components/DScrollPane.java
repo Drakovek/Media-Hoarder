@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.work.DRunnable;
-import drakovek.hoarder.work.Worker;
+import drakovek.hoarder.work.DWorker;
 
 /**
  * Default scroll pane object for the program.
@@ -16,7 +16,7 @@ import drakovek.hoarder.work.Worker;
  * @version 2.0
  * @since 1.0
  */
-public class DScrollPane extends JScrollPane implements Worker
+public class DScrollPane extends JScrollPane implements DWorker
 {
 	/**
 	 * SerialVersionUID

@@ -21,15 +21,15 @@ public class DRunnable implements Runnable
 	 * 
 	 * @since 2.0
 	 */
-	private Worker worker;
+	private DWorker worker;
 	
 	/**
 	 * Initializes the DRunnable object.
 	 * 
-	 * @param worker Object implementing Worker interface. Called when DRunnable runs
+	 * @param worker Object implementing DWorker interface. Called when DRunnable runs
 	 * @param id ID of the work type
 	 */
-	public DRunnable(Worker worker, final String id)
+	public DRunnable(DWorker worker, final String id)
 	{
 		this.id = id;
 		this.worker = worker;

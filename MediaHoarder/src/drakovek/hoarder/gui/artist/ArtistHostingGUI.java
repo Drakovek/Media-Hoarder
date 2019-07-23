@@ -30,10 +30,13 @@ import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DCheckDirectoriesGUI;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
+import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.web.ClientMethods;
 import drakovek.hoarder.web.Downloader;
+import drakovek.hoarder.work.DSwingWorker;
+import drakovek.hoarder.work.DWorker;
 
 /**
  * Creates GUI for downloading files from artist hosting websites.
@@ -42,7 +45,7 @@ import drakovek.hoarder.web.Downloader;
  * @version 2.0
  * @since 2.0
  */
-public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods
+public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods, DWorker
 {
 	/**
 	 * List of currently selected artists
@@ -136,6 +139,13 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private DList artistList;
 	
 	/**
+	 * Main progress dialog for the class
+	 * 
+	 * @since 2.0
+	 */
+	private DProgressDialog progressDialog;
+	
+	/**
 	 * Initializes the ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
@@ -151,6 +161,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		fileChooser = new DFileChooser(settings);
 		artistHandler = new ArtistHandler(settings, subtitleID);
 		downloader = new Downloader(this);
+		progressDialog = new DProgressDialog(settings);
 		this.loginGUI = loginGUI;
 		this.loginGUI.setLoginMethods(this);
 		
@@ -214,8 +225,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		removeButton = new DButton(this, DefaultLanguage.REMOVE);
 		addPanel.add(addButton);
 		addPanel.add(removeButton);
-		
-		
 		
 		//BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
@@ -344,11 +353,27 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			
 		}//IF
 		
-		//INITIALIZE DOWNLOAD PROCESS
+		//LOGIN AND CHECK IF DIRECTORY IS LISTED
 		if(ready)
 		{
 			new DCheckDirectoriesGUI(getSettings(), getDmfHandler(), getFrame(), getDirectory());
-			ready = initializeDownloadProcess();
+			
+			//LOGIN TO WEBSITE
+			if(ready && !isLoggedIn())
+			{
+				loginGUI.openLoginDialog(getFrame());
+				ready = isLoggedIn();
+				
+			}//IF
+			
+		}//IF
+		
+		if(ready)
+		{
+			progressDialog.setCancelled(false);
+			getFrame().setProcessRunning(true);
+			progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
+			(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
 			
 		}//IF
 		
@@ -376,31 +401,30 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 		if(ready)
 		{
-			ready = initializeDownloadProcess();
+			//LOGIN TO WEBSITE
+			if(ready && !isLoggedIn())
+			{
+				loginGUI.openLoginDialog(getFrame());
+				ready = isLoggedIn();
+				
+			}//IF
 			
 		}//IF
 		
 	}//METHOD
 	
 	/**
-	 * Sets up the object for starting a download process
+	 * Loads DMFs from the given DMF directories if they are not already loaded.
 	 * 
-	 * @return Whether to continue the downloading process
 	 * @since 2.0
 	 */
-	private boolean initializeDownloadProcess()
+	private void loadDMFs()
 	{
-		boolean ready = true;
-		
-		//LOGIN TO WEBSITE
-		if(ready && !isLoggedIn())
+		if(!getDmfHandler().isLoaded())
 		{
-			loginGUI.openLoginDialog(getFrame());
-			ready = isLoggedIn();
-			
-		}//IF
+			getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
 		
-		return ready;
+		}//IF
 		
 	}//METHOD
 	
@@ -425,34 +449,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	public File getCaptchaFolder()
 	{
 		return loginGUI.getCaptchaFolder();
-		
-	}//METHOD
-	
-	@Override
-	public void enableAll()
-	{
-		settingsBar.enableAll();
-		newButton.setEnabled(true);
-		allButton.setEnabled(true);
-		singleButton.setEnabled(true);
-		artistList.setEnabled(true);
-		addButton.setEnabled(true);
-		removeButton.setEnabled(true);
-		journalCheck.setEnabled(true);
-		
-	}//METHOD
-
-	@Override
-	public void disableAll()
-	{
-		settingsBar.disableAll();
-		newButton.setEnabled(false);
-		allButton.setEnabled(false);
-		singleButton.setEnabled(false);
-		artistList.setEnabled(false);
-		addButton.setEnabled(false);
-		removeButton.setEnabled(false);
-		journalCheck.setEnabled(false);
 		
 	}//METHOD
 
@@ -520,6 +516,34 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	}//METHOD
 	
 	@Override
+	public void enableAll()
+	{
+		settingsBar.enableAll();
+		newButton.setEnabled(true);
+		allButton.setEnabled(true);
+		singleButton.setEnabled(true);
+		artistList.setEnabled(true);
+		addButton.setEnabled(true);
+		removeButton.setEnabled(true);
+		journalCheck.setEnabled(true);
+		
+	}//METHOD
+
+	@Override
+	public void disableAll()
+	{
+		settingsBar.disableAll();
+		newButton.setEnabled(false);
+		allButton.setEnabled(false);
+		singleButton.setEnabled(false);
+		artistList.setEnabled(false);
+		addButton.setEnabled(false);
+		removeButton.setEnabled(false);
+		journalCheck.setEnabled(false);
+		
+	}//METHOD
+	
+	@Override
 	public void event(String id, int value)
 	{
 		switch(id)
@@ -559,6 +583,28 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		setNewClient();
 		getDownloader().getClient().setCookieManager(cookies);
 		getDownloader().setPage(url);
+		
+	}//METHOD
+	
+	@Override
+	public void run(final String id)
+	{
+		switch(id)
+		{
+			case DefaultLanguage.LOADING_DMFS:
+				loadDMFs();
+				break;
+			
+		}//SWITCH
+		
+	}//METHOD
+	
+	@Override
+	public void done(final String id)
+	{
+		progressDialog.setCancelled(false);
+		progressDialog.closeProgressDialog();
+		getFrame().setProcessRunning(false);
 		
 	}//METHOD
 	

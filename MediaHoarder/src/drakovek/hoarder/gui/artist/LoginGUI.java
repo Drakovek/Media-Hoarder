@@ -29,7 +29,7 @@ import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.media.ImageHandler;
 import drakovek.hoarder.media.ImageScrollPane;
 import drakovek.hoarder.work.DSwingWorker;
-import drakovek.hoarder.work.Worker;
+import drakovek.hoarder.work.DWorker;
 
 /**
  * GUI for remotely logging into a website.
@@ -38,7 +38,7 @@ import drakovek.hoarder.work.Worker;
  * @version 2.0
  * @since 2.0
  */
-public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
+public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 {
 	/**
 	 * Name of the captcha file to load before any actual captcha has been loaded from online.

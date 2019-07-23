@@ -53,7 +53,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	@Override
 	public boolean isLoggedIn()
 	{
-		return false;
+		return true;
 		
 	}//METHOD
 

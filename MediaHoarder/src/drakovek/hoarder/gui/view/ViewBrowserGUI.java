@@ -34,7 +34,7 @@ import drakovek.hoarder.media.PreviewButton;
 import drakovek.hoarder.processing.BooleanInt;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.work.DSwingWorker;
-import drakovek.hoarder.work.Worker;
+import drakovek.hoarder.work.DWorker;
 
 /**
  * Creates the browser GUI for viewing DMF Media.
@@ -43,7 +43,7 @@ import drakovek.hoarder.work.Worker;
  * @version 2.0
  * @since 2.0
  */
-public class ViewBrowserGUI extends FrameGUI implements Worker
+public class ViewBrowserGUI extends FrameGUI implements DWorker
 {
 	/**
 	 * Action for when pageText event occurs.
