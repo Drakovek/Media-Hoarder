@@ -239,6 +239,20 @@ public class DefaultLanguage
 	public static final String DIRECTORIES_LOADED = "directories_loaded"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the title of the dialog that shows that no DMF directories have been specified.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String NO_DIRECTORIES_TITLE = "no_directories_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variables for the messages of the dialog that shows that no DMF directories have been specified.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String[] NO_DIRECTORIES_MESSAGES = {"no_directories_message_1", "no_directories_message_2"}; //$NON-NLS-1$ //$NON-NLS-2$
+	
+	/**
 	 * Language variable for the title of the progress dialog for loading DMFs
 	 * 
 	 * @since 2.0
@@ -769,6 +783,9 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FONT_PREVIEW, "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG?! the quick brown fox jumps over the lazy dog. 0123456789")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORY, "(No Directory Selected)")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DIRECTORIES_LOADED, "(DMF Directories Loaded)")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORIES_TITLE, "No DMF Directories")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORIES_MESSAGES[0], "No DMF directories are specified.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORIES_MESSAGES[1], "Add directories to store/load DMFs.")); //$NON-NLS-1$
 		
 		//DMF LOADING
 		languageFile.add(new String());

@@ -280,5 +280,17 @@ public class DFrame extends JFrame
     	}//IF
     	
     }//METHOD
+    
+    /**
+     * Returns whether the frame is allowed to close.
+     * 
+     * @return Whether the frame is allowed to close
+     * @since 2.0
+     */
+    public boolean getAllowExit()
+    {
+    	return allowExit;
+    	
+    }//METHOD
 	
 }//CLASS

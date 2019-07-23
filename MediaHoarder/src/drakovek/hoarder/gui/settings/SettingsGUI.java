@@ -37,7 +37,7 @@ public class SettingsGUI extends FrameGUI
 	 * 
 	 * @since 2.0
 	 */
-	private static final String[] settingsEvents = {DefaultLanguage.LANGUAGE, DefaultLanguage.DMF_DIRECTORIES, DefaultLanguage.THEME, DefaultLanguage.FONT};
+	private static final String[] SETTINGS_EVENTS = {DefaultLanguage.LANGUAGE, DefaultLanguage.DMF_DIRECTORIES, DefaultLanguage.THEME, DefaultLanguage.FONT};
 	
 	/**
 	 * FrameGUI that opened the settings GUI
@@ -137,10 +137,10 @@ public class SettingsGUI extends FrameGUI
 		bottomPanel.add(new JSeparator(SwingConstants.HORIZONTAL), bottomCST);
 		
 		//CREATE MODE PANEL
-		String[] listData = new String[settingsEvents.length];
+		String[] listData = new String[SETTINGS_EVENTS.length];
 		for(int i = 0; i < listData.length; i++)
 		{
-			listData[i] = settings.getLanguageText(settingsEvents[i]) + StringMethods.extendCharacter(' ', 5);
+			listData[i] = settings.getLanguageText(SETTINGS_EVENTS[i]) + StringMethods.extendCharacter(' ', 5);
 		
 		}//FOR
 		
@@ -199,30 +199,57 @@ public class SettingsGUI extends FrameGUI
 
 		
 	}//CONSTRUCTOR
-	
+
 	/**
-	 * Handles the finishing operations of the SettingsGUI, closing the frame, and restarting the program if necessary.
+	 * Sets the current setting mode of the settings GUI.
+	 * 
+	 * @param setting Language ID of the setting mode to select
+	 * @since 2.0
 	 */
-	private void finish()
+	public void setSettingMode(final String setting)
 	{
-		dispose();
-		
-		if(changed)
+		for(int i = 0; i < SETTINGS_EVENTS.length; i++)
 		{
-			if(ownerGUI != null)
+			if(SETTINGS_EVENTS[i].equals(setting))
 			{
-				ownerGUI.dispose();
+				settingsList.setSelectedIndex(i);
+				break;
 				
 			}//IF
 			
-			Start.startGUI(getSettings(), getDmfHandler());
+		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Handles the finishing operations of the SettingsGUI, closing the frame, and restarting the program if necessary.
+	 * 
+	 * @since 2.0
+	 */
+	private void finish()
+	{
+		if(getFrame().getAllowExit())
+		{
+			dispose();
+			
+			if(changed)
+			{
+				if(ownerGUI != null)
+				{
+					ownerGUI.dispose();
+					
+				}//IF
+				
+				Start.startGUI(getSettings(), getDmfHandler());
+				
+			}//IF
+			else if(ownerGUI != null)
+			{
+				ownerGUI.getFrame().setAllowExit(true);
+				
+			}//ELSE
 			
 		}//IF
-		else if(ownerGUI != null)
-		{
-			ownerGUI.getFrame().setAllowExit(true);
-			
-		}//ELSE
 		
 	}//METHOD
 	
@@ -236,7 +263,7 @@ public class SettingsGUI extends FrameGUI
 		int selected = settingsList.getSelectedIndex();
 		if(selected != -1)
 		{
-			switch(settingsEvents[selected])
+			switch(SETTINGS_EVENTS[selected])
 			{
 				case DefaultLanguage.LANGUAGE:
 					modeGUI = new LanguageSettingsGUI(this);
