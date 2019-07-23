@@ -492,6 +492,13 @@ public class DefaultLanguage
 	public static final String[] WRONG_FOLDER_MESSAGES = {"wrong_folder_message_1", "wrong_folder_message_2", "wrong_folder_message_3"};  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 	
 	/**
+	 * Language variable for the dialog in the artist hosting GUI for showing that no artists are selected.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String NO_ARTISTS = "no_artists"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Username" label in the login GUI.
 	 * 
 	 * @since 2.0
@@ -567,6 +574,13 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String RUNNING = "running"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for dialogs showing that no directory is selected
+	 * 
+	 * @since 2.0
+	 */
+	public static final String NO_DIRECTORY_DIALOG = "no_directory_dialog"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of the login GUI when logging into DeviantArt.
@@ -759,6 +773,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCELING, "Canceling...")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RUNNING, "Running...")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORY_DIALOG, "No Directory Selected")); //$NON-NLS-1$
 		
 		//FRAME
 		languageFile.add(new String());
@@ -842,6 +857,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[0], "Some of the listed artists don't have folders.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[1], "You may be using the wrong directory.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[2], "Use this directory?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NO_ARTISTS, "No Artists Selected")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_LOGIN, "DeviantArt Login")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_LOGIN, "Fur Affinity Login")); //$NON-NLS-1$

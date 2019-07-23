@@ -326,9 +326,32 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 		disableAll();
 		captchaText.setText(new String());
 		progressDialog.setProcessLabel(DefaultLanguage.LOAD_CAPTCHA);
+		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
 		progressDialog.startProgressDialog(dialog, DefaultLanguage.LOAD_CAPTCHA_TITLE);
 		(new DSwingWorker(this, DefaultLanguage.CAPTCHA)).execute();
+		
+	}//METHOD
+	
+	/**
+	 * Sets the image captcha.
+	 * 
+	 * @since 2.0
+	 */
+	private void setCaptchaImage()
+	{
+		File file = loginMethods.getCaptcha();
+		
+		if(file != null && file.exists())
+		{
+			imageScroll.setFile(file);
+			
+		}//IF
+		else
+		{
+			imageScroll.setFile(new File(captchaFolder, TEMP_CAPTCHA_FILE));
+		
+		}//ELSE
 		
 	}//METHOD
 	
@@ -420,7 +443,7 @@ public class LoginGUI extends BaseGUI implements Worker, ComponentDisabler
 		switch(id)
 		{
 			case DefaultLanguage.CAPTCHA:
-				imageScroll.setFile(loginMethods.getCaptcha());
+				setCaptchaImage();
 				break;
 			case DefaultLanguage.LOGIN:
 				loginWork();

@@ -36,7 +36,7 @@ public class DmfIndexing
 	 * 
 	 * @since 2.0
 	 */
-	private static final String INDEX_LIST_FILE = "index.ini"; //$NON-NLS-1$
+	private static final String INDEX_LIST_FILE = "index" + ParseINI.INI_EXTENSION; //$NON-NLS-1$
 	
 	/**
 	 * Main header for the index list file

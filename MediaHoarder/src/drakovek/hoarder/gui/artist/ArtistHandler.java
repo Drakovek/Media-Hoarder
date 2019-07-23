@@ -52,7 +52,7 @@ public class ArtistHandler
 		File artistFolder = DReader.getDirectory(settings.getDataFolder(), "artists"); //$NON-NLS-1$
 		if(artistFolder != null)
 		{
-			file = new File(artistFolder, service.toLowerCase().replaceAll(Character.toString('_'), new String()) + ".ini"); //$NON-NLS-1$
+			file = new File(artistFolder, service.toLowerCase().replaceAll(Character.toString('_'), new String()) + ParseINI.INI_EXTENSION);
 			
 		}//IF
 		
@@ -97,6 +97,37 @@ public class ArtistHandler
 	public ArrayList<String> getArtists()
 	{
 		return artists;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the artist from the specified indexes.
+	 * 
+	 * @param indexes Artist indexes
+	 * @return Selected Artists
+	 * @since 2.0
+	 */
+	public ArrayList<String> getArtists(final int[] indexes)
+	{
+		
+		ArrayList<String> selectedArtists = new ArrayList<>();
+		for(int i = 0; i < indexes.length; i++)
+		{
+			if(indexes[i] == 0)
+			{
+				return getArtists();
+				
+			}//IF
+			
+			if(indexes[i] > 0 && (indexes[i] - 1) < artists.size())
+			{
+				selectedArtists.add(artists.get(indexes[i] - 1));
+				
+			}//IF
+			
+		}//FOR
+		
+		return selectedArtists;
 		
 	}//METHOD
 	
@@ -158,6 +189,8 @@ public class ArtistHandler
 		organizeArtists();
 		
 	}//METHOD
+	
+	
 	
 	/**
 	 * Makes sure the artist list contains no duplicates and are in alpha-numerical order.

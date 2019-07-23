@@ -144,10 +144,10 @@ public class FileTypeHandler
 		File extensionFolder = DReader.getDirectory(settings.getDataFolder(), "extensions"); //$NON-NLS-1$
 		if(extensionFolder != null && extensionFolder.isDirectory())
 		{
-			audioFile = new File(extensionFolder, "audio.ini"); //$NON-NLS-1$
-			imageFile = new File(extensionFolder, "image.ini"); //$NON-NLS-1$
-			textFile = new File(extensionFolder, "text.ini"); //$NON-NLS-1$
-			videoFile = new File(extensionFolder, "video.ini"); //$NON-NLS-1$
+			audioFile = new File(extensionFolder, "audio" + ParseINI.INI_EXTENSION); //$NON-NLS-1$
+			imageFile = new File(extensionFolder, "image" + ParseINI.INI_EXTENSION); //$NON-NLS-1$
+			textFile = new File(extensionFolder, "text" + ParseINI.INI_EXTENSION); //$NON-NLS-1$
+			videoFile = new File(extensionFolder, "video" + ParseINI.INI_EXTENSION); //$NON-NLS-1$
 			
 		}//IF
 		

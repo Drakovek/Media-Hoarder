@@ -143,7 +143,7 @@ public class FontSettings extends SettingsModeGUI
 		topTextPanel.add(sizePanel);
 		
 		JPanel textPanel = new JPanel();
-		textPanel.setLayout(new GridLayout(2, 1, 0, getSettings().getSpaceSize()));
+		textPanel.setLayout(new GridLayout(2, 1));
 		textPanel.add(topTextPanel);
 		textPanel.add(new DCheckBox(this, aa, DefaultLanguage.FONT_AA));
 		

@@ -44,6 +44,13 @@ import drakovek.hoarder.web.Downloader;
 public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods
 {
 	/**
+	 * List of currently selected artists
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> artists;
+	
+	/**
 	 * Settings Bar for the GUI
 	 * 
 	 * @since 2.0
@@ -119,13 +126,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @since 2.0
 	 */
 	private DCheckBox journalCheck;
-	
-	/**
-	 * Checkbox to determine whether to save favorites pages.
-	 * 
-	 * @since 2.0
-	 */
-	private DCheckBox favoriteCheck;
 	
 	/**
 	 * List of artists to download from
@@ -214,18 +214,13 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		addPanel.add(addButton);
 		addPanel.add(removeButton);
 		
-		//OPTIONS PANEL
-		JPanel optionsPanel = new JPanel();
-		optionsPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		journalCheck = new DCheckBox(this, false, DefaultLanguage.SAVE_JOURNALS);
-		favoriteCheck = new DCheckBox(this, false, DefaultLanguage.SAVE_FAVORITES);
-		optionsPanel.add(journalCheck);
-		optionsPanel.add(favoriteCheck);
+		
 		
 		//BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		bottomPanel.add(optionsPanel);
+		journalCheck = new DCheckBox(this, false, DefaultLanguage.SAVE_JOURNALS);
+		bottomPanel.add(journalCheck);
 		bottomPanel.add(addPanel);
 		
 		//CREATE FULL PANEL
@@ -274,7 +269,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void updateArtistList()
 	{
 		ArrayList<String> currentArtists = new ArrayList<>();
-		currentArtists.add(DefaultLanguage.ALL_ARTISTS);
+		currentArtists.add(getSettings().getLanguageText(DefaultLanguage.ALL_ARTISTS));
 		currentArtists.addAll(artistHandler.getArtists());
 		artistList.setListData(StringMethods.arrayListToArray(currentArtists));
 		
@@ -288,7 +283,100 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 */
 	private void checkPages(final boolean checkAll)
 	{	
-		initializeDownloadProcess();
+		boolean ready = true;
+		
+		if(getDirectory() == null || !getDirectory().isDirectory())
+		{
+			ready = false;
+			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
+			String[] messageIDs = {DefaultLanguage.NO_DIRECTORY_DIALOG};
+			String[] buttonIDs = {DefaultLanguage.OK};
+			buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.NO_DIRECTORY_DIALOG, messageIDs, buttonIDs);
+		
+		}//IF
+		
+		//CHECK IF ARTISTS ARE SELECTED
+		if(ready)
+		{
+			artists = artistHandler.getArtists(artistList.getSelectedIndices());
+			if(artists.size() == 0)
+			{
+				ready = false;
+				DButtonDialog buttonDialog = new DButtonDialog(getSettings());
+				String[] messageIDs = {DefaultLanguage.NO_ARTISTS};
+				String[] buttonIDs = {DefaultLanguage.OK};
+				buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.NO_ARTISTS, messageIDs, buttonIDs);
+			
+			}//IF
+			
+		}//IF
+		
+		//CHECK IF IN THE CORRECT DIRECTORY
+		if(ready)
+		{
+			boolean missingFolders = false;
+			for(int i = 0; i < artistHandler.getArtists().size(); i++)
+			{
+				File artistFolder = new File(getDirectory(), artistHandler.getArtists().get(i));
+				if(!artistFolder.isDirectory())
+				{
+					missingFolders = true;
+					break;
+					
+				}//IF
+				
+			}//FOR
+			
+			if(missingFolders)
+			{
+				DButtonDialog buttonDialog = new DButtonDialog(getSettings());
+				String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
+				String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.WRONG_FOLDER_MESSAGES, buttonIDs);
+			
+				if(result.equals(DefaultLanguage.NO))
+				{
+					ready = false;
+					
+				}//IF
+				
+			}//IF
+			
+		}//IF
+		
+		//INITIALIZE DOWNLOAD PROCESS
+		if(ready)
+		{
+			ready = initializeDownloadProcess();
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Starts the process of downloading a single media file.
+	 * 
+	 * @since 2.0
+	 */
+	private void downloadSingle()
+	{
+		artists = new ArrayList<>();
+		boolean ready = true;
+		
+		if(getDirectory() == null || !getDirectory().isDirectory())
+		{
+			ready = false;
+			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
+			String[] messageIDs = {DefaultLanguage.NO_DIRECTORY_DIALOG};
+			String[] buttonIDs = {DefaultLanguage.OK};
+			buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.NO_DIRECTORY_DIALOG, messageIDs, buttonIDs);
+		
+		}//IF
+		
+		if(ready)
+		{
+			ready = initializeDownloadProcess();
+			
+		}//IF
 		
 	}//METHOD
 	
@@ -301,34 +389,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private boolean initializeDownloadProcess()
 	{
 		boolean ready = true;
-		
-		//CHECK IF IN THE CORRECT DIRECTORY
-		boolean missingFolders = false;
-		for(int i = 0; i < artistHandler.getArtists().size(); i++)
-		{
-			File artistFolder = new File(getDirectory(), artistHandler.getArtists().get(i));
-			if(!artistFolder.isDirectory())
-			{
-				missingFolders = true;
-				break;
-				
-			}//IF
-			
-		}//FOR
-		
-		if(missingFolders)
-		{
-			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-			String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-			String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.WRONG_FOLDER_MESSAGES, buttonIDs);
-		
-			if(result.equals(DefaultLanguage.NO))
-			{
-				ready = false;
-				
-			}//IF
-			
-		}//IF
 		
 		//LOGIN TO WEBSITE
 		if(ready && !isLoggedIn())
@@ -377,7 +437,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		addButton.setEnabled(true);
 		removeButton.setEnabled(true);
 		journalCheck.setEnabled(true);
-		favoriteCheck.setEnabled(true);
 		
 	}//METHOD
 
@@ -392,7 +451,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		addButton.setEnabled(false);
 		removeButton.setEnabled(false);
 		journalCheck.setEnabled(false);
-		favoriteCheck.setEnabled(false);
 		
 	}//METHOD
 
@@ -483,6 +541,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 				break;
 			case DefaultLanguage.CHECK_ALL:
 				checkPages(true);
+				break;
+			case DefaultLanguage.DOWNLOAD_SINGLE:
+				downloadSingle();
 				break;
 			
 		}//SWITCH
