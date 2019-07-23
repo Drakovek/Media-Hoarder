@@ -19,6 +19,13 @@ import drakovek.hoarder.processing.sort.AlphaNumSort;
 public class ArtistHandler
 {
 	/**
+	 * INI value for listing artists
+	 * 
+	 * @since 2.0
+	 */
+	private static final String ARTIST = "artist"; //$NON-NLS-1$
+	
+	/**
 	 * Main header for the artist list file
 	 * 
 	 * @since 2.0
@@ -69,22 +76,8 @@ public class ArtistHandler
 	{
 		artists = new ArrayList<>();
 		ArrayList<String> contents = DReader.readFile(file);
-		if(ParseINI.getStringValue(header, Integer.toString(0), contents, new String()).length() > 0)
-		{
-			for(String line: contents)
-			{
-				int i = line.indexOf('=');
-				if(i != -1 && (i+1) < line.length())
-				{
-					artists.add(line.substring(i + 1));
-					
-				}//IF
-				
-			}//FOR
-			
-			organizeArtists();
-			
-		}//IF
+		artists = ParseINI.getStringValues(header, ARTIST, contents, new ArrayList<String>());
+		organizeArtists();
 		
 	}//METHOD
 	
@@ -231,7 +224,7 @@ public class ArtistHandler
 			contents.add(header);
 			for(int i = 0; i < artists.size(); i++)
 			{
-				contents.add(ParseINI.getAssignmentString(Integer.toString(i), artists.get(i)));
+				contents.add(ParseINI.getAssignmentString(ARTIST, artists.get(i)));
 				
 			}//FOR
 			

@@ -583,6 +583,20 @@ public class DefaultLanguage
 	public static final String NO_DIRECTORY_DIALOG = "no_directory_dialog"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for title of dialog asking whether to add directory to DMF directories list
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ADD_DIRECTORY_TITLE = "add_directory_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variables for messages of dialog asking whether to add directory to DMF directories list
+	 * 
+	 * @since 2.0
+	 */
+	public static final String[] ADD_DIRECTORY_MESSAGES = {"add_directory_message_1", "add_directory_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
+	
+	/**
 	 * Language variable for the title of the login GUI when logging into DeviantArt.
 	 * 
 	 * @since 2.0
@@ -765,15 +779,27 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(REMOVE, "^Remove")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(YES, "^Yes")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO, "^No")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SAVE, "^Save")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
+
+		//COMMON MENU
+		languageFile.add(new String());
+		languageFile.add("[COMMON MENU]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FILE, "^File")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(VIEW, "^View")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(OPEN, "^Open")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(EXIT, "^Exit")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(SAVE, "^Save")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
+		
+		//COMMON DIALOG
+		languageFile.add(new String());
+		languageFile.add("[COMMON DIALOG]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCELING, "Canceling...")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RUNNING, "Running...")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORY_DIALOG, "No Directory Selected")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_TITLE, "Add Directory?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[0], "Selected directory is not listed as DMF directory.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[1], "Add to program's DMF directory list?")); //$NON-NLS-1$
+		
 		
 		//FRAME
 		languageFile.add(new String());

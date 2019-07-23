@@ -28,6 +28,7 @@ import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
+import drakovek.hoarder.gui.swing.compound.DCheckDirectoriesGUI;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
 import drakovek.hoarder.processing.StringMethods;
@@ -346,6 +347,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		//INITIALIZE DOWNLOAD PROCESS
 		if(ready)
 		{
+			new DCheckDirectoriesGUI(getSettings(), getDmfHandler(), getFrame(), getDirectory());
 			ready = initializeDownloadProcess();
 			
 		}//IF
