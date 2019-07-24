@@ -31,6 +31,7 @@ import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DCheckDirectoriesGUI;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
+import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.web.ClientMethods;
@@ -146,6 +147,13 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private DProgressDialog progressDialog;
 	
 	/**
+	 * Progress dialog used for showing log information
+	 * 
+	 * @since 2.0
+	 */
+	private DProgressInfoDialog progressInfoDialog;
+	
+	/**
 	 * Initializes the ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
@@ -162,6 +170,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		artistHandler = new ArtistHandler(settings, subtitleID);
 		downloader = new Downloader(this);
 		progressDialog = new DProgressDialog(settings);
+		progressInfoDialog = new DProgressInfoDialog(settings);
 		this.loginGUI = loginGUI;
 		this.loginGUI.setLoginMethods(this);
 		
@@ -515,6 +524,54 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 	}//METHOD
 	
+	/**
+	 * Starts the downloading process.
+	 * 
+	 * @since 2.0
+	 */
+	private void startDownload()
+	{
+		if(getDmfHandler().isLoaded() && isLoggedIn())
+		{
+			if(artists.size() > 0)
+			{
+				progressInfoDialog.setCancelled(false);
+				getFrame().setProcessRunning(true);
+				progressInfoDialog.startProgressDialog(getFrame(), this.getTitle(DefaultLanguage.DOWNLOADING));
+				(new DSwingWorker(this, DefaultLanguage.CHECK_ALL)).execute();
+				
+			}//IF
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Deals with a process being finished, closing the progress dialog and allowing input.
+	 * 
+	 * @since 2.0
+	 */
+	private void processFinished()
+	{
+		progressDialog.setCancelled(false);
+		progressDialog.closeProgressDialog();
+		getFrame().setProcessRunning(false);
+		
+	}//METHOD
+	
+	/**
+	 * Deals with an info process being finished, closing the info progress dialog and allowing input.
+	 * 
+	 * @since 2.0
+	 */
+	private void infoProcessFinished()
+	{
+		progressInfoDialog.setCancelled(false);
+		progressInfoDialog.closeProgressDialog();
+		getFrame().setProcessRunning(false);
+		
+	}//METHOD
+	
 	@Override
 	public void enableAll()
 	{
@@ -598,13 +655,21 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		}//SWITCH
 		
 	}//METHOD
-	
+
 	@Override
 	public void done(final String id)
 	{
-		progressDialog.setCancelled(false);
-		progressDialog.closeProgressDialog();
-		getFrame().setProcessRunning(false);
+		switch(id)
+		{
+			case DefaultLanguage.LOADING_DMFS:
+				processFinished();
+				startDownload();
+				break;
+			case DefaultLanguage.CHECK_ALL:
+				infoProcessFinished();
+				break;
+				
+		}//SWITCH
 		
 	}//METHOD
 	

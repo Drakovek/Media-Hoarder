@@ -74,6 +74,8 @@ public class Start
 	 */
 	public static void startGUI(DSettings settings, DmfHandler dmfHandler)
 	{
+		settings.writeSettings();
+		
 		//SET LOOK AND FEEL
         try
         {

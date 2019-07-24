@@ -46,6 +46,7 @@ public class DList extends JList<String>
 		
 		}//ELSE
 		
+		this.setFixedCellHeight(baseGUI.getSettings().getFontSize() + (baseGUI.getSettings().getSpaceSize() * 2));
 		this.setLayoutOrientation(VERTICAL);
 		this.setFont(baseGUI.getFont());
 		this.addListSelectionListener(new DListSelectionListener(baseGUI, id));

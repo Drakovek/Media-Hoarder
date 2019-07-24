@@ -19,7 +19,7 @@ public class ParseINI
 	 * 
 	 * @since 2.0
 	 */
-	public static final String INI_EXTENSION = ".ini"; //$NON-NLS-1$
+	public static final String INI_EXTENSION = ".dini"; //$NON-NLS-1$
 	
 	/**
 	 * Returns a section of a .ini file based on what's under a given header

@@ -75,8 +75,12 @@ public class DWriter
 			{
 				try
 				{
-					bufferedWriter.flush();
-					bufferedWriter.close();
+					if(bufferedWriter != null)
+					{
+						bufferedWriter.flush();
+						bufferedWriter.close();
+						
+					}//IF
             	
 				}//TRY
 				catch(IOException f)

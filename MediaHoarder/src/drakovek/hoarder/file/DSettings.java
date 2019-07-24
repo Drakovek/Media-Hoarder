@@ -28,7 +28,7 @@ public class DSettings
 	 * 
 	 * @since 2.0
 	 */
-	private static final String SETTINGS_FILE = "settings.ini"; //$NON-NLS-1$
+	private static final String SETTINGS_FILE = "settings" + ParseINI.INI_EXTENSION; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the language name.

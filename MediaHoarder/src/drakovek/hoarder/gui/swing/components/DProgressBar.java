@@ -1,5 +1,11 @@
 package drakovek.hoarder.gui.swing.components;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.Box;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import drakovek.hoarder.gui.BaseGUI;
@@ -11,7 +17,7 @@ import drakovek.hoarder.gui.BaseGUI;
  * @version 2.0
  * @since 2.0
  */
-public class DProgressBar extends JProgressBar
+public class DProgressBar extends JPanel
 {
 	/**
 	 * SerialVersionUID
@@ -19,6 +25,13 @@ public class DProgressBar extends JProgressBar
 	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -284022798601497770L;
+	
+	/**
+	 * Main progress bar
+	 * 
+	 * @since 2.0
+	 */
+	private JProgressBar progressBar;
 
 	/**
 	 * Initializes the DProgressBar
@@ -29,7 +42,21 @@ public class DProgressBar extends JProgressBar
 	public DProgressBar(BaseGUI baseGUI)
 	{
 		super();
-		this.setFont(baseGUI.getFont());
+		progressBar = new JProgressBar();
+		progressBar.setFont(baseGUI.getFont());
+
+		Dimension space = new Dimension(1, baseGUI.getSettings().getFontSize() + (baseGUI.getSettings().getSpaceSize() * 2));
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints progressCST = new GridBagConstraints();
+		progressCST.gridx = 0;			progressCST.gridy = 0;
+		progressCST.gridwidth = 1;		progressCST.gridheight = 3;
+		progressCST.weightx = 0;		progressCST.weighty = 0;
+		progressCST.fill = GridBagConstraints.BOTH;
+		this.add(Box.createRigidArea(space), progressCST);
+		progressCST.gridx = 2;
+		this.add(Box.createRigidArea(space), progressCST);
+		progressCST.gridx = 1;			progressCST.weightx = 1;
+		this.add(progressBar, progressCST);
 		
 	}//CONSTRUCTOR
 	
@@ -44,32 +71,31 @@ public class DProgressBar extends JProgressBar
 	 */
 	public void setProgressBar(final boolean indeterminate, final boolean painted, final int maximum, final int value)
 	{
-		
-		setIndeterminate(indeterminate);
-		setMinimum(0);
+		progressBar.setIndeterminate(indeterminate);
+		progressBar.setMinimum(0);
 		
 		if(value > 0 && value <= maximum)
 		{
-			setMaximum(maximum);
-			setValue(value);
+			progressBar.setMaximum(maximum);
+			progressBar.setValue(value);
 		
 		}//IF
 		else
 		{
-			setMaximum(0);
-			setMinimum(0);
+			progressBar.setMaximum(0);
+			progressBar.setMinimum(0);
 		
 		}//ELSE
 		
 		if(painted)
 		{
-			setStringPainted(true);
-			setString(Integer.toString((int)(((double)value / (double)maximum) * (double)100)) + Character.toString('%'));
+			progressBar.setStringPainted(true);
+			progressBar.setString(Integer.toString((int)(((double)value / (double)maximum) * (double)100)) + Character.toString('%'));
 		
 		}//IF
 		else
 		{
-			setStringPainted(false);
+			progressBar.setStringPainted(false);
 		
 		}//ELSE
 		

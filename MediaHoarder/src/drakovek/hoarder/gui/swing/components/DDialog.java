@@ -83,7 +83,7 @@ public class DDialog extends JDialog
 		
 		if(width == 0)
 		{
-			frameWidth = this.getWidth();
+			frameWidth = this.getWidth() + 5;
 			
 		}//IF
 		else
@@ -94,7 +94,7 @@ public class DDialog extends JDialog
 				
 		if(height == 0)
 		{
-			frameHeight = this.getHeight();
+			frameHeight = this.getHeight() + 5;
 			
 		}//IF
 		else

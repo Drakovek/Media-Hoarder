@@ -129,6 +129,13 @@ public class DefaultLanguage
 	 */
 	public static final String RESTART_PROGRAM = "restart_program"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for "Downloading"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DOWNLOADING = "downloading"; //$NON-NLS-1$
+	
 	//FRAME
 	
 	/**
@@ -793,6 +800,7 @@ public class DefaultLanguage
 		//COMMON DIALOG
 		languageFile.add(new String());
 		languageFile.add("[COMMON DIALOG]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DOWNLOADING, "Downloading")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CANCELING, "Canceling...")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RUNNING, "Running...")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO_DIRECTORY_DIALOG, "No Directory Selected")); //$NON-NLS-1$
@@ -927,7 +935,7 @@ public class DefaultLanguage
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())
 		{
-			File defaultFile = new File(languageDirectory, "00-ENG.ini"); //$NON-NLS-1$
+			File defaultFile = new File(languageDirectory, "00-ENG" + ParseINI.INI_EXTENSION); //$NON-NLS-1$
 			DWriter.writeToFile(defaultFile, languageFile);
 			
 		}//IF

@@ -1,8 +1,6 @@
 package drakovek.hoarder.gui.swing.compound;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -25,12 +23,20 @@ import drakovek.hoarder.gui.swing.components.DProgressBar;
  */
 public class DProgressDialog extends BaseGUI
 {
+	
 	/**
 	 * Whether the current process is cancelled
 	 * 
 	 * @since 2.0
 	 */
 	private boolean cancelled;
+	
+	/**
+	 * Main panel for showing progress
+	 * 
+	 * @since 2.0
+	 */
+	private JPanel progressPanel;
 	
 	/**
 	 * Label for a running process
@@ -45,13 +51,6 @@ public class DProgressDialog extends BaseGUI
 	 * @since 2.0
 	 */
 	private DLabel detailLabel;
-	
-	/**
-	 * Button to cancel current progress.
-	 * 
-	 * @since 2.0
-	 */
-	private DButton cancelButton;
 	
 	/**
 	 * Main progress bar for showing progress.
@@ -76,13 +75,91 @@ public class DProgressDialog extends BaseGUI
 	public DProgressDialog(DSettings settings)
 	{
 		super(settings);
+		progressPanel = new JPanel();
 		cancelled = false;
 		processLabel = new DLabel(this, null, new String());
 		detailLabel = new DLabel(this, null, new String());
 		progressBar = new DProgressBar(this);
-		cancelButton = new DButton(this, DefaultLanguage.CANCEL);
+		
+		this.setProcessLabel(DefaultLanguage.RUNNING);
+		this.setDetailLabel(DefaultLanguage.RUNNING, true);
+		this.setProgressBar(false, true, 2, 1);
+		
+		initializePanel();
 		
 	}//CONSTRUCTOR
+	
+	/**
+	 * Creates the initial panel to use for showing progress.
+	 * 
+	 * @since 2.0
+	 */
+	protected void initializePanel()
+	{
+		
+		//LABEL PANEL
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new GridLayout(2, 1, 0, getSettings().getSpaceSize()));
+		labelPanel.add(processLabel);
+		labelPanel.add(detailLabel);
+				
+		JPanel centerPanel = getVerticalStack(labelPanel, progressBar);
+		
+		JPanel fullPanel = new JPanel();
+		fullPanel.setLayout(new BorderLayout());
+		fullPanel.add(this.getSpacedPanel(centerPanel), BorderLayout.CENTER);
+		fullPanel.add(getSpacedPanel(new DButton(this, DefaultLanguage.CANCEL), 0, 0, false, true, true, true), BorderLayout.SOUTH);
+		this.setProgressPanel(fullPanel);
+		
+	}//METHOD
+	
+	/**
+	 * Sets the main progress panel.
+	 * 
+	 * @param progressPanel Progress Panel
+	 * @since 2.0
+	 */
+	public void setProgressPanel(JPanel progressPanel)
+	{
+		this.progressPanel = progressPanel;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the process label.
+	 * 
+	 * @return Process Label
+	 * @since 2.0
+	 */
+	public DLabel getProcessLabel()
+	{
+		return processLabel;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the detail label.
+	 * 
+	 * @return Detail Label
+	 * @since 2.0
+	 */
+	public DLabel getDetailLabel()
+	{
+		return detailLabel;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the progress bar.
+	 * 
+	 * @return Progress Bar
+	 * @since 2.0
+	 */
+	public DProgressBar getProgressBar()
+	{
+		return progressBar;
+		
+	}//METHOD
 	
 	/**
 	 * Opens a progress dialog.
@@ -93,9 +170,24 @@ public class DProgressDialog extends BaseGUI
 	 */
 	public void startProgressDialog(DFrame ownerFrame, final String titleID)
 	{
+		startProgressDialog(ownerFrame, titleID, getSettings().getFrameWidth() * getSettings().getFontSize(), 0);
+		
+	}//METHOD
+	
+	/**
+	 * Opens a progress dialog.
+	 * 
+	 * @param ownerFrame DFrame used as the dialog's owner.
+	 * @param titleID Language ID for the dialog title
+	 * @param width Desired dialog width
+	 * @param height Desired dialog height
+	 * @since 2.0
+	 */
+	public void startProgressDialog(DFrame ownerFrame, final String titleID, final int width, final int height)
+	{
+		this.setProgressBar(false, true, 2, 1);
 		cancelled = false;
-		dialog = new DDialog(ownerFrame, getProgressPanel(), getSettings().getLanguageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 12 * getSettings().getFontSize());
-		dialog.setResizable(false);
+		dialog = new DDialog(ownerFrame, progressPanel, getSettings().getLanguageText(titleID), false, width, height);
 		dialog.setVisible(true);
 		
 	}//METHOD
@@ -109,49 +201,29 @@ public class DProgressDialog extends BaseGUI
 	 */
 	public void startProgressDialog(DDialog ownerDialog, final String titleID)
 	{
-		cancelled = false;
-		dialog = new DDialog(ownerDialog, getProgressPanel(), getSettings().getLanguageText(titleID), false, getSettings().getFrameWidth() * getSettings().getFontSize(), 12 * getSettings().getFontSize());
-		dialog.setResizable(false);
-		dialog.setVisible(true);
+		startProgressDialog(ownerDialog, titleID, getSettings().getFrameWidth() * getSettings().getFontSize(), 0);
 		
 	}//METHOD
 	
 	/**
-	 * Returns panel to use for the progress dialog.
+	 * Opens a progress dialog.
 	 * 
-	 * @return Progress Panel
+	 * @param ownerDialog DDialog used as the dialog's owner.
+	 * @param titleID Language ID for the dialog title
+	 * @param width Desired dialog width
+	 * @param height Desired dialog height
 	 * @since 2.0
 	 */
-	private JPanel getProgressPanel()
+	public void startProgressDialog(DDialog ownerDialog, final String titleID, final int width, final int height)
 	{
-		//LABEL PANEL
-		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout(new GridLayout(2, 1, 0, getSettings().getSpaceSize()));
-		labelPanel.add(processLabel);
-		labelPanel.add(detailLabel);
-		
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new GridBagLayout());
-		GridBagConstraints centerCST = new GridBagConstraints();
-		centerCST.gridx = 0;		centerCST.gridy = 0;
-		centerCST.gridwidth = 3;	centerCST.gridheight = 1;
-		centerCST.weightx = 1;		centerCST.weighty = 0;
-		centerCST.fill = GridBagConstraints.BOTH;
-		centerPanel.add(labelPanel, centerCST);
-		centerCST.gridy = 1;
-		centerPanel.add(getVerticalSpace(), centerCST);
-		centerCST.gridy = 2;		centerCST.weighty = 1;
-		centerPanel.add(progressBar, centerCST);
-		
-		JPanel progressPanel = new JPanel();
-		progressPanel.setLayout(new BorderLayout());
-		progressPanel.add(this.getSpacedPanel(centerPanel), BorderLayout.CENTER);
-		progressPanel.add(getSpacedPanel(cancelButton, 0, 0, false, true, true, true), BorderLayout.SOUTH);
-		
-		return progressPanel;
+		this.setProgressBar(false, true, 2, 1);
+		cancelled = false;
+		dialog = new DDialog(ownerDialog, progressPanel, getSettings().getLanguageText(titleID), false, width, height);
+		dialog.setVisible(true);
 		
 	}//METHOD
 	
+
 	/**
 	 * Closes the current progress dialog.
 	 * 
@@ -161,6 +233,7 @@ public class DProgressDialog extends BaseGUI
 	{
 		if(dialog != null)
 		{
+			setProgressBar(false, true, 1, 1);
 			dialog.dispose();
 			dialog = null;
 		
