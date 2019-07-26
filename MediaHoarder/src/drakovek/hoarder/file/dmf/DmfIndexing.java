@@ -46,13 +46,6 @@ public class DmfIndexing
 	private static final String INDEX_HEADER = "[INDEX]"; //$NON-NLS-1$
 	
 	/**
-	 * Read header for the index list file
-	 * 
-	 * @since 2.0
-	 */
-	private static final String READ_HEADER = "[READ]"; //$NON-NLS-1$
-	
-	/**
 	 * Folder containing DMF Directory index files
 	 * 
 	 * @since 2.0
@@ -72,13 +65,6 @@ public class DmfIndexing
 	 * @since 2.0
 	 */
 	private ArrayList<String> indexedDirectories;
-	
-	/**
-	 * List of times directories were read last
-	 * 
-	 * @since 2.0
-	 */
-	private ArrayList<Integer> lastRead;
 	
 	/**
 	 * FileOutputStream for saving index files
@@ -214,21 +200,19 @@ public class DmfIndexing
 			if(index == indexedDirectories.size())
 			{
 				indexedDirectories.add(null);
-				lastRead.add(null);
 				
 			}//IF
 			
 		}//IF
 		
 		indexedDirectories.set(index, dmfDirectory.getDirectory().getAbsolutePath());
-		lastRead.set(index, Integer.valueOf(0));
 		
 		File indexFile = new File(indexFolder, Integer.toString(index));
 		if(indexFile.exists())
 		{
 			indexFile.delete();
 			
-		}//IF (indexFile.exists())
+		}//IF
 		
 		fileOutputStream = null;
 		objectOutputStream = null;
@@ -291,33 +275,13 @@ public class DmfIndexing
 		{
 			if(indexedDirectories.get(i) != null)
 			{
-				if(lastRead.get(i) != null && lastRead.get(i).intValue() > 15)
+				File indexFile = new File(indexFolder, Integer.toString(i));
+				File refDirectory = new File(indexedDirectories.get(i));
+				if(!indexFile.exists() || !refDirectory.isDirectory())
 				{
-					File testFile = new File(indexedDirectories.get(i));
-					if(testFile.exists())
-					{
-						lastRead.set(i, Integer.valueOf(0));
-						
-					}//IF
-					else
-					{
-						indexedDirectories.set(i, null);
-						lastRead.set(i, null);
-						
-					}//ELSE
+					indexedDirectories.set(i, null);
 					
 				}//IF
-				else
-				{
-					File currentFile = new File(indexFolder, Integer.toString(i));
-					if(!currentFile.exists())
-					{
-						indexedDirectories.set(i, null);
-						lastRead.set(i, null);
-						
-					}//IF
-					
-				}//ELSE
 				
 			}//IF
 			
@@ -359,31 +323,19 @@ public class DmfIndexing
 	private void saveListFile()
 	{
 		ArrayList<String> dirList = new ArrayList<>();
-		ArrayList<String> readList = new ArrayList<>();
 		
 		dirList.add(INDEX_HEADER);
-		readList.add(READ_HEADER);
 		
 		for(int i = 0; i < indexedDirectories.size(); i++)
 		{
 			if(indexedDirectories.get(i) != null)
-			{
-				int readNum = 0;
-				if(lastRead.get(i) != null)
-				{
-					readNum = lastRead.get(i).intValue() + 1;
-					
-				}//IF
-				
+			{	
 				dirList.add(ParseINI.getAssignmentString(Integer.toString(i), indexedDirectories.get(i)));
-				readList.add(ParseINI.getAssignmentString(Integer.toString(i), readNum));
 				
 			}//IF
 			
 		}//FOR
-		
-		dirList.add(new String());
-		dirList.addAll(readList);
+
 		DWriter.writeToFile(indexListFile, dirList);
 		
 	}//METHOD
@@ -419,44 +371,6 @@ public class DmfIndexing
 			}//IF
 			
 		}//FOR
-		
-		lastRead = new ArrayList<>();
-		ArrayList<String> readContents = ParseINI.getSection(READ_HEADER, DReader.readFile(indexListFile));
-		
-		for(String line: readContents)
-		{
-			int i = line.indexOf('=');
-			if(i + 1 < line.length())
-			{
-				try
-				{
-					int readNum = Integer.parseInt(line.substring(i + 1));
-					int index = Integer.parseInt(line.substring(0, i));
-					while(index >= lastRead.size())
-					{
-						lastRead.add(null);
-						
-					}//WHILE
-					lastRead.set(index, Integer.valueOf(readNum));
-					
-				}//TRY
-				catch(NumberFormatException e){}
-				
-			}//IF
-			
-		}//FOR
-		
-		while(lastRead.size() < indexedDirectories.size())
-		{
-			lastRead.add(null);
-			
-		}//WHILE
-		
-		while(lastRead.size() > indexedDirectories.size())
-		{
-			indexedDirectories.add(null);
-			
-		}//WHILE
 		
 	}//METHOD
 	
