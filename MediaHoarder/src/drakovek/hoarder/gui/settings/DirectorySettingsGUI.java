@@ -176,11 +176,11 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 	{
 		if(dmfDirectories.size() == 0)
 		{
-			dmfDirectories.add(fileChooser.getFileOpen(getSettingsGUI().getFrame(), null));
+			dmfDirectories.add(fileChooser.openDialog(getSettingsGUI().getFrame(), null, null));
 		}
 		else
 		{
-			dmfDirectories.add(fileChooser.getFileOpen(getSettingsGUI().getFrame(), dmfDirectories.get(0)));
+			dmfDirectories.add(fileChooser.openDialog(getSettingsGUI().getFrame(), dmfDirectories.get(0), null));
 			
 		}//ELSE
 		setDirectoryList();

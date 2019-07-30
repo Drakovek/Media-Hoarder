@@ -1,5 +1,7 @@
 package drakovek.hoarder.file;
 
+import java.io.File;
+
 import javax.swing.UIManager;
 
 import org.apache.commons.logging.LogFactory;
@@ -8,7 +10,9 @@ import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 import drakovek.hoarder.gui.settings.SettingsGUI;
+import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
+import drakovek.hoarder.gui.swing.compound.DFileChooser;
 
 /**
  * Main class for starting the Media Hoarder Program
@@ -27,7 +31,23 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
-		startGUI();
+		//startGUI();
+		
+		//TEMP CODE FOR FILE CHOOSER TESTING
+		DSettings settings = new DSettings();
+		DFrame testFrame = new DFrame(settings, "Test Frame"); //$NON-NLS-1$
+		testFrame.packRestricted();
+		testFrame.setLocationRelativeTo(null);
+		testFrame.setVisible(true);
+				
+		DFileChooser fileChooser = new DFileChooser(settings);
+		File file = fileChooser.openDialog(testFrame, null, null);
+				
+		if(file != null)
+		{
+			System.out.println(file.getAbsolutePath());
+			
+		}//IF
     	
 	}//METHOD
 	
