@@ -1,12 +1,14 @@
 package drakovek.hoarder.gui.artist;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 
 /**
  * Creates GUI for downloading files from DeviantArt.
@@ -45,6 +47,13 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	}//METHOD
 
 	@Override
+	protected String getTitle()
+	{
+		return getSettings().getLanguageText(DefaultLanguage.DEVIANTART_PROGRESS_TITLE);
+		
+	}//METHOD
+	
+	@Override
 	public void login(final String username, final String password, final String captcha)
 	{
 		
@@ -75,6 +84,25 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		getDownloader().getClient().setAjaxController(new NicelyResynchronizingAjaxController());
 		getDownloader().getClient().getOptions().setTimeout(10000);
 		
+	}//METHOD
+
+	@Override
+	protected ArrayList<String> getPages(DProgressInfoDialog progressDialog, final String artist, final boolean checkAll, final boolean checkJournals)
+	{
+		ArrayList<String> pages = new ArrayList<>();
+		return pages;
+		
+	}//METHOD
+
+	@Override
+	protected void downloadPages(DProgressInfoDialog progressDialog, final String artist, final ArrayList<String> pages)
+	{
+		
+	}//METHOD
+
+	@Override
+	protected void getIdStrings()
+	{
 	}//METHOD
 	
 }//CLASS

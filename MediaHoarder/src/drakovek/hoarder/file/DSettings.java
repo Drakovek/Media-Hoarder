@@ -122,6 +122,27 @@ public class DSettings
 	private static final String FONT_AA = "font_aa"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for the default clock format
+	 * 
+	 * @since 2.0
+	 */
+	private static final String CLOCK_FORMAT = "clock_format"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for the default date format
+	 * 
+	 * @since 2.0
+	 */
+	private static final String DATE_FORMAT = "date_format"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether to save journals
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SAVE_JOURNALS = "save_journals"; //$NON-NLS-1$
+	
+	/**
 	 * INI Variable for the DeviantArt directory
 	 * 
 	 * @since 2.0
@@ -300,6 +321,27 @@ public class DSettings
 	private boolean fontAA;
 	
 	/**
+	 * Value of the default formatting for time clocks (12 or 24 hour)
+	 * 
+	 * @since 2.0
+	 */
+	private int clockFormat;
+	
+	/**
+	 * Value of the default formatting for dates (day-month-year, month-day-year, etc.)
+	 * 
+	 * @since 2.0
+	 */
+	private int dateFormat;
+	
+	/**
+	 * Whether to save journals when using the artist hosting GUI downloader
+	 * 
+	 * @since 2.0
+	 */
+	private boolean saveJournals;
+	
+	/**
 	 * Directory to save DMFs to when downloading from DeviantArt
 	 * 
 	 * @since 2.0
@@ -436,7 +478,12 @@ public class DSettings
 		fontBold = false;
 		fontAA = true;
 		
+		//TIME
+		clockFormat = 0;
+		dateFormat = 0;
+		
 		//DOWNLOAD
+		saveJournals = false;
 		deviantArtDirectory = null;
 		furAffinityDirectory = null;
 		
@@ -485,7 +532,12 @@ public class DSettings
 			fontBold = ParseINI.getBooleanValue(null, FONT_BOLD, settingsInfo, fontBold);
 			fontAA = ParseINI.getBooleanValue(null, FONT_AA, settingsInfo, fontAA);
 			
+			//time
+			clockFormat = ParseINI.getIntValue(null, CLOCK_FORMAT, settingsInfo, clockFormat);
+			dateFormat = ParseINI.getIntValue(null, DATE_FORMAT, settingsInfo, dateFormat);
+			
 			//DOWNLOAD
+			saveJournals = ParseINI.getBooleanValue(null, SAVE_JOURNALS, settingsInfo, saveJournals);
 			deviantArtDirectory = ParseINI.getFileValue(null, DEVIANTART_DIRECTORY, settingsInfo, null);
 			furAffinityDirectory = ParseINI.getFileValue(null, FUR_AFFINITY_DIRECTORY, settingsInfo, null);
 			
@@ -529,6 +581,12 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_BOLD, fontBold));
 		settingsInfo.add(ParseINI.getAssignmentString(FONT_AA, fontAA));
 		
+		//TIME
+		settingsInfo.add(new String());
+		settingsInfo.add("[TIME]"); //$NON-NLS-1$
+		settingsInfo.add(ParseINI.getAssignmentString(CLOCK_FORMAT, clockFormat));
+		settingsInfo.add(ParseINI.getAssignmentString(DATE_FORMAT, dateFormat));
+		
 		//DMF
 		settingsInfo.add(new String());
 		settingsInfo.add("[DMF]"); //$NON-NLS-1$
@@ -544,6 +602,7 @@ public class DSettings
 		//DOWNLOAD
 		settingsInfo.add(new String());
 		settingsInfo.add("[DOWNLOAD]"); //$NON-NLS-1$
+		settingsInfo.add(ParseINI.getAssignmentString(SAVE_JOURNALS, saveJournals));
 		settingsInfo.add(ParseINI.getAssignmentString(DEVIANTART_DIRECTORY, deviantArtDirectory));
 		settingsInfo.add(ParseINI.getAssignmentString(FUR_AFFINITY_DIRECTORY, furAffinityDirectory));
 		
@@ -895,6 +954,77 @@ public class DSettings
 	public boolean getFontAA()
 	{
 		return fontAA;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the default clock format.
+	 * 
+	 * @param clockFormat Clock Format
+	 * @since 2.0
+	 */
+	public void setClockFormat(final int clockFormat)
+	{
+		this.clockFormat = clockFormat;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the default clock format.
+	 * 
+	 * @return Clock Format
+	 * @since 2.0
+	 */
+	public int getClockFormat()
+	{
+		return clockFormat;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the default date format.
+	 * 
+	 * @param dateFormat Date Format
+	 * @since 2.0
+	 */
+	public void setDateFormat(final int dateFormat)
+	{
+		this.dateFormat = dateFormat;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the default date format.
+	 * 
+	 * @return Date Format
+	 * @since 2.0
+	 */
+	public int getDateFormat()
+	{
+		return dateFormat;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to save journals.
+	 * 
+	 * @param saveJournals Whether to save journals.
+	 * @since 2.0
+	 */
+	public void setSaveJournals(final boolean saveJournals)
+	{
+		this.saveJournals = saveJournals;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether to save journals.
+	 * 
+	 * @return 2.0
+	 */
+	public boolean getSaveJournals()
+	{
+		return saveJournals;
 		
 	}//METHOD
 	

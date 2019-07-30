@@ -325,10 +325,10 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	{
 		disableAll();
 		captchaText.setText(new String());
+		progressDialog.startProgressDialog(dialog, DefaultLanguage.LOAD_CAPTCHA_TITLE);
 		progressDialog.setProcessLabel(DefaultLanguage.LOAD_CAPTCHA);
 		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
-		progressDialog.startProgressDialog(dialog, DefaultLanguage.LOAD_CAPTCHA_TITLE);
 		(new DSwingWorker(this, DefaultLanguage.CAPTCHA)).execute();
 		
 	}//METHOD
@@ -365,9 +365,10 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 		if(usernameText.getText().length() > 0 && passwordText.getPassword().length > 0 && (!useCaptcha || captchaText.getText().length() > 0))
 		{
 			disableAll();
-			progressDialog.setProcessLabel(DefaultLanguage.LOGIN);
-			progressDialog.setProgressBar(true, false, 0, 0);
 			progressDialog.startProgressDialog(dialog, DefaultLanguage.ATTEMPT_LOGIN);
+			progressDialog.setProcessLabel(DefaultLanguage.LOGIN);
+			progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+			progressDialog.setProgressBar(true, false, 0, 0);
 			(new DSwingWorker(this, DefaultLanguage.LOGIN)).execute();
 		
 		}//IF
@@ -462,6 +463,7 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 				enableAll();
 				progressDialog.closeProgressDialog();
 				break;
+			case DefaultLanguage.PASSWORD:
 			case DefaultLanguage.LOGIN:
 				loginEnd();
 				break;

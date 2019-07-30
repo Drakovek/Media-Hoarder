@@ -341,11 +341,25 @@ public class DefaultLanguage
 	public static final String DEVIANTART_MODE = "deviantart"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the progress info dialog title when loading data from DeviantArt.com
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DEVIANTART_PROGRESS_TITLE = "deviantart_progress_title"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Fur Affinity" mode button
 	 * 
 	 * @since 2.0
 	 */
 	public static final String FUR_AFFINITY_MODE = "fur_affinity"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the progress info dialog title when loading data from FurAffinity.net
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FUR_AFFINITY_PROGRESS_TITLE = "fur_affinity_progress_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Inkbunny" mode button
@@ -360,6 +374,48 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String TRANSFUR_MODE = "transfur"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "Page:" in the progress info dialog when indicating the program is loading web data from a certain page
+	 * 
+	 * @since 2.0
+	 */
+	public static final String PAGE = "page"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for indicating the program is getting page URLs in the progress info dialog
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GETTING_PAGE_URLS = "getting_page_urls"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for indicating the program is getting gallery pages in the progress info dialog
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GETTING_GALLERY_PAGES = "getting_gallery_pages"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for indicating the program is getting scrap pages in the progress info dialog
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GETTING_SCRAP_PAGES = "getting_scrap_pages"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for indicating the program is getting journal pages in the progress info dialog
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GETTING_JOURNAL_PAGES = "getting_journal_pages"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for indicating the program is loading a page in the progress info dialog
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOADING_PAGE = "loading_page"; //$NON-NLS-1$
 	
 	//FILE CHOOSER
 	
@@ -448,13 +504,6 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String SAVE_JOURNALS = "save_journals"; //$NON-NLS-1$
-	
-	/**
-	 * Language variable for the "Save Favorites" check box from the artist hosting GUI
-	 * 
-	 * @since 2.0
-	 */
-	public static final String SAVE_FAVORITES = "save_favorites"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Add Artist" title for adding artists in the artist hosting GUI
@@ -602,6 +651,27 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String[] ADD_DIRECTORY_MESSAGES = {"add_directory_message_1", "add_directory_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
+	
+	/**
+	 * Language variable for "AM" in clock time formatting
+	 * 
+	 * @since 2.0
+	 */
+	public static final String AM = "am"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "PM" in clock time formatting
+	 * 
+	 * @since 2.0
+	 */
+	public static final String PM = "pm"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the symbol to use when indicating seconds in a clock time
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SECONDS_SUFFIX = "seconds_suffix"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of the login GUI when logging into DeviantArt.
@@ -808,6 +878,12 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[0], "Selected directory is not listed as DMF directory.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[1], "Add to program's DMF directory list?")); //$NON-NLS-1$
 		
+		//TIME
+		languageFile.add(new String());
+		languageFile.add("[TIME]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(AM, "AM")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(PM, "PM")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SECONDS_SUFFIX, "s")); //$NON-NLS-1$
 		
 		//FRAME
 		languageFile.add(new String());
@@ -858,9 +934,17 @@ public class DefaultLanguage
 		languageFile.add(new String());
 		languageFile.add("[DOWNLOAD]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_MODE, "^DeviantArt")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_PROGRESS_TITLE, "[DEVIANT-ART]")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_MODE, "^Fur Affinity")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_PROGRESS_TITLE, "[FUR AFFINITY]")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(INKBUNNY_MODE, "^Inkbunny")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TRANSFUR_MODE, "^Transfur")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(PAGE, "Page:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(GETTING_PAGE_URLS, "Getting Page URLs:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(GETTING_GALLERY_PAGES, "Getting Gallery Page URLs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(GETTING_SCRAP_PAGES, "Getting Scrap Page URLs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(GETTING_JOURNAL_PAGES, "Getting Journal Page URLs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_PAGE, "Loading Page:")); //$NON-NLS-1$
 		
 		//FILE CHOOSER
 		languageFile.add(new String());
@@ -881,7 +965,6 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(CHECK_ALL, "Check All ^Pages")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_SINGLE, "^Download Single Page")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE_JOURNALS, "Save ^Journals")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(SAVE_FAVORITES, "Save Fa^vorites")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD_ARTIST, "Add Artist")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ALL_ARTISTS, "[ALL ARTISTS]")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NAME_OF_ARTIST[0], "Name of Artist:")); //$NON-NLS-1$

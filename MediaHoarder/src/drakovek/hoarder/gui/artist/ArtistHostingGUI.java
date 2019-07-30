@@ -33,6 +33,7 @@ import drakovek.hoarder.gui.swing.compound.DFileChooser;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
+import drakovek.hoarder.processing.BooleanInt;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.web.ClientMethods;
 import drakovek.hoarder.web.Downloader;
@@ -47,13 +48,27 @@ import drakovek.hoarder.work.DWorker;
  * @since 2.0
  */
 public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods, DWorker
-{
+{	
+	/**
+	 * Suffix used at the end of a DMF ID to indicate the DMF is referring to a journal rather than a media file.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String JOURNAL_SUFFIX = "-J"; //$NON-NLS-1$
+	
 	/**
 	 * List of currently selected artists
 	 * 
 	 * @since 2.0
 	 */
 	private ArrayList<String> artists;
+	
+	/**
+	 * Whether to check all gallery pages or just the latest gallery pages
+	 * 
+	 * @since 2.0
+	 */
+	private boolean checkAllPages;
 	
 	/**
 	 * Settings Bar for the GUI
@@ -173,6 +188,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		progressInfoDialog = new DProgressInfoDialog(settings);
 		this.loginGUI = loginGUI;
 		this.loginGUI.setLoginMethods(this);
+		checkAllPages = false;
 		
 		//MENUS
 		JMenuBar menubar = new JMenuBar();
@@ -238,7 +254,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		//BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		journalCheck = new DCheckBox(this, false, DefaultLanguage.SAVE_JOURNALS);
+		journalCheck = new DCheckBox(this, settings.getSaveJournals(), DefaultLanguage.SAVE_JOURNALS);
 		bottomPanel.add(journalCheck);
 		bottomPanel.add(addPanel);
 		
@@ -270,7 +286,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param directory Given Directory
 	 * @since 2.0
 	 */
-	public abstract void setDirectory(final File directory);
+	protected abstract void setDirectory(final File directory);
 	
 	/**
 	 * Returns the directory from which to save DMFs
@@ -278,7 +294,44 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @return Directory
 	 * @since 2.0
 	 */
-	public abstract File getDirectory();
+	protected abstract File getDirectory();
+	
+	/**
+	 * Returns all the page URLs for a given artist that have not already been downloaded.
+	 * 
+	 * @param pid DProgressInfoDialog used to show progress
+	 * @param artist Given Artist
+	 * @param checkAll Whether to check all pages or just new pages.
+	 * @param checkJournals Whether to check for the artist's journals
+	 * @return Artist's Page URLs
+	 * @since 2.0
+	 */
+	protected abstract ArrayList<String> getPages(DProgressInfoDialog pid, final String artist, final boolean checkAll, final boolean checkJournals);
+	
+	/**
+	 * Downloads media from list of pageURLs from a given artist.
+	 * 
+	 * @param pid DProgressInfoDialog used to show progress
+	 * @param artist Given Artist
+	 * @param pages Page URLs
+	 * @since 2.0
+	 */
+	protected abstract void downloadPages(DProgressInfoDialog pid, final String artist, final ArrayList<String> pages);
+	
+	/**
+	 * Loads all IDs related to the current service to check if media has already been downloaded.
+	 * 
+	 * @since 2.0
+	 */
+	protected abstract void getIdStrings();
+	
+	/**
+	 * Returns the title to use for the progress log.
+	 * 
+	 * @return Progress Log Title
+	 * @since 2.0
+	 */
+	protected abstract String getTitle();
 	
 	/**
 	 * Displays the current list of artists.
@@ -303,6 +356,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void checkPages(final boolean checkAll)
 	{	
 		boolean ready = true;
+		checkAllPages = checkAll;
 		
 		if(getDirectory() == null || !getDirectory().isDirectory())
 		{
@@ -435,6 +489,8 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 		}//IF
 		
+		getIdStrings();
+		
 	}//METHOD
 	
 	/**
@@ -547,6 +603,22 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	}//METHOD
 	
 	/**
+	 * Starts process of downloading media from selected artists.
+	 * 
+	 * @since 2.0
+	 */
+	private void downloadArtistMedia()
+	{
+		progressInfoDialog.setTitle(getTitle());
+		for(int i = 0; !progressInfoDialog.isCancelled() && i < artists.size(); i++)
+		{
+			downloadPages(progressInfoDialog, artists.get(i), getPages(progressInfoDialog, artists.get(i), checkAllPages, getSettings().getSaveJournals()));
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
 	 * Deals with a process being finished, closing the progress dialog and allowing input.
 	 * 
 	 * @since 2.0
@@ -567,7 +639,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void infoProcessFinished()
 	{
 		progressInfoDialog.setCancelled(false);
-		progressInfoDialog.closeProgressDialog();
+		progressInfoDialog.showFinalLog(getFrame(), this.getTitle(DefaultLanguage.DOWNLOADING));
 		getFrame().setProcessRunning(false);
 		
 	}//METHOD
@@ -628,6 +700,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			case DefaultLanguage.DOWNLOAD_SINGLE:
 				downloadSingle();
 				break;
+			case DefaultLanguage.SAVE_JOURNALS:
+				getSettings().setSaveJournals(BooleanInt.getBoolean(value));
+				break;
 			
 		}//SWITCH
 		
@@ -650,6 +725,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		{
 			case DefaultLanguage.LOADING_DMFS:
 				loadDMFs();
+				break;
+			case DefaultLanguage.CHECK_ALL:
+				downloadArtistMedia();
 				break;
 			
 		}//SWITCH
