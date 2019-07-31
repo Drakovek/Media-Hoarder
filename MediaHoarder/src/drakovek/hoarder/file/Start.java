@@ -39,9 +39,10 @@ public class Start
 		testFrame.packRestricted();
 		testFrame.setLocationRelativeTo(null);
 		testFrame.setVisible(true);
-				
+		
+		String[] extensions = {".txt", ".dmf"};  //$NON-NLS-1$//$NON-NLS-2$
 		DFileChooser fileChooser = new DFileChooser(settings);
-		File file = fileChooser.openDialog(testFrame, null, null);
+		File file = fileChooser.openSaveDialog(testFrame, null, extensions);
 				
 		if(file != null)
 		{

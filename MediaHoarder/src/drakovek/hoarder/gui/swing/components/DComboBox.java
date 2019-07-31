@@ -36,4 +36,29 @@ public class DComboBox extends JComboBox<String>
 		
 	}//METHOD
 	
+	/**
+	 * Sets the data contained in the combo box.
+	 * 
+	 * @param data String array to show in the combo box
+	 * @since 2.0
+	 */
+	public void setData(final String[] data)
+	{
+		this.removeAllItems();
+		
+		if(data.length > 0)
+		{
+			for(String line: data)
+			{
+				this.addItem(line);
+			
+			}//FOR
+		
+			this.revalidate();
+			this.setSelectedIndex(0);
+			
+		}//IF
+		
+	}//METHOD
+	
 }//CLASS

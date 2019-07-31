@@ -42,15 +42,19 @@ public class ExtensionFilter implements FileFilter
 				
 			}//IF
 			
-			for(int i = 0; i < extensions.length; i++)
+			if(extensions != null)
 			{
-				if(file.getAbsolutePath().endsWith(extensions[i]))
+				for(int i = 0; i < extensions.length; i++)
 				{
-					return true;
+					if(file.getAbsolutePath().endsWith(extensions[i]))
+					{
+						return true;
 					
-				}//IF
+					}//IF
 				
-			}//FOR
+				}//FOR
+				
+			}//IF
 			
 		}//IF
 

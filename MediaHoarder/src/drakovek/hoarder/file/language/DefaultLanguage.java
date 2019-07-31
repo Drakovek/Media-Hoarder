@@ -427,6 +427,13 @@ public class DefaultLanguage
 	public static final String OPEN_TITLE = "open_title"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the file chooser dialog title when saving a file.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SAVE_TITLE = "save_title"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Roots" label in the file chooser dialog
 	 * 
 	 * @since 2.0
@@ -460,6 +467,27 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String FILE_TYPE = "file_type"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for showing that only directories can be opened in the file chooser dialog
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DIRECTORIES_ONLY = "directories_only"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for showing that the user can save to any file type in the file chooser dialog
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ALL_FILES = "all_files"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for showing all files of any of the listed extensions in the file chooser dialog
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ALL_ALLOWED_EXTENSIONS = "all_allowed_extensions"; //$NON-NLS-1$
 	
 	//ARTIST HOSTING
 	
@@ -949,12 +977,16 @@ public class DefaultLanguage
 		//FILE CHOOSER
 		languageFile.add(new String());
 		languageFile.add("[FILE CHOOSER]"); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(OPEN_TITLE, "Open Directory")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(OPEN_TITLE, "Open File")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SAVE_TITLE, "Save File")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ROOTS, "^Roots:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PARENT, "^Parent")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NEW_DIRECTORY, "^New Directory")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FILE_NAME, "File ^Name:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FILE_TYPE, "File ^Type:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DIRECTORIES_ONLY, "Directories Only")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ALL_FILES, "All Files")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ALL_ALLOWED_EXTENSIONS, "All Allowed Extensions")); //$NON-NLS-1$
 		
 		//ARTIST HOSTING
 		languageFile.add(new String());
