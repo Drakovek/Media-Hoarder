@@ -18,15 +18,14 @@ import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DComboBox;
 import drakovek.hoarder.gui.swing.components.DDialog;
+import drakovek.hoarder.gui.swing.components.DFileList;
 import drakovek.hoarder.gui.swing.components.DFrame;
 import drakovek.hoarder.gui.swing.components.DLabel;
-import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.listeners.DEnterListener;
 import drakovek.hoarder.gui.swing.listeners.DListClickListener;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
-import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.processing.sort.FileSort;
 
 /**
@@ -85,7 +84,7 @@ public class DFileChooser extends BaseGUI
 	 * 
 	 * @since 2.0
 	 */
-	private DList fileList;
+	private DFileList fileList;
 	
 	/**
 	 * Button used for finishing the file chooser process. Shows either "Open" or "Save"
@@ -214,7 +213,7 @@ public class DFileChooser extends BaseGUI
 		namePanel.add(fileNameText, nameCST);
 		
 		//CREATE FILE PANEL
-		fileList = new DList(this, false, DefaultLanguage.FILE);
+		fileList = new DFileList(this, false, DefaultLanguage.FILE);
 		fileList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fileList.addMouseListener(new DListClickListener(this, fileList, DListClickListener.LIST_CLICKED));
 		DScrollPane fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, fileList);
@@ -353,13 +352,7 @@ public class DFileChooser extends BaseGUI
 			currentDirectory = directory;
 			returnFile = directory;
 			files = FileSort.sortFiles(currentDirectory.listFiles(filter));
-			String[] fileStrings = new String[files.length];
-			for(int i = 0; i < fileStrings.length; i++)
-			{
-				fileStrings[i] = files[i].getName() + StringMethods.extendCharacter(' ', 4);
-				
-			}//FOR
-			fileList.setListData(fileStrings);
+			fileList.setListData(files);
 			fileNameText.setText(currentDirectory.getAbsolutePath());
 			
 		}//IF

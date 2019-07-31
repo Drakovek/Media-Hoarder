@@ -351,7 +351,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			
 			previewPanels[i] = getSpacedPanel(panel);
 			
-			previewPanels[i].setBorder(BorderFactory.createLineBorder(pageText.getDisabledTextColor()));
+			previewPanels[i].setBorder(BorderFactory.createLineBorder(pageText.getDisabledTextColor(), 1));
 			
 		}//FOR
 		

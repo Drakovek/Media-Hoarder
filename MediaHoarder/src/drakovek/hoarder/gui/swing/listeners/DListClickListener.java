@@ -3,7 +3,7 @@ package drakovek.hoarder.gui.swing.listeners;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import drakovek.hoarder.gui.swing.components.DList;
+import javax.swing.JList;
 
 /**
  * Deals with the user double or triple clicking an item in a DList.
@@ -33,7 +33,8 @@ public class DListClickListener extends MouseAdapter
 	 * 
 	 * @since 2.0
 	 */
-	private DList list;
+	@SuppressWarnings("rawtypes")
+	private JList list;
 	
 	/**
 	 * Action ID
@@ -50,7 +51,8 @@ public class DListClickListener extends MouseAdapter
 	 * @param id Action ID
 	 * @since 2.0
 	 */
-	public DListClickListener(DEvent event, DList list, final String id)
+	@SuppressWarnings("rawtypes")
+	public DListClickListener(DEvent event, JList list, final String id)
 	{
 		this.event = event;
 		this.list = list;
