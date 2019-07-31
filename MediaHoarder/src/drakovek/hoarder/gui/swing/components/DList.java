@@ -25,6 +25,13 @@ public class DList extends JList<String>
 	private static final long serialVersionUID = -5532350862927679564L;
 	
 	/**
+	 * Height of a single cell.
+	 * 
+	 * @since 2.0
+	 */
+	private int cellHeight = 0;
+	
+	/**
 	 * Initializes the DList class.
 	 * 
 	 * @param baseGUI Linked BaseGUI
@@ -46,7 +53,8 @@ public class DList extends JList<String>
 		
 		}//ELSE
 		
-		this.setFixedCellHeight(baseGUI.getSettings().getFontSize() + (baseGUI.getSettings().getSpaceSize() * 2));
+		cellHeight = baseGUI.getSettings().getFontSize() + (baseGUI.getSettings().getSpaceSize() * 2);
+		this.setFixedCellHeight(cellHeight);
 		this.setLayoutOrientation(VERTICAL);
 		this.setFont(baseGUI.getFont());
 		this.addListSelectionListener(new DListSelectionListener(baseGUI, id));
@@ -55,5 +63,23 @@ public class DList extends JList<String>
         this.getActionMap().put("enter", new DEnterListener(baseGUI, id)); //$NON-NLS-1$
 		
 	}//CONSTRUCTOR
+	
+	/**
+	 * Sets the number of visible rows to fit within the size of the list. ONLY WORKS WHEN LIST IS WITHIN A SCROLL PANE.
+	 * 
+	 * @since 2.0
+	 */
+	public void fitRowsToSize()
+	{
+		int rows = (int)Math.floor((double)getParent().getHeight()/(double)cellHeight);
+		if(rows < 1)
+		{
+			rows = 1;
+			
+		}//IF
+		
+		this.setVisibleRowCount(rows);
+		
+	}//METHOD
 	
 }//CLASS

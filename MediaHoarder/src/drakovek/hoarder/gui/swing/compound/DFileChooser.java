@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
 
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
@@ -22,6 +23,10 @@ import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.components.DTextField;
+import drakovek.hoarder.gui.swing.listeners.DEnterListener;
+import drakovek.hoarder.gui.swing.listeners.DListClickListener;
+import drakovek.hoarder.gui.swing.listeners.DResizeListener;
+import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.processing.sort.FileSort;
 
 /**
@@ -33,6 +38,13 @@ import drakovek.hoarder.processing.sort.FileSort;
  */
 public class DFileChooser extends BaseGUI
 {
+	/**
+	 * Action ID for when enter is pressed while the file list is in focus
+	 * 
+	 * @since 2.0
+	 */
+	private static final String LIST_ENTER_ACTION = DefaultLanguage.FILE + DEnterListener.ENTER_PRESSED;
+	
 	/**
 	 * Main file chooser dialog
 	 * 
@@ -111,6 +123,27 @@ public class DFileChooser extends BaseGUI
 	private File[] roots;
 	
 	/**
+	 * Array of files in the current directory
+	 * 
+	 * @since 2.0
+	 */
+	private File[] files;
+	
+	/**
+	 * The directory currently being shown to the user.
+	 * 
+	 * @since 2.0
+	 */
+	private File currentDirectory;
+	
+	/**
+	 * Filter for the showing the files of the current directory
+	 * 
+	 * @since 2.0
+	 */
+	private ExtensionFilter filter;
+	
+	/**
 	 * Initializes the DFileChooser class by formatting the main GUI.
 	 * 
 	 * @param settings Program Settings
@@ -121,6 +154,8 @@ public class DFileChooser extends BaseGUI
 		super(settings);
 		returnFile = null;
 		extensions = null;
+		filter = new ExtensionFilter(null, true);
+		currentDirectory = null;
 		
 		//CREATE ROOT PANEL
 		rootBox = new DComboBox(this, DefaultLanguage.ROOTS);
@@ -180,7 +215,10 @@ public class DFileChooser extends BaseGUI
 		
 		//CREATE FILE PANEL
 		fileList = new DList(this, false, DefaultLanguage.FILE);
+		fileList.setLayoutOrientation(JList.VERTICAL_WRAP);
+		fileList.addMouseListener(new DListClickListener(this, fileList, DListClickListener.LIST_CLICKED));
 		DScrollPane fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, fileList);
+		fileScroll.addComponentListener(new DResizeListener(this, null));
 		
 		//CREATE CENTER PANEL
 		JPanel centerPanel = new JPanel();
@@ -233,7 +271,7 @@ public class DFileChooser extends BaseGUI
 		roots = File.listRoots();
 		while(roots != null && roots.length == 1)
 		{
-			roots = roots[0].listFiles(new ExtensionFilter(null));
+			roots = roots[0].listFiles(new ExtensionFilter(null, false));
 			
 		}//WHILE
 		
@@ -260,14 +298,18 @@ public class DFileChooser extends BaseGUI
 			if(isOpening)
 			{
 				fileType[0] = getSettings().getLanguageText(DefaultLanguage.DIRECTORIES_ONLY);
-				
+				filter.setExtensions(null);
+				filter.setAllowAll(false);
+						
 			}//IF
 			else
 			{
 				fileType[0] = getSettings().getLanguageText(DefaultLanguage.ALL_FILES);
-				
+				filter.setExtensions(null);
+				filter.setAllowAll(true);
+						
 			}//ELSE
-			
+					
 			fileTypeBox.setData(fileType);
 
 		}//IF
@@ -275,6 +317,9 @@ public class DFileChooser extends BaseGUI
 		{
 			String[] fileType = {'*' + extensions[0]};
 			fileTypeBox.setData(fileType);
+			String[] filterExtension = {extensions[0]};
+			filter.setExtensions(filterExtension);
+			filter.setAllowAll(false);
 			
 		}//ELSE IF
 		else
@@ -288,8 +333,155 @@ public class DFileChooser extends BaseGUI
 			}//FOR
 			
 			fileTypeBox.setData(fileTypes);
+			filter.setExtensions(extensions);
+			filter.setAllowAll(false);
 			
 		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Sets the displayed file list to show the contents of a given directory.
+	 * 
+	 * @param directory Given Directory
+	 * @since 2.0
+	 */
+	private void setDirectory(final File directory)
+	{
+		if(directory != null && directory.isDirectory())
+		{
+			currentDirectory = directory;
+			returnFile = directory;
+			files = FileSort.sortFiles(currentDirectory.listFiles(filter));
+			String[] fileStrings = new String[files.length];
+			for(int i = 0; i < fileStrings.length; i++)
+			{
+				fileStrings[i] = files[i].getName() + StringMethods.extendCharacter(' ', 4);
+				
+			}//FOR
+			fileList.setListData(fileStrings);
+			fileNameText.setText(currentDirectory.getAbsolutePath());
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Sets the current directory to a a directory in the file list corresponding to a given index.
+	 * 
+	 * @param index Index of file to use as current directory
+	 * @since 2.0
+	 */
+	private void setDirectoryFromIndex(final int index)
+	{
+		if(index > -1 && index < files.length)
+		{
+			setDirectory(files[index]);
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Deals with a root directory being selected. Sets the current directory to the selected root.
+	 * 
+	 * @since 2.0
+	 */
+	private void rootSelected()
+	{
+		int selected = rootBox.getSelectedIndex();
+		if(selected != -1)
+		{
+			setDirectory(roots[selected]);
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Deals with a file name being entered. Sets the current directory to the file name entered in the file name text field.
+	 * 
+	 * @since 2.0
+	 */
+	private void fileNameEntered()
+	{
+		File file = new File(fileNameText.getText());
+		if(file.exists())
+		{
+			if(file.isDirectory())
+			{
+				setDirectory(file);
+				
+			}//IF
+			else
+			{
+				File parent = file.getParentFile();
+				if(parent != null && parent.isDirectory())
+				{
+					setDirectory(parent);
+					for(int i = 0; i < files.length; i++)
+					{
+						if(files[i].equals(file))
+						{
+							fileList.setSelectedIndex(i);
+							break;
+							
+						}//IF
+						
+					}//FOR
+					
+				}//IF
+				
+			}//IF
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Changes the current file filter based on the user's selection in the file type combo box.
+	 * 
+	 * @since 2.0
+	 */
+	private void changeFilter()
+	{
+		if(extensions != null && extensions.length > 1)
+		{
+			int selected = fileTypeBox.getSelectedIndex();
+			if(selected == 0)
+			{
+				filter.setExtensions(extensions);
+				filter.setAllowAll(false);
+				
+			}//IF
+			else if(selected > 0)
+			{
+				String[] extension = {extensions[selected - 1]};
+				filter.setExtensions(extension);
+				filter.setAllowAll(false);
+				
+			}//ELSE IF
+			
+			setDirectory(currentDirectory);
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Deals with a file being selected in the currently displayed directory.
+	 * 
+	 * @since 2.0
+	 */
+	public void fileSelected()
+	{
+		int selected = fileList.getSelectedIndex();
+		if(selected != -1)
+		{
+			returnFile = files[selected];
+			fileNameText.setText(returnFile.getAbsolutePath());
+			
+		}//IF
 		
 	}//METHOD
 	
@@ -349,16 +541,36 @@ public class DFileChooser extends BaseGUI
 		switch(id)
 		{
 			case DefaultLanguage.ROOTS:
-				System.out.println("Root - " + rootBox.getSelectedIndex()); //$NON-NLS-1$
+				rootSelected();
 				break;
 			case DefaultLanguage.FILE_TYPE:
-				System.out.println("FileType - " + fileTypeBox.getSelectedIndex()); //$NON-NLS-1$
+				changeFilter();
+				break;
+			case DefaultLanguage.FILE_NAME:
+				fileNameEntered();
+				break;
+			case DefaultLanguage.FILE:
+				fileSelected();
+				break;
+			case LIST_ENTER_ACTION:
+				setDirectory(returnFile);
+				break;
+			case DListClickListener.LIST_CLICKED:
+				setDirectoryFromIndex(value);
+				break;
+			case DefaultLanguage.PARENT:
+				setDirectory(currentDirectory.getParentFile());
+				break;
+			case DResizeListener.RESIZE:
+				fileList.fitRowsToSize();
 				break;
 			case DefaultLanguage.CANCEL:
+				returnFile = null;
 				dialog.dispose();
 				break;
 				
 		}//SWITCH
+		
 	}//METHOD
 	
 }//CLASS

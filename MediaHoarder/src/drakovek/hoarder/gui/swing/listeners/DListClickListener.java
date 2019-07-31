@@ -15,6 +15,13 @@ import drakovek.hoarder.gui.swing.components.DList;
 public class DListClickListener extends MouseAdapter
 {
 	/**
+	 * Default action id for when a list element is clicked.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LIST_CLICKED = "list_clicked"; //$NON-NLS-1$
+	
+	/**
 	 * DEvent to call if an item has been clicked.
 	 * 
 	 * @since 2.0

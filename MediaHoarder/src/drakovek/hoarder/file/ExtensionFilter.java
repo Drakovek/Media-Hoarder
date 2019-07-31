@@ -20,23 +20,56 @@ public class ExtensionFilter implements FileFilter
 	private String[] extensions;
 	
 	/**
+	 * Whether to allow all files of any extension
+	 * 
+	 * @since 2.0
+	 */
+	private boolean allowAll;
+	
+	/**
 	 * Initializes ExtensionFilter Class
 	 * 
 	 * @param extensions Extensions to allow
+	 * @param allowAll Whether to allow all files of any extension
 	 * @since 2.0
 	 */
-	public ExtensionFilter(final String[] extensions)
+	public ExtensionFilter(final String[] extensions, final boolean allowAll)
+	{
+		setExtensions(extensions);
+		setAllowAll(allowAll);
+		
+	}//CONSTRUCTOR
+	
+	/**
+	 * Sets the extensions to be filtered.
+	 * 
+	 * @param extensions Extensions
+	 * @since 2.0
+	 */
+	public void setExtensions(final String[] extensions)
 	{
 		this.extensions = extensions;
 		
-	}//CONSTRUCTOR
+	}//METHOD
+	
+	/**
+	 * Sets whether to allow all files of any extension.
+	 * 
+	 * @param allowAll Allow All
+	 * @since 2.0
+	 */
+	public void setAllowAll(final boolean allowAll)
+	{
+		this.allowAll = allowAll;
+		
+	}//METHOD
 	
 	@Override
 	public boolean accept(File file)
 	{
 		if(!file.isHidden() && file.canRead())
 		{	
-			if(file.isDirectory())
+			if(allowAll || file.isDirectory())
 			{
 				return true;
 				
