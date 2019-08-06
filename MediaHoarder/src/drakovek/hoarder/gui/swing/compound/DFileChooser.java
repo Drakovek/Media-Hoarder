@@ -48,6 +48,13 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	private static final String LIST_ENTER_ACTION = DefaultLanguage.FILE + DEnterListener.ENTER_PRESSED;
 	
 	/**
+	 * Ellipsis string
+	 * 
+	 * @since 2.0
+	 */
+	private static final String ELLIPSIS = "..."; //$NON-NLS-1$
+	
+	/**
 	 * Main file chooser dialog
 	 * 
 	 * @since 2.0
@@ -95,6 +102,13 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * @since 2.0
 	 */
 	private DFileList fileList;
+	
+	/**
+	 * Scroll pane for hoding the file list
+	 * 
+	 * @since 2.0
+	 */
+	private DScrollPane fileScroll;
 	
 	/**
 	 * Button used for finishing the file chooser process. Shows either "Open" or "Save"
@@ -211,7 +225,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		fileList = new DFileList(this, false, DefaultLanguage.FILE);
 		fileList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fileList.addMouseListener(new DListClickListener(this, fileList, DListClickListener.LIST_CLICKED));
-		DScrollPane fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, fileList);
+		fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, fileList);
 		fileScroll.addComponentListener(new DResizeListener(this, null));
 		
 		//CREATE CENTER PANEL
@@ -385,6 +399,8 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 			
 		}//ELSE
 		
+		setDirectory(startDirectory);
+		
 	}//METHOD
 	
 	/**
@@ -403,7 +419,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 				selectedFile = directory;
 				files = FileSort.sortFiles(currentDirectory.listFiles(filter));
 				fileList.setListData(files);
-				directoryLabel.setText(currentDirectory.getAbsolutePath());
+				setDirectoryLabel(currentDirectory);
 				setNameText(currentDirectory);
 			}
 			else if(!isOpening || directory.exists())
@@ -414,6 +430,61 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 				
 			}//ELSE IF
 			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Sets the directory label to show a given directory.
+	 * 
+	 * @param directory Given Directory
+	 * @since 2.0
+	 */
+	private void setDirectoryLabel(final File directory)
+	{
+		if(directory != null)
+		{
+			String directoryString = directory.getAbsolutePath();
+			directoryLabel.setToolTipText(directoryString);
+			int width;
+			while(true)
+			{
+				width = directoryLabel.getFontMetrics(getFont()).stringWidth(directoryString) + getSettings().getSpaceSize();
+				if(directoryString.length() == 0 || width < fileScroll.getWidth())
+				{
+					break;
+				
+				}//IF
+			
+				if(directoryString.startsWith(ELLIPSIS))
+				{
+					directoryString = directoryString.substring(4);
+					
+				}//IF
+					
+				directoryString = directoryString.substring(1);
+				int i = directoryString.indexOf('/');
+				if(i == -1)
+				{
+					i = directoryString.indexOf('\\');
+				
+				}//IF
+			
+				if(i == -1)
+				{
+					directoryString = new String();
+				
+				}//IF
+				else
+				{
+					directoryString = ELLIPSIS + directoryString.substring(i);
+				
+				}//IF
+			
+			}//WHILE
+		
+			directoryLabel.setText(directoryString);
+		
 		}//IF
 		
 	}//METHOD
@@ -672,6 +743,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 				break;
 			case DResizeListener.RESIZE:
 				fileList.fitRowsToSize();
+				setDirectoryLabel(currentDirectory);
 				break;
 			case DefaultLanguage.SAVE:
 				attemptFinish();
@@ -685,17 +757,9 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	}//METHOD
 
 	@Override
-	public void enableAll()
-	{
-		// TODO Auto-generated method stub
-		
-	}//METHOD
+	public void enableAll(){}
 
 	@Override
-	public void disableAll()
-	{
-		// TODO Auto-generated method stub
-		
-	}//METHOD
+	public void disableAll(){}
 	
 }//CLASS
