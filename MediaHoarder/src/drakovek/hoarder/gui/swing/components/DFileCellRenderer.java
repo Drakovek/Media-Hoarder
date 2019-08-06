@@ -13,6 +13,7 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileSystemView;
 
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.processing.StringMethods;
 
 /**
  * Cell renderer for a DFileList for showing file icons.
@@ -22,7 +23,7 @@ import drakovek.hoarder.gui.BaseGUI;
  * @since 2.0
  */
 public class DFileCellRenderer extends DefaultListCellRenderer
-{	
+{
 	/**
 	 * SerialVersionUID
 	 * 
@@ -106,7 +107,7 @@ public class DFileCellRenderer extends DefaultListCellRenderer
         File file = (File)value;
         
         label.setIcon(fileSystemView.getSystemIcon(file));
-        label.setText(file.getName());
+        label.setText(file.getName() + StringMethods.extendCharacter(' ', 4));
         label.setToolTipText(file.getPath());
         
         if(selected)

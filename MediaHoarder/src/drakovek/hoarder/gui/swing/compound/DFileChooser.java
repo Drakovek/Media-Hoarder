@@ -8,13 +8,16 @@ import java.io.File;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.ExtensionFilter;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DComboBox;
 import drakovek.hoarder.gui.swing.components.DDialog;
@@ -35,7 +38,7 @@ import drakovek.hoarder.processing.sort.FileSort;
  * @version 2.0
  * @since 2.0
  */
-public class DFileChooser extends BaseGUI
+public class DFileChooser extends BaseGUI implements ComponentDisabler
 {
 	/**
 	 * Action ID for when enter is pressed while the file list is in focus
@@ -73,6 +76,13 @@ public class DFileChooser extends BaseGUI
 	private DComboBox fileTypeBox;
 	
 	/**
+	 * Label to show the currently selected directory
+	 * 
+	 * @since 2.0
+	 */
+	private DLabel directoryLabel;
+	
+	/**
 	 * Text Field for showing and entering the selected file path
 	 * 
 	 * @since 2.0
@@ -99,6 +109,13 @@ public class DFileChooser extends BaseGUI
 	 * @since 2.0
 	 */
 	private File returnFile;
+	
+	/**
+	 * File currently selected by the user.
+	 * 
+	 * @since 2.0
+	 */
+	private File selectedFile;
 	
 	/**
 	 * Whether or not the user is prompted to open a file. If false, the user is prompted to save a file.
@@ -153,23 +170,9 @@ public class DFileChooser extends BaseGUI
 		super(settings);
 		returnFile = null;
 		extensions = null;
+		selectedFile = null;
 		filter = new ExtensionFilter(null, true);
 		currentDirectory = null;
-		
-		//CREATE ROOT PANEL
-		rootBox = new DComboBox(this, DefaultLanguage.ROOTS);
-		JPanel rootPanel = new JPanel();
-		rootPanel.setLayout(new GridBagLayout());
-		GridBagConstraints rootCST = new GridBagConstraints();
-		rootCST.gridx = 0;		rootCST.gridy = 0;
-		rootCST.gridwidth = 1;	rootCST.gridheight = 3;
-		rootCST.weightx = 0;	rootCST.weighty = 0;
-		rootCST.fill = GridBagConstraints.BOTH;
-		rootPanel.add(new DLabel(this, rootBox, DefaultLanguage.ROOTS), rootCST);
-		rootCST.gridx = 1;
-		rootPanel.add(getHorizontalSpace(), rootCST);
-		rootCST.gridx = 2;		rootCST.weightx = 1;
-		rootPanel.add(rootBox, rootCST);
 		
 		//CREATE TOP PANEL
 		JPanel buttonPanel = new JPanel();
@@ -177,18 +180,10 @@ public class DFileChooser extends BaseGUI
 		buttonPanel.add(new DButton(this, DefaultLanguage.PARENT));
 		buttonPanel.add(new DButton(this, DefaultLanguage.NEW_DIRECTORY));
 		
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new GridBagLayout());
-		GridBagConstraints topCST = new GridBagConstraints();
-		topCST.gridx = 1;		topCST.gridy = 0;
-		topCST.gridwidth = 1;	topCST.gridheight = 3;
-		topCST.weightx = 0;		topCST.weighty = 0;
-		topCST.fill = GridBagConstraints.BOTH;
-		topPanel.add(getHorizontalSpace(), topCST);
-		topCST.gridx = 2;
-		topPanel.add(buttonPanel, topCST);
-		topCST.gridx = 0;		topCST.weightx = 1;
-		topPanel.add(rootPanel, topCST);
+		rootBox = new DComboBox(this, DefaultLanguage.ROOTS);
+		directoryLabel = new DLabel(this, null, new String());
+		JPanel rootPanel = getHorizontalStack(new DLabel(this, rootBox, DefaultLanguage.ROOTS), 0, getHorizontalStack(rootBox, 1, buttonPanel, 0), 1);
+		JPanel topPanel = getVerticalStack(getVerticalStack(rootPanel, new JSeparator(SwingConstants.HORIZONTAL)), directoryLabel);
 		
 		//CREATE NAME PANEL
 		fileNameText = new DTextField(this, DefaultLanguage.FILE_NAME);
@@ -227,7 +222,7 @@ public class DFileChooser extends BaseGUI
 		centerPanel.add(getSpacedPanel(namePanel, 1, 0, true, false, true, true), BorderLayout.SOUTH);
 		
 		//CREATE BOTTOM PANEL
-		finishButton = new DButton(this, new String());
+		finishButton = new DButton(this, DefaultLanguage.SAVE);
 		JPanel openPanel = new JPanel();
 		openPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
 		openPanel.add(new DButton(this, DefaultLanguage.CANCEL));
@@ -245,6 +240,59 @@ public class DFileChooser extends BaseGUI
 		initializeChooser(null);
 		
 	}//CONSTRUCTOR
+	
+	
+	/**
+	 * Opens the file chooser dialog for opening a file.
+	 * 
+	 * @param owner DFrame used as the file chooser's owner
+	 * @param startDirectory Directory to start with when the file chooser opens
+	 * @param fileExtensions Extensions to allow opening
+	 * @return File chosen by the user (null if no file chosen)
+	 * @since 2.0
+	 */
+	public File openDialog(DFrame owner, final File startDirectory, final String[] fileExtensions)
+	{
+		isOpening = true;
+		extensions = fileExtensions;
+		returnFile = null;
+		selectedFile = null;
+		owner.setAllowExit(false);
+		initializeChooser(startDirectory);
+		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+		dialog = null;
+		owner.setAllowExit(true);
+		return returnFile;
+		
+	}//METHOD
+	
+	/**
+	 * Opens the file chooser dialog for saving a file.
+	 * 
+	 * @param owner DFrame used as the file chooser's owner
+	 * @param startDirectory Directory to start with when the file chooser opens
+	 * @param fileExtensions Extensions to allow opening
+	 * @return File chosen by the user (null if no file chosen)
+	 * @since 2.0
+	 */
+	public File openSaveDialog(DFrame owner, final File startDirectory, final String[] fileExtensions)
+	{
+		isOpening = false;
+		extensions = fileExtensions;
+		returnFile = null;
+		selectedFile = null;
+		owner.setAllowExit(false);
+		initializeChooser(startDirectory);
+		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.SAVE_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+		dialog = null;
+		owner.setAllowExit(true);
+		return returnFile;
+		
+	}//METHOD
 	
 	/**
 	 * Sets the initial state of the file chooser when it is opened.
@@ -347,13 +395,24 @@ public class DFileChooser extends BaseGUI
 	 */
 	private void setDirectory(final File directory)
 	{
-		if(directory != null && directory.isDirectory())
+		if(directory != null)
 		{
-			currentDirectory = directory;
-			returnFile = directory;
-			files = FileSort.sortFiles(currentDirectory.listFiles(filter));
-			fileList.setListData(files);
-			fileNameText.setText(currentDirectory.getAbsolutePath());
+			if(directory.isDirectory())
+			{
+				currentDirectory = directory;
+				selectedFile = directory;
+				files = FileSort.sortFiles(currentDirectory.listFiles(filter));
+				fileList.setListData(files);
+				directoryLabel.setText(currentDirectory.getAbsolutePath());
+				setNameText(currentDirectory);
+			}
+			else if(!isOpening || directory.exists())
+			{
+				selectedFile = directory;
+				setNameText(selectedFile);
+				attemptFinish();
+				
+			}//ELSE IF
 			
 		}//IF
 		
@@ -398,36 +457,39 @@ public class DFileChooser extends BaseGUI
 	 */
 	private void fileNameEntered()
 	{
-		File file = new File(fileNameText.getText());
-		if(file.exists())
+		String nameText = fileNameText.getText();
+		File file = new File(nameText);
+		
+		if(!file.exists())
 		{
-			if(file.isDirectory())
+			for(File curFile: files)
 			{
-				setDirectory(file);
-				
-			}//IF
-			else
-			{
-				File parent = file.getParentFile();
-				if(parent != null && parent.isDirectory())
+				if(curFile.getName().equals(nameText))
 				{
-					setDirectory(parent);
-					for(int i = 0; i < files.length; i++)
-					{
-						if(files[i].equals(file))
-						{
-							fileList.setSelectedIndex(i);
-							break;
-							
-						}//IF
-						
-					}//FOR
+					file = curFile;
+					break;
 					
 				}//IF
 				
-			}//IF
+			}//FOR
 			
 		}//IF
+		
+		if(file.exists())
+		{
+			setDirectory(file);
+			
+		}//IF
+		else if(!isOpening)
+		{
+			attemptFinish();
+			
+		}//ELSE IF
+		else
+		{
+			setNameText(selectedFile);
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -471,60 +533,114 @@ public class DFileChooser extends BaseGUI
 		int selected = fileList.getSelectedIndex();
 		if(selected != -1)
 		{
-			returnFile = files[selected];
-			fileNameText.setText(returnFile.getAbsolutePath());
+			selectedFile = files[selected];
+			setNameText(selectedFile);
 			
 		}//IF
 		
 	}//METHOD
 	
 	/**
-	 * Opens the file chooser dialog for opening a file.
+	 * Attempts to finish the file choosing process, attempting to set the return file.
 	 * 
-	 * @param owner DFrame used as the file chooser's owner
-	 * @param startDirectory Directory to start with when the file chooser opens
-	 * @param fileExtensions Extensions to allow opening
-	 * @return File chosen by the user (null if no file chosen)
 	 * @since 2.0
 	 */
-	public File openDialog(DFrame owner, final File startDirectory, final String[] fileExtensions)
-	{
-		isOpening = true;
-		extensions = fileExtensions;
-		returnFile = null;
-		owner.setAllowExit(false);
-		initializeChooser(startDirectory);
-		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.SAVE_TITLE), true, getSettings().getFontSize() * 30, getSettings().getFontSize() * 20);
-		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		dialog.setVisible(true);
-		dialog = null;
-		owner.setAllowExit(true);
-		return returnFile;
+	private void attemptFinish()
+	{	
+		if(isOpening)
+		{
+			fileNameEntered();
+			
+			if(extensions == null || extensions.length == 0 || !selectedFile.isDirectory())
+			{
+				returnFile = selectedFile;
+				dialog.dispose();
+				
+			}//IF
+			
+		}//IF
+		else
+		{
+			String nameText = fileNameText.getText();
+			boolean hasExtension = false;
+			if(extensions != null && extensions.length > 0)
+			{
+				for(String extension: extensions)
+				{
+					if(nameText.endsWith(extension))
+					{
+						hasExtension = true;
+						break;
+						
+					}//IF
+					
+				}//FOR
+				
+			}//IF
+			else
+			{
+				hasExtension = true;
+				
+			}//ELSE
+			
+			if(!hasExtension)
+			{
+				int selection = fileTypeBox.getSelectedIndex() - 1;
+				if(selection > -1 && selection < extensions.length)
+				{
+					nameText = nameText + extensions[selection];
+					
+				}//IF
+				else
+				{
+					nameText = nameText + extensions[0];
+					
+				}//ELSE
+				
+			}//IF
+			
+			File file = new File(nameText);
+			File parent = file.getParentFile();
+			if(parent == null || !parent.isDirectory())
+			{
+				file = new File(currentDirectory, nameText);
+				
+			}//IF
+			
+			boolean shouldSave = true;
+			
+			if(file.exists())
+			{
+				DButtonDialog buttonDialog = new DButtonDialog(getSettings());
+				String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
+				shouldSave = buttonDialog.openButtonDialog(this, dialog, DefaultLanguage.FILE_EXISTS, DefaultLanguage.FILE_EXISTS_MESSAGES, buttonIDs).equals(DefaultLanguage.YES);
+			
+			}//IF
+			
+			if(shouldSave)
+			{
+				returnFile = file;
+				dialog.dispose();
+				
+			}//IF
+			
+		}//ELSE
 		
 	}//METHOD
 	
 	/**
-	 * Opens the file chooser dialog for saving a file.
+	 * Sets the file name text field based on a given file.
 	 * 
-	 * @param owner DFrame used as the file chooser's owner
-	 * @param startDirectory Directory to start with when the file chooser opens
-	 * @param fileExtensions Extensions to allow opening
-	 * @return File chosen by the user (null if no file chosen)
+	 * @param file Given File
 	 * @since 2.0
 	 */
-	public File openSaveDialog(DFrame owner, final File startDirectory, final String[] fileExtensions)
+	private void setNameText(final File file)
 	{
-		isOpening = false;
-		extensions = fileExtensions;
-		returnFile = null;
-		owner.setAllowExit(false);
-		initializeChooser(startDirectory);
-		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), true, getSettings().getFontSize() * 30, getSettings().getFontSize() * 20);
-		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		dialog.setVisible(true);
-		dialog = null;
-		owner.setAllowExit(true);
-		return returnFile;
+		if(file != null && file.exists())
+		{
+			fileNameText.setText(file.getName());
+			
+		}//IF
 		
 	}//METHOD
 
@@ -546,7 +662,7 @@ public class DFileChooser extends BaseGUI
 				fileSelected();
 				break;
 			case LIST_ENTER_ACTION:
-				setDirectory(returnFile);
+				setDirectory(selectedFile);
 				break;
 			case DListClickListener.LIST_CLICKED:
 				setDirectoryFromIndex(value);
@@ -557,12 +673,28 @@ public class DFileChooser extends BaseGUI
 			case DResizeListener.RESIZE:
 				fileList.fitRowsToSize();
 				break;
+			case DefaultLanguage.SAVE:
+				attemptFinish();
+				break;
 			case DefaultLanguage.CANCEL:
-				returnFile = null;
 				dialog.dispose();
 				break;
 				
 		}//SWITCH
+		
+	}//METHOD
+
+	@Override
+	public void enableAll()
+	{
+		// TODO Auto-generated method stub
+		
+	}//METHOD
+
+	@Override
+	public void disableAll()
+	{
+		// TODO Auto-generated method stub
 		
 	}//METHOD
 	

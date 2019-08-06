@@ -489,6 +489,20 @@ public class DefaultLanguage
 	 */
 	public static final String ALL_ALLOWED_EXTENSIONS = "all_allowed_extensions"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for the title of dialog showing user that a given file already exists.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FILE_EXISTS = "file_exists"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the messages of dialog showing user that a given file already exists.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String[] FILE_EXISTS_MESSAGES = {"file_exists_message_1", "file_exists_message_2"}; //$NON-NLS-1$ //$NON-NLS-2$
+	
 	//ARTIST HOSTING
 	
 	/**
@@ -987,6 +1001,9 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(DIRECTORIES_ONLY, "Directories Only")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ALL_FILES, "All Files")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ALL_ALLOWED_EXTENSIONS, "All Allowed Extensions")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILE_EXISTS, "File Exists")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILE_EXISTS_MESSAGES[0], "Selected file already exists.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILE_EXISTS_MESSAGES[1], "Replace File?")); //$NON-NLS-1$
 		
 		//ARTIST HOSTING
 		languageFile.add(new String());
