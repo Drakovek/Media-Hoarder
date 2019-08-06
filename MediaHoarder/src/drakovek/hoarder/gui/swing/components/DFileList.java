@@ -1,5 +1,7 @@
 package drakovek.hoarder.gui.swing.components;
 
+import java.io.File;
+
 import javax.swing.JList;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
@@ -9,13 +11,13 @@ import drakovek.hoarder.gui.swing.listeners.DEnterListener;
 import drakovek.hoarder.gui.swing.listeners.DListSelectionListener;
 
 /**
- * Default List object for the program.
+ * List object for listing files.
  * 
  * @author Drakovek
  * @version 2.0
  * @since 2.0
  */
-public class DList extends JList<String>
+public class DFileList extends JList<File>
 {
 	/**
 	 * SerialVersionUID
@@ -38,10 +40,11 @@ public class DList extends JList<String>
 	 * @param multipleSelect Whether to allow selecting multiple items in the list.
 	 * @param id Event ID for the list.
 	 */
-	public DList(BaseGUI baseGUI, final boolean multipleSelect, final String id)
+	public DFileList(BaseGUI baseGUI, final boolean multipleSelect, final String id)
 	{
 		super();
-		
+		this.setCellRenderer(new DFileCellRenderer(baseGUI));
+
 		if(multipleSelect)
 		{
 			this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -61,7 +64,7 @@ public class DList extends JList<String>
 
         this.getInputMap(WHEN_FOCUSED).put(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, 0, true), "enter"); //$NON-NLS-1$
         this.getActionMap().put("enter", new DEnterListener(baseGUI, id)); //$NON-NLS-1$
-		
+
 	}//CONSTRUCTOR
 	
 	/**

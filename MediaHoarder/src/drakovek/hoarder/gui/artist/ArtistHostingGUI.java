@@ -524,7 +524,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 */
 	private void selectDirectory()
 	{
-		File file = fileChooser.getFileOpen(getFrame(), getDirectory());
+		File file = fileChooser.openDialog(getFrame(), getDirectory(), null);
 		
 		if(file != null && file.isDirectory())
 		{

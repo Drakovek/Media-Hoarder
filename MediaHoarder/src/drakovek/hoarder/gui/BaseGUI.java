@@ -209,11 +209,13 @@ public abstract class BaseGUI implements DEvent
 	 * Creates a JPanel That consists of two components stacked vertically with default space in between.
 	 * 
 	 * @param topComponent Component to place on top
+	 * @param topWeight Weight of the top component
 	 * @param bottomComponent Component to place on bottom
+	 * @param bottomWeight Weight of the bottom component
 	 * @return Vertical Stack Panel
 	 * @since 2.0
 	 */
-	public JPanel getVerticalStack(Component topComponent, Component bottomComponent)
+	public JPanel getVerticalStack(Component topComponent, final int topWeight, Component bottomComponent, final int bottomWeight)
 	{
 		JPanel stackPanel = new JPanel();
 		stackPanel.setLayout(new GridBagLayout());
@@ -225,11 +227,72 @@ public abstract class BaseGUI implements DEvent
 		stackPanel.add(getVerticalSpace(), stackCST);
 		stackCST.gridx = 0;			stackCST.gridy = 0;
 		stackCST.gridwidth = 3;		stackCST.weightx = 1;
+		stackCST.weighty = topWeight;
 		stackPanel.add(topComponent, stackCST);
-		stackCST.gridy = 2;
+		stackCST.gridy = 2;			stackCST.weighty = bottomWeight;
 		stackPanel.add(bottomComponent, stackCST);
 		
 		return stackPanel;
+		
+	}//METHOD
+	
+	/**
+	 * Creates a JPanel That consists of two components stacked vertically with default space in between, with minimum default weight.
+	 * 
+	 * @param topComponent Component to place on top
+	 * @param bottomComponent Component to place on bottom
+	 * @return Vertical Stack Panel
+	 * @since 2.0
+	 */
+	public JPanel getVerticalStack(Component topComponent, Component bottomComponent)
+	{
+		return getVerticalStack(topComponent, 0, bottomComponent, 0);
+		
+	}//METHOD
+	
+	/**
+	 * Creates a JPanel That consists of two components stacked horizontally with default space in between.
+	 * 
+	 * @param leftComponent Component to place on the left
+	 * @param leftWeight Weight of the left component
+	 * @param rightComponent Component to place on the right
+	 * @param rightWeight Weight of the right component
+	 * @return Horizontal Stack Panel
+	 * @since 2.0
+	 */
+	public JPanel getHorizontalStack(Component leftComponent, final int leftWeight, Component rightComponent, final int rightWeight)
+	{
+		JPanel stackPanel = new JPanel();
+		stackPanel.setLayout(new GridBagLayout());
+		GridBagConstraints stackCST = new GridBagConstraints();
+		stackCST.gridx = 1;			stackCST.gridy = 1;
+		stackCST.gridwidth = 1;		stackCST.gridheight = 1;
+		stackCST.weightx = 0;		stackCST.weighty = 0;
+		stackCST.fill = GridBagConstraints.BOTH;
+		stackPanel.add(getHorizontalSpace(), stackCST);
+		stackCST.gridx = 0;			stackCST.gridy = 0;
+		stackCST.gridheight = 3;	stackCST.weighty = 1;
+		stackCST.weightx = leftWeight;
+		stackPanel.add(leftComponent, stackCST);
+		stackCST.gridx = 2;			stackCST.weightx = rightWeight;
+		stackPanel.add(rightComponent, stackCST);
+		
+		return stackPanel;
+		
+	}//METHOD
+	
+	/**
+	 * Creates a JPanel That consists of two components stacked horizontally with default space in between, with minimum default weight.
+	 * 
+	 * @param leftComponent Component to place on the left
+	 * @param rightComponent Component to place on the right
+	 * @return Horizontal Stack Panel
+	 * @since 2.0
+	 */
+	public JPanel getHorizontalStack(Component leftComponent, Component rightComponent)
+	{	
+		return getHorizontalStack(leftComponent, 0, rightComponent, 0);
+		
 	}//METHOD
 	
 	/**
