@@ -281,7 +281,16 @@ public class DmfDirectory implements Serializable
 			//INFO
 			titles.add(dmf.getTitle());
 			artists.add(dmf.getArtists());
-			times.add(Long.valueOf(dmf.getTime()));
+			if(dmf.getTime() == 0L)
+			{
+				times.add(null);
+				
+			}//IF
+			else
+			{
+				times.add(Long.valueOf(dmf.getTime()));
+				
+			}//ELSE
 			webTags.add(dmf.getWebTags());
 			descriptions.add(dmf.getDescription());
 
@@ -300,7 +309,15 @@ public class DmfDirectory implements Serializable
 			sequenceTitles.add(dmf.getSequenceTitle());
 			sectionTitles.add(dmf.getSectionTitle());
 			branchTitles.add(dmf.getBranchTitles());
-			ratings.add(Integer.valueOf(dmf.getRating()));
+			if(dmf.getRating() == 0)
+			{
+				ratings.add(null);
+			}//IF
+			else
+			{
+				ratings.add(Integer.valueOf(dmf.getRating()));
+				
+			}//ELSE
 			userTags.add(dmf.getUserTags());
 		
 		}//IF

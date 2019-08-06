@@ -2,11 +2,13 @@ package drakovek.hoarder.gui.swing.compound;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DDialog;
@@ -74,6 +76,20 @@ public class DProgressInfoDialog extends DProgressDialog
 	private DDialog finalDialog;
 	
 	/**
+	 * File chooser used for saving log text
+	 * 
+	 * @since 2.0
+	 */
+	private DFileChooser fileChooser;
+	
+	/**
+	 * Directory for the file chooser to start within
+	 * 
+	 * @since 2.0
+	 */
+	private File directory;
+	
+	/**
 	 * Initializes the DProgressInfoDialog class.
 	 * 
 	 * @param settings Program settings
@@ -82,6 +98,7 @@ public class DProgressInfoDialog extends DProgressDialog
 	public DProgressInfoDialog(DSettings settings)
 	{
 		super(settings);
+		fileChooser = new DFileChooser(settings);
 		
 	}//CONSTRUCTOR
 	
@@ -191,15 +208,36 @@ public class DProgressInfoDialog extends DProgressDialog
 	 * 
 	 * @param ownerFrame Frame used as the final progress dialog's owner
 	 * @param titleID Title of the final progress dialog
+	 * @param startDirectory Directory to start from when saving log.
 	 * @since 2.0
 	 */
-	public void showFinalLog(DFrame ownerFrame, final String titleID)
+	public void showFinalLog(DFrame ownerFrame, final String titleID, final File startDirectory)
 	{
+		
 		closeProgressDialog();
 		finalLogText.setText(logText.getText());
 		finalLogScroll.resetTopLeft();
+		directory = startDirectory;
 		finalDialog = new DDialog(ownerFrame, finalPanel, getSettings().getLanguageText(titleID), true, getSettings().getFrameWidth() * 30, getSettings().getFontSize() * 30);
 		finalDialog.setVisible(true);
+		
+	}//METHOD
+	
+	/**
+	 * Method to save log text to a text file.
+	 * 
+	 * @since 2.0
+	 */
+	private void saveLog()
+	{
+		String[] extension = {".txt"};  //$NON-NLS-1$
+		File file = fileChooser.openSaveDialog(finalDialog, directory, extension);
+		
+		if(file != null)
+		{
+			DWriter.writeToFile(file, finalLogText.getText());
+			
+		}//IF
 		
 	}//METHOD
 	
@@ -224,6 +262,9 @@ public class DProgressInfoDialog extends DProgressDialog
 			case DefaultLanguage.CLOSE:
 				finalDialog.dispose();
 				finalDialog = null;
+				break;
+			case DefaultLanguage.SAVE:
+				saveLog();
 				break;
 			
 		}//SWITCH

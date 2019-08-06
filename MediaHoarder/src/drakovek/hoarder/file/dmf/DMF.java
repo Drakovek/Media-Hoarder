@@ -407,32 +407,32 @@ public class DMF
 	private void clearDMF()
 	{
 		//DMF
-		id = new String();
+		id = null;
 		
 		//INFO
-		title = new String();
-		artists = new String[0];
+		title = null;
+		artists = null;
 		time = 0L;
-		webTags = new String[0];
-		description = new String();
+		webTags = null;
+		description = null;
 		
 		//WEB
-		pageURL = new String();
-		mediaURL = new String();
+		pageURL = null;
+		mediaURL = null;
 		
 		//FILE
 		mediaFile = null;
-		lastIDs = new String[0];
-		nextIDs = new String[0];
+		lastIDs = null;
+		nextIDs = null;
 		first = false;
 		last = false;
 		
 		//USER
-		sequenceTitle = new String();
-		sectionTitle = new String();
-		branchTitles = new String[0];
+		sequenceTitle = null;
+		sectionTitle = null;
+		branchTitles = null;
 		rating = 0;
-		userTags = new String[0];
+		userTags = null;
 		
 	}//METHOD
 	
@@ -453,12 +453,12 @@ public class DMF
 			if(getID() != null && getID().length() > 0)
 			{
 				//INFO
-				setTitle(ParseINI.getStringValue(null, TITLE, contents, title));
-				setArtists(ParseINI.getStringListValue(null, ARTISTS, contents, new ArrayList<String>()));
-				if(getArtists().length == 0)
+				setTitle(ParseINI.getStringValue(null, TITLE, contents, null));
+				setArtists(ParseINI.getStringListValue(null, ARTISTS, contents, null));
+				if(getArtists() == null)
 				{
 					//IF NEW ARTISTS VARIABLE DOESN'T WORK, USE OLD ARTIST VARIABLE
-					setArtists(ParseINI.getStringListValue(null, OLD_ARTIST, contents, new ArrayList<String>()));
+					setArtists(ParseINI.getStringListValue(null, OLD_ARTIST, contents, null));
 					
 				}//IF
 				
@@ -470,53 +470,53 @@ public class DMF
 					
 				}//IF
 				
-				setWebTags(ParseINI.getStringListValue(null, WEB_TAGS, contents, new ArrayList<String>()));
-				if(getWebTags().length == 0)
+				setWebTags(ParseINI.getStringListValue(null, WEB_TAGS, contents, null));
+				if(getWebTags() == null)
 				{
 					//IF NEW WEB TAG VARIABLE DOESN'T WORK, USE OLD OTAG VARIABLE
-					setWebTags(ParseINI.getStringListValue(null, OLD_OTAGS, contents, new ArrayList<String>()));
+					setWebTags(ParseINI.getStringListValue(null, OLD_OTAGS, contents, null));
 					
 				}//IF
 				
-				setDescription(ParseINI.getStringValue(null, DESCRIPTION, contents, description));
-				if(getDescription().length() == 0)
+				setDescription(ParseINI.getStringValue(null, DESCRIPTION, contents, null));
+				if(getDescription() == null)
 				{
 					//IF NEW DESCRIPTION VARIABLE DOESN'T WORK, USE OLD DESC VARIABLE
-					setDescription(ParseINI.getStringValue(null, OLD_DESC, contents, description));
+					setDescription(ParseINI.getStringValue(null, OLD_DESC, contents, null));
 					
 				}//IF
 				
 				//WEB
-				setPageURL(ParseINI.getStringValue(null, PAGE_URL, contents, getPageURL()));
-				if(getPageURL().length() == 0)
+				setPageURL(ParseINI.getStringValue(null, PAGE_URL, contents, null));
+				if(getPageURL() == null)
 				{
 					//IF NEW PAGE URL VARIABLE DOESN'T WORK, USE OLD PAGE URL VARIABLE
-					setPageURL(ParseINI.getStringValue(null, OLD_PAGE_URL, contents, getPageURL()));
+					setPageURL(ParseINI.getStringValue(null, OLD_PAGE_URL, contents, null));
 				
 				}//IF
 				
-				setMediaURL(ParseINI.getStringValue(null, MEDIA_URL, contents, getMediaURL()));
-				if(getMediaURL().length() == 0)
+				setMediaURL(ParseINI.getStringValue(null, MEDIA_URL, contents, null));
+				if(getMediaURL() == null)
 				{
 					//IF NEW MEDIA URL VARIABLE DOESN'T WORK, USE OLD MEDIA URL VARIABLE
-					setMediaURL(ParseINI.getStringValue(null, OLD_MEDIA_URL, contents, getMediaURL()));
+					setMediaURL(ParseINI.getStringValue(null, OLD_MEDIA_URL, contents, null));
 					
 				}//IF
 				
 				//FILE
-				setMediaFile(ParseINI.getStringValue(null, MEDIA_FILE, contents, new String()));
+				setMediaFile(ParseINI.getStringValue(null, MEDIA_FILE, contents, null));
 				if(getMediaFile() == null || !getMediaFile().exists())
 				{
 					//IF NEW MEDIA FILE VARIABLE DOESN'T WORK, USE OLD FILENAME VARIABLE
-					setMediaFile(ParseINI.getStringValue(null, OLD_FILENAME, contents, new String()));
+					setMediaFile(ParseINI.getStringValue(null, OLD_FILENAME, contents, null));
 					
 				}//IF
 				
-				setLastIDs(ParseINI.getStringListValue(null, LAST_IDS, contents, new ArrayList<String>()));
-				if(getLastIDs().length > 0)
+				setLastIDs(ParseINI.getStringListValue(null, LAST_IDS, contents, null));
+				if(getLastIDs() == null)
 				{
 					//FILE IS USING NEW STANDARD FOR RECORDING SEQUENCES
-					setNextIDs(ParseINI.getStringListValue(null, NEXT_IDS, contents, new ArrayList<String>()));
+					setNextIDs(ParseINI.getStringListValue(null, NEXT_IDS, contents, null));
 					setFirst(ParseINI.getBooleanValue(null, FIRST, contents, first));
 					setLast(ParseINI.getBooleanValue(null, LAST, contents, last));
 					
@@ -524,35 +524,35 @@ public class DMF
 				else
 				{
 					//IF NEW SEQUENCE DATA VARIABLES DON'T WORK, USE OLD SEQ DATA VARIABLE
-					setSequenceData(ParseINI.getStringValue(null, OLD_SEQ_DATA, contents, new String()));
+					setSequenceData(ParseINI.getStringValue(null, OLD_SEQ_DATA, contents, null));
 					
 				}//ELSE
 				
 				//USER
-				setSequenceTitle(ParseINI.getStringValue(null, SEQUENCE_TITLE, contents, getSequenceTitle()));
-				if(getSequenceTitle().length() == 0)
+				setSequenceTitle(ParseINI.getStringValue(null, SEQUENCE_TITLE, contents, null));
+				if(getSequenceTitle() == null)
 				{
 					//IF NEW SEQUENCE TITLE VARIABLE DOESN'T WORK, USE OLD SEQ TITLE VARIABLE
-					setSequenceTitle(ParseINI.getStringValue(null, OLD_SEQ_TITLE, contents, getSequenceTitle()));
+					setSequenceTitle(ParseINI.getStringValue(null, OLD_SEQ_TITLE, contents, null));
 					
 				}//IF
 				
-				setSectionTitle(ParseINI.getStringValue(null, SECTION_TITLE, contents, getSectionTitle()));
-				if(getSectionTitle().length() == 0)
+				setSectionTitle(ParseINI.getStringValue(null, SECTION_TITLE, contents, null));
+				if(getSectionTitle() == null)
 				{
 					//IF NEW SECTION TITLE VARIABLE DOESN'T WORK, USE OLD SUB SEQ TITLE VARIABLE
-					setSectionTitle(ParseINI.getStringValue(null, OLD_SUB_SEQ_TITLE, contents, getSectionTitle()));
+					setSectionTitle(ParseINI.getStringValue(null, OLD_SUB_SEQ_TITLE, contents, null));
 					
 				}//IF
 				
-				setBranchTitles(ParseINI.getStringListValue(null, BRANCH_TITLES, contents, new ArrayList<String>()));
-				setRating(ParseINI.getIntValue(null, RATING, contents, rating));
+				setBranchTitles(ParseINI.getStringListValue(null, BRANCH_TITLES, contents, null));
+				setRating(ParseINI.getIntValue(null, RATING, contents, 0));
 				
-				setUserTags(ParseINI.getStringListValue(null, USER_TAGS, contents, new ArrayList<String>()));
-				if(getUserTags().length == 0)
+				setUserTags(ParseINI.getStringListValue(null, USER_TAGS, contents, null));
+				if(getUserTags() == null)
 				{
 					//IF NEW USER TAG VARIABLE DOESN'T WORK, USE OLD UTAG VARIABLE
-					setUserTags(ParseINI.getStringListValue(null, OLD_UTAGS, contents, new ArrayList<String>()));
+					setUserTags(ParseINI.getStringListValue(null, OLD_UTAGS, contents, null));
 					
 				}//IF
 				
@@ -579,9 +579,14 @@ public class DMF
 			//INFO
 			contents.add(new String());
 			contents.add("[INFO]"); //$NON-NLS-1$
-			contents.add(ParseINI.getAssignmentString(TITLE, getTitle()));
 			
-			if(getArtists().length > 0)
+			if(title != null)
+			{
+				contents.add(ParseINI.getAssignmentString(TITLE, getTitle()));
+			
+			}//IF
+			
+			if(getArtists() != null && getArtists().length > 0)
 			{
 				contents.add(ParseINI.getAssignmentString(ARTISTS, getArtists()));
 				
@@ -593,13 +598,13 @@ public class DMF
 				
 			}//IF
 			
-			if(getWebTags().length > 0)
+			if(getWebTags() != null && getWebTags().length > 0)
 			{
 				contents.add(ParseINI.getAssignmentString(WEB_TAGS, getWebTags()));
 				
 			}//IF
 			
-			if(getDescription().length() > 0)
+			if(getDescription() != null && getDescription().length() > 0)
 			{
 				contents.add(ParseINI.getAssignmentString(DESCRIPTION, getDescription()));
 				
@@ -607,13 +612,13 @@ public class DMF
 			
 			//WEB
 			ArrayList<String> web = new ArrayList<>();
-			if(getPageURL().length() > 0)
+			if(getPageURL() != null && getPageURL().length() > 0)
 			{
 				web.add(ParseINI.getAssignmentString(PAGE_URL, getPageURL()));
 				
 			}//IF
 			
-			if(getMediaURL().length() > 0)
+			if(getMediaURL() != null && getMediaURL().length() > 0)
 			{
 				web.add(ParseINI.getAssignmentString(MEDIA_URL, getMediaURL()));
 				
@@ -632,19 +637,19 @@ public class DMF
 			contents.add("[FILE]"); //$NON-NLS-1$
 			contents.add(ParseINI.getAssignmentString(MEDIA_FILE, getMediaFile().getName()));
 			
-			if(getLastIDs().length > 0)
+			if(getLastIDs() != null && getLastIDs().length > 0)
 			{
 				contents.add(ParseINI.getAssignmentString(LAST_IDS, getLastIDs()));
 				
 			}//IF
 			
-			if(getNextIDs().length > 0)
+			if(getNextIDs() != null && getNextIDs().length > 0)
 			{
 				contents.add(ParseINI.getAssignmentString(NEXT_IDS, getNextIDs()));
 				
 			}//IF
 			
-			if((getLastIDs().length > 0 && !getLastIDs()[0].equals(EMPTY_ID)) || (getNextIDs().length > 0 && !getNextIDs()[0].equals(EMPTY_ID)))
+			if((getLastIDs() != null && getLastIDs().length > 0 && !getLastIDs()[0].equals(EMPTY_ID)) || (getNextIDs() != null && getNextIDs().length > 0 && !getNextIDs()[0].equals(EMPTY_ID)))
 			{
 				contents.add(ParseINI.getAssignmentString(FIRST, isFirstInSection()));
 				contents.add(ParseINI.getAssignmentString(LAST, isLastInSection()));
@@ -653,19 +658,19 @@ public class DMF
 			
 			//USER
 			ArrayList<String> user = new ArrayList<>();
-			if(getSequenceTitle().length() > 0)
+			if(getSequenceTitle() != null && getSequenceTitle().length() > 0)
 			{
 				user.add(ParseINI.getAssignmentString(SEQUENCE_TITLE, getSequenceTitle()));
 				
 			}//IF
 			
-			if(getSectionTitle().length() > 0)
+			if(getSectionTitle() != null && getSectionTitle().length() > 0)
 			{
 				user.add(ParseINI.getAssignmentString(SECTION_TITLE, getSectionTitle()));
 				
 			}//IF
 			
-			if(getBranchTitles().length > 0)
+			if(getBranchTitles() != null && getBranchTitles().length > 0)
 			{
 				user.add(ParseINI.getAssignmentString(BRANCH_TITLES, getBranchTitles()));
 				
@@ -677,7 +682,7 @@ public class DMF
 				
 			}//IF
 			
-			if(getUserTags().length > 0)
+			if(getUserTags() != null && getUserTags().length > 0)
 			{
 				user.add(ParseINI.getAssignmentString(USER_TAGS, getUserTags()));
 				
@@ -830,8 +835,17 @@ public class DMF
 	 * @since 2.0
 	 */
 	public void setArtists(final ArrayList<String> artists)
-	{
-		this.artists = StringMethods.arrayListToArray(artists);
+	{	
+		if(artists != null && artists.size() > 0)
+		{
+			this.artists = StringMethods.arrayListToArray(artists);
+			
+		}//IF
+		else
+		{
+			this.artists = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -843,8 +857,17 @@ public class DMF
 	 */
 	public void setArtist(final String artist)
 	{
-		artists = new String[1];
-		artists[0] = artist;
+		if(artist != null && artist.length() > 0)
+		{
+			artists = new String[1];
+			artists[0] = artist;
+			
+		}//IF
+		else
+		{
+			artists = null;
+		
+		}//ELSE
 		
 	}//METHOD
 	
@@ -978,7 +1001,16 @@ public class DMF
 	 */
 	public void setWebTags(final ArrayList<String> webTags)
 	{
-		this.webTags = StringMethods.arrayListToArray(webTags);
+		if(webTags != null && webTags.size() > 0)
+		{
+			this.webTags = StringMethods.arrayListToArray(webTags);
+		
+		}//IF
+		else
+		{
+			this.webTags = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -1087,7 +1119,7 @@ public class DMF
 	public void setMediaFile(final String filename)
 	{
 		boolean failed = true;
-		if(dmfFile != null && filename.length() > 0)
+		if(dmfFile != null && filename!= null && filename.length() > 0)
 		{
 			File parent = dmfFile.getParentFile();
 			if(parent != null && parent.isDirectory())
@@ -1127,7 +1159,16 @@ public class DMF
 	 */
 	public void setLastIDs(final ArrayList<String> lastIDs)
 	{
-		this.lastIDs = StringMethods.arrayListToArray(lastIDs);
+		if(lastIDs != null && lastIDs.size() > 0)
+		{
+			this.lastIDs = StringMethods.arrayListToArray(lastIDs);
+			
+		}//IF
+		else
+		{
+			this.lastIDs = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -1139,8 +1180,17 @@ public class DMF
 	 */
 	public void setLastID(final String lastID)
 	{
-		lastIDs = new String[1];
-		lastIDs[0] = lastID;
+		if(lastID != null && lastID.length() > 0)
+		{
+			lastIDs = new String[1];
+			lastIDs[0] = lastID;
+			
+		}//IF
+		else
+		{
+			lastIDs = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -1164,7 +1214,16 @@ public class DMF
 	 */
 	public void setNextIDs(final ArrayList<String> nextIDs)
 	{
-		this.nextIDs = StringMethods.arrayListToArray(nextIDs);
+		if(nextIDs != null && nextIDs.size() > 0)
+		{
+			this.nextIDs = StringMethods.arrayListToArray(nextIDs);
+			
+		}//IF
+		else
+		{
+			this.nextIDs = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -1176,8 +1235,17 @@ public class DMF
 	 */
 	public void setNextID(final String nextID)
 	{
-		nextIDs = new String[1];
-		nextIDs[0] = nextID;
+		if(nextID != null && nextID.length() > 0)
+		{
+			nextIDs = new String[1];
+			nextIDs[0] = nextID;
+		
+		}//IF
+		else
+		{
+			nextIDs = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -1338,7 +1406,16 @@ public class DMF
 	 */
 	public void setBranchTitles(final ArrayList<String> branchTitles)
 	{
-		this.branchTitles = StringMethods.arrayListToArray(branchTitles);
+		if(branchTitles != null && branchTitles.size() > 0)
+		{
+			this.branchTitles = StringMethods.arrayListToArray(branchTitles);
+		
+		}//IF
+		else
+		{
+			this.branchTitles = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -1370,6 +1447,7 @@ public class DMF
 		else
 		{
 			this.rating = 0;
+			
 		}//ELSE
 		
 	}//METHOD
@@ -1394,7 +1472,16 @@ public class DMF
 	 */
 	public void setUserTags(final ArrayList<String> userTags)
 	{
-		this.userTags = StringMethods.arrayListToArray(userTags);
+		if(userTags != null && userTags.size() > 0)
+		{
+			this.userTags = StringMethods.arrayListToArray(userTags);
+			
+		}//IF
+		else
+		{
+			this.userTags = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	

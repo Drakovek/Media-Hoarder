@@ -104,7 +104,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	private DFileList fileList;
 	
 	/**
-	 * Scroll pane for hoding the file list
+	 * Scroll pane for holding the file list
 	 * 
 	 * @since 2.0
 	 */
@@ -283,6 +283,30 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	}//METHOD
 	
 	/**
+	 * Opens the file chooser dialog for opening a file.
+	 * 
+	 * @param owner DDialog used as the file chooser's owner
+	 * @param startDirectory Directory to start with when the file chooser opens
+	 * @param fileExtensions Extensions to allow opening
+	 * @return File chosen by the user (null if no file chosen)
+	 * @since 2.0
+	 */
+	public File openDialog(DDialog owner, final File startDirectory, final String[] fileExtensions)
+	{
+		isOpening = true;
+		extensions = fileExtensions;
+		returnFile = null;
+		selectedFile = null;
+		initializeChooser(startDirectory);
+		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+		dialog = null;
+		return returnFile;
+		
+	}//METHOD
+	
+	/**
 	 * Opens the file chooser dialog for saving a file.
 	 * 
 	 * @param owner DFrame used as the file chooser's owner
@@ -304,6 +328,30 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		dialog.setVisible(true);
 		dialog = null;
 		owner.setAllowExit(true);
+		return returnFile;
+		
+	}//METHOD
+	
+	/**
+	 * Opens the file chooser dialog for saving a file.
+	 * 
+	 * @param owner DDialog used as the file chooser's owner
+	 * @param startDirectory Directory to start with when the file chooser opens
+	 * @param fileExtensions Extensions to allow opening
+	 * @return File chosen by the user (null if no file chosen)
+	 * @since 2.0
+	 */
+	public File openSaveDialog(DDialog owner, final File startDirectory, final String[] fileExtensions)
+	{
+		isOpening = false;
+		extensions = fileExtensions;
+		returnFile = null;
+		selectedFile = null;
+		initializeChooser(startDirectory);
+		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.SAVE_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+		dialog = null;
 		return returnFile;
 		
 	}//METHOD
@@ -399,7 +447,16 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 			
 		}//ELSE
 		
-		setDirectory(startDirectory);
+		if(startDirectory != null && startDirectory.isDirectory())
+		{
+			setDirectory(startDirectory);
+			
+		}//IF
+		else
+		{
+			rootBox.setSelectedIndex(0);
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -546,7 +603,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 			
 		}//IF
 		
-		if(file.exists())
+		if(file.isDirectory())
 		{
 			setDirectory(file);
 			

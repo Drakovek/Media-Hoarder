@@ -7,10 +7,14 @@ import java.util.List;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.html.DomAttr;
+import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.DWriter;
+import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
@@ -25,6 +29,15 @@ import drakovek.hoarder.web.Downloader;
  */
 public class FurAffinityGUI extends ArtistHostingGUI
 {
+	/**
+	 * String Array of available months in Fur Affinity format.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String[] MONTHS = {"jan", "feb", "mar", "apr", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+											"may", "jun", "jul", "aug",  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+											"sep", "oct", "nov", "dec"};  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	
 	/**
 	 * Prefix for a DMF ID that indicates that the DMF is sourced from FurAffinity.net
 	 * 
@@ -369,6 +382,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	@Override
 	protected void downloadPages(DProgressInfoDialog progressDialog, String artist, ArrayList<String> pages)
 	{
+		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist));
 		for(int i = 0; !progressDialog.isCancelled() && i < pages.size(); i++)
 		{
 			progressDialog.setProcessLabel(DefaultLanguage.LOADING_PAGE);
@@ -376,7 +390,110 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			progressDialog.setProgressBar(false, true, pages.size(), i);
 			progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + pages.get(i));
 			
+			if(pages.get(i).contains("/view/")) //$NON-NLS-1$
+			{
+				try
+				{
+					downloadMediaPage(artistFolder, pages.get(i));
+					
+				}//TRY
+				catch(Exception e)
+				{
+					e.printStackTrace();
+					
+				}//CATCH
+				
+			}//IF
+			
 		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Downloads media and creates DMF for a Fur Affinity media page.
+	 * 
+	 * @param baseFolder Base Folder to save within
+	 * @param pageURL PageURL to read
+	 * @throws Exception Any problem reading Fur Affinity data
+	 * @since 2.0
+	 */
+	private void downloadMediaPage(final File baseFolder, final String pageURL) throws Exception
+	{
+		int end;
+		
+		DMF dmf = new DMF();
+		getDownloader().setPage(pageURL);
+		
+		//GET TITLE
+		List<DomElement> title = getDownloader().getPage().getByXPath("//div[@class='classic-submission-title information']/h2"); //$NON-NLS-1$
+		dmf.setTitle(Downloader.getElement(title.get(0)));
+		
+		//GET ARTIST
+		List<DomElement> artist = getDownloader().getPage().getByXPath("//div[@class='classic-submission-title information']/a"); //$NON-NLS-1$
+		dmf.setArtist(Downloader.getElement(artist.get(0)));
+		
+		//GET DATE STRING
+		String dateString;
+		List<DomAttr> dateAttribute = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']//span[@class='popup_date']/@title"); //$NON-NLS-1$
+		dateString = Downloader.getAttribute(dateAttribute.get(0));
+		
+		if(dateString.contains("ago")) //$NON-NLS-1$
+		{
+			List<DomElement> dateElement = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']//span[@class='popup_date']"); //$NON-NLS-1$
+			dateString = Downloader.getElement(dateElement.get(0));
+			
+		}//IF
+		
+		//GET MONTH
+		int month;
+		for(month = 0; !dateString.toLowerCase().contains(MONTHS[month]); month++);
+		month++;
+		
+		//GET YEAR
+		int place = dateString.indexOf(',');
+		int year = Integer.parseInt(dateString.substring(place + 2, dateString.indexOf(' ', place + 2)));
+		
+		//GET DAY
+		end = place;
+		while(true)
+		{
+			char myChar = dateString.charAt(end);
+			if(myChar == '0' || myChar == '1' || myChar == '2' || myChar == '3' || myChar == '4' || myChar == '5' || myChar == '6' || myChar == '7' || myChar == '8' || myChar == '9')
+			{
+				break;
+				
+			}//IF
+			
+			end--;
+			
+		}//WHILE
+		
+		int day = Integer.parseInt(dateString.substring(dateString.indexOf(' ') + 1, end + 1));
+		
+		//GET MINUTE
+		place = dateString.indexOf(':');
+		end = dateString.indexOf(' ', place);
+		int minute = Integer.parseInt(dateString.substring(place + 1, end));
+		
+		//GET HOUR
+		int hour = Integer.parseInt(dateString.substring(dateString.lastIndexOf(' ', place) + 1, place));
+		boolean isAM = dateString.toLowerCase().contains("am"); //$NON-NLS-1$
+		if(isAM && hour == 12)
+		{
+			hour = 0;
+			
+		}//IF
+		
+		if(!isAM && hour < 12)
+		{
+			hour = hour + 12;
+			
+		}//IF
+		
+		dmf.setTime(Integer.toString(year), Integer.toString(month), Integer.toString(day), Integer.toString(hour), Integer.toString(minute));
+		
+		System.out.println(dmf.getTitle());
+		System.out.println(dmf.getTime());
 		
 	}//METHOD
 

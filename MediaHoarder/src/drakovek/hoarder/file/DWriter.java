@@ -107,8 +107,76 @@ public class DWriter
     	ArrayList<String> contentList = new ArrayList<>();
     	contentList.add(fileContents);
     	
-    	writeToFile(outputFile, fileContents);
+    	writeToFile(outputFile, contentList);
 
+    }//METHOD
+    
+    /**
+     * Returns a string that is acceptable for use in a file name from a given text string.
+     * 
+     * @param input Given String
+     * @return File Friendly Name
+     * @since 2.0
+     */
+    public static String getFileFriendlyName(final String input)
+    {
+    	//REMOVE UNWANTED CHARACTERS
+    	StringBuilder builder = new StringBuilder();
+    	for(int i = 0; i < input.length(); i++)
+    	{
+    		char myChar = input.charAt(i);
+    		if((myChar > 47 && myChar < 58) || (myChar > 64 && myChar < 91) || (myChar > 96 && myChar < 123) || myChar == ' ')
+    		{
+    			builder.append(myChar);
+    			
+    		}//IF
+    		else
+    		{
+    			builder.append('-');
+    			
+    		}//ELSE
+    		
+    	}//FOR
+    	
+    	//REMOVE FILLER FROM START AND END
+    	while(builder.length() > 0 && (builder.charAt(0) == ' ' || builder.charAt(0) == '-'))
+    	{
+    		builder.deleteCharAt(0);
+    		
+    	}//WHILE
+    	
+    	while(builder.length() > 0 && (builder.charAt(builder.length() - 1) == ' ' || builder.charAt(builder.length() - 1) == '-'))
+    	{
+    		builder.deleteCharAt(builder.length() - 1);
+    		
+    	}//WHILE
+    	
+    	//REMOVE DUPLICATE SPACER
+    	for(int i = 1; i < builder.length(); i++)
+    	{
+    		if((builder.charAt(i) == '-' && builder.charAt(i - 1) == '-') || (builder.charAt(i) == ' ' && builder.charAt(i - 1) == ' '))
+    		{
+    			builder.deleteCharAt(i);
+    			i--;
+    			
+    		}//IF
+    		
+    	}//FOR
+    	
+    	//REMOVE OUT-OF-PLACE HYPHENS
+    	for(int i = 1; i < (builder.length() - 1); i++)
+    	{
+    		if(builder.charAt(i) == '-' && ((builder.charAt(i - 1) == ' ' && builder.charAt(i + 1) != ' ') || (builder.charAt(i + 1) == ' ' && builder.charAt(i - 1) != ' ')))
+    		{
+    			builder.deleteCharAt(i);
+    			i--;
+    			
+    		}//IF
+    		
+    	}//FOR
+    	
+    	return builder.toString();
+    	
     }//METHOD
     
 }//CLASS

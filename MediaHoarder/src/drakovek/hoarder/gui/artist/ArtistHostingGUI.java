@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import com.gargoylesoftware.htmlunit.CookieManager;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
@@ -390,7 +391,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			boolean missingFolders = false;
 			for(int i = 0; i < artistHandler.getArtists().size(); i++)
 			{
-				File artistFolder = new File(getDirectory(), artistHandler.getArtists().get(i));
+				File artistFolder = new File(getDirectory(), DWriter.getFileFriendlyName(artistHandler.getArtists().get(i)));
 				if(!artistFolder.isDirectory())
 				{
 					missingFolders = true;
@@ -639,7 +640,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void infoProcessFinished()
 	{
 		progressInfoDialog.setCancelled(false);
-		progressInfoDialog.showFinalLog(getFrame(), this.getTitle(DefaultLanguage.DOWNLOADING));
+		progressInfoDialog.showFinalLog(getFrame(), getTitle(DefaultLanguage.DOWNLOADING), getDirectory());
 		getFrame().setProcessRunning(false);
 		
 	}//METHOD

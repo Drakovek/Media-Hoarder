@@ -14,6 +14,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomAttr;
+import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
@@ -281,6 +282,74 @@ public class Downloader
 			
 		}//IF
 			
+		return finalString;
+		
+	}//METHOD
+	
+	/**
+	 * Gets the interior text from a DOM element with default values.
+	 * 
+	 * @param element DOM Element
+	 * @return Interior text of a DOM element
+	 * @since 2.0
+	 */
+	public static String getElement(final DomElement element)
+	{	
+		return getElement(element, false, true);
+		
+	}//METHOD
+	
+	/**
+	 * Gets the interior text from a DOM element.
+	 * 
+	 * @param element DOM Element
+	 * @param removeAllSpaces Whether to remove all extraneous spaces from the DOM element
+	 * @param removeEnds Whether to remove the HTML tags at the ends of the DOM element
+	 * @return Interior text of a DOM element
+	 * @since 2.0
+	 */
+	public static String getElement(final DomElement element, final boolean removeAllSpaces, final boolean removeEnds)
+	{
+		String xml = element.asXml();
+		String finalString = new String();
+		int start = 0;
+		int end = 0;
+		
+		while(end < xml.length())
+		{
+			for(end = start; end < xml.length() && xml.charAt(end) != '\r' && xml.charAt(end) != '\n'; end++);
+			
+			if(removeAllSpaces == true)
+			{
+				for(end = end - 1; end >= start && xml.charAt(end) == ' '; end--); end++;
+				
+			}//IF
+			
+			finalString = finalString + xml.substring(start, end);
+			
+			for(start = end; start < xml.length() && xml.charAt(start) != '\n'; start++);
+			for(start = start + 1; start < xml.length() && xml.charAt(start) == ' '; start++);
+			end = start;
+			
+		}//WHILE
+		
+		if(removeEnds == true && finalString.contains(Character.toString('<')) && finalString.contains(Character.toString('>')))
+		{
+			for(start = 0; finalString.charAt(start) != '>'; start++); start++;
+			for(end = finalString.length() - 1; finalString.charAt(end) != '<'; end--);
+			if(start < end)
+			{
+				finalString = finalString.substring(start, end);
+				
+			}//IF
+			else
+			{
+				finalString = new String();
+				
+			}//ELSE
+		
+		}//IF
+		
 		return finalString;
 		
 	}//METHOD
