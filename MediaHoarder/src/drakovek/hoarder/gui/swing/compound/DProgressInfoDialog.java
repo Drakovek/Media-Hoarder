@@ -6,6 +6,7 @@ import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
@@ -164,25 +165,13 @@ public class DProgressInfoDialog extends DProgressDialog
 	}//METHOD
 	
 	/**
-	 * Sets a "title" for the progress log by resetting to only show the given text.
-	 * 
-	 * @param text Text for the progress log to show
-	 * @since 2.0
-	 */
-	public void setTitle(final String text)
-	{
-		logText.setText(text);
-		logScroll.resetTopLeft();
-		
-	}//METHOD
-	
-	/**
 	 * Adds a given string of text to the end of the progress log.
 	 * 
 	 * @param text Text to append
+	 * @param addTimestamp Whether to add a time stamp to the appended text
 	 * @since 2.0
 	 */
-	public void appendLog(final String text)
+	public void appendLog(final String text, final boolean addTimestamp)
 	{
 		if(text == null || text.length() == 0)
 		{
@@ -195,7 +184,16 @@ public class DProgressInfoDialog extends DProgressDialog
 		}//IF
 		else
 		{
-			logText.append(TimeMethods.getCurrentTimeString(getSettings()) + SPACER + text + "\n\r"); //$NON-NLS-1$
+			if(addTimestamp)
+			{
+				logText.append(TimeMethods.getCurrentTimeString(getSettings()) + SPACER + text + "\n\r"); //$NON-NLS-1$
+			
+			}//IF
+			else
+			{
+				logText.append(text + "\n\r"); //$NON-NLS-1$
+			
+			}//ELSE
 			
 		}//else
 		
@@ -213,13 +211,14 @@ public class DProgressInfoDialog extends DProgressDialog
 	 */
 	public void showFinalLog(DFrame ownerFrame, final String titleID, final File startDirectory)
 	{
-		
 		closeProgressDialog();
 		finalLogText.setText(logText.getText());
 		finalLogScroll.resetTopLeft();
 		directory = startDirectory;
 		finalDialog = new DDialog(ownerFrame, finalPanel, getSettings().getLanguageText(titleID), true, getSettings().getFrameWidth() * 30, getSettings().getFontSize() * 30);
+		finalDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		finalDialog.setVisible(true);
+		finalDialog = null;
 		
 	}//METHOD
 	
@@ -244,7 +243,16 @@ public class DProgressInfoDialog extends DProgressDialog
 	@Override
 	public void startProgressDialog(DFrame ownerFrame, final String titleID)
 	{
+		logText.setText(new String());
 		startProgressDialog(ownerFrame, titleID, getSettings().getFrameWidth() * 30, getSettings().getFontSize() * 30);
+		
+	}//METHOD
+	
+	@Override
+	public void startProgressDialog(DDialog ownerDialog, final String titleID)
+	{
+		logText.setText(new String());
+		startProgressDialog(ownerDialog, titleID, getSettings().getFrameWidth() * 30, getSettings().getFontSize() * 30);
 		
 	}//METHOD
 	
@@ -257,11 +265,10 @@ public class DProgressInfoDialog extends DProgressDialog
 				setCancelled(true);
 				setDetailLabel(DefaultLanguage.CANCELING, true);
 				setProgressBar(true, false, 0, 0);
-				appendLog(DefaultLanguage.CANCELING);
+				appendLog(DefaultLanguage.CANCELING, true);
 				break;
 			case DefaultLanguage.CLOSE:
 				finalDialog.dispose();
-				finalDialog = null;
 				break;
 			case DefaultLanguage.SAVE:
 				saveLog();

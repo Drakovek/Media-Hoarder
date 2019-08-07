@@ -513,7 +513,7 @@ public class DMF
 				}//IF
 				
 				setLastIDs(ParseINI.getStringListValue(null, LAST_IDS, contents, null));
-				if(getLastIDs() == null)
+				if(getLastIDs() != null)
 				{
 					//FILE IS USING NEW STANDARD FOR RECORDING SEQUENCES
 					setNextIDs(ParseINI.getStringListValue(null, NEXT_IDS, contents, null));

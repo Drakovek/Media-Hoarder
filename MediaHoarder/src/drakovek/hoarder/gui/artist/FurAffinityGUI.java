@@ -199,18 +199,18 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		progressDialog.setProcessLabel(DefaultLanguage.GETTING_PAGE_URLS);
 		progressDialog.setDetailLabel(artist, false);
 		progressDialog.setProgressBar(true, false, 0, 0);
-		progressDialog.appendLog(null);
+		progressDialog.appendLog(null, false);
 		String urlArtist = artist.replaceAll(Character.toString('_'), new String());
 		
 		//GETS PAGES
-		progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_GALLERY_PAGES));
+		progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_GALLERY_PAGES), true);
 		ArrayList<String> pages = getMediaPages(progressDialog, urlArtist, checkAll, false);
-		progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_SCRAP_PAGES));
+		progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_SCRAP_PAGES), true);
 		pages.addAll(getMediaPages(progressDialog, urlArtist, checkAll, true));
 		
 		if(checkJournals)
 		{
-			progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_JOURNAL_PAGES));
+			progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_JOURNAL_PAGES), true);
 			pages.addAll(getJournalPages(progressDialog, urlArtist, checkAll));
 			
 		}//IF
@@ -388,7 +388,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			progressDialog.setProcessLabel(DefaultLanguage.LOADING_PAGE);
 			progressDialog.setDetailLabel(pages.get(i).substring(pages.get(i).lastIndexOf('/', pages.get(i).length() - 2)), false);
 			progressDialog.setProgressBar(false, true, pages.size(), i);
-			progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + pages.get(i));
+			progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + pages.get(i), true);
 			
 			if(pages.get(i).contains("/view/")) //$NON-NLS-1$
 			{

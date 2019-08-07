@@ -610,7 +610,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 */
 	private void downloadArtistMedia()
 	{
-		progressInfoDialog.setTitle(getTitle());
+		progressInfoDialog.appendLog(getTitle(), false);
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < artists.size(); i++)
 		{
 			downloadPages(progressInfoDialog, artists.get(i), getPages(progressInfoDialog, artists.get(i), checkAllPages, getSettings().getSaveJournals()));

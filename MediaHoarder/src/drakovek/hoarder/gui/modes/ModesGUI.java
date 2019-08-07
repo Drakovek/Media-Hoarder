@@ -37,6 +37,7 @@ public class ModesGUI extends ModeBaseGUI
 				setContentPanel(new DownloadModeGUI(getParentGUI()));
 				break;
 			case DefaultLanguage.MANAGE_MODE:
+				setContentPanel(new ManageModeGUI(getParentGUI()));
 				break;
 			case DefaultLanguage.VIEW_MODE:
 				new ViewBrowserGUI(getSettings(), getParentGUI().getDmfHandler());

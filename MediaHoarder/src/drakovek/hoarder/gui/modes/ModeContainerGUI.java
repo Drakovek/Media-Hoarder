@@ -42,7 +42,7 @@ public class ModeContainerGUI extends FrameGUI
 		super(settings, dmfHandler, null);
 
 		settingsBar = new SettingsBarGUI(this);
-		
+		settingsBar.setLabelLoaded(dmfHandler.isLoaded());
 		modeBaseGUI = new ModesGUI(this);
 		getFrame().getContentPane().add(modeBaseGUI.getContentPanel(), BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);

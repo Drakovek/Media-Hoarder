@@ -331,6 +331,27 @@ public class DefaultLanguage
 	 */
 	public static final String VIEW_MODE = "view_mode"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for the "DMF Sequencing" mode button
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SEQUENCE_MODE = "sequence_mode"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Find Errors" mode button
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ERROR_MODE = "error_mode"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Reformat" mode button
+	 * 
+	 * @since 2.0
+	 */
+	public static final String REFORMAT_MODE = "reformat_mode"; //$NON-NLS-1$
+	
 	//DOWNLOAD
 	
 	/**
@@ -695,6 +716,13 @@ public class DefaultLanguage
 	public static final String[] ADD_DIRECTORY_MESSAGES = {"add_directory_message_1", "add_directory_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
 	/**
+	 * Language variable for a dialog message asking whether to continue.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CONTINUE_MESSAGE = "continue_message"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "AM" in clock time formatting
 	 * 
 	 * @since 2.0
@@ -872,6 +900,34 @@ public class DefaultLanguage
 	public static final String SORTING_DMFS = "sorting_dmfs"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for button to start DMF reformatting process
+	 * 
+	 * @since 2.0
+	 */
+	public static final String REFORMAT_DMFS = "reformat_dmfs"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to start file renaming process
+	 * 
+	 * @since 2.0
+	 */
+	public static final String RENAME_FILES = "rename_files"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to start sequence data deleting process
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DELETE_SEQUENCES = "delete_sequeces"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for message shown to check if user wishes to reformat DMFs
+	 * 
+	 * @since 2.0
+	 */
+	public static final String REFORMAT_MESSAGE = "reformat_message"; //$NON-NLS-1$
+	
+	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
 	 * 
 	 * @param languageDirectory Directory to save the default language file within.
@@ -919,6 +975,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_TITLE, "Add Directory?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[0], "Selected directory is not listed as DMF directory.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[1], "Add to program's DMF directory list?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CONTINUE_MESSAGE, "Continue?")); //$NON-NLS-1$
 		
 		//TIME
 		languageFile.add(new String());
@@ -971,6 +1028,9 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_MODE, "^Download")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(MANAGE_MODE, "^Manage")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(VIEW_MODE, "^View")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SEQUENCE_MODE, "Se^quence DMFs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ERROR_MODE, "^Find Errors")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(REFORMAT_MODE, "^Reformat")); //$NON-NLS-1$
 		
 		//DOWNLOAD
 		languageFile.add(new String());
@@ -1063,6 +1123,15 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS, "Loading Previews:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS_TITLE, "Sorting DMFs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS, "Sorting DMFs:")); //$NON-NLS-1$
+		
+		//MANAGE
+		languageFile.add(new String());
+		languageFile.add("[MANAGE]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(REFORMAT_DMFS, "^Reformat DMFs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RENAME_FILES, "Re^name Files")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "^Delete Sequence Data")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(REFORMAT_MESSAGE, "All DMFs will be reformatted.")); //$NON-NLS-1$
+		
 		
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())
