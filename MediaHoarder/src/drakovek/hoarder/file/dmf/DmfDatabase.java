@@ -82,11 +82,25 @@ public class DmfDatabase
 	private ArrayList<String> mediaURLs;
 	
 	/**
+	 * ArrayList containing Secondary Media URLs from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> secondaryURLs;
+	
+	/**
 	 * ArrayList containing Media Files from the DMF class
 	 * 
 	 * @since 2.0
 	 */
 	private ArrayList<File> mediaFiles;
+	
+	/**
+	 * ArrayList containing Secondary Media Files from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<File> secondaryFiles;
 	
 	/**
 	 * ArrayList containing Last IDs from the DMF class
@@ -184,9 +198,11 @@ public class DmfDatabase
 		//WEB
 		pageURLs = new ArrayList<>();
 		mediaURLs = new ArrayList<>();
+		secondaryURLs = new ArrayList<>();
 		
 		//FILE
 		mediaFiles = new ArrayList<>();
+		secondaryFiles = new ArrayList<>();
 		lastIDs = new ArrayList<>();
 		nextIDs = new ArrayList<>();
 		isFirst = new ArrayList<>();
@@ -360,9 +376,11 @@ public class DmfDatabase
 		//WEB
 		pageURLs.addAll(dmfDirectory.getPageURLs());
 		mediaURLs.addAll(dmfDirectory.getMediaURLs());
+		secondaryURLs.addAll(dmfDirectory.getSecondaryURLs());
 		
 		//FILE
 		mediaFiles.addAll(dmfDirectory.getMediaFiles());
+		secondaryFiles.addAll(dmfDirectory.getSecondaryFiles());
 		lastIDs.addAll(dmfDirectory.getLastIDs());
 		nextIDs.addAll(dmfDirectory.getNextIDs());
 		isFirst.addAll(dmfDirectory.getIsFirst());
@@ -644,9 +662,11 @@ public class DmfDatabase
 		//WEB
 		pageURLs.set(index, dmf.getPageURL());
 		mediaURLs.set(index, dmf.getMediaURL());
+		secondaryURLs.set(index, dmf.getSecondaryURL());
 		
 		//FILE
 		mediaFiles.set(index, dmf.getMediaFile());
+		secondaryFiles.set(index, dmf.getSecondaryFile());
 		lastIDs.set(index, dmf.getLastIDs());
 		nextIDs.set(index, dmf.getNextIDs());
 		isFirst.set(index, Boolean.valueOf(dmf.isFirstInSection()));
@@ -825,6 +845,19 @@ public class DmfDatabase
 		return mediaURLs.get(index);
 		
 	}//METHOD
+
+	/**
+	 * Gets the secondary media URL from the DMF at a given index.
+	 * 
+	 * @param index Index
+	 * @return Secondary URL
+	 * @since 2.0
+	 */
+	public String getSecondaryURL(final int index)
+	{
+		return secondaryURLs.get(index);
+		
+	}//METHOD
 	
 	/**
 	 * Gets the media file from the DMF at a given index.
@@ -836,6 +869,19 @@ public class DmfDatabase
 	public File getMediaFile(final int index)
 	{
 		return mediaFiles.get(index);
+		
+	}//METHOD
+	
+	/**
+	 * Returns the secondary media file from the DMF at a given index.
+	 * 
+	 * @param index Index
+	 * @return Secondary File
+	 * @since 2.0
+	 */
+	public File getSecondaryFile(final int index)
+	{
+		return secondaryFiles.get(index);
 		
 	}//METHOD
 	

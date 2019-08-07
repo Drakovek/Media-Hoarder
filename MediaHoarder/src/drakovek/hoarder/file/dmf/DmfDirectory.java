@@ -20,7 +20,7 @@ public class DmfDirectory implements Serializable
 	 * 
 	 * @since 2.0
 	 */
-	private static final long serialVersionUID = -280406253949987653L;
+	private static final long serialVersionUID = 7765584630775373828L;
 
 	/**
 	 * Directory from which DMF info for the object is loaded
@@ -93,11 +93,25 @@ public class DmfDirectory implements Serializable
 	private ArrayList<String> mediaURLs;
 	
 	/**
+	 * ArrayList containing Secondary Media URLs from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<String> secondaryURLs;
+	
+	/**
 	 * ArrayList containing Media Files from the DMF class
 	 * 
 	 * @since 2.0
 	 */
 	private ArrayList<File> mediaFiles;
+	
+	/**
+	 * ArrayList containing Secondary Media Files from the DMF class
+	 * 
+	 * @since 2.0
+	 */
+	private ArrayList<File> secondaryFiles;
 	
 	/**
 	 * ArrayList containing Last IDs from the DMF class
@@ -208,9 +222,11 @@ public class DmfDirectory implements Serializable
 		//WEB
 		pageURLs = new ArrayList<>();
 		mediaURLs = new ArrayList<>();
+		secondaryURLs = new ArrayList<>();
 		
 		//FILE
 		mediaFiles = new ArrayList<>();
+		secondaryFiles = new ArrayList<>();
 		lastIDs = new ArrayList<>();
 		nextIDs = new ArrayList<>();
 		isFirst = new ArrayList<>();
@@ -297,9 +313,11 @@ public class DmfDirectory implements Serializable
 			//WEB
 			pageURLs.add(dmf.getPageURL());
 			mediaURLs.add(dmf.getMediaURL());
+			secondaryURLs.add(dmf.getSecondaryURL());
 			
 			//FILE
 			mediaFiles.add(dmf.getMediaFile());
+			secondaryFiles.add(dmf.getSecondaryFile());
 			lastIDs.add(dmf.getLastIDs());
 			nextIDs.add(dmf.getNextIDs());
 			isFirst.add(Boolean.valueOf(dmf.isFirstInSection()));
@@ -336,7 +354,7 @@ public class DmfDirectory implements Serializable
 		boolean valid = true;
 		
 		//CHECK IF DIRECTORY IS CORRECT
-		if(!getDirectory().equals(intendedDirectory))
+		if(getDirectory() == null || !getDirectory().equals(intendedDirectory))
 		{
 			valid = false;
 			
@@ -353,7 +371,9 @@ public class DmfDirectory implements Serializable
 		   size != getDescriptions().size() ||
 		   size != getPageURLs().size() ||
 		   size != getMediaURLs().size() ||
+		   size != getSecondaryURLs().size() ||
 		   size != getMediaFiles().size() ||
+		   size != getSecondaryFiles().size() ||
 		   size != getLastIDs().size() ||
 		   size != getNextIDs().size() ||
 		   size != getIsFirst().size() ||
@@ -379,7 +399,9 @@ public class DmfDirectory implements Serializable
 		   !(descriptions.get(0) instanceof java.lang.String) ||
 		   !(pageURLs.get(0) instanceof java.lang.String) ||
 		   !(mediaURLs.get(0) instanceof java.lang.String) ||
+		   !(secondaryURLs.get(0) instanceof java.lang.String) ||
 		   !(mediaFiles.get(0) instanceof java.io.File) ||
+		   !(secondaryFiles.get(0) instanceof java.io.File) ||
 		   !(lastIDs.get(0) instanceof java.lang.String[]) ||
 		   !(nextIDs.get(0) instanceof java.lang.String[]) ||
 		   !(isFirst.get(0) instanceof java.lang.Boolean) ||
@@ -425,9 +447,11 @@ public class DmfDirectory implements Serializable
 				//WEB
 				pageURLs.remove(i);
 				mediaURLs.remove(i);
+				secondaryURLs.remove(i);
 				
 				//FILE
 				mediaFiles.remove(i);
+				secondaryFiles.remove(i);
 				lastIDs.remove(i);
 				nextIDs.remove(i);
 				isFirst.remove(i);
@@ -462,9 +486,11 @@ public class DmfDirectory implements Serializable
 				//WEB
 				pageURLs.set(i, dmf.getPageURL());
 				mediaURLs.set(i, dmf.getMediaURL());
+				secondaryURLs.set(i, dmf.getSecondaryURL());
 				
 				//FILE
 				mediaFiles.set(i, dmf.getMediaFile());
+				secondaryFiles.set(i, dmf.getSecondaryFile());
 				lastIDs.set(i, dmf.getLastIDs());
 				nextIDs.set(i, dmf.getNextIDs());
 				isFirst.set(i, Boolean.valueOf(dmf.isFirstInSection()));
@@ -624,6 +650,18 @@ public class DmfDirectory implements Serializable
 	}//METHOD
 	
 	/**
+	 * Returns ArrayList of secondary media URLs.
+	 * 
+	 * @return Secondary URLs
+	 * @since 2.0
+	 */
+	public ArrayList<String> getSecondaryURLs()
+	{
+		return secondaryURLs;
+		
+	}//METHOD
+	
+	/**
 	 * Returns ArrayList of media files.
 	 * 
 	 * @return Media Files
@@ -632,6 +670,18 @@ public class DmfDirectory implements Serializable
 	public ArrayList<File> getMediaFiles()
 	{
 		return mediaFiles;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of secondary media files.
+	 * 
+	 * @return Secondary Files
+	 * @since 2.0
+	 */
+	public ArrayList<File> getSecondaryFiles()
+	{
+		return secondaryFiles;
 		
 	}//METHOD
 	

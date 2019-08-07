@@ -137,6 +137,13 @@ public class DMF
 	private static final String OLD_MEDIA_URL = "mediaURL"; //$NON-NLS-1$
 	
 	/**
+	 * DMF INI variable for the secondary media URL
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SECONDARY_URL = "secondary_url"; //$NON-NLS-1$
+	
+	/**
 	 * INI variable for the media file linked to the DMF
 	 * 
 	 * @since 2.0
@@ -149,6 +156,13 @@ public class DMF
 	 * @since 2.0
 	 */
 	private static final String OLD_FILENAME = "filename"; //$NON-NLS-1$
+	
+	/**
+	 * DMF INI variable for the secondary media file
+	 * 
+	 * @since 2.0
+	 */
+	private static final String SECONDARY_FILE = "secondary_file"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the ID(s) of the previous DMF(s)
@@ -298,11 +312,18 @@ public class DMF
 	private String pageURL;
 	
 	/**
-	 * The URL for the direct media download URL that the DMF originates from.
+	 * The URL for the direct media download URL that the DMF originates from
 	 * 
 	 * @since 2.0
 	 */
 	private String mediaURL;
+	
+	/**
+	 * URL for the direct media download URL for the secondary media file
+	 * 
+	 * @since 2.0
+	 */
+	private String secondaryURL;
 	
 	/**
 	 * Media File linked to the DMF
@@ -310,6 +331,13 @@ public class DMF
 	 * @since 2.0
 	 */
 	private File mediaFile;
+	
+	/**
+	 * Media File linked to the DMF for use as a secondary media file
+	 * 
+	 * @since 2.0
+	 */
+	private File secondaryFile;
 	
 	/**
 	 * Array of IDs directly preceding the current DMF in a sequence. If there are multiple IDs, this means the DMF comes directly after multiple branching paths.
@@ -419,9 +447,11 @@ public class DMF
 		//WEB
 		pageURL = null;
 		mediaURL = null;
+		secondaryURL = null;
 		
 		//FILE
 		mediaFile = null;
+		secondaryURL = null;
 		lastIDs = null;
 		nextIDs = null;
 		first = false;
@@ -503,6 +533,8 @@ public class DMF
 					
 				}//IF
 				
+				setSecondaryURL(ParseINI.getStringValue(null, SECONDARY_URL, contents, null));
+				
 				//FILE
 				setMediaFile(ParseINI.getStringValue(null, MEDIA_FILE, contents, null));
 				if(getMediaFile() == null || !getMediaFile().exists())
@@ -511,6 +543,8 @@ public class DMF
 					setMediaFile(ParseINI.getStringValue(null, OLD_FILENAME, contents, null));
 					
 				}//IF
+				
+				setSecondaryFile(ParseINI.getStringValue(null, SECONDARY_FILE, contents, null));
 				
 				setLastIDs(ParseINI.getStringListValue(null, LAST_IDS, contents, null));
 				if(getLastIDs() != null)
@@ -624,6 +658,12 @@ public class DMF
 				
 			}//IF
 			
+			if(getSecondaryURL() != null && getSecondaryURL().length() > 0)
+			{
+				web.add(ParseINI.getAssignmentString(SECONDARY_URL, getSecondaryURL()));
+				
+			}//IF
+			
 			if(web.size() > 0)
 			{
 				contents.add(new String());
@@ -636,6 +676,12 @@ public class DMF
 			contents.add(new String());
 			contents.add("[FILE]"); //$NON-NLS-1$
 			contents.add(ParseINI.getAssignmentString(MEDIA_FILE, getMediaFile().getName()));
+			
+			if(getSecondaryFile() != null)
+			{
+				contents.add(ParseINI.getAssignmentString(SECONDARY_FILE, getSecondaryFile().getName()));
+			
+			}//IF
 			
 			if(getLastIDs() != null && getLastIDs().length > 0)
 			{
@@ -1099,6 +1145,30 @@ public class DMF
 	}//METHOD
 	
 	/**
+	 * Sets the secondary URL.
+	 * 
+	 * @param secondaryURL Secondary URL
+	 * @since 2.0
+	 */
+	public void setSecondaryURL(final String secondaryURL)
+	{
+		this.secondaryURL = secondaryURL;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the secondary URL.
+	 * 
+	 * @return Secondary URL
+	 * @since 2.0
+	 */
+	public String getSecondaryURL()
+	{
+		return secondaryURL;
+		
+	}//METHOD
+	
+	/**
 	 * Sets the linked media file.
 	 * 
 	 * @param mediaFile Media File
@@ -1149,7 +1219,61 @@ public class DMF
 	{
 		return mediaFile;
 		
-	}//METHODdefaultValue
+	}//METHOD
+	
+	/**
+	 * Sets the secondary File.
+	 * 
+	 * @param secondaryFile Secondary File
+	 * @since 2.0
+	 */
+	public void setSecondaryFile(final File secondaryFile)
+	{
+		this.secondaryFile = secondaryFile;
+		
+	}//METHOD
+	
+
+	/**
+	 * Sets the linked secondary media file based on a filename. Uses the same directory as the DMF File.
+	 * 
+	 * @param filename Name of the Secondary Media File
+	 * @since 2.0
+	 */
+	public void setSecondaryFile(final String filename)
+	{
+		boolean failed = true;
+		if(dmfFile != null && filename!= null && filename.length() > 0)
+		{
+			File parent = dmfFile.getParentFile();
+			if(parent != null && parent.isDirectory())
+			{
+				secondaryFile = new File(parent, filename);
+				failed = false;
+				
+			}//IF
+			
+		}//IF
+		
+		if(failed)
+		{
+			secondaryFile = null;
+		
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Returns the secondary file.
+	 * 
+	 * @return Secondary File
+	 * @since 2.0
+	 */
+	public File getSecondaryFile()
+	{
+		return secondaryFile;
+		
+	}//METHOD
 	
 	/**
 	 * Sets the IDs preceding the current DMF

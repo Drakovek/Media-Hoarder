@@ -424,6 +424,16 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		DMF dmf = new DMF();
 		getDownloader().setPage(pageURL);
 		
+		//GET ID
+		String id = pageURL;
+		while(id.endsWith(Character.toString('/')))
+		{
+			id = id.substring(0, id.length() - 1);
+			
+		}//WHILE
+		id = ID_PREFIX + id.substring(id.lastIndexOf('/') + 1);
+		dmf.setID(id);
+		
 		//GET TITLE
 		List<DomElement> title = getDownloader().getPage().getByXPath("//div[@class='classic-submission-title information']/h2"); //$NON-NLS-1$
 		dmf.setTitle(Downloader.getElement(title.get(0)));
@@ -492,6 +502,9 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 		dmf.setTime(Integer.toString(year), Integer.toString(month), Integer.toString(day), Integer.toString(hour), Integer.toString(minute));
 		
+		
+		System.out.println();
+		System.out.println(dmf.getID());
 		System.out.println(dmf.getTitle());
 		System.out.println(dmf.getTime());
 		

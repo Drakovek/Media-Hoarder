@@ -494,6 +494,19 @@ public class DmfHandler
 	}//METHOD
 	
 	/**
+	 * Returns the secondary media URL from the DMF at a given index.
+	 * 
+	 * @param index Index
+	 * @return Secondary URL
+	 * @since 2.0
+	 */
+	public String getSecondaryURL(final int index)
+	{
+		return database.getSecondaryURL(index);
+		
+	}//METHOD
+	
+	/**
 	 * Gets the media file from the DMF at a given index.
 	 * 
 	 * @param index Index
@@ -506,6 +519,18 @@ public class DmfHandler
 		
 	}//METHOD
 	
+	/**
+	 * Returns the secondary media file from the DMF at a given index.
+	 * 
+	 * @param index Index
+	 * @return Secondary Media File
+	 * @since 2.0
+	 */
+	public File getSecondaryFile(final int index)
+	{
+		return database.getSecondaryFile(index);
+		
+	}//METHOD
 	
 	/**
 	 * Gets the previous IDs from the DMF at a given index.
