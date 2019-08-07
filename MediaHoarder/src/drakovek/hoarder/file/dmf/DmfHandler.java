@@ -364,6 +364,19 @@ public class DmfHandler
 	}//METHOD
 	
 	/**
+	 * Replaces the DMF at a given index with a given DMF.
+	 * 
+	 * @param dmf Given DMF
+	 * @param index Given Index
+	 * @since 2.0
+	 */
+	public void setDMF(DMF dmf, final int index)
+	{
+		database.setDMF(dmf, filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
 	 * Gets the DMF File from the DMF at a given index.
 	 * 
 	 * @param index Index

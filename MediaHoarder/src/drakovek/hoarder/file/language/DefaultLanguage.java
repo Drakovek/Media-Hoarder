@@ -928,6 +928,13 @@ public class DefaultLanguage
 	public static final String REFORMAT_MESSAGE = "reformat_message"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for message shown to check if user wishes to rename files
+	 * 
+	 * @since 2.0
+	 */
+	public static final String RENAME_MESSAGE = "rename_message"; //$NON-NLS-1$
+	
+	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
 	 * 
 	 * @param languageDirectory Directory to save the default language file within.
@@ -1131,8 +1138,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(RENAME_FILES, "Re^name Files")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "^Delete Sequence Data")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REFORMAT_MESSAGE, "All DMFs will be reformatted.")); //$NON-NLS-1$
-		
-		
+		languageFile.add(ParseINI.getAssignmentString(RENAME_MESSAGE, "All DMFs and associated files will be renamed.")); //$NON-NLS-1$
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())
 		{

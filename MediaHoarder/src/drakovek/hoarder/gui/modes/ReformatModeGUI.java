@@ -1,5 +1,10 @@
 package drakovek.hoarder.gui.modes;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
@@ -7,6 +12,7 @@ import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
+import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.DWorker;
 
@@ -75,6 +81,11 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 			case DefaultLanguage.REFORMAT_DMFS:
 				run = false;
 				messageIDs[0] = DefaultLanguage.REFORMAT_MESSAGE;
+				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
+				break;
+			case DefaultLanguage.RENAME_FILES:
+				run = false;
+				messageIDs[0] = DefaultLanguage.RENAME_MESSAGE;
 				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
 				break;
 				
@@ -148,7 +159,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	{
 		int size = getParentGUI().getDmfHandler().getSize();
 		progressInfoDialog.setProgressBar(false, true, size, 0);
-		progressInfoDialog.appendLog('[' + mode.toUpperCase() + ']', false);
+		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
 		
 		for(int i = 0; i < size; i++)
@@ -164,6 +175,61 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 			
 			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
 			dmf.writeDMF();
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Renames files to fit DMF titles
+	 * 
+	 * @since 2.0
+	 */
+	private void renameFiles()
+	{
+		int size = getParentGUI().getDmfHandler().getSize();
+		progressInfoDialog.setProgressBar(false, true, size, 0);
+		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
+		String artist = new String();
+		
+		for(int i = 0; i < size; i++)
+		{
+			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
+			if(artistCheck != null && !artistCheck.equals(artist))
+			{
+				artist = artistCheck;
+				progressInfoDialog.setProgressBar(false, true, size, i);
+				progressInfoDialog.appendLog(artist, true);
+				
+			}//IF
+			
+			File currentFolder = getParentGUI().getDmfHandler().getDmfFile(i).getParentFile();
+			if(currentFolder != null && currentFolder.isDirectory())
+			{
+				String extension = ExtensionMethods.getExtension(getParentGUI().getDmfHandler().getMediaFile(i));
+				String outName = DWriter.getFileFriendlyName(getParentGUI().getDmfHandler().getTitle(i)) + '_' + getParentGUI().getDmfHandler().getID(i);
+				File outFile = new File(currentFolder, outName + extension);
+				File tempFile = new File(currentFolder, "xxxTEMPxxx" + getParentGUI().getDmfHandler().getID(i) + extension); //$NON-NLS-1$
+				try
+				{
+					Files.move(getParentGUI().getDmfHandler().getMediaFile(i).toPath(), tempFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+					Files.move(tempFile.toPath(), outFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+					DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
+					
+					if(outFile.exists())
+					{
+						dmf.getDmfFile().delete();
+						dmf.setDmfFile(new File(currentFolder, outName + DMF.DMF_EXTENSION));
+						dmf.setMediaFile(outFile);
+						dmf.writeDMF();
+						getParentGUI().getDmfHandler().setDMF(dmf, i);
+						
+					}//IF
+					
+				}//TRY
+				catch (IOException e){}
+	
+			}//IF
 			
 		}//FOR
 		
@@ -214,6 +280,9 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 				break;
 			case DefaultLanguage.REFORMAT_DMFS:
 				reformatDMFs();
+				break;
+			case DefaultLanguage.RENAME_FILES:
+				renameFiles();
 				break;
 			
 		}//SWITCH

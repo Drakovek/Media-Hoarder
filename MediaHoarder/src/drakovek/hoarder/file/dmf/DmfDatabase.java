@@ -613,6 +613,64 @@ public class DmfDatabase
 	}//METHOD
 	
 	/**
+	 * Replaces the DMF at a given index with a given DMF.
+	 * 
+	 * @param dmf Given DMF
+	 * @param index Given Index
+	 * @since 2.0
+	 */
+	public void setDMF(DMF dmf, final int index)
+	{
+		//DMF
+		dmfFiles.set(index, dmf.getDmfFile());
+		ids.set(index, dmf.getID());
+				
+		//INFO
+		titles.set(index, dmf.getTitle());
+		artists.set(index, dmf.getArtists());
+		if(dmf.getTime() == 0)
+		{
+			times.set(index, null);
+			
+		}//IF
+		else
+		{
+			times.set(index, Long.valueOf(dmf.getTime()));
+			
+		}//ELSE
+		webTags.set(index, dmf.getWebTags());
+		descriptions.set(index, dmf.getDescription());
+
+		//WEB
+		pageURLs.set(index, dmf.getPageURL());
+		mediaURLs.set(index, dmf.getMediaURL());
+		
+		//FILE
+		mediaFiles.set(index, dmf.getMediaFile());
+		lastIDs.set(index, dmf.getLastIDs());
+		nextIDs.set(index, dmf.getNextIDs());
+		isFirst.set(index, Boolean.valueOf(dmf.isFirstInSection()));
+		isLast.set(index, Boolean.valueOf(dmf.isLastInSection()));
+		
+		//USER
+		sequenceTitles.set(index, dmf.getSequenceTitle());
+		sectionTitles.set(index, dmf.getSectionTitle());
+		branchTitles.set(index, dmf.getBranchTitles());
+		if(dmf.getRating() == 0)
+		{
+			ratings.set(index, null);
+			
+		}//IF
+		else
+		{
+			ratings.set(index, Integer.valueOf(dmf.getRating()));
+			
+		}//ELSE
+		userTags.set(index, dmf.getUserTags());
+		
+	}//METHOD
+	
+	/**
 	 * Gets the DMF File from the DMF at a given index.
 	 * 
 	 * @param index Index
