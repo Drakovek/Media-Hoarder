@@ -388,33 +388,6 @@ public class DmfDirectory implements Serializable
 			
 		}//IF
 		
-		//CHECK LISTS CONTAIN THE CORRECT OBJECTS
-		if(valid &&
-		   getDmfFiles().size() > 0 && (
-		   !(dmfFiles.get(0) instanceof java.io.File) ||
-		   !(ids.get(0) instanceof java.lang.String) ||
-		   !(titles.get(0) instanceof java.lang.String) ||
-		   !(artists.get(0) instanceof java.lang.String[]) ||
-		   !(times.get(0) instanceof java.lang.Long) ||
-		   !(descriptions.get(0) instanceof java.lang.String) ||
-		   !(pageURLs.get(0) instanceof java.lang.String) ||
-		   !(mediaURLs.get(0) instanceof java.lang.String) ||
-		   !(secondaryURLs.get(0) instanceof java.lang.String) ||
-		   !(mediaFiles.get(0) instanceof java.io.File) ||
-		   !(secondaryFiles.get(0) instanceof java.io.File) ||
-		   !(lastIDs.get(0) instanceof java.lang.String[]) ||
-		   !(nextIDs.get(0) instanceof java.lang.String[]) ||
-		   !(isFirst.get(0) instanceof java.lang.Boolean) ||
-		   !(isLast.get(0) instanceof java.lang.Boolean) ||
-		   !(sequenceTitles.get(0) instanceof java.lang.String) ||
-		   !(sectionTitles.get(0) instanceof java.lang.String) ||
-		   !(ratings.get(0) instanceof java.lang.Integer) ||
-		   !(userTags.get(0) instanceof java.lang.String[])))
-		{
-			valid = false;
-			
-		}//IF
-		
 		return valid;
 		
 	}//METHOD

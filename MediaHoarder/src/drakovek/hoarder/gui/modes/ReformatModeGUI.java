@@ -162,7 +162,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
 		
-		for(int i = 0; i < size; i++)
+		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
 			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
@@ -192,7 +192,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
 		
-		for(int i = 0; i < size; i++)
+		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
 			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))

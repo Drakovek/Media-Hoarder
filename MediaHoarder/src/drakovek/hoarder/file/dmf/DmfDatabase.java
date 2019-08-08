@@ -751,7 +751,14 @@ public class DmfDatabase
 	 */
 	public String getID(final int index)
 	{
-		return ids.get(index);
+		String id = ids.get(index);
+		if(id != null)
+		{
+			return id;
+			
+		}//IF
+		
+		return new String();
 		
 	}//METHOD
 	
@@ -764,7 +771,15 @@ public class DmfDatabase
 	 */
 	public String getTitle(final int index)
 	{
-		return titles.get(index);
+		String title = titles.get(index);
+		
+		if(title != null)
+		{
+			return title;
+			
+		}//IF
+		
+		return new String();
 		
 	}//METHOD
 	
@@ -777,7 +792,15 @@ public class DmfDatabase
 	 */
 	public String[] getArtists(final int index)
 	{
-		return artists.get(index);
+		String[] artistArray = artists.get(index);
+		
+		if(artistArray != null)
+		{
+			return artistArray;
+			
+		}//IF
+		
+		return new String[0];
 		
 	}//METHOD
 	
@@ -790,7 +813,15 @@ public class DmfDatabase
 	 */
 	public long getTime(final int index)
 	{
-		return times.get(index).longValue();
+		Long time = times.get(index);
+		
+		if(time != null)
+		{
+			return time.longValue();
+			
+		}//IF
+		
+		return 0L;
 		
 	}//METHOD
 	
@@ -803,7 +834,15 @@ public class DmfDatabase
 	 */
 	public String[] getWebTags(final int index)
 	{
-		return webTags.get(index);
+		String[] webTagArray = webTags.get(index);
+		
+		if(webTagArray != null)
+		{
+			return webTagArray;
+			
+		}//IF
+		
+		return new String[0];
 		
 	}//METHOD
 	
@@ -816,7 +855,15 @@ public class DmfDatabase
 	 */
 	public String getDescription(final int index)
 	{
-		return descriptions.get(index);
+		String description = descriptions.get(index);
+		
+		if(description != null)
+		{
+			return description;
+			
+		}//IF
+		
+		return new String();
 		
 	}//METHOD
 	
@@ -829,7 +876,15 @@ public class DmfDatabase
 	 */
 	public String getPageURL(final int index)
 	{
-		return pageURLs.get(index);
+		String pageURL = pageURLs.get(index);
+		
+		if(pageURL != null)
+		{
+			return pageURL;
+			
+		}//IF
+		
+		return new String();
 		
 	}//METHOD
 	
@@ -842,7 +897,15 @@ public class DmfDatabase
 	 */
 	public String getMediaURL(final int index)
 	{
-		return mediaURLs.get(index);
+		String mediaURL = mediaURLs.get(index);
+		
+		if(mediaURL != null)
+		{
+			return mediaURL;
+			
+		}//IF
+		
+		return new String();
 		
 	}//METHOD
 
@@ -855,7 +918,15 @@ public class DmfDatabase
 	 */
 	public String getSecondaryURL(final int index)
 	{
-		return secondaryURLs.get(index);
+		String secondaryURL = secondaryURLs.get(index);
+		
+		if(secondaryURL != null)
+		{
+			return secondaryURL;
+			
+		}//IF
+		
+		return new String();
 		
 	}//METHOD
 	
@@ -894,7 +965,15 @@ public class DmfDatabase
 	 */
 	public String[] getLastIDs(final int index)
 	{
-		return lastIDs.get(index);
+		String[] lastIdArray = lastIDs.get(index);
+		
+		if(lastIdArray != null)
+		{
+			return lastIdArray;
+			
+		}//IF
+		
+		return new String[0];
 		
 	}//METHOD
 	
@@ -907,8 +986,16 @@ public class DmfDatabase
 	 */
 	public String[] getNextIDs(final int index)
 	{
-		return nextIDs.get(index);
+		String[] nextIdArray = nextIDs.get(index);
 	
+		if(nextIdArray != null)
+		{
+			return nextIdArray;
+			
+		}//IF
+		
+		return new String[0];
+		
 	}//METHOD
 	
 	/**
@@ -946,7 +1033,15 @@ public class DmfDatabase
 	 */
 	public String getSequenceTitle(final int index)
 	{
-		return sequenceTitles.get(index);
+		String sequenceTitle = sequenceTitles.get(index);
+		
+		if(sequenceTitle != null)
+		{
+			return sequenceTitle;
+			
+		}//IF
+		
+		return new String();
 		
 	}//METHOD
 	
@@ -959,7 +1054,15 @@ public class DmfDatabase
 	 */
 	public String getSectionTitle(final int index)
 	{
-		return sectionTitles.get(index);
+		String sectionTitle = sectionTitles.get(index);
+		
+		if(sectionTitle != null)
+		{
+			return sectionTitle;
+			
+		}//IF
+		
+		return new String();
 		
 	}//METHOD
 	
@@ -972,7 +1075,15 @@ public class DmfDatabase
 	 */
 	public String[] getBranchTitles(final int index)
 	{
-		return branchTitles.get(index);
+		String[] branchTitleArray = branchTitles.get(index);
+		
+		if(branchTitleArray != null)
+		{
+			return branchTitleArray;
+			
+		}//IF
+		
+		return new String[0];
 		
 	}//METHOD
 	
@@ -985,7 +1096,15 @@ public class DmfDatabase
 	 */
 	public int getRating(final int index)
 	{
-		return ratings.get(index).intValue();
+		Integer rating = ratings.get(index);
+		
+		if(rating != null)
+		{
+			return rating.intValue();
+			
+		}//IF
+		
+		return 0;
 		
 	}//METHOD
 	
@@ -998,8 +1117,15 @@ public class DmfDatabase
 	 */
 	public String[] getUserTags(final int index)
 	{
-		return userTags.get(index);
+		String[] userTagArray = userTags.get(index);
 		
+		if(userTagArray != null)
+		{
+			return userTagArray;
+			
+		}//IF
+		
+		return new String[0];
 	}//METHOD
 	
 }//CLASS
