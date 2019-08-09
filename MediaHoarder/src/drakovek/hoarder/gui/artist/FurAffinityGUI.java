@@ -392,23 +392,29 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			progressDialog.setProgressBar(false, true, pages.size(), pages.size() - (i + 1));
 			progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pages.get(i), true);
 			
-			if(pages.get(i).contains("/view/")) //$NON-NLS-1$
+			try
 			{
-				try
+				if(pages.get(i).contains("/view/")) //$NON-NLS-1$
 				{
 					String title = downloadMediaPage(artistFolder, pages.get(i));
 					progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
 					
-				}//TRY
-				catch(Exception e)
+				}//IF
+				else
 				{
-					progressDialog.setCancelled(true);
-					progressDialog.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
-					e.printStackTrace();
-					
-				}//CATCH
+					String title = downloadJournalPage(artistFolder, pages.get(i));
+					progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+						
+				}//ELSE
 				
-			}//IF
+			}//TRY
+			catch(Exception e)
+			{
+				progressDialog.setCancelled(true);
+				progressDialog.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
+				e.printStackTrace();
+				
+			}//CATCH
 			
 		}//FOR
 		
@@ -454,64 +460,18 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		dmf.setArtist(Downloader.getElement(artist.get(0)));
 		
 		//GET DATE STRING
-		String dateString;
-		List<DomAttr> dateAttribute = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']//span[@class='popup_date']/@title"); //$NON-NLS-1$
-		dateString = Downloader.getAttribute(dateAttribute.get(0));
+		String timeString;
+		List<DomAttr> timeAttribute = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']//span[@class='popup_date']/@title"); //$NON-NLS-1$
+		timeString = Downloader.getAttribute(timeAttribute.get(0));
 		
-		if(dateString.contains("ago")) //$NON-NLS-1$
+		if(timeString.contains("ago")) //$NON-NLS-1$
 		{
-			List<DomElement> dateElement = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']//span[@class='popup_date']"); //$NON-NLS-1$
-			dateString = Downloader.getElement(dateElement.get(0));
+			List<DomElement> timeElement = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']//span[@class='popup_date']"); //$NON-NLS-1$
+			timeString = Downloader.getElement(timeElement.get(0));
 			
 		}//IF
 		
-		//GET MONTH
-		int month;
-		for(month = 0; !dateString.toLowerCase().contains(MONTHS[month]); month++);
-		month++;
-		
-		//GET YEAR
-		int place = dateString.indexOf(',');
-		int year = Integer.parseInt(dateString.substring(place + 2, dateString.indexOf(' ', place + 2)));
-		
-		//GET DAY
-		end = place;
-		while(true)
-		{
-			char myChar = dateString.charAt(end);
-			if(myChar == '0' || myChar == '1' || myChar == '2' || myChar == '3' || myChar == '4' || myChar == '5' || myChar == '6' || myChar == '7' || myChar == '8' || myChar == '9')
-			{
-				break;
-				
-			}//IF
-			
-			end--;
-			
-		}//WHILE
-		
-		int day = Integer.parseInt(dateString.substring(dateString.indexOf(' ') + 1, end + 1));
-		
-		//GET MINUTE
-		place = dateString.indexOf(':');
-		end = dateString.indexOf(' ', place);
-		int minute = Integer.parseInt(dateString.substring(place + 1, end));
-		
-		//GET HOUR
-		int hour = Integer.parseInt(dateString.substring(dateString.lastIndexOf(' ', place) + 1, place));
-		boolean isAM = dateString.toLowerCase().contains("am"); //$NON-NLS-1$
-		if(isAM && hour == 12)
-		{
-			hour = 0;
-			
-		}//IF
-		
-		if(!isAM && hour < 12)
-		{
-			hour = hour + 12;
-			
-		}//IF
-		
-		dmf.setTime(Integer.toString(year), Integer.toString(month), Integer.toString(day), Integer.toString(hour), Integer.toString(minute));
+		setTime(dmf, timeString);
 		
 		//GET WEB TAGS
 		ArrayList<String> tags = new ArrayList<>();
@@ -718,6 +678,156 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 		return dmf.getTitle();
 		
+	}//METHOD
+	
+	/**
+	 * Downloads journal and creates DMF for a Fur Affinity journal page.
+	 * 
+	 * @param baseFolder Base Folder to save within
+	 * @param pageURL PageURL to read
+	 * @return Title of the most recently downloaded page
+	 * @throws Exception Any problem reading Fur Affinity data
+	 * @since 2.0
+	 */
+	private String downloadJournalPage(final File baseFolder, final String pageURL) throws Exception
+	{	
+		DMF dmf = new DMF();
+		getDownloader().setPage(pageURL);
+		if(!isLoggedIn())
+		{
+			throw new Exception("Logged Out Before Process"); //$NON-NLS-1$
+			
+		}//IF
+		
+		//GET ID
+		String id = pageURL;
+		while(id.endsWith(Character.toString('/')))
+		{
+			id = id.substring(0, id.length() - 1);
+			
+		}//WHILE
+		id = ID_PREFIX + id.substring(id.lastIndexOf('/') + 1) + JOURNAL_SUFFIX;
+		dmf.setID(id);
+		
+		//GET TITLE
+		List<DomElement> title = getDownloader().getPage().getByXPath("//td[@class='journal-title-box']//div[@class='no_overflow']"); //$NON-NLS-1$
+		dmf.setTitle(Downloader.getElement(title.get(0)));
+		
+		//GET ARTIST
+		List<DomElement> artist = getDownloader().getPage().getByXPath("//td[@class='journal-title-box']//a"); //$NON-NLS-1$
+		dmf.setArtist(Downloader.getElement(artist.get(0)));
+		
+		//GET TIME
+		String timeString;
+		List<DomAttr> timeAttribute = getDownloader().getPage().getByXPath("//td[@class='journal-title-box']//span[@class='popup_date']/@title"); //$NON-NLS-1$
+		timeString = Downloader.getAttribute(timeAttribute.get(0));
+				
+		if(timeString.contains("ago")) //$NON-NLS-1$
+		{
+			List<DomElement> timeElement = getDownloader().getPage().getByXPath("//td[@class='journal-title-box']//span[@class='popup_date']"); //$NON-NLS-1$
+			timeString = Downloader.getElement(timeElement.get(0));
+					
+		}//IF
+		
+		setTime(dmf, timeString);
+		
+		//SET TAGS
+		ArrayList<String> tags = new ArrayList<>();
+		tags.add(JOURNAL_TAG);
+		dmf.setWebTags(tags);
+		
+		//GET DESCRIPTION
+		List<DomElement> description = getDownloader().getPage().getByXPath("//div[@class='journal-body']"); //$NON-NLS-1$
+		dmf.setDescription(Downloader.getElement(description.get(0)));
+		
+		//SET URLS
+		dmf.setPageURL(pageURL);
+		dmf.setMediaURL(pageURL);
+		
+		//DOWNLOAD DMF
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
+		File mediaFile = new File(baseFolder, filename + ".html"); //$NON-NLS-1$
+		ArrayList<String> contents = new ArrayList<>();
+		contents.add("<!DOCTYPE html>"); //$NON-NLS-1$
+		contents.add("<html>"); //$NON-NLS-1$
+		contents.add(dmf.getDescription());
+		contents.add("</html>"); //$NON-NLS-1$
+		
+		dmf.setMediaFile(mediaFile);
+		DWriter.writeToFile(mediaFile, contents);
+	
+		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		dmf.setDmfFile(dmfFile);
+		dmf.writeDMF();
+		if(!dmf.getDmfFile().exists())
+		{
+			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+					
+		}//IF
+		
+		return dmf.getTitle();
+		
+	}//METHOD
+	
+	/**
+	 * Sets the time for a DMF from a given time string from FurAffinity.
+	 * 
+	 * @param dmf DMF to set time for
+	 * @param timeString Time String from FurAffinity
+	 * @throws Exception Any exception handling time string
+	 * @since 2.0
+	 */
+	private static void setTime(DMF dmf, final String timeString) throws Exception
+	{
+		//GET MONTH
+		int month;
+		int end;
+		for(month = 0; !timeString.toLowerCase().contains(MONTHS[month]); month++);
+		month++;
+				
+		//GET YEAR
+		int place = timeString.indexOf(',');
+		int year = Integer.parseInt(timeString.substring(place + 2, timeString.indexOf(' ', place + 2)));
+				
+		//GET DAY
+		end = place;
+		while(true)
+		{
+			char myChar = timeString.charAt(end);
+			if(myChar == '0' || myChar == '1' || myChar == '2' || myChar == '3' || myChar == '4' || myChar == '5' || myChar == '6' || myChar == '7' || myChar == '8' || myChar == '9')
+			{
+				break;
+						
+			}//IF
+					
+			end--;
+					
+		}//WHILE
+				
+		int day = Integer.parseInt(timeString.substring(timeString.indexOf(' ') + 1, end + 1));
+				
+		//GET MINUTE
+		place = timeString.indexOf(':');
+		end = timeString.indexOf(' ', place);
+		int minute = Integer.parseInt(timeString.substring(place + 1, end));
+				
+		//GET HOUR
+		int hour = Integer.parseInt(timeString.substring(timeString.lastIndexOf(' ', place) + 1, place));
+		boolean isAM = timeString.toLowerCase().contains("am"); //$NON-NLS-1$
+		if(isAM && hour == 12)
+		{
+			hour = 0;
+					
+		}//IF
+				
+		if(!isAM && hour < 12)
+		{
+			hour = hour + 12;
+					
+		}//IF
+				
+		dmf.setTime(Integer.toString(year), Integer.toString(month), Integer.toString(day), Integer.toString(hour), Integer.toString(minute));
+				
 	}//METHOD
 
 	@Override

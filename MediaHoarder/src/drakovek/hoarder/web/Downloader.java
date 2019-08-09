@@ -238,8 +238,9 @@ public class Downloader
 				TimeUnit.MILLISECONDS.sleep(timeout);
 				
 			}//IF
-			
+
 			page = client.getPage(url);
+			
 			
 		}//TRY
 		catch(Exception e)

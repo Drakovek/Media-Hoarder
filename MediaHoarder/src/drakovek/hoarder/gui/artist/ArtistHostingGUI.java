@@ -58,6 +58,13 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	public static final String JOURNAL_SUFFIX = "-J"; //$NON-NLS-1$
 	
 	/**
+	 * Tag for showing a DMF refers to a journal
+	 * 
+	 * @since 2.0
+	 */
+	public static final String JOURNAL_TAG = "Journal"; //$NON-NLS-1$
+	
+	/**
 	 * Tag for General Rating
 	 * 
 	 * @since 2.0
