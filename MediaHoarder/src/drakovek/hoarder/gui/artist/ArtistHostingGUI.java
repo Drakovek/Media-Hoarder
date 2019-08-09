@@ -58,6 +58,41 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	public static final String JOURNAL_SUFFIX = "-J"; //$NON-NLS-1$
 	
 	/**
+	 * Tag for General Rating
+	 * 
+	 * @since 2.0
+	 */
+	public static final String GENERAL_RATING = "General Rating"; //$NON-NLS-1$
+	
+	/**
+	 * Tag for Mature Rating
+	 * 
+	 * @since 2.0
+	 */
+	public static final String MATURE_RATING = "Mature Rating"; //$NON-NLS-1$
+	
+	/**
+	 * Tag for Adult Rating
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ADULT_RATING = "Adult Rating"; //$NON-NLS-1$
+	
+	/**
+	 * Tag for Scraps Gallery
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SCRAPS_GALLERY = "Scraps Gallery"; //$NON-NLS-1$
+	
+	/**
+	 * Tag for Main Gallery
+	 * 
+	 * @since 2.0
+	 */
+	public static final String MAIN_GALLERY = "Main Gallery"; //$NON-NLS-1$
+	
+	/**
 	 * List of currently selected artists
 	 * 
 	 * @since 2.0
@@ -616,6 +651,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			downloadPages(progressInfoDialog, artists.get(i), getPages(progressInfoDialog, artists.get(i), checkAllPages, getSettings().getSaveJournals()));
 			
 		}//FOR
+		progressInfoDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.FINISHED), true);
 		
 	}//METHOD
 	

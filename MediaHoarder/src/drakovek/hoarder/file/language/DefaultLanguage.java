@@ -723,6 +723,27 @@ public class DefaultLanguage
 	public static final String CONTINUE_MESSAGE = "continue_message"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for "Downloaded" message
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DOWNLOADED = "downloaded"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "Finished" message
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FINISHED = "finished"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for "Download Failed" message
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DOWNLOAD_FAILED = "download_failed"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "AM" in clock time formatting
 	 * 
 	 * @since 2.0
@@ -983,6 +1004,10 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[0], "Selected directory is not listed as DMF directory.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[1], "Add to program's DMF directory list?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CONTINUE_MESSAGE, "Continue?")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DOWNLOADED, "Downloaded")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FINISHED, "Finished")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_FAILED, "Download Failed")); //$NON-NLS-1$
+		
 		
 		//TIME
 		languageFile.add(new String());

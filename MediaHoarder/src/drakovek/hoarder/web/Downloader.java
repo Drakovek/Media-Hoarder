@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.TimeUnit;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
@@ -26,6 +27,13 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class Downloader
 {
+	/**
+	 * Number of milliseconds to wait before loading a page, for rate-limiting purposes
+	 * 
+	 * @since 2.0
+	 */
+	private int timeout;
+	
 	/**
 	 * Main WebClient for the class.
 	 * 
@@ -55,6 +63,8 @@ public class Downloader
 	 */
 	public Downloader(ClientMethods clientMethods)
 	{	
+		this.timeout = 0;
+		
 	}//CONSTRUCTOR
 	
 	/**
@@ -72,6 +82,12 @@ public class Downloader
 		
 		try
 		{
+			if(timeout > 0)
+			{
+				TimeUnit.MILLISECONDS.sleep(timeout);
+				
+			}//IF
+			
 			myUnexpectedPage = client.getPage(url);
 			myInput = myUnexpectedPage.getWebResponse().getContentAsStream();
 			myOutput = new FileOutputStream(outputFile);
@@ -217,6 +233,12 @@ public class Downloader
 	{
 		try
 		{
+			if(timeout > 0)
+			{
+				TimeUnit.MILLISECONDS.sleep(timeout);
+				
+			}//IF
+			
 			page = client.getPage(url);
 			
 		}//TRY
@@ -225,6 +247,18 @@ public class Downloader
 			page = null;
 			
 		}//CATCH
+		
+	}//METHOD
+	
+	/**
+	 * Sets the timeout in milliseconds.
+	 * 
+	 * @param timeout Timeout
+	 * @since 2.0
+	 */
+	public void setTimeout(final int timeout)
+	{
+		this.timeout = timeout;
 		
 	}//METHOD
 	

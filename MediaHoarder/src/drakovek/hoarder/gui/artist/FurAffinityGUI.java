@@ -18,6 +18,7 @@ import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
+import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.web.Downloader;
 
 /**
@@ -63,6 +64,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	{
 		super(settings, dmfHandler, new LoginGUI(settings, DefaultLanguage.FUR_AFFINITY_LOGIN, true), DefaultLanguage.FUR_AFFINITY_MODE, DefaultLanguage.CHOOSE_FUR_AFFINITY_FOLDER);
 		idStrings = new ArrayList<>();
+		getDownloader().setTimeout(3000);
 		
 	}//CONSTRUCTOR
 
@@ -383,22 +385,25 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	protected void downloadPages(DProgressInfoDialog progressDialog, String artist, ArrayList<String> pages)
 	{
 		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist));
-		for(int i = 0; !progressDialog.isCancelled() && i < pages.size(); i++)
+		for(int i = pages.size() - 1; !progressDialog.isCancelled() && i > -1; i--)
 		{
 			progressDialog.setProcessLabel(DefaultLanguage.LOADING_PAGE);
 			progressDialog.setDetailLabel(pages.get(i).substring(pages.get(i).lastIndexOf('/', pages.get(i).length() - 2)), false);
-			progressDialog.setProgressBar(false, true, pages.size(), i);
-			progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + pages.get(i), true);
+			progressDialog.setProgressBar(false, true, pages.size(), pages.size() - (i + 1));
+			progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pages.get(i), true);
 			
 			if(pages.get(i).contains("/view/")) //$NON-NLS-1$
 			{
 				try
 				{
-					downloadMediaPage(artistFolder, pages.get(i));
+					String title = downloadMediaPage(artistFolder, pages.get(i));
+					progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
 					
 				}//TRY
 				catch(Exception e)
 				{
+					progressDialog.setCancelled(true);
+					progressDialog.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
 					e.printStackTrace();
 					
 				}//CATCH
@@ -414,15 +419,21 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	 * 
 	 * @param baseFolder Base Folder to save within
 	 * @param pageURL PageURL to read
+	 * @return Title of the most recently downloaded page
 	 * @throws Exception Any problem reading Fur Affinity data
 	 * @since 2.0
 	 */
-	private void downloadMediaPage(final File baseFolder, final String pageURL) throws Exception
+	private String downloadMediaPage(final File baseFolder, final String pageURL) throws Exception
 	{
 		int end;
 		
 		DMF dmf = new DMF();
 		getDownloader().setPage(pageURL);
+		if(!isLoggedIn())
+		{
+			throw new Exception("Logged Out Before Process"); //$NON-NLS-1$
+			
+		}//IF
 		
 		//GET ID
 		String id = pageURL;
@@ -502,11 +513,210 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 		dmf.setTime(Integer.toString(year), Integer.toString(month), Integer.toString(day), Integer.toString(hour), Integer.toString(minute));
 		
+		//GET WEB TAGS
+		ArrayList<String> tags = new ArrayList<>();
 		
-		System.out.println();
-		System.out.println(dmf.getID());
-		System.out.println(dmf.getTitle());
-		System.out.println(dmf.getTime());
+		//GET RATING
+		List<DomAttr> rating = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']//img/@alt"); //$NON-NLS-1$
+		String ratingString = Downloader.getAttribute(rating.get(0)).toLowerCase();
+		if(ratingString.contains("general")) //$NON-NLS-1$
+		{
+			tags.add(GENERAL_RATING);
+			
+		}//IF
+		else if(ratingString.contains("mature")) //$NON-NLS-1$
+		{
+			tags.add(MATURE_RATING);
+			
+		}//ELSE IF
+		else if(ratingString.contains("adult")) //$NON-NLS-1$
+		{
+			tags.add(ADULT_RATING);
+			
+		}//ELSE IF
+		
+		//GET SCRAP/MAIN GALLERY
+		String gallery;
+		List<DomAttr> galleryAttribute = getDownloader().getPage().getByXPath("//b[@class='minigallery-title']//s//a/@href"); //$NON-NLS-1$
+		if(galleryAttribute.size() > 0)
+		{
+			gallery = Downloader.getAttribute(galleryAttribute.get(0)).toLowerCase();
+			
+		}//IF
+		else
+		{
+			List<DomElement> galleryElement = getDownloader().getPage().getByXPath("//a[@class='goto-gallery']"); //$NON-NLS-1$
+			gallery = Downloader.getElement(galleryElement.get(0)).toLowerCase();
+			
+		}//ELSE
+		
+		if(gallery.contains("go to")) //$NON-NLS-1$
+		{
+			if(gallery.contains("main")) //$NON-NLS-1$
+			{
+				tags.add(MAIN_GALLERY);
+				
+			}//IF
+			else
+			{
+				tags.add(SCRAPS_GALLERY);
+				
+			}//ELSE
+			
+		}//IF
+		else
+		{
+			if(gallery.contains("/gallery/")) //$NON-NLS-1$
+			{
+				tags.add(MAIN_GALLERY);
+				
+			}//IF
+			else
+			{
+				tags.add(SCRAPS_GALLERY);
+				
+			}//ELSE
+			
+		}//ELSE
+		
+		//GET CATEGORIES
+		List<DomElement> categories = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']"); //$NON-NLS-1$
+		String catString = Downloader.getElement(categories.get(0));
+		String header = "<b>Category:"; //$NON-NLS-1$
+		if(catString.contains(header))
+		{
+			end = catString.indexOf("<br/>", catString.indexOf(header)); //$NON-NLS-1$
+			tags.add("Category - " + catString.substring(catString.lastIndexOf('>', end) + 1, end)); //$NON-NLS-1$
+			
+		}//IF
+		
+		header = "<b>Theme:"; //$NON-NLS-1$
+		if(catString.contains(header))
+		{
+			end = catString.indexOf("<br/>", catString.indexOf(header)); //$NON-NLS-1$
+			tags.add("Theme - " + catString.substring(catString.lastIndexOf('>', end) + 1, end)); //$NON-NLS-1$
+			
+		}//IF
+		
+		header = "<b>Species:"; //$NON-NLS-1$
+		if(catString.contains(header))
+		{
+			end = catString.indexOf("<br/>", catString.indexOf(header)); //$NON-NLS-1$
+			tags.add("Species - " + catString.substring(catString.lastIndexOf('>', end) + 1, end)); //$NON-NLS-1$
+			
+		}//IF
+		
+		header = "<b>Gender:"; //$NON-NLS-1$
+		if(catString.contains(header))
+		{
+			end = catString.indexOf("<br/>", catString.indexOf(header)); //$NON-NLS-1$
+			tags.add("Gender - " + catString.substring(catString.lastIndexOf('>', end) + 1, end)); //$NON-NLS-1$
+			
+		}//IF
+
+		//GET USER FOLDERS
+		List<DomElement> folders = getDownloader().getPage().getByXPath("//div[@class='folder-list-container']//a"); //$NON-NLS-1$
+		for(int i = 0; i < folders.size(); i++)
+		{
+			tags.add(Downloader.getElement(folders.get(i)).replaceAll("<span>", new String()).replaceAll("</span>", new String()).replaceAll("<strong>", new String()).replaceAll("</strong>", new String())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		
+		}//METHOD
+		
+		//GET MAIN TAGS
+		List<DomElement> tagElements = getDownloader().getPage().getByXPath("//td[@class='alt1 stats-container']//div[@id='keywords']//a"); //$NON-NLS-1$
+		for(int i = 0; i < tagElements.size(); i++)
+		{
+			tags.add(Downloader.getElement(tagElements.get(i)));
+			
+		}//FOR
+		dmf.setWebTags(tags);
+		
+		//GET DESCRIPTION
+		List<DomElement> description = getDownloader().getPage().getByXPath("//table[@class='maintable']//table[@class='maintable']//td[@class='alt1']"); //$NON-NLS-1$
+		if(description.size() > 1)
+		{
+			String descriptionString = Downloader.getElement(description.get(1));
+			if(Downloader.getElement(description.get(0)).contains("class=\"alt1 stats-container\"") && !descriptionString.contains("class=\"alt1 stats-container\""))  //$NON-NLS-1$//$NON-NLS-2$
+			{
+				dmf.setDescription(descriptionString);
+				
+			}//IF
+			
+		}//IF
+		
+		if(dmf.getDescription() == null)
+		{
+			throw new Exception("Retrieving Description Failed"); //$NON-NLS-1$
+			
+		}//IF
+		
+		//GET MEDIA URL
+		dmf.setPageURL(pageURL);
+		List<DomAttr> mediaURLs = getDownloader().getPage().getByXPath("//div[@class='alt1 actions aligncenter']//a/@href"); //$NON-NLS-1$
+		for(int i = 0; i < mediaURLs.size(); i++)
+		{
+			String mediaURL = "https:" + Downloader.getAttribute(mediaURLs.get(i)); //$NON-NLS-1$
+			if(mediaURL.contains("/art/")) //$NON-NLS-1$
+			{
+				dmf.setMediaURL(mediaURL);
+				break;
+				
+			}//IF
+			
+		}//FOR
+		if(dmf.getMediaURL() == null)
+		{
+			throw new Exception("Retrieving Media URL Failed"); //$NON-NLS-1$
+			
+		}//IF
+		
+		String mainExtension = ExtensionMethods.getExtension(dmf.getMediaURL());
+		
+		//GET SECONDARY MEDIA URL
+		List<DomAttr> secondaryURL = getDownloader().getPage().getByXPath("//img[@id='submissionImg']/@data-fullview-src"); //$NON-NLS-1$
+		if(secondaryURL.size() == 0)
+		{
+			secondaryURL = getDownloader().getPage().getByXPath("//img[@id='submissionImg']/@data-preview-src"); //$NON-NLS-1$
+			
+		}//IF
+		
+		String secondaryExtension = null;
+		if(secondaryURL.size() > 0)
+		{
+			String secondary = "https:" + Downloader.getAttribute(secondaryURL.get(0)); //$NON-NLS-1$
+			secondaryExtension = ExtensionMethods.getExtension(secondary);
+			if(!secondaryExtension.equals(mainExtension))
+			{
+				dmf.setSecondaryURL(secondary);
+				
+			}//IF
+			
+		}//IF
+		
+		//DOWNLOAD FILES
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
+		File mediaFile = new File(baseFolder, filename + mainExtension);
+		dmf.setMediaFile(mediaFile);
+		getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
+		
+		if(dmf.getSecondaryURL() != null)
+		{
+			File secondaryFile = new File(baseFolder, filename + secondaryExtension);
+			dmf.setSecondaryFile(secondaryFile);
+			getDownloader().downloadFile(dmf.getSecondaryURL(), secondaryFile);
+			
+		}//IF
+		
+		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		dmf.setDmfFile(dmfFile);
+		dmf.writeDMF();
+		if(!dmf.getDmfFile().exists())
+		{
+			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			
+		}//IF
+		
+		return dmf.getTitle();
 		
 	}//METHOD
 

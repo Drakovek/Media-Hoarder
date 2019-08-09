@@ -41,7 +41,7 @@ public class ExtensionMethods
 			
 		}//IF
 		
-		return filename.substring(i);
+		return filename.substring(i).toLowerCase();
 		
 	}//METHOD
 	

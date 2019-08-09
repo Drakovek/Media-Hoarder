@@ -17,7 +17,7 @@ import drakovek.hoarder.processing.sort.AlphaNumSort;
  * @since 2.0
  */
 public class ArtistHandler
-{
+{	
 	/**
 	 * INI value for listing artists
 	 * 
