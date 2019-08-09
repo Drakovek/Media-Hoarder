@@ -270,7 +270,7 @@ public class DmfDatabase
 	 * @return List of Directories containing DMFs
 	 * @since 2.0
 	 */
-	private static ArrayList<File> getDmfFolders(final ArrayList<File> dmfDirectories)
+	public static ArrayList<File> getDmfFolders(final ArrayList<File> dmfDirectories)
 	{
 		ArrayList<File> directories = new ArrayList<>();
 		for(File directory: dmfDirectories)
@@ -944,6 +944,19 @@ public class DmfDatabase
 	}//METHOD
 	
 	/**
+	 * Returns whether the list of media files contains a given file.
+	 * 
+	 * @param file Given File
+	 * @return Whether file is contained in media file list
+	 * @since 2.0
+	 */
+	public boolean containsMediaFile(final File file)
+	{
+		return mediaFiles.contains(file);
+		
+	}//METHOD
+	
+	/**
 	 * Returns the secondary media file from the DMF at a given index.
 	 * 
 	 * @param index Index
@@ -953,6 +966,19 @@ public class DmfDatabase
 	public File getSecondaryFile(final int index)
 	{
 		return secondaryFiles.get(index);
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the list of secondary files contains a given file.
+	 * 
+	 * @param file Given File
+	 * @return Whether file is contained in secondary file list
+	 * @since 2.0
+	 */
+	public boolean containsSecondaryFile(final File file)
+	{
+		return secondaryFiles.contains(file);
 		
 	}//METHOD
 	

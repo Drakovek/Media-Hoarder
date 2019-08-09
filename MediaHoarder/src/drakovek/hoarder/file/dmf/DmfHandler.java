@@ -364,6 +364,18 @@ public class DmfHandler
 	}//METHOD
 	
 	/**
+	 * Returns the DMF Database linked to the handler.
+	 * 
+	 * @return DmfDatabase
+	 * @since 2.0
+	 */
+	public DmfDatabase getDatabase()
+	{
+		return database;
+		
+	}//METHOD
+	
+	/**
 	 * Replaces the DMF at a given index with a given DMF.
 	 * 
 	 * @param dmf Given DMF

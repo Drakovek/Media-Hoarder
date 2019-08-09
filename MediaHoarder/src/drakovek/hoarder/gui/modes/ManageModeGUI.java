@@ -38,6 +38,9 @@ public class ManageModeGUI extends ModeBaseGUI
 			case DefaultLanguage.REFORMAT_MODE:
 				setContentPanel(new ReformatModeGUI(getParentGUI()));
 				break;
+			case DefaultLanguage.ERROR_MODE:
+				setContentPanel(new ErrorFindingModeGUI(getParentGUI()));
+				break;
 			case DefaultLanguage.MODE_BACK:
 			case DefaultLanguage.MODE_START:
 				setContentPanel(new ModesGUI(getParentGUI()));

@@ -956,6 +956,27 @@ public class DefaultLanguage
 	public static final String RENAME_MESSAGE = "rename_message"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for button to search for missing media in the error finding GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String MISSING_MEDIA = "missing_media"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for button to search for unlinked files in the error finding GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String UNLINKED_FILES = "unlinked_files"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for button to search for DMFs with identical IDs in the error finding GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String IDENTICAL_IDS = "identical_ids"; //$NON-NLS-1$
+	
+	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
 	 * 
 	 * @param languageDirectory Directory to save the default language file within.
@@ -1156,14 +1177,21 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS_TITLE, "Sorting DMFs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS, "Sorting DMFs:")); //$NON-NLS-1$
 		
-		//MANAGE
+		//REFORMAT
 		languageFile.add(new String());
-		languageFile.add("[MANAGE]"); //$NON-NLS-1$
+		languageFile.add("[REFORMAT]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REFORMAT_DMFS, "^Reformat DMFs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RENAME_FILES, "Re^name Files")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "^Delete Sequence Data")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REFORMAT_MESSAGE, "All DMFs will be reformatted.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RENAME_MESSAGE, "All DMFs and associated files will be renamed.")); //$NON-NLS-1$
+		
+		//ERROR FINDING
+		languageFile.add(new String());
+		languageFile.add("[ERROR FINDING]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MISSING_MEDIA, "Find Missing ^Media")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(UNLINKED_FILES, "Find ^Unlinked Files")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(IDENTICAL_IDS, "Find ^Identical IDs")); //$NON-NLS-1$
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())
 		{

@@ -1,29 +1,27 @@
 package drakovek.hoarder.gui.modes;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.util.ArrayList;
 
-import drakovek.hoarder.file.DWriter;
+import drakovek.hoarder.file.ExclusionFilter;
 import drakovek.hoarder.file.dmf.DMF;
+import drakovek.hoarder.file.dmf.DmfDatabase;
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
-import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
-import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.DWorker;
 
 /**
- * GUI for running processes related to reformatting DMFs.
+ * GUI for running processes related to finding errors in DMFs.
  * 
  * @author Drakovek
  * @version 2.0
  * @since 2.0
  */
-public class ReformatModeGUI extends ModeBaseGUI implements DWorker
+public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 {
 	/**
 	 * String containing ID for the current reformat process mode
@@ -47,26 +45,26 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	private DProgressInfoDialog progressInfoDialog;
 	
 	/**
-	 * Initializes ReformatModeGUI class.
+	 * Initializes the ErrorFindingModeGUI.
 	 * 
 	 * @param frameGUI FrameGUI this mode GUI is contained within.
 	 * @since 2.0
 	 */
-	public ReformatModeGUI(FrameGUI frameGUI)
+	public ErrorFindingModeGUI(FrameGUI frameGUI)
 	{
 		super(frameGUI);
 		progressDialog = new DProgressDialog(getSettings());
 		progressInfoDialog = new DProgressInfoDialog(getSettings());
 		
 		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODE_START, DefaultLanguage.MANAGE_MODE};
-		String[] modeIDs = {DefaultLanguage.REFORMAT_DMFS,
-							DefaultLanguage.RENAME_FILES,
-							DefaultLanguage.DELETE_SEQUENCES};
+		String[] modeIDs = {DefaultLanguage.MISSING_MEDIA,
+							DefaultLanguage.UNLINKED_FILES,
+							DefaultLanguage.IDENTICAL_IDS};
 		
 		setContentPanel(backIDs, modeIDs);
 		
 	}//CONSTRUCTOR
-	
+
 	/**
 	 * Starts reformatting process by asking if the user wants to continue and loading DMFs.
 	 * 
@@ -74,40 +72,10 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	 */
 	private void startProcess()
 	{
-		boolean run = true;
-		String[] messageIDs = new String[2];
-		switch(mode)
-		{
-			case DefaultLanguage.REFORMAT_DMFS:
-				run = false;
-				messageIDs[0] = DefaultLanguage.REFORMAT_MESSAGE;
-				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
-				break;
-			case DefaultLanguage.RENAME_FILES:
-				run = false;
-				messageIDs[0] = DefaultLanguage.RENAME_MESSAGE;
-				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
-				break;
-				
-		}//METHOD
-		
-		if(!run)
-		{
-			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-			String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-			String response = buttonDialog.openButtonDialog(getParentGUI().getFrame(), DefaultLanguage.SURE_TITLE, messageIDs, buttonIDs);
-			run = response.equals(DefaultLanguage.YES);
-			
-		}//METHOD
-		
-		if(run)
-		{
-			progressDialog.setCancelled(false);
-			getParentGUI().getFrame().setProcessRunning(true);
-			progressDialog.startProgressDialog(getParentGUI().getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
-			(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
-			
-		}//IF
+		progressDialog.setCancelled(false);
+		getParentGUI().getFrame().setProcessRunning(true);
+		progressDialog.startProgressDialog(getParentGUI().getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
+		(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
 		
 	}//METHOD
 	
@@ -118,12 +86,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	 */
 	private void loadDMFs()
 	{
-		if(!getParentGUI().getDmfHandler().isLoaded())
-		{
-			getParentGUI().getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
-		
-		}//IF
-		
+		getParentGUI().getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
 		getParentGUI().getDmfHandler().sort(DmfHandler.SORT_ALPHA, true, false, false);
 		
 	}//METHOD
@@ -151,95 +114,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	}//METHOD
 	
 	/**
-	 * Reformats DMFs to fit the current format for DMF files.
-	 * 
-	 * @since 2.0
-	 */
-	private void reformatDMFs()
-	{
-		int size = getParentGUI().getDmfHandler().getSize();
-		progressInfoDialog.setProcessLabel(DefaultLanguage.REFORMAT_DMFS);
-		progressInfoDialog.setProgressBar(false, true, size, 0);
-		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
-		String artist = new String();
-		
-		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
-		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
-			if(artistCheck != null && !artistCheck.equals(artist))
-			{
-				artist = artistCheck;
-				progressInfoDialog.setProgressBar(false, true, size, i);
-				progressInfoDialog.setDetailLabel(artist, false);
-				progressInfoDialog.appendLog(artist, true);
-				
-			}//IF
-			
-			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
-			dmf.writeDMF();
-			
-		}//FOR
-		
-	}//METHOD
-	
-	/**
-	 * Renames files to fit DMF titles
-	 * 
-	 * @since 2.0
-	 */
-	private void renameFiles()
-	{
-		int size = getParentGUI().getDmfHandler().getSize();
-		progressInfoDialog.setProcessLabel(DefaultLanguage.RENAME_FILES);
-		progressInfoDialog.setProgressBar(false, true, size, 0);
-		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
-		String artist = new String();
-		
-		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
-		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
-			if(artistCheck != null && !artistCheck.equals(artist))
-			{
-				artist = artistCheck;
-				progressInfoDialog.setDetailLabel(artist, false);
-				progressInfoDialog.setProgressBar(false, true, size, i);
-				progressInfoDialog.appendLog(artist, true);
-				
-			}//IF
-			
-			File currentFolder = getParentGUI().getDmfHandler().getDmfFile(i).getParentFile();
-			if(currentFolder != null && currentFolder.isDirectory())
-			{
-				String extension = ExtensionMethods.getExtension(getParentGUI().getDmfHandler().getMediaFile(i));
-				String outName = DWriter.getFileFriendlyName(getParentGUI().getDmfHandler().getTitle(i)) + '_' + getParentGUI().getDmfHandler().getID(i);
-				File outFile = new File(currentFolder, outName + extension);
-				File tempFile = new File(currentFolder, "xxxTEMPxxx" + getParentGUI().getDmfHandler().getID(i) + extension); //$NON-NLS-1$
-				try
-				{
-					Files.move(getParentGUI().getDmfHandler().getMediaFile(i).toPath(), tempFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-					Files.move(tempFile.toPath(), outFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-					DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
-					
-					if(outFile.exists())
-					{
-						dmf.getDmfFile().delete();
-						dmf.setDmfFile(new File(currentFolder, outName + DMF.DMF_EXTENSION));
-						dmf.setMediaFile(outFile);
-						dmf.writeDMF();
-						getParentGUI().getDmfHandler().setDMF(dmf, i);
-						
-					}//IF
-					
-				}//TRY
-				catch (IOException e){}
-	
-			}//IF
-			
-		}//FOR
-		
-	}//METHOD
-	
-	/**
 	 * Deals with an info process being finished, closing the info progress dialog and allowing input.
 	 * 
 	 * @since 2.0
@@ -252,7 +126,132 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		
 	}//METHOD
 	
-
+	/**
+	 * Finds DMFs that are missing their attached media file(s)
+	 * 
+	 * @since 2.0
+	 */
+	private void findMissingMedia()
+	{
+		int size = getParentGUI().getDmfHandler().getSize();
+		progressInfoDialog.setProcessLabel(DefaultLanguage.MISSING_MEDIA);
+		progressInfoDialog.setProgressBar(false, true, size, 0);
+		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
+		String artist = new String();
+		
+		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
+		{
+			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
+			if(artistCheck != null && !artistCheck.equals(artist))
+			{
+				artist = artistCheck;
+				progressInfoDialog.setDetailLabel(artist, false);
+				progressInfoDialog.setProgressBar(false, true, size, i);
+				
+			}//IF
+			
+			if(!getParentGUI().getDmfHandler().getMediaFile(i).exists())
+			{
+				progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFile(i).getAbsolutePath(), false);
+				
+			}//IF
+			else
+			{
+				File secondary = getParentGUI().getDmfHandler().getSecondaryFile(i);
+				if(secondary != null && !secondary.exists())
+				{
+					progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFile(i).getAbsolutePath(), false);
+					
+				}//IF
+				
+			}//ELSE
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Finds media files in DMF folders that are not linked to DMF files.
+	 * 
+	 * @since 2.0
+	 */
+	private void findUnlinkedFiles()
+	{
+		String[] extension = {DMF.DMF_EXTENSION};
+		ExclusionFilter filter = new ExclusionFilter(extension, false);
+		progressInfoDialog.setProcessLabel(DefaultLanguage.MISSING_MEDIA);
+		progressInfoDialog.setDetailLabel(DefaultLanguage.GETTING_FOLDERS, true);
+		progressInfoDialog.setProgressBar(true, false, 0, 0);
+		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
+		ArrayList<File> dmfFolders = DmfDatabase.getDmfFolders(getSettings().getDmfDirectories());
+		for(int i = 0; i < dmfFolders.size(); i++)
+		{
+			progressInfoDialog.setDetailLabel(dmfFolders.get(i).getName(), false);
+			progressInfoDialog.setProgressBar(false, true, dmfFolders.size(), i);
+			File[] files = dmfFolders.get(i).listFiles(filter);
+			for(int k = 0; k < files.length; k++)
+			{
+				if(!getParentGUI().getDmfHandler().getDatabase().containsMediaFile(files[k]) && !getParentGUI().getDmfHandler().getDatabase().containsSecondaryFile(files[k]))
+				{
+					progressInfoDialog.appendLog(files[k].getAbsolutePath(), false);
+					
+				}//IF
+				
+			}//FOR
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Find DMFs that share identical IDs
+	 * 
+	 * @since 2.0
+	 */
+	private void findIdenticalIDs()
+	{
+		int size = getParentGUI().getDmfHandler().getSize();
+		progressInfoDialog.setProcessLabel(DefaultLanguage.IDENTICAL_IDS);
+		progressInfoDialog.setProgressBar(false, true, size, 0);
+		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
+		String artist = new String();
+		ArrayList<Integer> identical = new ArrayList<>();
+		
+		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
+		{
+			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
+			if(artistCheck != null && !artistCheck.equals(artist))
+			{
+				artist = artistCheck;
+				progressInfoDialog.setDetailLabel(artist, false);
+				progressInfoDialog.setProgressBar(false, true, size, i);
+				
+			}//IF
+			
+			String id = getParentGUI().getDmfHandler().getID(i);
+			boolean hasID = false;
+			for(int k = i + 1; k < size; k++)
+			{
+				if(!identical.contains(Integer.valueOf(k)) && getParentGUI().getDmfHandler().getID(k).equals(id))
+				{
+					identical.add(Integer.valueOf(k));
+					if(!hasID)
+					{
+						progressInfoDialog.appendLog(null, false);
+						progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFile(i).getAbsolutePath(), false);
+					
+					}//IF
+					progressInfoDialog.appendLog(Character.toString('\t') + getParentGUI().getDmfHandler().getDmfFile(k).getAbsolutePath(), false);
+					hasID = true;
+					
+				}//IF
+				
+			}//IF
+			
+		}//FOR
+		
+	}//METHOD
+	
 	@Override
 	public void event(String id, int value)
 	{
@@ -282,11 +281,14 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 			case DefaultLanguage.LOADING_DMFS:
 				loadDMFs();
 				break;
-			case DefaultLanguage.REFORMAT_DMFS:
-				reformatDMFs();
+			case DefaultLanguage.UNLINKED_FILES:
+				findUnlinkedFiles();
 				break;
-			case DefaultLanguage.RENAME_FILES:
-				renameFiles();
+			case DefaultLanguage.IDENTICAL_IDS:
+				findIdenticalIDs();
+				break;
+			case DefaultLanguage.MISSING_MEDIA:
+				findMissingMedia();
 				break;
 			
 		}//SWITCH
@@ -310,4 +312,3 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	}//METHOD
 	
 }//CLASS
-
