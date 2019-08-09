@@ -229,7 +229,7 @@ public class Downloader
 	 * @param url Input URL
 	 * @since 2.0
 	 */
-	public void setPage(final String url)
+	public void getPage(final String url)
 	{
 		try
 		{

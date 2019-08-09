@@ -250,13 +250,15 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		int pageNum = 1;
 		int size = -1;
 		List<DomAttr> links;
+		boolean hasLink = false;
 		
 		while(!progressDialog.isCancelled() && size != pages.size())
 		{
 			//LOADS GALLERY PAGE
+			hasLink = false;
 			size = pages.size();
 			progressDialog.setDetailLabel(getSettings().getLanguageText(DefaultLanguage.PAGE) + ' ' + pageNum, false);
-			getDownloader().setPage(baseURL + pageNum + "/?perpage=72"); //$NON-NLS-1$
+			setPage(baseURL + pageNum + "/?perpage=72"); //$NON-NLS-1$
 			if(isLoggedIn())
 			{
 				//GETS LINKS FROM GALLERY PAGE
@@ -264,6 +266,12 @@ public class FurAffinityGUI extends ArtistHostingGUI
 				for(int i = 0; !progressDialog.isCancelled() && i < links.size(); i++)
 				{
 					String linkString = "https://www.furaffinity.net" + Downloader.getAttribute(links.get(i)); //$NON-NLS-1$
+					if(!hasLink && linkString.contains("/view/")) //$NON-NLS-1$
+					{
+						hasLink = true;
+						
+					}//IF
+					
 					if(!isDownloaded(linkString))
 					{
 						pages.add(linkString);
@@ -272,7 +280,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 					
 				}//FOR
 				
-				if(checkAll && links.size() != 0)
+				if(checkAll && hasLink)
 				{
 					size = -1;
 					
@@ -307,13 +315,15 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		int pageNum = 1;
 		int size = -1;
 		List<DomAttr> links;
+		boolean hasLink = false;
 		
 		while(!progressDialog.isCancelled() && size != pages.size())
 		{
 			//LOADS GALLERY PAGE
+			hasLink = false;
 			size = pages.size();
 			progressDialog.setDetailLabel(getSettings().getLanguageText(DefaultLanguage.PAGE) + ' ' + pageNum, false);
-			getDownloader().setPage(baseURL + pageNum);
+			setPage(baseURL + pageNum);
 			if(isLoggedIn())
 			{
 				//GETS LINKS FROM GALLERY PAGE
@@ -321,6 +331,12 @@ public class FurAffinityGUI extends ArtistHostingGUI
 				for(int i = 0; !progressDialog.isCancelled() && i < links.size(); i++)
 				{
 					String linkString = "https://www.furaffinity.net" + Downloader.getAttribute(links.get(i)); //$NON-NLS-1$
+					if(!hasLink && linkString.contains("/journal/")) //$NON-NLS-1$
+					{
+						hasLink = true;
+						
+					}//IF
+					
 					if(!isDownloaded(linkString))
 					{
 						pages.add(linkString);
@@ -329,7 +345,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 					
 				}//FOR
 				
-				if(checkAll && links.size() != 0)
+				if(checkAll && hasLink)
 				{
 					size = -1;
 					
@@ -434,7 +450,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		int end;
 		
 		DMF dmf = new DMF();
-		getDownloader().setPage(pageURL);
+		setPage(pageURL);
 		if(!isLoggedIn())
 		{
 			throw new Exception("Logged Out Before Process"); //$NON-NLS-1$
@@ -692,7 +708,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	private String downloadJournalPage(final File baseFolder, final String pageURL) throws Exception
 	{	
 		DMF dmf = new DMF();
-		getDownloader().setPage(pageURL);
+		setPage(pageURL);
 		if(!isLoggedIn())
 		{
 			throw new Exception("Logged Out Before Process"); //$NON-NLS-1$

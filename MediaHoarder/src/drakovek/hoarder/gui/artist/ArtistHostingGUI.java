@@ -756,9 +756,12 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	public void setPage(String url)
 	{
 		CookieManager cookies = getDownloader().getClient().getCookieManager();
+		getDownloader().getClient().getCurrentWindow().getJobManager().removeAllJobs();
+		getDownloader().getClient().close();
+		System.gc();
 		setNewClient();
 		getDownloader().getClient().setCookieManager(cookies);
-		getDownloader().setPage(url);
+		getDownloader().getPage(url);
 		
 	}//METHOD
 	
