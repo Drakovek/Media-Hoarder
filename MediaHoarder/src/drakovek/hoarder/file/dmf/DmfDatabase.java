@@ -691,6 +691,66 @@ public class DmfDatabase
 	}//METHOD
 	
 	/**
+	 * Adds a given DMF to the database.
+	 * 
+	 * @param dmf Given DMF
+	 * @param index Given Index
+	 * @since 2.0
+	 */
+	public void addDMF(DMF dmf)
+	{
+		//DMF
+		dmfFiles.add(dmf.getDmfFile());
+		ids.add(dmf.getID());
+				
+		//INFO
+		titles.add(dmf.getTitle());
+		artists.add(dmf.getArtists());
+		if(dmf.getTime() == 0)
+		{
+			times.add(null);
+			
+		}//IF
+		else
+		{
+			times.add(Long.valueOf(dmf.getTime()));
+			
+		}//ELSE
+		webTags.add(dmf.getWebTags());
+		descriptions.add(dmf.getDescription());
+
+		//WEB
+		pageURLs.add(dmf.getPageURL());
+		mediaURLs.add(dmf.getMediaURL());
+		secondaryURLs.add(dmf.getSecondaryURL());
+		
+		//FILE
+		mediaFiles.add(dmf.getMediaFile());
+		secondaryFiles.add(dmf.getSecondaryFile());
+		lastIDs.add(dmf.getLastIDs());
+		nextIDs.add(dmf.getNextIDs());
+		isFirst.add(Boolean.valueOf(dmf.isFirstInSection()));
+		isLast.add(Boolean.valueOf(dmf.isLastInSection()));
+		
+		//USER
+		sequenceTitles.add(dmf.getSequenceTitle());
+		sectionTitles.add(dmf.getSectionTitle());
+		branchTitles.add(dmf.getBranchTitles());
+		if(dmf.getRating() == 0)
+		{
+			ratings.add(null);
+			
+		}//IF
+		else
+		{
+			ratings.add(Integer.valueOf(dmf.getRating()));
+			
+		}//ELSE
+		userTags.add(dmf.getUserTags());
+		
+	}//METHOD
+	
+	/**
 	 * Gets the DMF File from the DMF at a given index.
 	 * 
 	 * @param index Index

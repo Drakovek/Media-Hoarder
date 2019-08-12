@@ -433,7 +433,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			boolean missingFolders = false;
 			for(int i = 0; i < artistHandler.getArtists().size(); i++)
 			{
-				File artistFolder = new File(getDirectory(), DWriter.getFileFriendlyName(artistHandler.getArtists().get(i)));
+				File artistFolder = new File(getDirectory(), DWriter.getFileFriendlyName(artistHandler.getArtists().get(i), false));
 				if(!artistFolder.isDirectory())
 				{
 					missingFolders = true;

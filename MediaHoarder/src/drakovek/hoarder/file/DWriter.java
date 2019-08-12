@@ -115,16 +115,24 @@ public class DWriter
      * Returns a string that is acceptable for use in a file name from a given text string.
      * 
      * @param input Given String
+     * @param replaceEscape Whether to replace HTML escape characters
      * @return File Friendly Name
      * @since 2.0
      */
-    public static String getFileFriendlyName(final String input)
+    public static String getFileFriendlyName(final String input, final boolean replaceEscape)
     {
+    	String text = input;
+    	if(replaceEscape)
+    	{
+    		text = replaceHtmlEscape(text);
+    		
+    	}//IF
+    	
     	//REMOVE UNWANTED CHARACTERS
     	StringBuilder builder = new StringBuilder();
-    	for(int i = 0; i < input.length(); i++)
+    	for(int i = 0; i < text.length(); i++)
     	{
-    		char myChar = input.charAt(i);
+    		char myChar = text.charAt(i);
     		if((myChar > 47 && myChar < 58) || (myChar > 64 && myChar < 91) || (myChar > 96 && myChar < 123) || myChar == ' ')
     		{
     			builder.append(myChar);
@@ -176,6 +184,58 @@ public class DWriter
     	}//FOR
     	
     	return builder.toString();
+    	
+    }//METHOD
+
+    /**
+     * Replaces the HTML escape characters for a given string.
+     * 
+     * @param input String with HTML escape characters
+     * @return String with HTML escape characters replaced by their equivalent unicode characters
+     * @since 2.0
+     */
+    private static String replaceHtmlEscape(final String input)
+    {
+    	String output = input;
+    	int start = 0;
+    	int end = 0;
+    	while(true)
+    	{
+    		start = output.indexOf('&');
+    		if(start == -1)
+    		{
+    			break;
+    			
+    		}//IF
+    		
+    		end = output.indexOf(';', start);
+    		if(end == -1)
+    		{
+    			break;
+    			
+    		}//IF
+    		
+    		StringBuilder builder = new StringBuilder();
+    		end++;
+    		if(start > 0)
+    		{
+    			builder.append(output.subSequence(0, start));
+    			
+    		}//IF
+    		
+    		builder.append('-');
+    		
+    		if(end < output.length())
+    		{
+    			builder.append(end);
+    			
+    		}//IF
+    		
+    		output = builder.toString();
+    		
+    	}//IF
+    	
+    	return output;
     	
     }//METHOD
     

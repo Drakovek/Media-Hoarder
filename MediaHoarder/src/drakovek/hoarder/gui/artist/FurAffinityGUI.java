@@ -400,7 +400,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	@Override
 	protected void downloadPages(DProgressInfoDialog progressDialog, String artist, ArrayList<String> pages)
 	{
-		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist));
+		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist, false));
 		for(int i = pages.size() - 1; !progressDialog.isCancelled() && i > -1; i--)
 		{
 			progressDialog.setProcessLabel(DefaultLanguage.LOADING_PAGE);
@@ -428,7 +428,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			{
 				progressDialog.setCancelled(true);
 				progressDialog.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
-				e.printStackTrace();
+				progressDialog.appendLog(e.getMessage(), false);
 				
 			}//CATCH
 			
@@ -611,12 +611,17 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		List<DomElement> description = getDownloader().getPage().getByXPath("//table[@class='maintable']//table[@class='maintable']//td[@class='alt1']"); //$NON-NLS-1$
 		if(description.size() > 1)
 		{
-			String descriptionString = Downloader.getElement(description.get(1));
-			if(Downloader.getElement(description.get(0)).contains("class=\"alt1 stats-container\"") && !descriptionString.contains("class=\"alt1 stats-container\""))  //$NON-NLS-1$//$NON-NLS-2$
+			for(int i = 0; i < description.size(); i++)
 			{
-				dmf.setDescription(descriptionString);
+				String descriptionString = Downloader.getElement(description.get(i));
+				if(!descriptionString.contains("class=\"alt1 stats-container\"")) //$NON-NLS-1$
+				{
+					dmf.setDescription(descriptionString);
+					break;
+					
+				}//IF
 				
-			}//IF
+			}//FOR
 			
 		}//IF
 		
@@ -670,7 +675,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		}//IF
 		
 		//DOWNLOAD FILES
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle(), true) + Character.toString('_') + dmf.getID();
 		File mediaFile = new File(baseFolder, filename + mainExtension);
 		dmf.setMediaFile(mediaFile);
 		getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
@@ -686,11 +691,16 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
-		if(!dmf.getDmfFile().exists())
+		if(dmf.getDmfFile().exists())
 		{
-			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			getDmfHandler().getDatabase().addDMF(dmf);
 			
 		}//IF
+		else
+		{
+			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+		
+		}//ELSE
 		
 		return dmf.getTitle();
 		
@@ -761,7 +771,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		dmf.setMediaURL(pageURL);
 		
 		//DOWNLOAD DMF
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle(), true) + Character.toString('_') + dmf.getID();
 		File mediaFile = new File(baseFolder, filename + ".html"); //$NON-NLS-1$
 		ArrayList<String> contents = new ArrayList<>();
 		contents.add("<!DOCTYPE html>"); //$NON-NLS-1$
@@ -775,11 +785,16 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
-		if(!dmf.getDmfFile().exists())
+		if(dmf.getDmfFile().exists())
 		{
-			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			getDmfHandler().getDatabase().addDMF(dmf);
 					
 		}//IF
+		else
+		{
+			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			
+		}//ELSE
 		
 		return dmf.getTitle();
 		
