@@ -219,7 +219,7 @@ public class DWriter
     		end++;
     		if(start > 0)
     		{
-    			builder.append(output.subSequence(0, start));
+    			builder.append(output.substring(0, start));
     			
     		}//IF
     		
@@ -227,7 +227,7 @@ public class DWriter
     		
     		if(end < output.length())
     		{
-    			builder.append(end);
+    			builder.append(output.substring(end));
     			
     		}//IF
     		
