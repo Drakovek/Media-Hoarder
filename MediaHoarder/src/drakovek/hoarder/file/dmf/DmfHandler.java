@@ -389,6 +389,21 @@ public class DmfHandler
 	}//METHOD
 	
 	/**
+	 * Adds a given DMF to the database.
+	 * 
+	 * @param dmf Given DMF
+	 * @param index Given Index
+	 * @since 2.0
+	 */
+	public void addDMF(DMF dmf)
+	{
+		database.addDMF(dmf);
+		resetSorted();
+		resetFiltered();
+		
+	}//METHOD
+	
+	/**
 	 * Gets the DMF File from the DMF at a given index.
 	 * 
 	 * @param index Index

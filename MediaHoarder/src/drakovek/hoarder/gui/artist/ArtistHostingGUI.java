@@ -212,6 +212,13 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private DProgressInfoDialog progressInfoDialog;
 	
 	/**
+	 * PageURL given by the user when downloading an individual DMF
+	 * 
+	 * @since 2.0
+	 */
+	private String pageURL;
+	
+	/**
 	 * Initializes the ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
@@ -232,6 +239,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		this.loginGUI = loginGUI;
 		this.loginGUI.setLoginMethods(this);
 		checkAllPages = false;
+		pageURL = null;
 		
 		//MENUS
 		JMenuBar menubar = new JMenuBar();
@@ -362,6 +370,15 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected abstract void downloadPages(DProgressInfoDialog pid, final String artist, final ArrayList<String> pages);
 	
 	/**
+	 * Downloads media from a given URL.
+	 * 
+	 * @param pid DProgressInfoDialog used to show progress
+	 * @param url Given URL
+	 * @param baseDirectory Directory in which to save URL
+	 */
+	protected abstract void downloadSinglePage(DProgressInfoDialog pid, final String url, final File baseDirectory);
+	
+	/**
 	 * Loads all IDs related to the current service to check if media has already been downloaded.
 	 * 
 	 * @since 2.0
@@ -401,6 +418,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		boolean ready = true;
 		checkAllPages = checkAll;
 		
+		//CHECK IF DIRECTORY IS SELECTED
 		if(getDirectory() == null || !getDirectory().isDirectory())
 		{
 			ready = false;
@@ -459,7 +477,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			
 		}//IF
 		
-		//LOGIN AND CHECK IF DIRECTORY IS LISTED
+		//LOGIN
 		if(ready)
 		{
 			new DCheckDirectoriesGUI(getSettings(), getDmfHandler(), getFrame(), getDirectory());
@@ -495,6 +513,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		artists = new ArrayList<>();
 		boolean ready = true;
 		
+		//CHECK IF DIRECTORY IS SELECTED
 		if(getDirectory() == null || !getDirectory().isDirectory())
 		{
 			ready = false;
@@ -505,6 +524,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 		}//IF
 		
+		//LOGIN
 		if(ready)
 		{
 			//LOGIN TO WEBSITE
@@ -514,6 +534,21 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 				ready = isLoggedIn();
 				
 			}//IF
+			
+		}//IF
+		
+		if(ready)
+		{
+			//GET PAGE URL
+			DTextDialog textDialog = new DTextDialog(getSettings());
+			String[] messageIDs = {DefaultLanguage.ENTER_URL_MESSAGE};
+			pageURL = textDialog.openTextDialog(getFrame(), DefaultLanguage.ENTER_URL_TITLE, messageIDs, null);
+			
+			//START LOADING DMFS
+			progressDialog.setCancelled(false);
+			getFrame().setProcessRunning(true);
+			progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
+			(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
 			
 		}//IF
 		
@@ -640,6 +675,14 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 				(new DSwingWorker(this, DefaultLanguage.CHECK_ALL)).execute();
 				
 			}//IF
+			else
+			{
+				progressInfoDialog.setCancelled(false);
+				getFrame().setProcessRunning(true);
+				progressInfoDialog.startProgressDialog(getFrame(), this.getTitle(DefaultLanguage.DOWNLOADING));
+				(new DSwingWorker(this, DefaultLanguage.DOWNLOAD_SINGLE)).execute();
+				
+			}//ELSE
 			
 		}//IF
 		
@@ -658,6 +701,19 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			downloadPages(progressInfoDialog, artists.get(i), getPages(progressInfoDialog, artists.get(i), checkAllPages, getSettings().getSaveJournals()));
 			
 		}//FOR
+		progressInfoDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.FINISHED), true);
+		
+	}//METHOD
+	
+	/**
+	 * Starts process of downloading media from a given page URL
+	 * 
+	 * @since 2.0
+	 */
+	private void downloadSingleMedia()
+	{
+		progressInfoDialog.appendLog(getTitle(), false);
+		downloadSinglePage(progressInfoDialog, pageURL, getDirectory());
 		progressInfoDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.FINISHED), true);
 		
 	}//METHOD
@@ -773,6 +829,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			case DefaultLanguage.LOADING_DMFS:
 				loadDMFs();
 				break;
+			case DefaultLanguage.DOWNLOAD_SINGLE:
+				downloadSingleMedia();
+				break;
 			case DefaultLanguage.CHECK_ALL:
 				downloadArtistMedia();
 				break;
@@ -791,6 +850,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 				startDownload();
 				break;
 			case DefaultLanguage.CHECK_ALL:
+			case DefaultLanguage.DOWNLOAD_SINGLE:
 				infoProcessFinished();
 				break;
 				

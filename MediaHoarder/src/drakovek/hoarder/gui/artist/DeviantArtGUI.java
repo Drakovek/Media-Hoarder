@@ -104,5 +104,10 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	protected void getIdStrings()
 	{
 	}//METHOD
+
+	@Override
+	protected void downloadSinglePage(DProgressInfoDialog pid, String pageURL, File baseDirectory)
+	{
+	}
 	
 }//CLASS

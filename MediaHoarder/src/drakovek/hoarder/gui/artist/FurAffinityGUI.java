@@ -40,6 +40,20 @@ public class FurAffinityGUI extends ArtistHostingGUI
 											"sep", "oct", "nov", "dec"};  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	
 	/**
+	 * Section of Fur Affinity page URL that shows it is part of a media gallery
+	 * 
+	 * @since 2.0
+	 */
+	private static final String GALLERY_URL = "/view/"; //$NON-NLS-1$
+	
+	/**
+	 * Section of Fur Affinity page URL that shows it is part of a journal gallery
+	 * 
+	 * @since 2.0
+	 */
+	private static final String JOURNAL_URL = "/journal/"; //$NON-NLS-1$
+	
+	/**
 	 * Prefix for a DMF ID that indicates that the DMF is sourced from FurAffinity.net
 	 * 
 	 * @since 2.0
@@ -380,13 +394,13 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		int charNum;
 		for(charNum = page.length() - 1; charNum > -1 && page.charAt(charNum) != '/'; charNum--); charNum++;
 		
-		if(page.contains("/view/")) //$NON-NLS-1$
+		if(page.contains(GALLERY_URL))
 		{	
 			page = page.substring(charNum);
 			return idStrings.contains(page);
 			
 		}//IF
-		else if(page.contains("/journal/")) //$NON-NLS-1$
+		else if(page.contains(JOURNAL_URL))
 		{
 			page = page.substring(charNum) + JOURNAL_SUFFIX;
 			return idStrings.contains(page);
@@ -396,21 +410,74 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		return true;
 		
 	}//METHOD
+	
+	@Override
+	protected void downloadSinglePage(DProgressInfoDialog progressDialog, final String pageURL, final File baseDirectory)
+	{
+		progressDialog.setProcessLabel(DefaultLanguage.LOADING_PAGE);
+		progressDialog.setDetailLabel(pageURL, false);
+		progressDialog.setProgressBar(true, false, 0, 0);
+		progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pageURL, true);
+		
+		if(pageURL.contains("furaffinity.net")) //$NON-NLS-1$
+		{
+			if(!isDownloaded(pageURL))
+			{
+				try
+				{
+					if(pageURL.contains(GALLERY_URL))
+					{
+						String title = downloadMediaPage(baseDirectory, pageURL);
+						progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+					
+					}//IF
+					else
+					{
+						String title = downloadJournalPage(baseDirectory, pageURL);
+						progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+						
+					}//ELSE
+				
+				}//TRY
+				catch(Exception e)
+				{
+					progressDialog.setCancelled(true);
+					progressDialog.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
+					progressDialog.appendLog(e.getMessage(), false);
+				
+				}//CATCH
+				
+			}//IF
+			else
+			{
+				progressDialog.appendLog(DefaultLanguage.ALREADY_DOWNLOADED, true);
+				
+			}//ELSE
+			
+		}//IF
+		else
+		{
+			progressDialog.appendLog(DefaultLanguage.INVALID_URL, true);
+			
+		}//ELSE
+		
+		
+	}//METHOD
 
 	@Override
-	protected void downloadPages(DProgressInfoDialog progressDialog, String artist, ArrayList<String> pages)
+	protected void downloadPages(DProgressInfoDialog progressDialog, final String artist, final ArrayList<String> pages)
 	{
 		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist, false));
 		for(int i = pages.size() - 1; !progressDialog.isCancelled() && i > -1; i--)
 		{
 			progressDialog.setProcessLabel(DefaultLanguage.LOADING_PAGE);
-			progressDialog.setDetailLabel(pages.get(i).substring(pages.get(i).lastIndexOf('/', pages.get(i).length() - 2)), false);
+			progressDialog.setDetailLabel(pages.get(i), false);
 			progressDialog.setProgressBar(false, true, pages.size(), pages.size() - (i + 1));
 			progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pages.get(i), true);
 			
 			try
 			{
-				if(pages.get(i).contains("/view/")) //$NON-NLS-1$
+				if(pages.get(i).contains(GALLERY_URL))
 				{
 					String title = downloadMediaPage(artistFolder, pages.get(i));
 					progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
@@ -693,7 +760,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())
 		{
-			getDmfHandler().getDatabase().addDMF(dmf);
+			getDmfHandler().addDMF(dmf);
 			
 		}//IF
 		else

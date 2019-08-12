@@ -618,6 +618,20 @@ public class DefaultLanguage
 	public static final String NO_ARTISTS = "no_artists"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the title of dialog prompting user to enter a page URL
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ENTER_URL_TITLE = "enter_url_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the message of dialog prompting user to enter a page URL
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ENTER_URL_MESSAGE = "enter_url_message"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Username" label in the login GUI.
 	 * 
 	 * @since 2.0
@@ -742,6 +756,20 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String DOWNLOAD_FAILED = "download_failed"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for showing a given file has already been downloaded
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ALREADY_DOWNLOADED = "already_downloaded"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for showing a given URL is invalid
+	 * 
+	 * @since 2.0
+	 */
+	public static final String INVALID_URL = "invalid_url"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "AM" in clock time formatting
@@ -1028,6 +1056,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOADED, "Downloaded")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FINISHED, "Finished")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DOWNLOAD_FAILED, "Download Failed")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ALREADY_DOWNLOADED, "Already Downloaded")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(INVALID_URL, "Invalid URL")); //$NON-NLS-1$
 		
 		
 		//TIME
@@ -1137,6 +1167,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[1], "You may be using the wrong directory.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(WRONG_FOLDER_MESSAGES[2], "Use this directory?")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO_ARTISTS, "No Artists Selected")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ENTER_URL_TITLE, "Enter Page URL")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ENTER_URL_MESSAGE, "Enter Page URL:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DEVIANTART_LOGIN, "DeviantArt Login")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_LOGIN, "Fur Affinity Login")); //$NON-NLS-1$
