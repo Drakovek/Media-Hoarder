@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 
 import com.gargoylesoftware.htmlunit.CookieManager;
 
+import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.Start;
@@ -348,28 +349,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected abstract File getDirectory();
 	
 	/**
-	 * Returns all the page URLs for a given artist that have not already been downloaded.
-	 * 
-	 * @param pid DProgressInfoDialog used to show progress
-	 * @param artist Given Artist
-	 * @param checkAll Whether to check all pages or just new pages.
-	 * @param checkJournals Whether to check for the artist's journals
-	 * @return Artist's Page URLs
-	 * @since 2.0
-	 */
-	protected abstract ArrayList<String> getPages(DProgressInfoDialog pid, final String artist, final boolean checkAll, final boolean checkJournals);
-	
-	/**
-	 * Downloads media from list of pageURLs from a given artist.
-	 * 
-	 * @param pid DProgressInfoDialog used to show progress
-	 * @param artist Given Artist
-	 * @param pages Page URLs
-	 * @since 2.0
-	 */
-	protected abstract void downloadPages(DProgressInfoDialog pid, final String artist, final ArrayList<String> pages);
-	
-	/**
 	 * Downloads media from a given URL.
 	 * 
 	 * @param pid DProgressInfoDialog used to show progress
@@ -392,6 +371,68 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @since 2.0
 	 */
 	protected abstract String getTitle();
+	
+	/**
+	 * Returns a list of page URLs for a given artist.
+	 * 
+	 * @param pd DProgressInfoDialog used to show progress
+	 * @param artist Fur Affinity Artist
+	 * @param checkAll Whether to check all gallery pages
+	 * @param scraps Whether to check the scraps gallery
+	 * @return List of page URLs
+	 * @since 2.0
+	 */
+	protected abstract ArrayList<String> getMediaPages(DProgressInfoDialog pd, final String artist, final boolean checkAll, final boolean scraps);
+	
+	/**
+	 * Returns a list of journal page URLs for a given artist.
+	 * 
+	 * @param pd DProgressInfoDialog used to show progress
+	 * @param artist Fur Affinity Artist
+	 * @param checkAll Whether to check all gallery pages
+	 * @return List of page URLs
+	 * @since 2.0
+	 */
+	protected abstract ArrayList<String> getJournalPages(DProgressInfoDialog pd, final String artist, final boolean checkAll);
+	
+	/**
+	 * Returns a string for a given artist compatible with the URL for the current artist hosting site.
+	 * 
+	 * @param artist Given Artist
+	 * @return Formatted Artist String for use in URL
+	 * @since 2.0
+	 */
+	protected abstract String getUrlArtist(final String artist);
+	
+	/**
+	 * Downloads media and creates DMF for a Fur Affinity media page.
+	 * 
+	 * @param baseFolder Base Folder to save within
+	 * @param URL PageURL to read
+	 * @return Title of the most recently downloaded page
+	 * @throws Exception Any problem reading Fur Affinity data
+	 * @since 2.0
+	 */
+	protected abstract String downloadMediaPage(final File baseFolder, final String URL) throws Exception; 
+	
+	/**
+	 * Downloads journal and creates DMF for a Fur Affinity journal page.
+	 * 
+	 * @param baseFolder Base Folder to save within
+	 * @param URL PageURL to read
+	 * @return Title of the most recently downloaded page
+	 * @throws Exception Any problem reading Fur Affinity data
+	 * @since 2.0
+	 */
+	protected abstract String downloadJournalPage(final File baseFolder, final String URL) throws Exception;
+	
+	/**
+	 * Returns section of page URL that shows it is part of a media gallery
+	 * 
+	 * @return Gallery URL Fragment
+	 * @since 2.0
+	 */
+	protected abstract String getGalleryUrlFragment();
 	
 	/**
 	 * Displays the current list of artists.
@@ -500,6 +541,87 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
 			
 		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Returns all the page URLs for a given artist that have not already been downloaded.
+	 * 
+	 * @param pid DProgressInfoDialog used to show progress
+	 * @param artist Given Artist
+	 * @param checkAll Whether to check all pages or just new pages.
+	 * @param checkJournals Whether to check for the artist's journals
+	 * @return Artist's Page URLs
+	 * @since 2.0
+	 */
+	protected ArrayList<String> getPages(DProgressInfoDialog pid, final String artist, final boolean checkAll, final boolean checkJournals)
+	{
+		pid.setProcessLabel(DefaultLanguage.GETTING_PAGE_URLS);
+		pid.setDetailLabel(artist, false);
+		pid.setProgressBar(true, false, 0, 0);
+		pid.appendLog(null, false);
+		String urlArtist = getUrlArtist(artist);
+		
+		//GETS PAGES
+		pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_GALLERY_PAGES), true);
+		ArrayList<String> pages = getMediaPages(pid, urlArtist, checkAll, false);
+		pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_SCRAP_PAGES), true);
+		pages.addAll(getMediaPages(pid, urlArtist, checkAll, true));
+		
+		if(checkJournals)
+		{
+			pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_JOURNAL_PAGES), true);
+			pages.addAll(getJournalPages(pid, urlArtist, checkAll));
+			
+		}//IF
+		
+		return pages;
+		
+	}//METHOD
+	
+	/**
+	 * Downloads media from list of pageURLs from a given artist.
+	 * 
+	 * @param pid DProgressInfoDialog used to show progress
+	 * @param artist Given Artist
+	 * @param pages Page URLs
+	 * @since 2.0
+	 */
+	protected void downloadPages(DProgressInfoDialog pid, final String artist, final ArrayList<String> pages)
+	{
+		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist, false));
+		for(int i = pages.size() - 1; !progressDialog.isCancelled() && i > -1; i--)
+		{
+			pid.setProcessLabel(DefaultLanguage.LOADING_PAGE);
+			pid.setDetailLabel(pages.get(i), false);
+			pid.setProgressBar(false, true, pages.size(), pages.size() - (i + 1));
+			pid.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pages.get(i), true);
+			
+			try
+			{
+				if(pages.get(i).contains(getGalleryUrlFragment()))
+				{
+					String title = downloadMediaPage(artistFolder, pages.get(i));
+					pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+					
+				}//IF
+				else
+				{
+					String title = downloadJournalPage(artistFolder, pages.get(i));
+					pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+						
+				}//ELSE
+				
+			}//TRY
+			catch(Exception e)
+			{
+				pid.setCancelled(true);
+				pid.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
+				pid.appendLog(e.getMessage(), false);
+				
+			}//CATCH
+			
+		}//FOR
 		
 	}//METHOD
 	

@@ -11,7 +11,6 @@ import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.dmf.DMF;
@@ -175,7 +174,6 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 		setNewClient();
 		setPage("https://www.furaffinity.net/login/?mode=imagecaptcha"); //$NON-NLS-1$
-		getDownloader().getClient().waitForBackgroundJavaScript(1000);
 		if(getDownloader().getPage() != null)
 		{
 			List<DomAttr> captchaImage = getDownloader().getPage().getByXPath("//img[@id='captcha_img']/@src"); //$NON-NLS-1$
@@ -201,51 +199,16 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	{
 		getDownloader().setNewClient();
 		getDownloader().getClient().getOptions().setCssEnabled(false);
-		getDownloader().getClient().getOptions().setJavaScriptEnabled(true);
+		getDownloader().getClient().getOptions().setJavaScriptEnabled(false);
 		getDownloader().getClient().getOptions().setThrowExceptionOnScriptError(false);
 		getDownloader().getClient().setJavaScriptTimeout(10000);
 		getDownloader().getClient().setAjaxController(new NicelyResynchronizingAjaxController());
 		getDownloader().getClient().getOptions().setTimeout(10000);
 		
 	}//METHOD
-
-	@Override
-	protected ArrayList<String> getPages(DProgressInfoDialog progressDialog, final String artist, final boolean checkAll, final boolean checkJournals)
-	{
-		progressDialog.setProcessLabel(DefaultLanguage.GETTING_PAGE_URLS);
-		progressDialog.setDetailLabel(artist, false);
-		progressDialog.setProgressBar(true, false, 0, 0);
-		progressDialog.appendLog(null, false);
-		String urlArtist = artist.replaceAll(Character.toString('_'), new String());
-		
-		//GETS PAGES
-		progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_GALLERY_PAGES), true);
-		ArrayList<String> pages = getMediaPages(progressDialog, urlArtist, checkAll, false);
-		progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_SCRAP_PAGES), true);
-		pages.addAll(getMediaPages(progressDialog, urlArtist, checkAll, true));
-		
-		if(checkJournals)
-		{
-			progressDialog.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_JOURNAL_PAGES), true);
-			pages.addAll(getJournalPages(progressDialog, urlArtist, checkAll));
-			
-		}//IF
-		
-		return pages;
-		
-	}//METHOD
 	
-	/**
-	 * Returns a list of page URLs for a given artist.
-	 * 
-	 * @param progressDialog DProgressInfoDialog used to show progress
-	 * @param artist Fur Affinity Artist
-	 * @param checkAll Whether to check all gallery pages
-	 * @param scraps Whether to check the scraps gallery
-	 * @return List of page URLs
-	 * @since 2.0
-	 */
-	private ArrayList<String> getMediaPages(DProgressInfoDialog progressDialog, final String artist, final boolean checkAll, final boolean scraps)
+	@Override
+	protected ArrayList<String> getMediaPages(DProgressInfoDialog progressDialog, final String artist, final boolean checkAll, final boolean scraps)
 	{
 		//CREATE BASE URL FOR EITHER SCRAPS OR GALLERY
 		String baseURL;
@@ -280,7 +243,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 				for(int i = 0; !progressDialog.isCancelled() && i < links.size(); i++)
 				{
 					String linkString = "https://www.furaffinity.net" + Downloader.getAttribute(links.get(i)); //$NON-NLS-1$
-					if(!hasLink && linkString.contains("/view/")) //$NON-NLS-1$
+					if(!hasLink && linkString.contains(GALLERY_URL))
 					{
 						hasLink = true;
 						
@@ -310,16 +273,8 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 	}//METHOD
 	
-	/**
-	 * Returns a list of journal page URLs for a given artist.
-	 * 
-	 * @param progressDialog DProgressInfoDialog used to show progress
-	 * @param artist Fur Affinity Artist
-	 * @param checkAll Whether to check all gallery pages
-	 * @return List of page URLs
-	 * @since 2.0
-	 */
-	private ArrayList<String> getJournalPages(DProgressInfoDialog progressDialog, final String artist, final boolean checkAll)
+	@Override
+	protected ArrayList<String> getJournalPages(DProgressInfoDialog progressDialog, final String artist, final boolean checkAll)
 	{
 		//CREATE BASE URL FOR EITHER JOURNAL GALLERY
 		String baseURL = "https://www.furaffinity.net/journals/" + artist + Character.toString('/'); //$NON-NLS-1$
@@ -345,7 +300,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 				for(int i = 0; !progressDialog.isCancelled() && i < links.size(); i++)
 				{
 					String linkString = "https://www.furaffinity.net" + Downloader.getAttribute(links.get(i)); //$NON-NLS-1$
-					if(!hasLink && linkString.contains("/journal/")) //$NON-NLS-1$
+					if(!hasLink && linkString.contains(JOURNAL_URL))
 					{
 						hasLink = true;
 						
@@ -463,56 +418,9 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 		
 	}//METHOD
-
-	@Override
-	protected void downloadPages(DProgressInfoDialog progressDialog, final String artist, final ArrayList<String> pages)
-	{
-		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist, false));
-		for(int i = pages.size() - 1; !progressDialog.isCancelled() && i > -1; i--)
-		{
-			progressDialog.setProcessLabel(DefaultLanguage.LOADING_PAGE);
-			progressDialog.setDetailLabel(pages.get(i), false);
-			progressDialog.setProgressBar(false, true, pages.size(), pages.size() - (i + 1));
-			progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pages.get(i), true);
-			
-			try
-			{
-				if(pages.get(i).contains(GALLERY_URL))
-				{
-					String title = downloadMediaPage(artistFolder, pages.get(i));
-					progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
-					
-				}//IF
-				else
-				{
-					String title = downloadJournalPage(artistFolder, pages.get(i));
-					progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
-						
-				}//ELSE
-				
-			}//TRY
-			catch(Exception e)
-			{
-				progressDialog.setCancelled(true);
-				progressDialog.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
-				progressDialog.appendLog(e.getMessage(), false);
-				
-			}//CATCH
-			
-		}//FOR
-		
-	}//METHOD
 	
-	/**
-	 * Downloads media and creates DMF for a Fur Affinity media page.
-	 * 
-	 * @param baseFolder Base Folder to save within
-	 * @param pageURL PageURL to read
-	 * @return Title of the most recently downloaded page
-	 * @throws Exception Any problem reading Fur Affinity data
-	 * @since 2.0
-	 */
-	private String downloadMediaPage(final File baseFolder, final String pageURL) throws Exception
+	@Override
+	protected String downloadMediaPage(final File baseFolder, final String pageURL) throws Exception
 	{
 		int end;
 		
@@ -773,16 +681,8 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 	}//METHOD
 	
-	/**
-	 * Downloads journal and creates DMF for a Fur Affinity journal page.
-	 * 
-	 * @param baseFolder Base Folder to save within
-	 * @param pageURL PageURL to read
-	 * @return Title of the most recently downloaded page
-	 * @throws Exception Any problem reading Fur Affinity data
-	 * @since 2.0
-	 */
-	private String downloadJournalPage(final File baseFolder, final String pageURL) throws Exception
+	@Override
+	protected String downloadJournalPage(final File baseFolder, final String pageURL) throws Exception
 	{	
 		DMF dmf = new DMF();
 		setPage(pageURL);
@@ -933,12 +833,13 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	{
 		idStrings = new ArrayList<>();
 		int size = getDmfHandler().getSize();
+		int prefixLength = ID_PREFIX.length();
 		for(int i = 0; i < size; i ++)
 		{
 			String id = getDmfHandler().getID(i);
-			if(id.length() > 3 && id.toUpperCase().startsWith(ID_PREFIX))
+			if(id.length() > prefixLength && id.toUpperCase().startsWith(ID_PREFIX))
 			{
-				idStrings.add(id.substring(3));
+				idStrings.add(id.substring(prefixLength));
 				
 			}//IF
 			
@@ -950,6 +851,20 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	protected String getTitle()
 	{
 		return getSettings().getLanguageText(DefaultLanguage.FUR_AFFINITY_PROGRESS_TITLE);
+		
+	}//METHOD
+
+	@Override
+	protected String getUrlArtist(String artist)
+	{
+		return artist.replaceAll(Character.toString('_'), new String());
+		
+	}//METHOD
+
+	@Override
+	protected String getGalleryUrlFragment()
+	{
+		return GALLERY_URL;
 		
 	}//METHOD
 	
