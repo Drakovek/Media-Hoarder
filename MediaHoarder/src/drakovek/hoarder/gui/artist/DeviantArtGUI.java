@@ -689,7 +689,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			extension = ExtensionMethods.getExtension(dmf.getMediaURL());
 			
 		}//IF
-		List<DomAttr> fullImage = getDownloader().getPage().getByXPath("//img[@class='dev-content-normal ']/@src"); //$NON-NLS-1$
+		List<DomAttr> fullImage = getDownloader().getPage().getByXPath("//img[@class='dev-content-full ']/@src"); //$NON-NLS-1$
 		if(normalImage.size() > 0)
 		{
 			dmf.setMediaURL(Downloader.getAttribute(fullImage.get(0)));
