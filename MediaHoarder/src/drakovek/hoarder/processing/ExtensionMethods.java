@@ -33,15 +33,32 @@ public class ExtensionMethods
 	 */
 	public static String getExtension(final String filename)
 	{
-		int i = filename.lastIndexOf('.');
+		int end = filename.length();
+		if(filename.contains(Character.toString('?')))
+		{
+			end = filename.lastIndexOf('?');
+			
+		}//IF
 		
-		if(i == -1)
+		int start = 0;
+		if(end < filename.length())
+		{
+			start = filename.lastIndexOf('.', end);
+			
+		}//IF
+		else
+		{
+			start = filename.lastIndexOf('.');
+			
+		}//ELSE
+		
+		if(start == -1)
 		{
 			return new String();
 			
 		}//IF
 		
-		return filename.substring(i).toLowerCase();
+		return filename.substring(start, end).toLowerCase();
 		
 	}//METHOD
 	

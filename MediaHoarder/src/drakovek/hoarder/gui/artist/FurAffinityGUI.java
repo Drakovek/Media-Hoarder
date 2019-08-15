@@ -330,14 +330,8 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 	}//METHOD
 	
-	/**
-	 * Checks whether a given page URL has already been read and downloaded
-	 * 
-	 * @param pageURL Page URL to download
-	 * @return Whether the URL has already downloaded
-	 * @since 2.0
-	 */
-	private boolean isDownloaded(final String pageURL)
+	@Override
+	protected boolean isDownloaded(final String pageURL)
 	{
 		String page = pageURL;
 		while(page.length() > 0 && page.charAt(page.length() - 1) == '/')
@@ -363,59 +357,6 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		}//IF
 		
 		return true;
-		
-	}//METHOD
-	
-	@Override
-	protected void downloadSinglePage(DProgressInfoDialog progressDialog, final String pageURL, final File baseDirectory)
-	{
-		progressDialog.setProcessLabel(DefaultLanguage.LOADING_PAGE);
-		progressDialog.setDetailLabel(pageURL, false);
-		progressDialog.setProgressBar(true, false, 0, 0);
-		progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pageURL, true);
-		
-		if(pageURL.contains("furaffinity.net")) //$NON-NLS-1$
-		{
-			if(!isDownloaded(pageURL))
-			{
-				try
-				{
-					if(pageURL.contains(GALLERY_URL))
-					{
-						String title = downloadMediaPage(baseDirectory, pageURL);
-						progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
-					
-					}//IF
-					else
-					{
-						String title = downloadJournalPage(baseDirectory, pageURL);
-						progressDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
-						
-					}//ELSE
-				
-				}//TRY
-				catch(Exception e)
-				{
-					progressDialog.setCancelled(true);
-					progressDialog.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
-					progressDialog.appendLog(e.getMessage(), false);
-				
-				}//CATCH
-				
-			}//IF
-			else
-			{
-				progressDialog.appendLog(DefaultLanguage.ALREADY_DOWNLOADED, true);
-				
-			}//ELSE
-			
-		}//IF
-		else
-		{
-			progressDialog.appendLog(DefaultLanguage.INVALID_URL, true);
-			
-		}//ELSE
-		
 		
 	}//METHOD
 	
@@ -866,6 +807,13 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	{
 		return GALLERY_URL;
 		
+	}//METHOD
+
+	@Override
+	protected String getMainURL()
+	{
+		return "furaffinity.net"; //$NON-NLS-1$
+	
 	}//METHOD
 	
 }//METHOD

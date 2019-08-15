@@ -349,15 +349,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected abstract File getDirectory();
 	
 	/**
-	 * Downloads media from a given URL.
-	 * 
-	 * @param pid DProgressInfoDialog used to show progress
-	 * @param url Given URL
-	 * @param baseDirectory Directory in which to save URL
-	 */
-	protected abstract void downloadSinglePage(DProgressInfoDialog pid, final String url, final File baseDirectory);
-	
-	/**
 	 * Loads all IDs related to the current service to check if media has already been downloaded.
 	 * 
 	 * @since 2.0
@@ -405,7 +396,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected abstract String getUrlArtist(final String artist);
 	
 	/**
-	 * Downloads media and creates DMF for a Fur Affinity media page.
+	 * Downloads media and creates DMF for a media page.
 	 * 
 	 * @param baseFolder Base Folder to save within
 	 * @param URL PageURL to read
@@ -416,7 +407,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected abstract String downloadMediaPage(final File baseFolder, final String URL) throws Exception; 
 	
 	/**
-	 * Downloads journal and creates DMF for a Fur Affinity journal page.
+	 * Downloads journal and creates DMF for a journal page.
 	 * 
 	 * @param baseFolder Base Folder to save within
 	 * @param URL PageURL to read
@@ -427,12 +418,28 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected abstract String downloadJournalPage(final File baseFolder, final String URL) throws Exception;
 	
 	/**
+	 * Checks whether a given page URL has already been read and downloaded
+	 * 
+	 * @param URL Page URL to download
+	 * @return Whether the URL has already downloaded
+	 * @since 2.0
+	 */
+	protected abstract boolean isDownloaded(final String URL);
+	
+	/**
 	 * Returns section of page URL that shows it is part of a media gallery
 	 * 
 	 * @return Gallery URL Fragment
 	 * @since 2.0
 	 */
 	protected abstract String getGalleryUrlFragment();
+	
+	/**
+	 * Returns the main URL of the artist hosting site, used to check if URL is from the given website.
+	 * 
+	 * @return Main ArtistHosting URL
+	 */
+	protected abstract String getMainURL();
 	
 	/**
 	 * Displays the current list of artists.
@@ -590,7 +597,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected void downloadPages(DProgressInfoDialog pid, final String artist, final ArrayList<String> pages)
 	{
 		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist, false));
-		for(int i = pages.size() - 1; !progressDialog.isCancelled() && i > -1; i--)
+		for(int i = pages.size() - 1; !pid.isCancelled() && i > -1; i--)
 		{
 			pid.setProcessLabel(DefaultLanguage.LOADING_PAGE);
 			pid.setDetailLabel(pages.get(i), false);
@@ -618,6 +625,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 				pid.setCancelled(true);
 				pid.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
 				pid.appendLog(e.getMessage(), false);
+				e.printStackTrace();
 				
 			}//CATCH
 			
@@ -673,6 +681,67 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
 			
 		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Downloads media from a given URL.
+	 * 
+	 * @param pid DProgressInfoDialog used to show progress
+	 * @param URL Given URL
+	 * @param baseDirectory Directory in which to save URL
+	 * @since 2.0
+	 */
+	protected void downloadSinglePage(DProgressInfoDialog pid, final String URL, final File baseDirectory)
+	{
+		pid.setProcessLabel(DefaultLanguage.LOADING_PAGE);
+		pid.setDetailLabel(pageURL, false);
+		pid.setProgressBar(true, false, 0, 0);
+		pid.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pageURL, true);
+		
+		if(pageURL.contains(getMainURL()))
+		{
+			if(!isDownloaded(pageURL))
+			{
+				try
+				{
+					if(pageURL.contains(getGalleryUrlFragment()))
+					{
+						String title = downloadMediaPage(baseDirectory, pageURL);
+						pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+					
+					}//IF
+					else
+					{
+						String title = downloadJournalPage(baseDirectory, pageURL);
+						pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+						
+					}//ELSE
+				
+				}//TRY
+				catch(Exception e)
+				{
+					pid.setCancelled(true);
+					pid.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
+					pid.appendLog(e.getMessage(), false);
+					e.printStackTrace();
+				
+				}//CATCH
+				
+			}//IF
+			else
+			{
+				pid.appendLog(DefaultLanguage.ALREADY_DOWNLOADED, true);
+				
+			}//ELSE
+			
+		}//IF
+		else
+		{
+			pid.appendLog(DefaultLanguage.INVALID_URL, true);
+			
+		}//ELSE
+		
 		
 	}//METHOD
 	

@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
+import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
@@ -13,9 +16,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.DWriter;
+import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
+import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.web.Downloader;
 
 /**
@@ -50,6 +56,13 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	private static final String COMMENT_URL = "#comments"; //$NON-NLS-1$
 	
 	/**
+	 * Section of DeviantArt page URL that indicates the page is a poll.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String POLL_URL = "/poll/"; //$NON-NLS-1$
+	
+	/**
 	 * Section of DeviantArt page URL that shows it is part of a media gallery
 	 * 
 	 * @since 2.0
@@ -63,12 +76,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 */
 	private static final String JOURNAL_URL = "/journal/"; //$NON-NLS-1$
 	
-	/**
-	 * Whether the user started in DeviantArt eclipse theme.
-	 * 
-	 * @since 2.0
-	 */
-	private boolean eclipse;
+
 	
 	/**
 	 * Initializes DeviantArtGUI class.
@@ -178,7 +186,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			
 		}//IF
 		
-		eclipse = setEclipseValue(false);
+		setEclipseValue(false);
 		
 	}//METHOD
 	
@@ -186,10 +194,9 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 * Sets DeviantArt to either use the Eclipse or the classic theme.
 	 * 
 	 * @param setToEclipse Whether to set to eclipse theme. If false, sets to classic theme.
-	 * @return Whether DeviantArt was already set to the Eclipse theme
 	 * @since 2.0
 	 */
-	private boolean setEclipseValue(final boolean setToEclipse)
+	private void setEclipseValue(final boolean setToEclipse)
 	{
 		boolean usesEclipse = false;
 		List<DomElement> eclipseTest = getDownloader().getPage().getByXPath("//iframe[@id='eclipse-notifications-iframe']"); //$NON-NLS-1$
@@ -204,8 +211,6 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			this.setPage("https://www.deviantart.com/features/switch_version/https://www.deviantart.com/"); //$NON-NLS-1$
 			
 		}//IF
-		
-		return usesEclipse;
 		
 	}//METHOD
 
@@ -304,12 +309,6 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			
 		}//WHILE
 		
-		if(eclipse)
-		{
-			setEclipseValue(true);
-			
-		}//iF
-		
 		return pages;
 		
 	}//METHOD
@@ -345,7 +344,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 								
 					}//IF
 							
-					if(!isDownloaded(linkString) && linkString.contains(JOURNAL_URL) && !linkString.contains(COMMENT_URL) && !pages.contains(linkString))
+					if(!isDownloaded(linkString) && linkString.contains(JOURNAL_URL) && !linkString.contains(COMMENT_URL) && !linkString.contains(POLL_URL) && !pages.contains(linkString))
 					{
 						pages.add(linkString);
 								
@@ -365,25 +364,13 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			pageNum++;
 					
 		}//WHILE
-				
-		if(eclipse)
-		{
-			setEclipseValue(true);
-			
-		}//iF
 		
 		return pages;
 		
 	}//METHOD
 	
-	/**
-	 * Checks whether a given page URL has already been read and downloaded
-	 * 
-	 * @param pageURL Page URL to download
-	 * @return Whether the URL has already downloaded
-	 * @since 2.0
-	 */
-	private boolean isDownloaded(final String pageURL)
+	@Override
+	protected boolean isDownloaded(final String pageURL)
 	{
 		String page = pageURL;
 		while(page.length() > 0 && page.charAt(page.length() - 1) == '/')
@@ -432,34 +419,360 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	}//METHOD
 
 	@Override
-	protected String getUrlArtist(String artist)
+	protected String downloadJournalPage(File baseFolder, String URL) throws Exception
 	{
-		return artist;
+		DMF dmf = new DMF();
+		setPage(URL);
+		if(!isLoggedIn())
+		{
+			throw new Exception("Logged Out Before Process"); //$NON-NLS-1$
+			
+		}//IF
 		
-	}//METHOD
-	
-	@Override
-	protected void downloadSinglePage(DProgressInfoDialog pid, String pageURL, File baseDirectory)
-	{
-	}//METHOD
+		//GET ID
+		String id = URL;
+		while(id.endsWith(Character.toString('/')) || id.endsWith(Character.toString('#')))
+		{
+			id = id.substring(0, id.length() - 1);
+					
+		}//WHILE
+		int start = id.lastIndexOf('-') + 1;
+		
+		if(start == 0)
+		{
+			start = id.lastIndexOf('/') + 1;
+			
+		}//IF
+		id = ID_PREFIX + id.substring(start) + JOURNAL_SUFFIX;
+		dmf.setID(id);
+		
+		//GET JSON INFO
+		List<DomAttr> jsonLinks = getDownloader().getPage().getByXPath("//link[@rel='alternate']/@href"); //$NON-NLS-1$
+		JSONObject json = null;
+		for(int i = 0; i < jsonLinks.size(); i++)
+		{
+			String jsonInfo = Downloader.getAttribute(jsonLinks.get(i));
+			if(jsonInfo.endsWith("format=json")) //$NON-NLS-1$
+			{
+				UnexpectedPage myUnexpected = (UnexpectedPage)getDownloader().getClient().getPage(jsonInfo);
+				String pageResponse = myUnexpected.getWebResponse().getContentAsString();
+				json = new JSONObject(pageResponse);
+				break;
+				
+			}//IF
+			
+		}//FOR
+		
+		if(json == null)
+		{
+			throw new Exception("Failed to read JSON"); //$NON-NLS-1$
+			
+		}//IF
+		
+		//GET TITLE
+		dmf.setTitle(json.getString("title")); //$NON-NLS-1$
+		
+		//GET ARTIST
+		dmf.setArtist(json.getString("author_name")); //$NON-NLS-1$
+		
+		//GET TIME
+		String time = json.getString("pubdate"); //$NON-NLS-1$
+		dmf.setTime(time.substring(0, 4), time.substring(5, 7), time.substring(8, 10), time.substring(11, 13), time.substring(14, 16));
+		
+		//GET TAGS
+		ArrayList<String> tags = new ArrayList<>();
+		try
+		{
+			String rating = json.getString("rating"); //$NON-NLS-1$
+			if(rating.equals("adult")) //$NON-NLS-1$
+			{
+				tags.add(MATURE_RATING);
+			}//IF
+			else
+			{
+				tags.add(GENERAL_RATING);
+				
+			}//ELSE
+			
+		}//TRY
+		catch(Exception f)
+		{
+			tags.add(GENERAL_RATING);
+			
+		}//CATCH
 
-	@Override
-	protected void downloadPages(DProgressInfoDialog pid, String artist, ArrayList<String> pages)
-	{
+		tags.add(json.getString("category")); //$NON-NLS-1$
+		dmf.setWebTags(tags);
+		
+		//SET MEDIA PAGE
+		dmf.setPageURL(URL);
+		dmf.setMediaURL(URL);
+		
+		//GET JOURNAL CONTENT
+		ArrayList<String> contents = new ArrayList<>();
+		contents.add("<!DOCTYPE html>"); //$NON-NLS-1$
+		contents.add("<html>"); //$NON-NLS-1$
+		List<DomElement> journalText = getDownloader().getPage().getByXPath("//div[@class='gr-body']"); //$NON-NLS-1$
+		if(journalText.size() > 0)
+		{
+			dmf.setDescription(Downloader.getElement(journalText.get(0)));
+			
+		}//IF
+		
+		if(dmf.getDescription() == null || dmf.getDescription().length() == 0)
+		{
+			List<DomElement> journalLarge = getDownloader().getPage().getByXPath("//div[@class='journal-wrapper2']"); //$NON-NLS-1$
+			contents.add(Downloader.getElement(journalLarge.get(0)));
+			
+		}//IF
+		else
+		{
+			contents.add(dmf.getDescription());
+			
+		}//ELSE
+		
+		contents.add("</html>"); //$NON-NLS-1$
+		
+		//DOWNLOAD FILES
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle(), true) + Character.toString('_') + dmf.getID();
+		File mediaFile = new File(baseFolder, filename + ".html"); //$NON-NLS-1$
+		dmf.setMediaFile(mediaFile);
+		DWriter.writeToFile(mediaFile, contents);
+				
+		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		dmf.setDmfFile(dmfFile);
+		dmf.writeDMF();
+		if(dmf.getDmfFile().exists())
+		{
+			getDmfHandler().addDMF(dmf);
+					
+		}//IF
+		else
+		{
+			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+				
+		}//ELSE
+		
+		return dmf.getTitle();
 		
 	}//METHOD
 
 	@Override
 	protected String downloadMediaPage(File baseFolder, String URL) throws Exception
 	{
-		return new String();
+		DMF dmf = new DMF();
+		setPage(URL);
+		if(!isLoggedIn())
+		{
+			throw new Exception("Logged Out Before Process"); //$NON-NLS-1$
+			
+		}//IF
 		
-	}//METHOD
+		//GET ID
+		String id = URL;
+		while(id.endsWith(Character.toString('/')) || id.endsWith(Character.toString('#')))
+		{
+			id = id.substring(0, id.length() - 1);
+							
+		}//WHILE
+		int start = id.lastIndexOf('-') + 1;
+				
+		if(start == 0)
+		{
+			start = id.lastIndexOf('/') + 1;
+					
+		}//IF
+		id = ID_PREFIX + id.substring(start);
+		dmf.setID(id);
+		
+		//GET JSON INFO
+		List<DomAttr> jsonLinks = getDownloader().getPage().getByXPath("//link[@rel='alternate']/@href"); //$NON-NLS-1$
+		JSONObject json = null;
+		for(int i = 0; i < jsonLinks.size(); i++)
+		{
+			String jsonInfo = Downloader.getAttribute(jsonLinks.get(i));
+			if(jsonInfo.endsWith("format=json")) //$NON-NLS-1$
+			{
+				UnexpectedPage myUnexpected = (UnexpectedPage)getDownloader().getClient().getPage(jsonInfo);
+				String pageResponse = myUnexpected.getWebResponse().getContentAsString();
+				json = new JSONObject(pageResponse);
+				break;
+				
+			}//IF
+			
+		}//FOR
+		
+		if(json == null)
+		{
+			throw new Exception("Failed to read JSON"); //$NON-NLS-1$
+			
+		}//IF
+		
+		//GET TITLE
+		dmf.setTitle(json.getString("title")); //$NON-NLS-1$
+		
+		//GET ARTIST
+		dmf.setArtist(json.getString("author_name")); //$NON-NLS-1$
+		
+		//GET TIME
+		String time = json.getString("pubdate"); //$NON-NLS-1$
+		dmf.setTime(time.substring(0, 4), time.substring(5, 7), time.substring(8, 10), time.substring(11, 13), time.substring(14, 16));
+		
+		//GET TAGS
+		ArrayList<String> tags = new ArrayList<>();
+		try
+		{
+			String rating = json.getString("rating"); //$NON-NLS-1$
+			if(rating.equals("adult")) //$NON-NLS-1$
+			{
+				tags.add(MATURE_RATING);
+			}//IF
+			else
+			{
+				tags.add(GENERAL_RATING);
+				
+			}//ELSE
+			
+		}//TRY
+		catch(Exception f)
+		{
+			tags.add(GENERAL_RATING);
+			
+		}//CATCH
 
-	@Override
-	protected String downloadJournalPage(File baseFolder, String URL) throws Exception
-	{
-		return new String();
+		tags.add(json.getString("category")); //$NON-NLS-1$
+		
+		try
+		{
+			int end;
+			String tagString = json.getString("tags").replaceAll(", ", Character.toString(','));  //$NON-NLS-1$//$NON-NLS-2$
+			while(tagString.length() > 0)
+			{
+				for(end = 0; end < tagString.length() && tagString.charAt(end) != ','; end++);
+				tags.add(tagString.substring(0, end));
+				end++;
+				if(end < tagString.length())
+				{
+					tagString = tagString.substring(end);
+				}//IF
+				else
+				{
+					tagString = new String();
+					
+				}//ELSE
+				
+			}//WHILE
+			
+		}//TRY
+		catch(Exception f){}
+		
+		dmf.setWebTags(tags);
+		
+		//GET DESCRIPTION
+		List<DomElement> description = getDownloader().getPage().getByXPath("//div[@class='dev-view-main-content']//div[@class='text block']"); //$NON-NLS-1$
+		if(description.size() > 0)
+		{
+			dmf.setDescription(Downloader.getElement(description.get(0)));
+		
+		}//IF
+		
+		//GET MEDIA URL
+		dmf.setPageURL(URL);
+		String text = null;
+		
+		//GET ON-SCREEN IMAGE
+		String extension = new String();
+		List<DomAttr> normalImage = getDownloader().getPage().getByXPath("//img[@class='dev-content-normal ']/@src"); //$NON-NLS-1$
+		if(normalImage.size() > 0)
+		{
+			dmf.setMediaURL(Downloader.getAttribute(normalImage.get(0)));
+			extension = ExtensionMethods.getExtension(dmf.getMediaURL());
+			
+		}//IF
+		List<DomAttr> fullImage = getDownloader().getPage().getByXPath("//img[@class='dev-content-normal ']/@src"); //$NON-NLS-1$
+		if(normalImage.size() > 0)
+		{
+			dmf.setMediaURL(Downloader.getAttribute(fullImage.get(0)));
+			extension = ExtensionMethods.getExtension(dmf.getMediaURL());
+			
+		}//IF
+		
+		//GET DOWNLOAD BUTTON
+		List<DomElement> downloadText = getDownloader().getPage().getByXPath("//a[@class='dev-page-button dev-page-button-with-text dev-page-download']//span[@class='text']"); //$NON-NLS-1$
+		if(downloadText.size() > 0)
+		{
+			extension = Downloader.getElement(downloadText.get(0));
+			extension = '.' + extension.substring(0, extension.indexOf(' ')).toLowerCase();
+			
+			List<DomAttr> downloadButton = getDownloader().getPage().getByXPath("//a[@class='dev-page-button dev-page-button-with-text dev-page-download']/@href"); //$NON-NLS-1$
+			dmf.setMediaURL(Downloader.getAttribute(downloadButton.get(0)));
+			
+		}//IF
+		
+		//GET FLASH FILE
+		List<DomAttr> flash = getDownloader().getPage().getByXPath("//iframe[@class='flashtime']/@src"); //$NON-NLS-1$
+		if(flash.size() > 0)
+		{
+			setPage(Downloader.getAttribute(flash.get(0)));
+			flash = getDownloader().getPage().getByXPath("//embed[@id='sandboxembed']/@src"); //$NON-NLS-1$
+			dmf.setMediaFile(Downloader.getAttribute(flash.get(0)));
+		
+		}//IF
+		
+		//GET TEXT
+		if(dmf.getMediaURL() == null || dmf.getMediaURL().length() == 0)
+		{
+			extension = ".txt"; //$NON-NLS-1$
+			dmf.setMediaURL(null);
+			List<DomElement> textElement = getDownloader().getPage().getByXPath("//div[@class='dev-view-deviation']//div[@class='text']"); //$NON-NLS-1$
+			text = Downloader.getElement(textElement.get(0));
+			if(text.contains("<script")) //$NON-NLS-1$
+			{
+				text = text.substring(0, text.lastIndexOf("<script")); //$NON-NLS-1$
+				
+			}//IF
+			while(text.endsWith(Character.toString(' ')))
+			{
+				text = text.substring(0, text.length() - 1);
+				
+			}//WHILE
+			
+			text = text.replaceAll("<br>", "\n\r").replaceAll("<br/>", "\n\r");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			
+		}//IF
+		
+		
+		
+		//DOWNLOAD FILES
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle(), true) + Character.toString('_') + dmf.getID();
+		File mediaFile = new File(baseFolder, filename + extension);
+		dmf.setMediaFile(mediaFile);
+		if(dmf.getMediaURL() != null)
+		{
+			getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
+			
+		}//IF
+		else
+		{
+			DWriter.writeToFile(mediaFile, text);
+			
+		}//ELSE
+				
+		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		dmf.setDmfFile(dmfFile);
+		dmf.writeDMF();
+		if(dmf.getDmfFile().exists())
+		{
+			getDmfHandler().addDMF(dmf);
+					
+		}//IF
+		else
+		{
+			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+				
+		}//ELSE
+		
+		return dmf.getTitle();
 		
 	}//METHOD
 
@@ -467,6 +780,20 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	protected String getGalleryUrlFragment()
 	{
 		return GALLERY_URL;
+		
+	}//METHOD
+	
+	@Override
+	protected String getUrlArtist(String artist)
+	{
+		return artist;
+		
+	}//METHOD
+
+	@Override
+	protected String getMainURL()
+	{
+		return "deviantart.com"; //$NON-NLS-1$
 		
 	}//METHOD
 	
