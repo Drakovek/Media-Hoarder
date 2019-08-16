@@ -157,6 +157,13 @@ public class DSettings
 	private static final String FUR_AFFINITY_DIRECTORY = "fur_affinity_directory"; //$NON-NLS-1$
 	
 	/**
+	 * INI Variable for the Inkbunny directory
+	 * 
+	 * @since 2.0
+	 */
+	private static final String INKBUNY_DIRECTORY = "inkbunny_directory"; //$NON-NLS-1$
+	
+	/**
 	 * INI Variable for the size of DMF preview thumbnails.
 	 *
 	 * @since 2.0
@@ -356,6 +363,13 @@ public class DSettings
 	private File furAffinityDirectory;
 	
 	/**
+	 * Directory to save DMFs to when downloading from Inkbunny
+	 * 
+	 * @since 2.0
+	 */
+	private File inkbunnyDirectory;
+	
+	/**
 	 * Size of the preview thumbnails in the viewer GUI
 	 * 
 	 * @since 2.0
@@ -486,6 +500,7 @@ public class DSettings
 		saveJournals = false;
 		deviantArtDirectory = null;
 		furAffinityDirectory = null;
+		inkbunnyDirectory = null;
 		
 		//VIEWER
 		previewSize = 100;
@@ -540,6 +555,7 @@ public class DSettings
 			saveJournals = ParseINI.getBooleanValue(null, SAVE_JOURNALS, settingsInfo, saveJournals);
 			deviantArtDirectory = ParseINI.getFileValue(null, DEVIANTART_DIRECTORY, settingsInfo, null);
 			furAffinityDirectory = ParseINI.getFileValue(null, FUR_AFFINITY_DIRECTORY, settingsInfo, null);
+			inkbunnyDirectory = ParseINI.getFileValue(null, INKBUNY_DIRECTORY, settingsInfo, null);
 			
 			//VIEWER
 			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
@@ -605,6 +621,7 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(SAVE_JOURNALS, saveJournals));
 		settingsInfo.add(ParseINI.getAssignmentString(DEVIANTART_DIRECTORY, deviantArtDirectory));
 		settingsInfo.add(ParseINI.getAssignmentString(FUR_AFFINITY_DIRECTORY, furAffinityDirectory));
+		settingsInfo.add(ParseINI.getAssignmentString(INKBUNY_DIRECTORY, inkbunnyDirectory));
 		
 		//VIEWER
 		settingsInfo.add(new String());
@@ -1073,6 +1090,30 @@ public class DSettings
 	public File getFurAffinityDirectory()
 	{
 		return furAffinityDirectory;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the Inkbunny Directory
+	 * 
+	 * @param inkbunnyDirectory Inkbunny Directory
+	 * @since 2.0
+	 */
+	public void setInkbunnyDirectory(final File inkbunnyDirectory)
+	{
+		this.inkbunnyDirectory = inkbunnyDirectory;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the Inkbunny Directory
+	 * 
+	 * @return Inkbunny Directory
+	 * @since 2.0
+	 */
+	public File getInkbunnyDirectory()
+	{
+		return inkbunnyDirectory;
 		
 	}//METHOD
 	

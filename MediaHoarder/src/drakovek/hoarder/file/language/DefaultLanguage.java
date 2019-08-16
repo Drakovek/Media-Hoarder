@@ -368,6 +368,7 @@ public class DefaultLanguage
 	 */
 	public static final String DEVIANTART_PROGRESS_TITLE = "deviantart_progress_title"; //$NON-NLS-1$
 	
+	
 	/**
 	 * Language variable for the "Fur Affinity" mode button
 	 * 
@@ -388,6 +389,13 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String INKBUNNY_MODE = "inkbunny"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the progress info dialog title when loading data from Inkbunny.net
+	 * 
+	 * @since 2.0
+	 */
+	public static final String INKBUNNY_PROGRESS_TITLE = "inkbunny_progress_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Transfur" mode button
@@ -799,6 +807,8 @@ public class DefaultLanguage
 	 */
 	public static final String DEVIANTART_LOGIN = "deviantart_login"; //$NON-NLS-1$
 	
+	
+	
 	/**
 	 * Language variable for the "Choose DeviantArt Folder" menu item in the DeviantArt GUI
 	 * 
@@ -819,6 +829,20 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String CHOOSE_FUR_AFFINITY_FOLDER = "choose_fur_affinity_folder"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the title of the login GUI when logging into Inkbunny.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String INKBUNNY_LOGIN = "inkbunny_login"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Choose Inkbunny Folder" menu item in the Fur Affinity GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CHOOSE_INKBUNNY_FOLDER = "choose_inkbunny_folder"; //$NON-NLS-1$
 	
 	//VIEWER
 	
@@ -1123,6 +1147,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_MODE, "^Fur Affinity")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_PROGRESS_TITLE, "[FUR AFFINITY]")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(INKBUNNY_MODE, "^Inkbunny")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(INKBUNNY_PROGRESS_TITLE, "[INKBUNNY]")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TRANSFUR_MODE, "^Transfur")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PAGE, "Page:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(GETTING_PAGE_URLS, "Getting Page URLs:")); //$NON-NLS-1$
@@ -1173,6 +1198,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_DEVIANTART_FOLDER, "^Choose DeviantArt Folder")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FUR_AFFINITY_LOGIN, "Fur Affinity Login")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CHOOSE_FUR_AFFINITY_FOLDER, "^Choose Fur Affinity Folder")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(INKBUNNY_LOGIN, "Inkbunny Login")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CHOOSE_INKBUNNY_FOLDER, "^Choose Inkbunny Folder")); //$NON-NLS-1$
 		
 		//LOGIN
 		languageFile.add(new String());

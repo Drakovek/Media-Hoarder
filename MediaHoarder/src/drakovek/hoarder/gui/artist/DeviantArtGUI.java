@@ -67,7 +67,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 * 
 	 * @since 2.0
 	 */
-	private static final String GALLERY_URL = "/art/"; //$NON-NLS-1$
+	private static final String GALLERY_URL = ""; //$NON-NLS-1$
 	
 	/**
 	 * Section of DeviantArt page URL that shows it is part of a journal gallery
@@ -786,7 +786,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	@Override
 	protected String getUrlArtist(String artist)
 	{
-		return artist;
+		return artist.toLowerCase();
 		
 	}//METHOD
 

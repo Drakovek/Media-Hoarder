@@ -4,6 +4,7 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.artist.DeviantArtGUI;
 import drakovek.hoarder.gui.artist.FurAffinityGUI;
+import drakovek.hoarder.gui.artist.InkBunnyGUI;
 
 /**
  * Mode GUI for choosing between download modes.
@@ -47,6 +48,8 @@ public class DownloadModeGUI extends ModeBaseGUI
 				getParentGUI().dispose();
 				break;
 			case DefaultLanguage.INKBUNNY_MODE:
+				new InkBunnyGUI(getSettings(), getParentGUI().getDmfHandler());
+				getParentGUI().dispose();
 				break;
 			case DefaultLanguage.TRANSFUR_MODE:
 				break;
