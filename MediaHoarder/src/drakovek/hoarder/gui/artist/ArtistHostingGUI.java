@@ -534,6 +534,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			if(ready && !isLoggedIn())
 			{
 				loginGUI.openLoginDialog(getFrame());
+				loginGUI.clearFields();
 				ready = isLoggedIn();
 				
 			}//IF
@@ -661,6 +662,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			if(ready && !isLoggedIn())
 			{
 				loginGUI.openLoginDialog(getFrame());
+				loginGUI.clearFields();
 				ready = isLoggedIn();
 				
 			}//IF

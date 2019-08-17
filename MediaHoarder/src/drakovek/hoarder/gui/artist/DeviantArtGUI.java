@@ -67,7 +67,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 * 
 	 * @since 2.0
 	 */
-	private static final String GALLERY_URL = ""; //$NON-NLS-1$
+	private static final String GALLERY_URL = "/art/"; //$NON-NLS-1$
 	
 	/**
 	 * Section of DeviantArt page URL that shows it is part of a journal gallery
@@ -199,16 +199,20 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	private void setEclipseValue(final boolean setToEclipse)
 	{
 		boolean usesEclipse = false;
-		List<DomElement> eclipseTest = getDownloader().getPage().getByXPath("//iframe[@id='eclipse-notifications-iframe']"); //$NON-NLS-1$
-		if(eclipseTest.size() > 0)
+		if(getDownloader().getPage() != null)
 		{
-			usesEclipse = true;
+			List<DomElement> eclipseTest = getDownloader().getPage().getByXPath("//iframe[@id='eclipse-notifications-iframe']"); //$NON-NLS-1$
+			if(eclipseTest.size() > 0)
+			{
+				usesEclipse = true;
+				
+			}//IF
 			
-		}//IF
-		
-		if((usesEclipse && !setToEclipse) || (!usesEclipse && setToEclipse))
-		{
-			this.setPage("https://www.deviantart.com/features/switch_version/https://www.deviantart.com/"); //$NON-NLS-1$
+			if((usesEclipse && !setToEclipse) || (!usesEclipse && setToEclipse))
+			{
+				this.setPage("https://www.deviantart.com/features/switch_version/https://www.deviantart.com/"); //$NON-NLS-1$
+				
+			}//IF
 			
 		}//IF
 		
@@ -481,6 +485,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		
 		//GET TAGS
 		ArrayList<String> tags = new ArrayList<>();
+		tags.add(JOURNAL_TAG);
 		try
 		{
 			String rating = json.getString("rating"); //$NON-NLS-1$

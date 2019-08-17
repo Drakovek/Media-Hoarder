@@ -12,9 +12,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.DWriter;
+import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
+import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.web.Downloader;
 
 /**
@@ -26,6 +29,15 @@ import drakovek.hoarder.web.Downloader;
  */
 public class InkBunnyGUI extends ArtistHostingGUI
 { 
+	/**
+	 * String Array of available months in Inkbunny format.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String[] MONTHS = {"jan", "feb", "mar", "apr",   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
+											"may", "jun", "jul", "aug", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+											"sep", "oct", "nov", "dec"};  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
+	
 	/**
 	 * Prefix for a DMF ID that indicates that the DMF is sourced from Inkbunny.net
 	 * 
@@ -65,6 +77,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	{
 		super(settings, dmfHandler, new LoginGUI(settings, DefaultLanguage.INKBUNNY_LOGIN, false), DefaultLanguage.INKBUNNY_MODE, DefaultLanguage.CHOOSE_INKBUNNY_FOLDER);
 		idStrings = new ArrayList<>();
+		getDownloader().setTimeout(1000);
 		
 	}//CONSTRUCTOR
 
@@ -335,16 +348,340 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	}//METHOD
 
 	@Override
-	protected String downloadMediaPage(File baseFolder, String URL) throws Exception
+	protected String downloadMediaPage(final File baseFolder, final String URL) throws Exception
 	{
-		return new String();
+		setPage(URL);
+		if(!isLoggedIn())
+		{
+			throw new Exception("Logged Out Before Process"); //$NON-NLS-1$
+			
+		}//IF
+		
+		//GET TITLE
+		List<DomElement> titleElement = getDownloader().getPage().getByXPath("//table[@class='pooltable']//h1"); //$NON-NLS-1$
+		final String title = Downloader.getElement(titleElement.get(0));
+		
+		//GET ARTIST
+		List<DomElement> artistElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_555753']//div[@style='float: left;']//a"); //$NON-NLS-1$
+		final String artist = Downloader.getElement(artistElement.get(0));
+		
+		//GET TIME
+		int start = 0;
+		int end = 0;
+		final List<DomElement> timeElement = getDownloader().getPage().getByXPath("//span[@id='submittime_exact']"); //$NON-NLS-1$
+		String timeString = Downloader.getElement(timeElement.get(0)).toLowerCase();
+		
+		int month;
+		for(month = 0; !timeString.contains(MONTHS[month]); month++);
+		month++;
+		end = timeString.indexOf(' ');
+		String day = timeString.substring(0, end);
+		start = timeString.indexOf(' ', end + 1) + 1;
+		end = timeString.indexOf(' ', start);
+		String year = timeString.substring(start, end);
+		start = end + 1;
+		end = timeString.indexOf(':', start);
+		String hour = timeString.substring(start, end);
+		start = end + 1;
+		end = timeString.indexOf(' ', start);
+		String minute = timeString.substring(start, end);
+
+		//GET TAGS
+		ArrayList<String> tags = new ArrayList<>();
+		
+		//GET RATING
+		final List<DomElement> ratingElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//div[@style='width: 120px; color: #333333; font-size: 10pt;']"); //$NON-NLS-1$
+		String ratingText = Downloader.getElement(ratingElement.get(0)).toLowerCase();
+		if(ratingText.contains("general")) //$NON-NLS-1$
+		{
+			tags.add(GENERAL_RATING);
+			
+		}//IF
+		else if(ratingText.contains("mature")) //$NON-NLS-1$
+		{
+			tags.add(MATURE_RATING);
+			
+		}//ELSE IF
+		else if(ratingText.contains("adult")) //$NON-NLS-1$
+		{
+			tags.add(ADULT_RATING);
+			
+		}//ELSE IF
+		else
+		{
+			throw new Exception("Couldn't find rating tag"); //$NON-NLS-1$
+			
+		}//ELSE
+		
+		//GET MEDIA TYPE
+		final List<DomElement> type = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//div[@style='width: 160px; color: #333333; font-size: 10pt;']"); //$NON-NLS-1$
+		String typeText = Downloader.getElement(type.get(0), true, true).replaceAll("\t", new String()); //$NON-NLS-1$
+		start = typeText.lastIndexOf('>') + 1;
+		
+		tags.add(typeText.substring(start, typeText.length()));
+		
+		//pool
+		final List<DomElement> pool = getDownloader().getPage().getByXPath("//table[@class='pooltable ']//div/a[@style='border-color: #888a85; color: #d3d7cf;']"); //$NON-NLS-1$
+		if(pool.size() > 0)
+		{
+			tags.add(Downloader.getElement(pool.get(0)));
+			
+		}//IF
+		
+		//GET MAIN TAGS
+		final List<DomElement> tagElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//a//span[@style='']"); //$NON-NLS-1$
+		for(int i = 0; i < tagElement.size(); i++)
+		{
+			tags.add(Downloader.getElement(tagElement.get(i)));
+			
+		}//FOR
+		
+		//getDescription
+		String description = new String();
+		final List<DomElement> descriptionElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//span[@style='word-wrap: break-word;']"); //$NON-NLS-1$
+		if(descriptionElement.size() > 0)
+		{
+			description = Downloader.getElement(descriptionElement.get(0));
+			
+		}//IF
+		
+		//GET PAGES IN SEQUENCE
+		ArrayList<String> pageURLs = new ArrayList<>();
+		final List<DomAttr> sequenceAttribute = getDownloader().getPage().getByXPath("//div[@class='widget_imageFromSubmission ']//a/@href"); //$NON-NLS-1$
+		for(int i = 0; i < sequenceAttribute.size(); i++)
+		{
+			String pageURL = "https://inkbunny.net" + Downloader.getAttribute(sequenceAttribute.get(i)); //$NON-NLS-1$
+			if(pageURL.contains("#pictop")) //$NON-NLS-1$
+			{
+				pageURLs.add(pageURL);
+				
+			}//IF
+			
+		}//FOR
+		
+		if(pageURLs.size() == 0)
+		{
+			pageURLs.add(URL);
+			
+		}//IF
+		
+		//GET MEDIA PAGES
+		for(int i = 0; i < pageURLs.size(); i++)
+		{
+			//SET TITLE
+			String currentTitle = title;
+			if(pageURLs.size() > 1)
+			{
+				currentTitle = title + ' ' + '[' + Integer.toString(i + 1) + '/' + Integer.toString(pageURLs.size()) + ']';
+			
+			}//IF
+			
+			if(!pageURLs.get(i).equals(URL))
+			{
+				setPage(pageURLs.get(i));
+				
+				if(!isLoggedIn())
+				{
+					throw new Exception("Logged Out Before Process"); //$NON-NLS-1$
+					
+				}//IF
+				
+			}//IF
+			
+			//SET MEDIA URL
+			String mediaURL = null;
+			List<DomAttr> downloadAttribute = getDownloader().getPage().getByXPath("//div[@id='size_container']//a[@target='_blank']/@href"); //$NON-NLS-1$
+			if(downloadAttribute.size() > 0)
+			{
+				mediaURL = Downloader.getAttribute(downloadAttribute.get(0));
+				
+			}//IF
+			else
+			{
+				downloadAttribute = getDownloader().getPage().getByXPath("//div[@class='content magicboxParent']//a[@target='_blank']/@href"); //$NON-NLS-1$
+				if(downloadAttribute.size() > 0)
+				{
+					mediaURL = Downloader.getAttribute(downloadAttribute.get(0));
+					
+				}//IF
+				else
+				{
+					downloadAttribute = getDownloader().getPage().getByXPath("//div[@class='content magicboxParent']//div[@class='widget_imageFromSubmission ']//a/@href"); //$NON-NLS-1$
+					mediaURL = Downloader.getAttribute(downloadAttribute.get(0));
+					
+				}//ELSE
+				
+			}//ELSE
+			
+			//SET SECONDARY URL
+			String extension = ExtensionMethods.getExtension(mediaURL);
+			String secondaryURL = null;
+			if(!extension.equals(".jpg") && !extension.equals(".jpeg") && !extension.equals(".png") && !extension.equals(".gif"))   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
+			{
+				List<DomAttr> imageAttribute = getDownloader().getPage().getByXPath("//div[@class='content magicboxParent']//div[@class='widget_imageFromSubmission ']//img[@class='shadowedimage']/@src"); //$NON-NLS-1$
+				if(imageAttribute.size() > 0)
+				{
+					secondaryURL = Downloader.getAttribute(imageAttribute.get(0));
+					
+				}//IF
+				
+			}//IF
+			
+			//GET ID
+			start = pageURLs.get(i).lastIndexOf('/') + 1;
+			end = pageURLs.get(i).indexOf('#', start);
+			if(end == -1)
+			{
+				end = pageURLs.get(i).length();
+				
+			}//IF
+			
+			String id = ID_PREFIX + pageURLs.get(i).substring(start, end);
+			
+			while(id.endsWith(Character.toString('-')))
+			{
+				id = id.substring(0, id.length() - 1);
+				
+			}//WHILE
+			
+			//SET DMF
+			DMF dmf = new DMF();
+			dmf.setID(id);
+			dmf.setTitle(currentTitle);
+			dmf.setArtist(artist);
+			dmf.setTime(year, Integer.toString(month), day, hour, minute);
+			dmf.setWebTags(tags);
+			dmf.setDescription(description);
+			dmf.setPageURL(pageURLs.get(i));
+			dmf.setMediaURL(mediaURL);
+			dmf.setSecondaryURL(secondaryURL);
+			
+			//DOWNLOAD FILE
+			String filename = DWriter.getFileFriendlyName(currentTitle, true) + Character.toString('_') + dmf.getID();
+			File mediaFile = new File(baseFolder, filename + ExtensionMethods.getExtension(dmf.getMediaURL()));
+			dmf.setMediaFile(mediaFile);
+			getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
+			
+			if(dmf.getSecondaryURL() != null)
+			{
+				File secondaryFile = new File(baseFolder, filename + ExtensionMethods.getExtension(dmf.getSecondaryURL()));
+				dmf.setSecondaryFile(secondaryFile);
+				getDownloader().downloadFile(dmf.getSecondaryURL(), secondaryFile);
+				
+			}//IF
+			
+			File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+			dmf.setDmfFile(dmfFile);
+			dmf.writeDMF();
+			if(dmf.getDmfFile().exists())
+			{
+				getDmfHandler().addDMF(dmf);
+				
+			}//IF
+			else
+			{
+				throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			
+			}//ELSE
+			
+		}//FOR
+		
+		return title;
 		
 	}//METHOD
 
 	@Override
 	protected String downloadJournalPage(File baseFolder, String URL) throws Exception
 	{
-		return new String();
+		setPage(URL);
+		if(!isLoggedIn())
+		{
+			throw new Exception("Logged Out Before Process"); //$NON-NLS-1$
+			
+		}//IF
+		
+		DMF dmf = new DMF();
+		
+		//GET ID
+		int start = URL.lastIndexOf('/') + 1;
+		int end = URL.indexOf('-', start);
+		if(end == -1)
+		{
+			end = URL.length();
+			
+		}//IF
+		
+		dmf.setID(ID_PREFIX + URL.substring(start, end) + JOURNAL_SUFFIX);
+		
+		//GET TITLE
+		List<DomElement> titleElement = getDownloader().getPage().getByXPath("//div[@class='content']//table//h1"); //$NON-NLS-1$
+		dmf.setTitle(Downloader.getElement(titleElement.get(0)));
+		
+		//GET ARTIST
+		List<DomElement> artistElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_555753']//div[@class='content']//table//span[@class='widget_userNameSmall ']//a"); //$NON-NLS-1$
+		dmf.setArtist(Downloader.getElement(artistElement.get(0)));
+		
+		//GET TIME
+		final List<DomElement> timeElement = getDownloader().getPage().getByXPath("//span[@id='submittime_exact']"); //$NON-NLS-1$
+		String timeString = Downloader.getElement(timeElement.get(0)).toLowerCase();
+		
+		int month;
+		for(month = 0; !timeString.contains(MONTHS[month]); month++);
+		month++;
+		end = timeString.indexOf(' ');
+		String day = timeString.substring(0, end);
+		start = timeString.indexOf(' ', end + 1) + 1;
+		end = timeString.indexOf(' ', start);
+		String year = timeString.substring(start, end);
+		start = end + 1;
+		end = timeString.indexOf(':', start);
+		String hour = timeString.substring(start, end);
+		start = end + 1;
+		end = timeString.indexOf(' ', start);
+		String minute = timeString.substring(start, end);
+		
+		dmf.setTime(year, Integer.toString(month), day, hour, minute);
+		
+		//SET TAGS
+		ArrayList<String> tags = new ArrayList<>();
+		tags.add(JOURNAL_TAG);
+		dmf.setWebTags(tags);
+		
+		//SET DESCRIPTION
+		List<DomElement> description = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//span[@style='word-wrap: break-word;']"); //$NON-NLS-1$
+		dmf.setDescription(Downloader.getElement(description.get(0)));
+		
+		//SET URLS
+		dmf.setPageURL(URL);
+		dmf.setMediaURL(URL);
+		
+		//DOWNLOAD DMF
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle(), true) + Character.toString('_') + dmf.getID();
+		File mediaFile = new File(baseFolder, filename + ".html"); //$NON-NLS-1$
+		ArrayList<String> contents = new ArrayList<>();
+		contents.add("<!DOCTYPE html>"); //$NON-NLS-1$
+		contents.add("<html>"); //$NON-NLS-1$
+		contents.add(dmf.getDescription());
+		contents.add("</html>"); //$NON-NLS-1$
+				
+		dmf.setMediaFile(mediaFile);
+		DWriter.writeToFile(mediaFile, contents);
+			
+		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		dmf.setDmfFile(dmfFile);
+		dmf.writeDMF();
+		if(dmf.getDmfFile().exists())
+		{
+			getDmfHandler().getDatabase().addDMF(dmf);
+							
+		}//IF
+		else
+		{
+			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+					
+		}//ELSE
+		
+		return dmf.getTitle();
 		
 	}//METHOD
 
@@ -367,12 +704,12 @@ public class InkBunnyGUI extends ArtistHostingGUI
 			
 		}//IF
 		
-		if(page.contains(GALLERY_URL))
+		if(URL.contains(GALLERY_URL))
 		{	
 			return idStrings.contains(page);
 			
 		}//IF
-		else if(page.contains(JOURNAL_URL))
+		else if(URL.contains(JOURNAL_URL))
 		{
 			page = page + JOURNAL_SUFFIX;
 			return idStrings.contains(page);

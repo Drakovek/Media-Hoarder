@@ -305,6 +305,19 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	}//METHOD
 	
 	/**
+	 * Clears the captcha, username, and password fields.
+	 * 
+	 * @since 2.0
+	 */
+	public void clearFields()
+	{
+		usernameText.setText(new String());
+		passwordText.setText(new String());
+		captchaText.setText(new String());
+	
+	}//METHOD
+	
+	/**
 	 * Returns the directory for holding image captchas.
 	 * 
 	 * @return Captcha Folder
