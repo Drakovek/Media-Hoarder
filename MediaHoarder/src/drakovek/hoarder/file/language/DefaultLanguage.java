@@ -1008,6 +1008,13 @@ public class DefaultLanguage
 	public static final String RENAME_MESSAGE = "rename_message"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the message shown to check if user wishes to delete sequence data.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DELETE_SEQUENCES_MESSAGE = "delete_sequences_message"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for button to search for missing media in the error finding GUI
 	 * 
 	 * @since 2.0
@@ -1244,6 +1251,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "^Delete Sequence Data")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REFORMAT_MESSAGE, "All DMFs will be reformatted.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RENAME_MESSAGE, "All DMFs and associated files will be renamed.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "All sequence data will be deleted.")); //$NON-NLS-1$
 		
 		//ERROR FINDING
 		languageFile.add(new String());

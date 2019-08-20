@@ -49,13 +49,6 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	private static final String ID_PREFIX = "DVA"; //$NON-NLS-1$
 	
 	/**
-	 * Section of DeviantArt page URL that indicates page is to a comment section.
-	 * 
-	 * @since 2.0
-	 */
-	private static final String COMMENT_URL = "#comments"; //$NON-NLS-1$
-	
-	/**
 	 * Section of DeviantArt page URL that indicates the page is a poll.
 	 * 
 	 * @since 2.0
@@ -75,8 +68,6 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 * @since 2.0
 	 */
 	private static final String JOURNAL_URL = "/journal/"; //$NON-NLS-1$
-	
-
 	
 	/**
 	 * Initializes DeviantArtGUI class.
@@ -348,10 +339,20 @@ public class DeviantArtGUI extends ArtistHostingGUI
 								
 					}//IF
 							
-					if(!isDownloaded(linkString) && linkString.contains(JOURNAL_URL) && !linkString.contains(COMMENT_URL) && !linkString.contains(POLL_URL) && !pages.contains(linkString))
+					if(!isDownloaded(linkString) && linkString.contains(JOURNAL_URL) && !linkString.contains(POLL_URL) && !pages.contains(linkString))
 					{
-						pages.add(linkString);
+						try
+						{
+							long testEnd = Long.parseLong(linkString.substring(linkString.indexOf('-') + 1));
+							if(testEnd > 0L)
+							{
+								pages.add(linkString);
 								
+							}//IF
+							
+						}//TRY
+						catch(Exception f){}
+						
 					}//IF
 							
 				}//FOR
@@ -720,7 +721,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		{
 			setPage(Downloader.getAttribute(flash.get(0)));
 			flash = getDownloader().getPage().getByXPath("//embed[@id='sandboxembed']/@src"); //$NON-NLS-1$
-			dmf.setMediaFile(Downloader.getAttribute(flash.get(0)));
+			dmf.setMediaURL(Downloader.getAttribute(flash.get(0)));
 		
 		}//IF
 		

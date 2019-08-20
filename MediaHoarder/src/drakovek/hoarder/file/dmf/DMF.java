@@ -822,7 +822,13 @@ public class DMF
 	 */
 	public String getID()
 	{
-		return id;
+		if(id != null)
+		{
+			return id.toUpperCase();
+			
+		}//IF
+		
+		return null;
 		
 	}//METHOD
 	
@@ -834,7 +840,16 @@ public class DMF
 	 */
 	public void setID(final String id)
 	{
-		this.id = id;
+		if(id != null)
+		{
+			this.id = id.toUpperCase();
+			
+		}//IF
+		else
+		{
+			this.id = null;
+			
+		}//ELSE
 		
 	}//METHOD
 	

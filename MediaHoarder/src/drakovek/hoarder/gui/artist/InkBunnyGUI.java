@@ -138,7 +138,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		for(int i = 0; i < size; i ++)
 		{
 			String id = getDmfHandler().getID(i);
-			if(id.length() > prefixLength && id.toUpperCase().startsWith(ID_PREFIX))
+			if(id.length() > prefixLength && id.startsWith(ID_PREFIX))
 			{
 				id = id.substring(prefixLength);
 				if(id.contains(Character.toString('-')) && !id.endsWith(JOURNAL_SUFFIX))
@@ -447,7 +447,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		
 		//GET PAGES IN SEQUENCE
 		ArrayList<String> pageURLs = new ArrayList<>();
-		final List<DomAttr> sequenceAttribute = getDownloader().getPage().getByXPath("//div[@class='widget_imageFromSubmission ']//a/@href"); //$NON-NLS-1$
+		final List<DomAttr> sequenceAttribute = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_white']//div[@class='content']//div[@style='width: 300px; margin: 0px auto 0px auto;']//a/@href"); //$NON-NLS-1$
 		for(int i = 0; i < sequenceAttribute.size(); i++)
 		{
 			String pageURL = "https://inkbunny.net" + Downloader.getAttribute(sequenceAttribute.get(i)); //$NON-NLS-1$
@@ -536,7 +536,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 				
 			}//IF
 			
-			String id = ID_PREFIX + pageURLs.get(i).substring(start, end);
+			String id = ID_PREFIX + pageURLs.get(i).substring(start, end).toUpperCase();
 			
 			while(id.endsWith(Character.toString('-')))
 			{
@@ -611,7 +611,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 			
 		}//IF
 		
-		dmf.setID(ID_PREFIX + URL.substring(start, end) + JOURNAL_SUFFIX);
+		dmf.setID(ID_PREFIX + URL.substring(start, end).toUpperCase() + JOURNAL_SUFFIX);
 		
 		//GET TITLE
 		List<DomElement> titleElement = getDownloader().getPage().getByXPath("//div[@class='content']//table//h1"); //$NON-NLS-1$
@@ -688,7 +688,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	@Override
 	protected boolean isDownloaded(String URL)
 	{
-		String page = URL;
+		String page = URL.toUpperCase();
 		while(page.length() > 0 && page.charAt(page.length() - 1) == '/')
 		{
 			page = page.substring(0, page.length() - 1);

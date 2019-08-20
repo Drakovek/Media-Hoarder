@@ -88,6 +88,11 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 				messageIDs[0] = DefaultLanguage.RENAME_MESSAGE;
 				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
 				break;
+			case DefaultLanguage.DELETE_SEQUENCES:
+				run = false;
+				messageIDs[0] = DefaultLanguage.DELETE_SEQUENCES_MESSAGE;
+				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
+				break;
 				
 		}//METHOD
 		
@@ -176,6 +181,42 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 			}//IF
 			
 			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
+			dmf.writeDMF();
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Deletes all DMF sequence data.
+	 * 
+	 * @since 2.0
+	 */
+	private void deleteSequences()
+	{
+		int size = getParentGUI().getDmfHandler().getSize();
+		progressInfoDialog.setProcessLabel(DefaultLanguage.DELETE_SEQUENCES);
+		progressInfoDialog.setProgressBar(false, true, size, 0);
+		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
+		String artist = new String();
+		
+		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
+		{
+			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
+			if(artistCheck != null && !artistCheck.equals(artist))
+			{
+				artist = artistCheck;
+				progressInfoDialog.setProgressBar(false, true, size, i);
+				progressInfoDialog.setDetailLabel(artist, false);
+				progressInfoDialog.appendLog(artist, true);
+				
+			}//IF
+			
+			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
+			dmf.setNextID(null);
+			dmf.setLastID(null);
+			dmf.setFirst(false);
+			dmf.setLast(false);
 			dmf.writeDMF();
 			
 		}//FOR
@@ -287,6 +328,9 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 				break;
 			case DefaultLanguage.RENAME_FILES:
 				renameFiles();
+				break;
+			case DefaultLanguage.DELETE_SEQUENCES:
+				deleteSequences();
 				break;
 			
 		}//SWITCH
