@@ -529,7 +529,7 @@ public class DmfHandler
 	 */
 	public String getSecondaryURL(final int index)
 	{
-		return database.getSecondaryURL(index);
+		return database.getSecondaryURL(filtered.get(index).intValue());
 		
 	}//METHOD
 	
@@ -555,7 +555,7 @@ public class DmfHandler
 	 */
 	public File getSecondaryFile(final int index)
 	{
-		return database.getSecondaryFile(index);
+		return database.getSecondaryFile(filtered.get(index).intValue());
 		
 	}//METHOD
 	

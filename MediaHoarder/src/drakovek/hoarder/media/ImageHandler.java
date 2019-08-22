@@ -144,11 +144,11 @@ public class ImageHandler
 		File iconFolder = DReader.getDirectory(settings.getDataFolder(), "icons"); //$NON-NLS-1$
 		if(iconFolder != null && iconFolder.isDirectory())
 		{
-			audioIcon = getImage(new File(iconFolder, "audio.png"), false); //$NON-NLS-1$
-			imageIcon = getImage(new File(iconFolder, "image.png"), false); //$NON-NLS-1$
-			textIcon = getImage(new File(iconFolder, "text.png"), false); //$NON-NLS-1$
-			videoIcon = getImage(new File(iconFolder, "video.png"), false); //$NON-NLS-1$
-			unknownIcon = getImage(new File(iconFolder, "unknown.png"), false); //$NON-NLS-1$
+			audioIcon = getImage(new File(iconFolder, "audio.png"), false, false); //$NON-NLS-1$
+			imageIcon = getImage(new File(iconFolder, "image.png"), false, false); //$NON-NLS-1$
+			textIcon = getImage(new File(iconFolder, "text.png"), false, false); //$NON-NLS-1$
+			videoIcon = getImage(new File(iconFolder, "video.png"), false, false); //$NON-NLS-1$
+			unknownIcon = getImage(new File(iconFolder, "unknown.png"), false, false); //$NON-NLS-1$
 	
 		}//IF
 		
@@ -232,11 +232,12 @@ public class ImageHandler
 	 * Returns a BufferedImage for a given file, either representing the image for an image file, or giving an icon for a non-image file.
 	 * 
 	 * @param file Input File
-	 * @param useIcon Whether to use a file type icon if the image is not an image file or cannot be loaded
+	 * @param allowReturningIcon Whether to allow returning a file type icon if the main file cannot be loaded
+	 * @param useIcon Whether to use a file type icon rather than the image from the given file
 	 * @return BufferedImage representing the file
 	 * @since 2.0
 	 */
-	public BufferedImage getImage(final File file, final boolean useIcon)
+	public BufferedImage getImage(final File file, final boolean allowReturningIcon, final boolean useIcon)
 	{
 		BufferedImage bufferedImage = null;
 		
@@ -256,7 +257,13 @@ public class ImageHandler
 			
 		}//IF
 		
-		return getIcon(file);
+		if(allowReturningIcon || useIcon)
+		{
+			return getIcon(file);
+			
+		}//IF
+		
+		return null;
 		
 	}//METHOD
 	
@@ -556,14 +563,20 @@ public class ImageHandler
 	/**
 	 * Gets a Buffered Image from a given file that fits within the program's default preview size.
 	 * 
-	 * @param file Given image file
+	 * @param mediaFile Main media file, may contain image
+	 * @param secondaryFile Secondary media file in case the main file is not an image
 	 * @param useIcon Whether to use an icon rather than a thumbnail
 	 * @return Preview Image
 	 * @since 2.0
 	 */
-	public BufferedImage getPreview(final File file, final boolean useIcon)
+	public BufferedImage getPreview(final File mediaFile, final File secondaryFile, final boolean useIcon)
 	{
-		BufferedImage image = getImage(file, useIcon);
+		BufferedImage image = this.getImage(secondaryFile, false, false);
+		if(image == null)
+		{
+			image = this.getImage(mediaFile, true, useIcon);
+		
+		}//IF
 		
 		if(image != null)
 		{

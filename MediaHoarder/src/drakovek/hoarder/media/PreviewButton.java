@@ -65,17 +65,18 @@ public class PreviewButton extends JButton
 	}//CONSTRUCTOR
 	
 	/**
-	 * Sets the file to use as a preview image.
+	 * Sets the preview image preview image.
 	 * 
-	 * @param file Given File
+	 * @param mediaFile Main media file, may contain image
+	 * @param secondaryFile Secondary media file in case the main file is not an image
 	 * @param useIcon Whether to use an icon rather than a thumbnail
 	 * @since 2.0
 	 */
-	public void setFile(final File file, final boolean useIcon)
+	public void setImage(final File mediaFile, final File secondaryFile, final boolean useIcon)
 	{
-		if(file != null)
+		if(mediaFile != null)
 		{
-			image = imageHandler.getPreview(file, useIcon);
+			image = imageHandler.getPreview(mediaFile, secondaryFile, useIcon);
 			
 		}//IF
 		else

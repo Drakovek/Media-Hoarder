@@ -64,7 +64,7 @@ public class FileTypeHandler
 	 * 
 	 * @since 2.0
 	 */
-	private static final String[] EMBEDDED_TEXT = {"doc", "docx", "pdf", "rtf", "txt"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+	private static final String[] EMBEDDED_TEXT = {"doc", "docx", "html", "htm", "pdf", "rtf", "txt"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 	
 	/**
 	 * Embedded video extensions.

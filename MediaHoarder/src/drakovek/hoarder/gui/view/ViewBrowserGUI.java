@@ -524,7 +524,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 											StringMethods.arrayToString(getDmfHandler().getArtists(offset + i)) +
 											"</i></html>"); //$NON-NLS-1$
 					
-					previewButtons[i].setFile(getDmfHandler().getMediaFile(offset + i), progressDialog.isCancelled() || !getSettings().getUseThumbnails());
+					previewButtons[i].setImage(getDmfHandler().getMediaFile(offset + i), getDmfHandler().getSecondaryFile(offset + i),  progressDialog.isCancelled() || !getSettings().getUseThumbnails());
 					
 					if(progressDialog.isCancelled())
 					{
@@ -537,7 +537,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				{
 					previewValues[i] = -1;
 					previewLabels[i].setText(new String());
-					previewButtons[i].setFile(null, false);
+					previewButtons[i].setImage(null, null, false);
 					
 				}//ELSE
 				
