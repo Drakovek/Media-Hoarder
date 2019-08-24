@@ -48,6 +48,27 @@ public class StringMethods
 	 */
 	public static String arrayToString(final String[] array)
 	{
+		return arrayToString(array, false, new String());
+		
+	}//METHOD
+	
+	/**
+	 * Converts String[] to a String with entries separated by LIST_SEPARATOR_CHAR
+	 * 
+	 * @param array Input String Array
+	 * @param isDisplayString Whether the String is meant to be displayed. If false, array string will be separated without space in between items.
+	 * @param emptyString String to return if the array is empty
+	 * @return String with entries separated by LIST_SEPARATOR_CHAR
+	 * @since 2.0
+	 */
+	public static String arrayToString(final String[] array, final boolean isDisplayString, final String emptyString)
+	{
+		if(array == null || array.length == 0)
+		{
+			return emptyString;
+			
+		}//IF
+		
 		StringBuilder builder = new StringBuilder();
 		
 		for(int i = 0; i < array.length; i++)
@@ -55,6 +76,11 @@ public class StringMethods
 			if(i > 0)
 			{
 				builder.append(Character.toString(LIST_SEPARATOR_CHAR));
+				if(isDisplayString)
+				{
+					builder.append(Character.toString(' '));
+					
+				}//IF
 			
 			}//IF
 			

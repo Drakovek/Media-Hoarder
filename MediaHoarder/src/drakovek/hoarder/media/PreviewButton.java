@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JButton;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.gui.swing.listeners.DActionListener;
 import drakovek.hoarder.gui.swing.listeners.DEvent;
 
 /**
@@ -25,6 +26,13 @@ public class PreviewButton extends JButton
 	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -7234967063333386274L;
+	
+	/**
+	 * ID of preview button being pressed
+	 * 
+	 * @since 2.0
+	 */
+	public static final String PREVIEW_EVENT = "preview_event"; //$NON-NLS-1$
 
 	/**
 	 * Image loaded to be used as a preview
@@ -61,6 +69,7 @@ public class PreviewButton extends JButton
 		image = null;
 		imageDimension = new Dimension(0,0);
 		imageHandler = new ImageHandler(settings);
+		this.addActionListener(new DActionListener(event, PREVIEW_EVENT, index));
 		
 	}//CONSTRUCTOR
 	

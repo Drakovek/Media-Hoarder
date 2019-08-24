@@ -754,6 +754,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	{
 		switch(id)
 		{
+			case PreviewButton.PREVIEW_EVENT:
+				new MediaFrameGUI(getSettings(), getDmfHandler(), this, offset + value);
+				break;
 			case DefaultLanguage.NEXT:
 				nextPage();
 				break;

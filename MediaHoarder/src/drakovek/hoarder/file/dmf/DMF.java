@@ -25,6 +25,13 @@ public class DMF
 	public static final String EMPTY_ID = "XX"; //$NON-NLS-1$
 	
 	/**
+	 * Empty section variable to identify when a section of a sequence has no section title
+	 * 
+	 * @since 2.0
+	 */
+	public static final String EMPTY_SECTION = ":"; //$NON-NLS-1$
+	
+	/**
 	 * Extension used for DMF Files
 	 * 
 	 * @since 2.0
@@ -1533,6 +1540,12 @@ public class DMF
 	 */
 	public String getSectionTitle()
 	{
+		if(sectionTitle != null && sectionTitle.equals(";;;")) //$NON-NLS-1$
+		{
+			return EMPTY_SECTION;
+			
+		}//IF
+		
 		return sectionTitle;
 		
 	}//METHOD

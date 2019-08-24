@@ -130,6 +130,13 @@ public class DefaultLanguage
 	public static final String RESTART_PROGRAM = "restart_program"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for indicating non-applicable field
+	 * 
+	 * @since 2.0
+	 */
+	public static final String NON_APPLICABLE = "non_applicable"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "Downloading"
 	 * 
 	 * @since 2.0
@@ -801,6 +808,16 @@ public class DefaultLanguage
 	public static final String SECONDS_SUFFIX = "seconds_suffix"; //$NON-NLS-1$
 	
 	/**
+	 * Language variables for months of the year
+	 * 
+	 * @since 2.0
+	 */
+	public static final String[] MONTHS = {"january", "february", "march",  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+										   "april", "may", "june", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+										   "july", "august", "september", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+										   "october", "november", "december"};   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+	
+	/**
 	 * Language variable for the title of the login GUI when logging into DeviantArt.
 	 * 
 	 * @since 2.0
@@ -973,6 +990,62 @@ public class DefaultLanguage
 	public static final String SORTING_DMFS = "sorting_dmfs"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the web tags label in the viewer GUI's DMF info pane
+	 * 
+	 * @since 2.0
+	 */
+	public static final String WEB_TAGS = "web_tags"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the user tags label in the viewer GUI's DMF info pane
+	 * 
+	 * @since 2.0
+	 */
+	public static final String USER_TAGS = "user_tags"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the date label in the viewer GUI's DMF info pane
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DATE = "date"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the time label in the viewer GUI's DMF info pane
+	 * 
+	 * @since 2.0
+	 */
+	public static final String TIME = "time"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the page URL link in the viewer GUI's DMF info pane
+	 * 
+	 * @since 2.0
+	 */
+	public static final String PAGE_URL = "page_url"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the direct URL link in the viewer GUI's DMF info pane
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DIRECT_URL = "direct_url"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the DMF link in the viewer GUI's DMF info pane
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DMF = "dmf"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button used to show available sequence branches.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String BRANCHES = "branches"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for button to start DMF reformatting process
 	 * 
 	 * @since 2.0
@@ -1064,6 +1137,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(NO, "^No")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE, "^Save")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NON_APPLICABLE, "N/A")); //$NON-NLS-1$
 
 		//COMMON MENU
 		languageFile.add(new String());
@@ -1090,13 +1164,24 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(ALREADY_DOWNLOADED, "Already Downloaded")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(INVALID_URL, "Invalid URL")); //$NON-NLS-1$
 		
-		
 		//TIME
 		languageFile.add(new String());
 		languageFile.add("[TIME]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(AM, "AM")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PM, "PM")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SECONDS_SUFFIX, "s")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[0], "January")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[1], "February")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[2], "March")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[3], "April")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[4], "May")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[5], "June")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[6], "July")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[7], "August")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[8], "September")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[9], "October")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[10], "November")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(MONTHS[11], "December")); //$NON-NLS-1$
 		
 		//FRAME
 		languageFile.add(new String());
@@ -1221,9 +1306,9 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(ATTEMPT_LOGIN, "Attempting Login:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOGIN_FAILED, "Login Failed")); //$NON-NLS-1$
 		
-		//VIEWER
+		//VIEW BROWSER
 		languageFile.add(new String());
-		languageFile.add("[VIEWER]"); //$NON-NLS-1$
+		languageFile.add("[VIEW BROWSER]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(VIEWER_TITLE, "Viewer")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PREVIOUS, "< ^Previous")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
@@ -1243,6 +1328,20 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS_TITLE, "Sorting DMFs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS, "Sorting DMFs:")); //$NON-NLS-1$
 		
+		
+		//VIEWER
+		languageFile.add(new String());
+		languageFile.add("[VIEWER]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(BRANCHES, "^Branches")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(WEB_TAGS, "Web Tags:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(USER_TAGS, "User Tags:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DATE, "Date:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(TIME, "Time:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(PAGE_URL, "Page URL")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DIRECT_URL, "Direct URL")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DMF, "DMF")); //$NON-NLS-1$
+		
+		
 		//REFORMAT
 		languageFile.add(new String());
 		languageFile.add("[REFORMAT]"); //$NON-NLS-1$
@@ -1251,7 +1350,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "^Delete Sequence Data")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REFORMAT_MESSAGE, "All DMFs will be reformatted.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RENAME_MESSAGE, "All DMFs and associated files will be renamed.")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "All sequence data will be deleted.")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES_MESSAGE, "All sequence data will be deleted.")); //$NON-NLS-1$
 		
 		//ERROR FINDING
 		languageFile.add(new String());

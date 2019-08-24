@@ -15,6 +15,20 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 public class TimeMethods
 {
 	/**
+	 * Value indicating short date format (DD/MM/YYYY, etc.)
+	 * 
+	 * @since 2.0
+	 */
+	public static final int DATE_SHORT = 0;
+	
+	/**
+	 * Value indicating long date format (DD Month YYYY, etc.)
+	 * 
+	 * @since 2.0
+	 */
+	public static final int DATE_LONG = 1;
+	
+	/**
 	 * Value indicating Month-Day-Year date format.
 	 * 
 	 * @since 2.0
@@ -53,12 +67,13 @@ public class TimeMethods
 	 * Returns a String representation of the current date/time using the program's default date and time format.
 	 * 
 	 * @param settings Program Settings
+	 * @param dateLengthFormat Whether to use short or long date format
 	 * @return String for date/time
 	 * @since 2.0
 	 */
-	public static String getCurrentTimeString(DSettings settings)
+	public static String getCurrentTimeString(DSettings settings, final int dateLengthFormat)
 	{
-		return getCurrentTimeString(settings, settings.getDateFormat(), settings.getClockFormat());
+		return getCurrentTimeString(settings, dateLengthFormat, settings.getDateFormat(), settings.getClockFormat());
 		
 	}//METHOD
 	
@@ -66,15 +81,16 @@ public class TimeMethods
 	 * Returns a String representation of the current date/time.
 	 * 
 	 * @param settings Program Settings
+	 * @param dateLengthFormat Whether to use short or long date format
 	 * @param dateFormat Format for the date
 	 * @param clockFormat Format for the clock time
 	 * @return String for date/time
 	 * @since 2.0
 	 */
-	public static String getCurrentTimeString(DSettings settings, final int dateFormat, final int clockFormat)
+	public static String getCurrentTimeString(DSettings settings, final int dateLengthFormat, final int dateFormat, final int clockFormat)
 	{
 		LocalDateTime ldt = LocalDateTime.now();
-		return getTimeString(settings, dateFormat, clockFormat, ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
+		return getFullTimeString(settings, dateLengthFormat, dateFormat, clockFormat, ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
 		
 	}//METHOD
 	
@@ -82,6 +98,7 @@ public class TimeMethods
 	 * Returns a String representation of a given date/time.
 	 * 
 	 * @param settings Program Settings
+	 * @param dateLengthFormat Whether to use short or long date format
 	 * @param dateFormat Format for the date
 	 * @param clockFormat Format for the clock time
 	 * @param year Year
@@ -93,45 +110,85 @@ public class TimeMethods
 	 * @return String for date/time
 	 * @since 2.0
 	 */
-	public static String getTimeString(DSettings settings, final int dateFormat, final int clockFormat, final int year, final int month, final int day, final int hour, final int minute, final int second)
+	public static String getFullTimeString(DSettings settings, final int dateLengthFormat, final int dateFormat, final int clockFormat, final int year, final int month, final int day, final int hour, final int minute, final int second)
 	{
 		StringBuilder timeString = new StringBuilder();
-		
-		switch(dateFormat)
-		{
-			case DATE_MDY:
-				timeString.append(StringMethods.extendNumberString(month, 2));
-				timeString.append('/');
-				timeString.append(StringMethods.extendNumberString(day, 2));
-				timeString.append('/');
-				timeString.append(StringMethods.extendNumberString(year, 2));
-				break;
-			case DATE_DMY:
-				timeString.append(StringMethods.extendNumberString(day, 2));
-				timeString.append('/');
-				timeString.append(StringMethods.extendNumberString(month, 2));
-				timeString.append('/');
-				timeString.append(StringMethods.extendNumberString(year, 2));
-				break;
-			case DATE_YMD:
-				timeString.append(StringMethods.extendNumberString(year, 2));
-				timeString.append('/');
-				timeString.append(StringMethods.extendNumberString(month, 2));
-				timeString.append('/');
-				timeString.append(StringMethods.extendNumberString(day, 2));
-				break;
-				
-		}//SWITCH
-		
+		timeString.append(getDateString(settings, dateLengthFormat, dateFormat, year, month, day));
 		timeString.append(" | "); //$NON-NLS-1$
+		timeString.append(getTimeString(settings, clockFormat, hour, minute, second));
+		return timeString.toString();
+		
+	}//METHOD
+	
+	/**
+	 * Returns a String representation of a given time of day.
+	 * 
+	 * @param settings Program Settings
+	 * @param time Long value of date and time
+	 * @return Time String
+	 * @since 2.0
+	 */
+	public static String getTimeString(DSettings settings, final long time)
+	{
+		return getTimeString(settings, settings.getClockFormat(), time);
+		
+	}//METHOD
+	
+	/**
+	 * Returns a String representation of a given time of day.
+	 * 
+	 * @param settings Program Settings
+	 * @param clockFormat Format for the clock time
+	 * @param time Long value of date and time
+	 * @return Time String
+	 * @since 2.0
+	 */
+	public static String getTimeString(DSettings settings, final int clockFormat, final long time)
+	{
+		try
+		{
+			String timeString = StringMethods.extendNumberString(Long.toString(time), 12);
+			int hour = Integer.parseInt(timeString.substring(8, 10));
+			int minute = Integer.parseInt(timeString.substring(10, 12));
+			
+			return getTimeString(settings, clockFormat, hour, minute, -1);
+			
+		}//TRY
+		catch(Exception e)
+		{
+			return new String();
+			
+		}//CATCH
+		
+	}//METHOD
+	
+	/**
+	 * Returns a String representation of a given time of day.
+	 * 
+	 * @param settings Program Settings
+	 * @param clockFormat Format for the clock time
+	 * @param hour Hour
+	 * @param minute Minute
+	 * @param second Second of Minute
+	 * @return Time String
+	 * @since 2.0
+	 */
+	public static String getTimeString(DSettings settings, final int clockFormat, final int hour, final int minute, final int second)
+	{
+		StringBuilder timeString = new StringBuilder();
 		
 		if(clockFormat == HOUR_24)
 		{
 			timeString.append(StringMethods.extendNumberString(hour, 2));
 			timeString.append(':');
 			timeString.append(StringMethods.extendNumberString(minute, 2));
-			timeString.append(':');
-			timeString.append(StringMethods.extendNumberString(second, 2));
+			
+			if(second > -1)
+			{
+				timeString.append(':');
+				timeString.append(StringMethods.extendNumberString(second, 2));
+				
+			}//IF
 			
 		}//IF
 		else
@@ -159,13 +216,145 @@ public class TimeMethods
 			timeString.append(StringMethods.extendNumberString(minute, 2));
 			timeString.append(' ');
 			timeString.append(ampm);
-			timeString.append(", "); //$NON-NLS-1$
-			timeString.append(StringMethods.extendNumberString(second, 2));
-			timeString.append(settings.getLanguageText(DefaultLanguage.SECONDS_SUFFIX));
+			
+			if(second > -1)
+			{
+				timeString.append(", "); //$NON-NLS-1$
+				timeString.append(StringMethods.extendNumberString(second, 2));
+				timeString.append(settings.getLanguageText(DefaultLanguage.SECONDS_SUFFIX));
+			
+			}//IF
 			
 		}//ELSE
 		
 		return timeString.toString();
+		
+	}//METHOD
+	
+	/**
+	 * Returns a String representation of a given date.
+	 * 
+	 * @param settings Program Settings
+	 * @param dateLengthFormat Whether to use short or long date format
+	 * @param time Long value of date and time
+	 * @return Date String
+	 * @since 2.0
+	 */
+	public static String getDateString(DSettings settings, final int dateLengthFormat, final long time)
+	{
+		return getDateString(settings, dateLengthFormat, settings.getDateFormat(), time);
+
+	}//METHOD
+	
+	/**
+	 * Returns a String representation of a given date.
+	 * 
+	 * @param settings Program Settings
+	 * @param dateLengthFormat Whether to use short or long date format
+	 * @param dateFormat Format for the date
+	 * @param time Long value of date and time
+	 * @return Date String
+	 * @since 2.0
+	 */
+	public static String getDateString(DSettings settings, final int dateLengthFormat, final int dateFormat, final long time)
+	{
+		try
+		{
+			String timeString = StringMethods.extendNumberString(Long.toString(time), 12);
+			int year = Integer.parseInt(timeString.substring(0, 4));
+			int month = Integer.parseInt(timeString.substring(4, 6));
+			int day = Integer.parseInt(timeString.substring(6, 8));
+			
+			return getDateString(settings, dateLengthFormat, dateFormat, year, month, day);
+			
+		}//TRY
+		catch(Exception e)
+		{
+			return new String();
+			
+		}//CATCH
+		
+	}//METHOD
+	
+	/**
+	 * Returns a String representation of a given date.
+	 * 
+	 * @param settings Program Settings
+	 * @param dateLengthFormat Whether to use short or long date format
+	 * @param dateFormat Format for the date
+	 * @param year Year
+	 * @param month Month
+	 * @param day Day of Month
+	 * @return Date String
+	 * @since 2.0
+	 */
+	public static String getDateString(DSettings settings, final int dateLengthFormat, final int dateFormat, final int year, final int month, final int day)
+	{
+		StringBuilder dateString = new StringBuilder();
+		
+		if(dateLengthFormat == DATE_SHORT)
+		{
+			switch(dateFormat)
+			{
+				case DATE_MDY:
+					dateString.append(StringMethods.extendNumberString(month, 2));
+					dateString.append('/');
+					dateString.append(StringMethods.extendNumberString(day, 2));
+					dateString.append('/');
+					dateString.append(StringMethods.extendNumberString(year, 2));
+					break;
+				case DATE_DMY:
+					dateString.append(StringMethods.extendNumberString(day, 2));
+					dateString.append('/');
+					dateString.append(StringMethods.extendNumberString(month, 2));
+					dateString.append('/');
+					dateString.append(StringMethods.extendNumberString(year, 2));
+					break;
+				case DATE_YMD:
+					dateString.append(StringMethods.extendNumberString(year, 2));
+					dateString.append('/');
+					dateString.append(StringMethods.extendNumberString(month, 2));
+					dateString.append('/');
+					dateString.append(StringMethods.extendNumberString(day, 2));
+					break;
+					
+			}//SWITCH
+			
+		}//IF
+		else if(month > 0 && month <= DefaultLanguage.MONTHS.length)
+		{
+			switch(dateFormat)
+			{
+				case DATE_MDY:
+					dateString.append(settings.getLanguageText(DefaultLanguage.MONTHS[month - 1]));
+					dateString.append(' ');
+					dateString.append(StringMethods.extendNumberString(day, 2));
+					dateString.append(',');
+					dateString.append(' ');
+					dateString.append(StringMethods.extendNumberString(year, 2));
+					break;
+				case DATE_DMY:
+					dateString.append(StringMethods.extendNumberString(day, 2));
+					dateString.append(' ');
+					dateString.append(settings.getLanguageText(DefaultLanguage.MONTHS[month - 1]));
+					dateString.append(',');
+					dateString.append(' ');
+					dateString.append(StringMethods.extendNumberString(year, 2));
+					break;
+				case DATE_YMD:
+					dateString.append(StringMethods.extendNumberString(year, 2));
+					dateString.append(',');
+					dateString.append(' ');
+					dateString.append(settings.getLanguageText(DefaultLanguage.MONTHS[month - 1]));
+					dateString.append(' ');
+					dateString.append(StringMethods.extendNumberString(day, 2));
+					break;
+					
+			}//SWITCH
+			
+		}//ELSE
+		
+		return dateString.toString();
 		
 	}//METHOD
 	

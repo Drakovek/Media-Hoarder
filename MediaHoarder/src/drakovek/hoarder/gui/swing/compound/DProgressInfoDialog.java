@@ -186,7 +186,7 @@ public class DProgressInfoDialog extends DProgressDialog
 		{
 			if(addTimestamp)
 			{
-				logText.append(TimeMethods.getCurrentTimeString(getSettings()) + SPACER + text + "\n\r"); //$NON-NLS-1$
+				logText.append(TimeMethods.getCurrentTimeString(getSettings(), TimeMethods.DATE_SHORT) + SPACER + text + "\n\r"); //$NON-NLS-1$
 			
 			}//IF
 			else

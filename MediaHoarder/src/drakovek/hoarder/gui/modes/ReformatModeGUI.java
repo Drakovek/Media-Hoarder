@@ -217,6 +217,8 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 			dmf.setLastID(null);
 			dmf.setFirst(false);
 			dmf.setLast(false);
+			dmf.setSequenceTitle(null);
+			dmf.setSectionTitle(null);
 			dmf.writeDMF();
 			
 		}//FOR

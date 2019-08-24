@@ -27,6 +27,29 @@ public class DActionListener implements ActionListener
 	private String id;
 	
 	/**
+	 * Value to pass during action event
+	 * 
+	 * @since 2.0
+	 */
+	private int value;
+	
+	/**
+	 * Initializes the DActionListener class.
+	 * 
+	 * @param event DEvent to call when event occurs
+	 * @param id ID of the event
+	 * @param value Value to pass during action event
+	 * @since 2.0
+	 */
+	public DActionListener(DEvent event, final String id, final int value)
+	{
+		this.event = event;
+		this.id = id;
+		this.value = value;
+		
+	}//CONSTRUCTOR
+	
+	/**
 	 * Initializes the DActionListener class.
 	 * 
 	 * @param event DEvent to call when event occurs
@@ -37,13 +60,16 @@ public class DActionListener implements ActionListener
 	{
 		this.event = event;
 		this.id = id;
+		this.value = -1;
 		
 	}//CONSTRUCTOR
+	
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-		event.event(id, -1);
+		event.event(id, value);
 		
 	}//METHOD
 

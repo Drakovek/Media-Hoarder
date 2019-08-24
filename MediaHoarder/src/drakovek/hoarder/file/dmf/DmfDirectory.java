@@ -402,7 +402,7 @@ public class DmfDirectory implements Serializable
 	{
 		for(int i = 0; i < dmfFiles.size(); i++)
 		{
-			if(dmfFiles.get(i) == null || !dmfFiles.get(i).exists())
+			if(dmfFiles.get(i) == null || !dmfFiles.get(i).exists() || !mediaFiles.get(i).exists() || (secondaryFiles.get(i) != null && !secondaryFiles.get(i).exists()))
 			{
 				//REMOVE DMFS THAT NO LONGER EXIST
 				
