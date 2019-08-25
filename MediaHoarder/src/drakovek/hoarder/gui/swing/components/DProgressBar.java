@@ -7,8 +7,11 @@ import java.awt.GridBagLayout;
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 
 import drakovek.hoarder.gui.BaseGUI;
+import drakovek.hoarder.work.DRunnable;
+import drakovek.hoarder.work.DWorker;
 
 /**
  * Default progress bar for the program.
@@ -17,7 +20,7 @@ import drakovek.hoarder.gui.BaseGUI;
  * @version 2.0
  * @since 2.0
  */
-public class DProgressBar extends JPanel
+public class DProgressBar extends JPanel implements DWorker
 {
 	/**
 	 * SerialVersionUID
@@ -32,6 +35,34 @@ public class DProgressBar extends JPanel
 	 * @since 2.0
 	 */
 	private JProgressBar progressBar;
+	
+	/**
+	 * Whether the current process is of indeterminate length
+	 * 
+	 * @since 2.0
+	 */
+	private boolean indeterminate;
+	
+	/**
+	 * Whether to show a percentage value on the progress bar
+	 * 
+	 * @since 2.0
+	 */
+	private boolean painted;
+	
+	/**
+	 * Maximum value for the progress bar
+	 * 
+	 * @since 2.0
+	 */
+	private int maximum;
+	
+	/**
+	 * Current value of the progress bar
+	 * 
+	 * @since 2.0
+	 */
+	private int value;
 
 	/**
 	 * Initializes the DProgressBar
@@ -71,6 +102,22 @@ public class DProgressBar extends JPanel
 	 */
 	public void setProgressBar(final boolean indeterminate, final boolean painted, final int maximum, final int value)
 	{
+		this.indeterminate = indeterminate;
+		this.painted = painted;
+		this.maximum = maximum;
+		this.value = value;
+		
+		SwingUtilities.invokeLater(new DRunnable(this, new String()));
+		
+	}//METHOD
+	
+	/**
+	 * Sets the state of the progress bar.
+	 * 
+	 * @since 2.0
+	 */
+	private void setProgress()
+	{
 		progressBar.setIndeterminate(indeterminate);
 		progressBar.setMinimum(0);
 		
@@ -100,5 +147,15 @@ public class DProgressBar extends JPanel
 		}//ELSE
 		
 	}//METHOD
+
+	@Override
+	public void run(String id)
+	{
+		setProgress();
+		
+	}//METHOD
+
+	@Override
+	public void done(String id){}
 	
 }//CLASS
