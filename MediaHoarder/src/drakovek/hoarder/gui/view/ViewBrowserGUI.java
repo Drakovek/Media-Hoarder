@@ -683,9 +683,10 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		viewMenu.setEnabled(true);
 		sortMenu.setEnabled(true);
 		
+		int size = getDmfHandler().getSize();
 		for(int i = 0; i < previewButtons.length; i++)
 		{
-			if(previewValues[i] != -1)
+			if((offset + i) < size)
 			{
 				previewButtons[i].setEnabled(true);
 				
@@ -755,7 +756,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		switch(id)
 		{
 			case PreviewButton.PREVIEW_EVENT:
-				new MediaFrameGUI(getSettings(), getDmfHandler(), this, offset + value);
+				new ViewerGUI(getSettings(), getDmfHandler(), this, offset + value);
 				break;
 			case DefaultLanguage.NEXT:
 				nextPage();

@@ -124,7 +124,7 @@ public class DWriter
     	String text = input;
     	if(replaceEscape)
     	{
-    		text = replaceHtmlEscape(text);
+    		text = removeHtmlEscape(text);
     		
     	}//IF
     	
@@ -188,13 +188,13 @@ public class DWriter
     }//METHOD
 
     /**
-     * Replaces the HTML escape characters for a given string.
+     * Removes the HTML escape characters for a given string.
      * 
      * @param input String with HTML escape characters
-     * @return String with HTML escape characters replaced by their equivalent unicode characters
+     * @return String with HTML escape characters replaced with hyphens
      * @since 2.0
      */
-    private static String replaceHtmlEscape(final String input)
+    private static String removeHtmlEscape(final String input)
     {
     	String output = input;
     	int start = 0;

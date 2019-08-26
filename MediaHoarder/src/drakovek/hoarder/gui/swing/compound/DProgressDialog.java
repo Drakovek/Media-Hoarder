@@ -187,8 +187,12 @@ public class DProgressDialog extends BaseGUI
 	{
 		this.setProgressBar(false, true, 2, 1);
 		cancelled = false;
-		dialog = new DDialog(ownerFrame, progressPanel, getSettings().getLanguageText(titleID), false, width, height);
-		dialog.setVisible(true);
+		if(dialog == null || !dialog.isVisible())
+		{
+			dialog = new DDialog(ownerFrame, progressPanel, getSettings().getLanguageText(titleID), false, width, height);
+			dialog.setVisible(true);
+		
+		}//IF
 		
 	}//METHOD
 	
@@ -218,8 +222,13 @@ public class DProgressDialog extends BaseGUI
 	{
 		this.setProgressBar(false, true, 2, 1);
 		cancelled = false;
-		dialog = new DDialog(ownerDialog, progressPanel, getSettings().getLanguageText(titleID), false, width, height);
-		dialog.setVisible(true);
+		
+		if(dialog == null || !dialog.isVisible())
+		{
+			dialog = new DDialog(ownerDialog, progressPanel, getSettings().getLanguageText(titleID), false, width, height);
+			dialog.setVisible(true);
+		
+		}//IF
 		
 	}//METHOD
 	

@@ -1039,6 +1039,111 @@ public class DefaultLanguage
 	public static final String DMF = "dmf"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable used for the scale menu in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SCALE = "scale"; //$NON-NLS-1$
+
+	/**
+	 * Language variable used for the "Full Scale" scaling menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SCALE_FULL = "scale_full"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "2-D Fit" scaling menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SCALE_2D_FIT = "scale_2d_fit"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "2-D Stretch" scaling menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SCALE_2D_STRETCH = "scale_2d_stretch"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "1-D Fit" scaling menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SCALE_1D_FIT = "scale_1d_fit"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "1-D Stretch" scaling menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SCALE_1D_STRETCH = "scale_1d_stretch"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "Direct Scale" scaling menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SCALE_DIRECT = "scale_direct"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the details menu in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DETAILS = "details"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "No Details" detail menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String NO_DETAILS = "no_details"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "Top Details" detail menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String TOP_DETAILS = "top_details"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "Bottom Details" detail menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String BOTTOM_DETAILS = "bottom_details"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "Left Details" detail menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LEFT_DETAILS = "left_details"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for the "Right Details" detail menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String RIGHT_DETAILS = "right_details"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for progress dialog title when loading a media file.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOADING_MEDIA_TITLE = "loading_media_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used for progress dialog message when loading a media file.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LOADING_MEDIA_MESSAGE = "loading_media_message"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the button used to show available sequence branches.
 	 * 
 	 * @since 2.0
@@ -1340,6 +1445,21 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(PAGE_URL, "Page URL")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DIRECT_URL, "Direct URL")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DMF, "DMF")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SCALE, "^Scale")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SCALE_FULL, "^Full Size")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SCALE_2D_FIT, "^2-D Fit")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SCALE_2D_STRETCH, "2-D ^Stretch")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SCALE_1D_FIT, "^1-D Fit")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SCALE_1D_STRETCH, "1-D S^tretch")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SCALE_DIRECT, "^Direct Scale")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DETAILS, "^Details")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(NO_DETAILS, "^No DMF Details")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(TOP_DETAILS, "Details on ^Top")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(BOTTOM_DETAILS, "Details on ^Bottom")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LEFT_DETAILS, "Details on ^Left Side")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RIGHT_DETAILS, "Details on ^Right Side")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_TITLE, "Loading Media")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_MESSAGE, "Loading Media:")); //$NON-NLS-1$
 		
 		
 		//REFORMAT

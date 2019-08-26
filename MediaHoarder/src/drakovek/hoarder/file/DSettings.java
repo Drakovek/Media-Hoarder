@@ -185,6 +185,13 @@ public class DSettings
 	private static final String SCALE_AMOUNT = "scale_amount"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for the detail location
+	 * 
+	 * @since 2.0
+	 */
+	private static final String DETAIL_LOCATION = "detail_location"; //$NON-NLS-1$
+	
+	/**
 	 * INI variable for using thumbnails
 	 * 
 	 * @since 2.0
@@ -391,6 +398,13 @@ public class DSettings
 	private double scaleAmount;
 	
 	/**
+	 * Location of DMF details in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	private int detailLocation;
+	
+	/**
 	 * Whether to use thumbnails in the viewer GUI
 	 * 
 	 * @since 2.0
@@ -506,6 +520,7 @@ public class DSettings
 		previewSize = 100;
 		scaleType = 0;
 		scaleAmount = 1.0;
+		detailLocation = 0;
 		useThumbnails = true;
 		sortType = 0;
 		groupArtists = false;
@@ -561,6 +576,7 @@ public class DSettings
 			previewSize = ParseINI.getIntValue(null, PREVIEW_SIZE, settingsInfo, previewSize);
 			scaleType = ParseINI.getIntValue(null, SCALE_TYPE, settingsInfo, scaleType);
 			scaleAmount = ParseINI.getDoubleValue(null, SCALE_AMOUNT, settingsInfo, scaleAmount);
+			detailLocation = ParseINI.getIntValue(null, DETAIL_LOCATION, settingsInfo, detailLocation);
 			useThumbnails = ParseINI.getBooleanValue(null, USE_THUMBNAILS, settingsInfo, useThumbnails);
 			sortType = ParseINI.getIntValue(null, SORT_TYPE, settingsInfo, sortType);
 			groupArtists = ParseINI.getBooleanValue(null, GROUP_ARTISTS, settingsInfo, groupArtists);
@@ -629,6 +645,7 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(PREVIEW_SIZE, previewSize));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_TYPE, scaleType));
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_AMOUNT, scaleAmount));
+		settingsInfo.add(ParseINI.getAssignmentString(DETAIL_LOCATION, detailLocation));
 		settingsInfo.add(ParseINI.getAssignmentString(USE_THUMBNAILS, useThumbnails));
 		settingsInfo.add(ParseINI.getAssignmentString(SORT_TYPE, sortType));
 		settingsInfo.add(ParseINI.getAssignmentString(GROUP_ARTISTS, groupArtists));
@@ -1174,6 +1191,30 @@ public class DSettings
 	public double getScaleAmount()
 	{
 		return scaleAmount;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the location of DMF details.
+	 * 
+	 * @param detailLocation Location of DMF Details
+	 * @since 2.0
+	 */
+	public void setDetailLocation(final int detailLocation)
+	{
+		this.detailLocation = detailLocation;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the location of DMF details.
+	 * 
+	 * @return Location of DMF Details
+	 * @since 2.0
+	 */
+	public int getDetailLocation()
+	{
+		return detailLocation;
 		
 	}//METHOD
 	
