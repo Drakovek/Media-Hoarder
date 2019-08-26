@@ -81,7 +81,7 @@ public class DScrollPane extends JScrollPane implements DWorker
 		this.view = view;
 		setScrollUnit();
 		
-	}//METHOD DScrollPane(Component view, UserPreferences userPreferences)
+	}//CONSTRUCTOR
 	
 	/**
 	 * Initializes the scroll pane
@@ -99,7 +99,7 @@ public class DScrollPane extends JScrollPane implements DWorker
 		this.view = view;
 		setScrollUnit();
 		
-	}//METHOD DScrollPane(Component view, UserPreferences userPreferences)
+	}//CONSTRUCTOR
 	
 	/**
 	 * Sets the scroll increment for this scroll pane.
@@ -135,7 +135,7 @@ public class DScrollPane extends JScrollPane implements DWorker
 		SwingUtilities.invokeLater(new DRunnable(this, TOP_LEFT));
 	
 	}//METHOD
-
+	
 	/**
 	 * Sets the Scroll Pane to the top right.
 	 * 

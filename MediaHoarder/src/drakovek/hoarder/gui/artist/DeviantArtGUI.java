@@ -540,7 +540,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		contents.add("</html>"); //$NON-NLS-1$
 		
 		//DOWNLOAD FILES
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle(), true) + Character.toString('_') + dmf.getID();
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
 		File mediaFile = new File(baseFolder, filename + ".html"); //$NON-NLS-1$
 		dmf.setMediaFile(mediaFile);
 		DWriter.writeToFile(mediaFile, contents);
@@ -750,7 +750,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		
 		
 		//DOWNLOAD FILES
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle(), true) + Character.toString('_') + dmf.getID();
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
 		File mediaFile = new File(baseFolder, filename + extension);
 		dmf.setMediaFile(mediaFile);
 		if(dmf.getMediaURL() != null)

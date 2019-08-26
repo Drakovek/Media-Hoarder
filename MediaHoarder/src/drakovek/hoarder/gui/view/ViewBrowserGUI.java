@@ -519,9 +519,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				{
 					previewValues[i] = offset + i;
 					previewLabels[i].setText("<html>" +  //$NON-NLS-1$
-											getDmfHandler().getTitle(offset + i) + 
+											StringMethods.addHtmlEscapes(getDmfHandler().getTitle(offset + i)) + 
 											"<br/><i>" + //$NON-NLS-1$
-											StringMethods.arrayToString(getDmfHandler().getArtists(offset + i)) +
+											StringMethods.addHtmlEscapes(StringMethods.arrayToString(getDmfHandler().getArtists(offset + i))) +
 											"</i></html>"); //$NON-NLS-1$
 					
 					previewButtons[i].setImage(getDmfHandler().getMediaFile(offset + i), getDmfHandler().getSecondaryFile(offset + i),  progressDialog.isCancelled() || !getSettings().getUseThumbnails());

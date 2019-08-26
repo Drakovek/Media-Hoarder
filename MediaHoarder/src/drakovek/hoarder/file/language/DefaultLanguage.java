@@ -1088,6 +1088,20 @@ public class DefaultLanguage
 	public static final String SCALE_DIRECT = "scale_direct"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the title of dialog prompting the user to enter a direct scale value
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DIRECT_SCALE_TITLE = "direct_scale_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the message of dialog prompting the user to enter a direct scale value
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DIRECT_SCALE_MESSAGE = "direct_scale_message"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable used for the details menu in the viewer GUI
 	 * 
 	 * @since 2.0
@@ -1452,6 +1466,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SCALE_1D_FIT, "^1-D Fit")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SCALE_1D_STRETCH, "1-D S^tretch")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SCALE_DIRECT, "^Direct Scale")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DIRECT_SCALE_TITLE, "Set Scale Amount")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DIRECT_SCALE_MESSAGE, "Enter direct scale amount:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DETAILS, "^Details")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO_DETAILS, "^No DMF Details")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TOP_DETAILS, "Details on ^Top")); //$NON-NLS-1$

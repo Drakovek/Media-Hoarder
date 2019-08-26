@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -14,9 +15,14 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DEditorPane;
+import drakovek.hoarder.gui.swing.components.DMenu;
+import drakovek.hoarder.gui.swing.components.DRadioButtonMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
+import drakovek.hoarder.gui.swing.compound.DTextDialog;
+import drakovek.hoarder.gui.swing.listeners.DActionListener;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
+import drakovek.hoarder.processing.BooleanInt;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.processing.TimeMethods;
 import drakovek.hoarder.work.DSwingWorker;
@@ -123,11 +129,32 @@ public class MediaViewer extends BaseGUI implements DWorker
 	private int dmfIndex;
 	
 	/**
+	 * String containing HTML/CSS formatted DMF details of the currently shown DMF
+	 * 
+	 * @since 2.0
+	 */
+	private String detailString;
+	
+	/**
 	 * Parent GUI for the media viewer panel
 	 * 
 	 * @since 2.0
 	 */
 	private FrameGUI ownerGUI;
+	
+	/**
+	 * Menu for selecting between different scale types for images
+	 * 
+	 * @since 2.0
+	 */
+	private DMenu scaleMenu;
+	
+	/**
+	 * Menu for selecting how to display DMF info for the currently selected media
+	 * 
+	 * @since 2.0
+	 */
+	private DMenu detailMenu;
 	
 	/**
 	 * Main viewer panel used to contain both media and DMF info
@@ -222,6 +249,48 @@ public class MediaViewer extends BaseGUI implements DWorker
 		viewerPanel.setLayout(new GridLayout(1,1));
 		progressDialog = new DProgressDialog(getSettings());
 		
+		//CREATE SCALE MENU
+		scaleMenu = new DMenu(this, DefaultLanguage.SCALE);
+		ButtonGroup scaleGroup = new ButtonGroup();
+		DRadioButtonMenuItem scaleFull = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_FULL, DefaultLanguage.SCALE_FULL);
+		DRadioButtonMenuItem scale2dFit = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_2D_FIT, DefaultLanguage.SCALE_2D_FIT);
+		DRadioButtonMenuItem scale2dStretch = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_2D_STRETCH, DefaultLanguage.SCALE_2D_STRETCH);
+		DRadioButtonMenuItem scale1dFit = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_1D_FIT, DefaultLanguage.SCALE_1D_FIT);
+		DRadioButtonMenuItem scale1dStretch = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_1D_STRETCH, DefaultLanguage.SCALE_1D_STRETCH);
+		DRadioButtonMenuItem scaleDirect = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_DIRECT, DefaultLanguage.SCALE_DIRECT);
+		scaleDirect.addActionListener(new DActionListener(this, DefaultLanguage.SCALE));
+		scaleGroup.add(scaleFull);
+		scaleGroup.add(scale2dFit);
+		scaleGroup.add(scale2dStretch);
+		scaleGroup.add(scale1dFit);
+		scaleGroup.add(scale1dStretch);
+		scaleGroup.add(scaleDirect);
+		scaleMenu.add(scaleFull);
+		scaleMenu.add(scale2dFit);
+		scaleMenu.add(scale2dStretch);
+		scaleMenu.add(scale1dFit);
+		scaleMenu.add(scale1dStretch);
+		scaleMenu.add(scaleDirect);
+				
+		//CREATE INFO MENU
+		detailMenu = new DMenu(this, DefaultLanguage.DETAILS);
+		ButtonGroup detailGroup = new ButtonGroup();
+		DRadioButtonMenuItem infoNone = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.NO_DETAILS, DefaultLanguage.NO_DETAILS);
+		DRadioButtonMenuItem infoTop = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.TOP_DETAILS, DefaultLanguage.TOP_DETAILS);
+		DRadioButtonMenuItem infoBottom = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.BOTTOM_DETAILS, DefaultLanguage.BOTTOM_DETAILS);
+		DRadioButtonMenuItem infoLeft = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.LEFT_DETAILS, DefaultLanguage.LEFT_DETAILS);
+		DRadioButtonMenuItem infoRight = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.RIGHT_DETAILS, DefaultLanguage.RIGHT_DETAILS);
+		detailGroup.add(infoNone);
+		detailGroup.add(infoTop);
+		detailGroup.add(infoBottom);
+		detailGroup.add(infoLeft);
+		detailGroup.add(infoRight);
+		detailMenu.add(infoNone);
+		detailMenu.add(infoTop);
+		detailMenu.add(infoBottom);
+		detailMenu.add(infoLeft);
+		detailMenu.add(infoRight);
+
 		//CREATE MEDIA CONTAINER PANEL
 		mediaPanel = new MediaPanel(getSettings());
 		mediaContainerPanel = new JPanel();
@@ -263,7 +332,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 		detailPanel.add(horizontalDetailPanels[0], BorderLayout.NORTH);
 		detailPanel.add(horizontalDetailPanels[1], BorderLayout.SOUTH);
 		detailPanel.add(detailScroll, BorderLayout.CENTER);		
-		
 		updateDetailLocation();
 		
 		//SET CSS VARIABLES
@@ -295,6 +363,30 @@ public class MediaViewer extends BaseGUI implements DWorker
 		}//IF
 		
 	}//CONSTRUCTOR
+	
+	/**
+	 * Returns the scale menu.
+	 * 
+	 * @return Scale Menu
+	 * @since 2.0
+	 */
+	public DMenu getScaleMenu()
+	{
+		return scaleMenu;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the detail menu.
+	 * 
+	 * @return Detail Menu
+	 * @since 2.0
+	 */
+	public DMenu getDetailMenu()
+	{
+		return detailMenu;
+		
+	}//METHOD
 	
 	/**
 	 * Returns the main viewer panel.
@@ -383,26 +475,38 @@ public class MediaViewer extends BaseGUI implements DWorker
 	{
 		viewerPanel.removeAll();
 		int location = getSettings().getDetailLocation();
+		boolean updateText = false;
 		
 		switch(location)
 		{
 			case TOP_DETAILS:
 				viewerPanel.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT, detailPanel, mediaContainerPanel));
+				updateText = true;
 				break;
 			case BOTTOM_DETAILS:
 				viewerPanel.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT, mediaContainerPanel, detailPanel));
+				updateText = true;
 				break;
 			case LEFT_DETAILS:
 				viewerPanel.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, detailPanel, mediaContainerPanel));
+				updateText = true;
 				break;
 			case RIGHT_DETAILS:
 				viewerPanel.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mediaContainerPanel, detailPanel));
+				updateText = true;
 				break;	
 			default:
 				viewerPanel.add(mediaContainerPanel);
 				break;
 				
 		}//SWITCH
+		
+		if(updateText)
+		{
+			detailText.setTextHTML(detailString);
+			detailScroll.resetTopLeft();
+			
+		}//IF
 		
 		viewerPanel.revalidate();
 		
@@ -456,101 +560,158 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 */
 	private void setDetails(final int dmfIndex)
 	{
-		if(getSettings().getDetailLocation() != NO_DETAILS)
+		//SET STYLE
+		StringBuilder htmlText = new StringBuilder();
+		htmlText.append("<style type=\"text/css\">body{text-align:left;font-family:"); //$NON-NLS-1$
+		htmlText.append(ownerGUI.getFont().getFamily());
+		htmlText.append(";font-size:"); //$NON-NLS-1$
+		htmlText.append(getSettings().getFontSize());
+		htmlText.append("pt;color:#"); //$NON-NLS-1$
+		htmlText.append(fontColor);
+		htmlText.append(";}a{color:#"); //$NON-NLS-1$
+		htmlText.append(hyperlinkColor);
+		htmlText.append(";}."); //$NON-NLS-1$
+		htmlText.append(LARGE_TEXT_CLASS);
+		htmlText.append("{font-size:"); //$NON-NLS-1$
+		htmlText.append(largeFontSize);
+		htmlText.append("pt}."); //$NON-NLS-1$
+		htmlText.append(SMALL_TEXT_CLASS);
+		htmlText.append("{font-size:"); //$NON-NLS-1$
+		htmlText.append(smallFontSize);
+		htmlText.append("pt}hr{border:"); //$NON-NLS-1$
+		htmlText.append("px solid #"); //$NON-NLS-1$
+		htmlText.append(fontColor);
+		htmlText.append("}</style><body>"); //$NON-NLS-1$
+		
+		//SET TITLE AND ARTIST(S)
+		htmlText.append("<div class=\"drakovek_title_block\"><span class=\""); //$NON-NLS-1$
+		htmlText.append(LARGE_TEXT_CLASS);
+		htmlText.append("\"<b>"); //$NON-NLS-1$
+		htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getTitle(dmfIndex)));
+		htmlText.append("</b></span><br><i>"); //$NON-NLS-1$
+		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getArtists(dmfIndex), true, new String())));
+		htmlText.append("</i>"); //$NON-NLS-1$
+		
+		if(ownerGUI.getDmfHandler().getSequenceTitle(dmfIndex).length() > 0)
 		{
-			//SET STYLE
-			StringBuilder htmlText = new StringBuilder();
-			htmlText.append("<style type=\"text/css\">body{text-align:left;font-family:"); //$NON-NLS-1$
-			htmlText.append(ownerGUI.getFont().getFamily());
-			htmlText.append(";font-size:"); //$NON-NLS-1$
-			htmlText.append(getSettings().getFontSize());
-			htmlText.append("pt;color:#"); //$NON-NLS-1$
-			htmlText.append(fontColor);
-			htmlText.append(";}a{color:#"); //$NON-NLS-1$
-			htmlText.append(hyperlinkColor);
-			htmlText.append(";}."); //$NON-NLS-1$
-			htmlText.append(LARGE_TEXT_CLASS);
-			htmlText.append("{font-size:"); //$NON-NLS-1$
-			htmlText.append(largeFontSize);
-			htmlText.append("pt}."); //$NON-NLS-1$
+			htmlText.append("<br><span class=\""); //$NON-NLS-1$
 			htmlText.append(SMALL_TEXT_CLASS);
-			htmlText.append("{font-size:"); //$NON-NLS-1$
-			htmlText.append(smallFontSize);
-			htmlText.append("pt}hr{border:"); //$NON-NLS-1$
-			htmlText.append("px solid #"); //$NON-NLS-1$
-			htmlText.append(fontColor);
-			htmlText.append("}</style><body>"); //$NON-NLS-1$
+			htmlText.append("\">"); //$NON-NLS-1$
+			htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getSequenceTitle(dmfIndex)));
 			
-			//SET TITLE AND ARTIST(S)
-			htmlText.append("<div class=\"drakovek_title_block\"><span class=\""); //$NON-NLS-1$
-			htmlText.append(LARGE_TEXT_CLASS);
-			htmlText.append("\"<b>"); //$NON-NLS-1$
-			htmlText.append(ownerGUI.getDmfHandler().getTitle(dmfIndex));
-			htmlText.append("</b></span><br><i>"); //$NON-NLS-1$
-			htmlText.append(StringMethods.arrayToString(ownerGUI.getDmfHandler().getArtists(dmfIndex), true, new String()));
-			htmlText.append("</i>"); //$NON-NLS-1$
-			
-			if(ownerGUI.getDmfHandler().getSequenceTitle(dmfIndex).length() > 0)
+			if(ownerGUI.getDmfHandler().getSectionTitle(dmfIndex).length() > 0 && !ownerGUI.getDmfHandler().getSectionTitle(dmfIndex).equals(DMF.EMPTY_SECTION))
 			{
-				htmlText.append("<br><span class=\""); //$NON-NLS-1$
-				htmlText.append(SMALL_TEXT_CLASS);
-				htmlText.append("\">"); //$NON-NLS-1$
-				htmlText.append(ownerGUI.getDmfHandler().getSequenceTitle(dmfIndex));
-				
-				if(ownerGUI.getDmfHandler().getSectionTitle(dmfIndex).length() > 0 && !ownerGUI.getDmfHandler().getSectionTitle(dmfIndex).equals(DMF.EMPTY_SECTION))
-				{
-					htmlText.append(" - "); //$NON-NLS-1$
-					htmlText.append(ownerGUI.getDmfHandler().getSectionTitle(dmfIndex));
-					
-				}//IF
-				
-				htmlText.append("</span>"); //$NON-NLS-1$
+				htmlText.append(" - "); //$NON-NLS-1$
+				htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getSectionTitle(dmfIndex)));
 				
 			}//IF
 			
-			//SET DESCRIPTION
-			htmlText.append("</div><br><hr><br><div class=\"drakovek_description\">"); //$NON-NLS-1$
-			htmlText.append(ownerGUI.getDmfHandler().getDescription(dmfIndex));
-			
-			//SET TAGS
-			htmlText.append("</div><br><hr><br><div class=\"drakovek_info\"><b>"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.WEB_TAGS));
-			htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
-			htmlText.append(StringMethods.arrayToString(ownerGUI.getDmfHandler().getWebTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE)));
-			htmlText.append("<br><br><b>"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.USER_TAGS));
-			htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
-			htmlText.append(StringMethods.arrayToString(ownerGUI.getDmfHandler().getUserTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE)));
-			
-			//SET INFO TABLE
-			htmlText.append("</div><br><div class=\""); //$NON-NLS-1$
-			htmlText.append(SMALL_TEXT_CLASS);
-			htmlText.append("\"><table><tr><td><b>"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.DATE));
-			htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
-			htmlText.append(TimeMethods.getDateString(getSettings(), TimeMethods.DATE_LONG, ownerGUI.getDmfHandler().getTime(dmfIndex)));
-			htmlText.append("</td><td><a href=\""); //$NON-NLS-1$
-			htmlText.append(ownerGUI.getDmfHandler().getPageURL(dmfIndex));
-			htmlText.append("\">"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.PAGE_URL));
-			htmlText.append("</a></td></tr><tr><td><b>"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.TIME));
-			htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
-			htmlText.append(TimeMethods.getTimeString(getSettings(), ownerGUI.getDmfHandler().getTime(dmfIndex)));
-			htmlText.append("</td><td><a href=\""); //$NON-NLS-1$
-			htmlText.append(ownerGUI.getDmfHandler().getMediaURL(dmfIndex));
-			htmlText.append("\">"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.DIRECT_URL));
-			htmlText.append("</a></td></tr><tr><td><a href=\"file://"); //$NON-NLS-1$
-			htmlText.append(ownerGUI.getDmfHandler().getDmfFile(dmfIndex).getAbsolutePath().replaceAll("\\\\", "\\/"));  //$NON-NLS-1$//$NON-NLS-2$
-			htmlText.append("\">"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.DMF));
-			htmlText.append("</a></td></tr></table></div></body>"); //$NON-NLS-1$
-			
-			detailText.setTextHTML(htmlText.toString());
-			detailScroll.resetTopLeft();
+			htmlText.append("</span>"); //$NON-NLS-1$
 			
 		}//IF
+		
+		//SET DESCRIPTION
+		htmlText.append("</div><br><hr><br><div class=\"drakovek_description\">"); //$NON-NLS-1$
+		htmlText.append(ownerGUI.getDmfHandler().getDescription(dmfIndex));
+		
+		//SET TAGS
+		htmlText.append("</div><br><hr><br><div class=\"drakovek_info\"><b>"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.WEB_TAGS));
+		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
+		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getWebTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE))));
+		htmlText.append("<br><br><b>"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.USER_TAGS));
+		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
+		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getUserTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE))));
+		
+		//SET INFO TABLE
+		htmlText.append("</div><br><div class=\""); //$NON-NLS-1$
+		htmlText.append(SMALL_TEXT_CLASS);
+		htmlText.append("\"><table><tr><td><b>"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DATE));
+		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
+		htmlText.append(TimeMethods.getDateString(getSettings(), TimeMethods.DATE_LONG, ownerGUI.getDmfHandler().getTime(dmfIndex)));
+		htmlText.append("</td><td><a href=\""); //$NON-NLS-1$
+		htmlText.append(ownerGUI.getDmfHandler().getPageURL(dmfIndex));
+		htmlText.append("\">"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.PAGE_URL));
+		htmlText.append("</a></td></tr><tr><td><b>"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.TIME));
+		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
+		htmlText.append(TimeMethods.getTimeString(getSettings(), ownerGUI.getDmfHandler().getTime(dmfIndex)));
+		htmlText.append("</td><td><a href=\""); //$NON-NLS-1$
+		htmlText.append(ownerGUI.getDmfHandler().getMediaURL(dmfIndex));
+		htmlText.append("\">"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DIRECT_URL));
+		htmlText.append("</a></td></tr><tr><td><a href=\"file://"); //$NON-NLS-1$
+		htmlText.append(ownerGUI.getDmfHandler().getDmfFile(dmfIndex).getAbsolutePath().replaceAll("\\\\", "\\/"));  //$NON-NLS-1$//$NON-NLS-2$
+		htmlText.append("\">"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DMF));
+		htmlText.append("</a></td></tr></table></div></body>"); //$NON-NLS-1$
+		
+		detailString = htmlText.toString();
+	
+	}//METHOD
+	
+	/**
+	 * Updates the GUI to show the DMF details in a new given location.
+	 * 
+	 * @param location Location passed in from the location radio button
+	 * @param isSelected Whether the given location was selected. If true, sets DMF details to given location, otherwise, does nothing.
+	 * @since 2.0
+	 */
+	private void updateDetailLocation(final int location, final boolean isSelected)
+	{
+		if(isSelected)
+		{
+			getSettings().setDetailLocation(location);
+			updateDetailLocation();
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Changes the current scale type to a new given scale type.
+	 * 
+	 * @param scaleType Scale type passed in from radio button
+	 * @param isSelected Whether the given scale type was selected. If true, sets current scale type to the scale type given, otherwise, does nothing.
+	 * @since 2.0
+	 */
+	private void changeScaleType(final int scaleType, final boolean isSelected)
+	{
+		if(isSelected)
+		{
+			getSettings().setScaleType(scaleType);
+			updateMedia();
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Sets the scale if the direct scale option is selected, prompting the use to choose the scaling amount.
+	 * 
+	 * @since 2.0
+	 */
+	private void setScaleDirect()
+	{
+		getSettings().setScaleType(ImageHandler.SCALE_DIRECT);
+		
+		DTextDialog textDialog = new DTextDialog(getSettings());
+		String[] messageIDs = {DefaultLanguage.DIRECT_SCALE_MESSAGE};
+		try
+		{
+			double result = Double.parseDouble(textDialog.openTextDialog(ownerGUI.getFrame(), DefaultLanguage.DIRECT_SCALE_TITLE, messageIDs, Double.toString(getSettings().getScaleAmount())));
+			if(result < (double)10)
+			{
+				getSettings().setScaleAmount(result);
+				updateMedia();
+				
+			}//IF
+			
+		}//TRY
+		catch(Exception e){}
 		
 	}//METHOD
 
@@ -562,6 +723,39 @@ public class MediaViewer extends BaseGUI implements DWorker
 			case DResizeListener.RESIZE:
 				setMinimumSizes();
 				updateMedia();
+				break;
+			case DefaultLanguage.NO_DETAILS:
+				updateDetailLocation(MediaViewer.NO_DETAILS, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.TOP_DETAILS:
+				updateDetailLocation(MediaViewer.TOP_DETAILS, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.BOTTOM_DETAILS:
+				updateDetailLocation(MediaViewer.BOTTOM_DETAILS, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.LEFT_DETAILS:
+				updateDetailLocation(MediaViewer.LEFT_DETAILS, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.RIGHT_DETAILS:
+				updateDetailLocation(MediaViewer.RIGHT_DETAILS, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.SCALE_FULL:
+				changeScaleType(ImageHandler.SCALE_FULL, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.SCALE_1D_FIT:
+				changeScaleType(ImageHandler.SCALE_1D_FIT, BooleanInt.getBoolean(value));
+				break;	
+			case DefaultLanguage.SCALE_1D_STRETCH:
+				changeScaleType(ImageHandler.SCALE_1D_STRETCH, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.SCALE_2D_FIT:
+				changeScaleType(ImageHandler.SCALE_2D_STRETCH, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.SCALE_2D_STRETCH:
+				changeScaleType(ImageHandler.SCALE_2D_STRETCH, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.SCALE:
+				setScaleDirect();
 				break;
 				
 		}//SWITCH
@@ -588,6 +782,13 @@ public class MediaViewer extends BaseGUI implements DWorker
 	@Override
 	public void done(String id)
 	{
+		if(id.equals(DefaultLanguage.LOADING_MEDIA_MESSAGE) && getSettings().getDetailLocation() != NO_DETAILS)
+		{
+			detailText.setTextHTML(detailString);
+			detailScroll.resetTopLeft();
+			
+		}//IF
+		
 		ownerGUI.getFrame().setProcessRunning(false);
 		progressDialog.closeProgressDialog();
 		progressDialog.setCancelled(false);

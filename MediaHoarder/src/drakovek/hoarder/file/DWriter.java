@@ -114,20 +114,12 @@ public class DWriter
     /**
      * Returns a string that is acceptable for use in a file name from a given text string.
      * 
-     * @param input Given String
-     * @param replaceEscape Whether to replace HTML escape characters
+     * @param text Given String
      * @return File Friendly Name
      * @since 2.0
      */
-    public static String getFileFriendlyName(final String input, final boolean replaceEscape)
-    {
-    	String text = input;
-    	if(replaceEscape)
-    	{
-    		text = removeHtmlEscape(text);
-    		
-    	}//IF
-    	
+    public static String getFileFriendlyName(final String text)
+    {	
     	//REMOVE UNWANTED CHARACTERS
     	StringBuilder builder = new StringBuilder();
     	for(int i = 0; i < text.length(); i++)
@@ -184,58 +176,6 @@ public class DWriter
     	}//FOR
     	
     	return builder.toString();
-    	
-    }//METHOD
-
-    /**
-     * Removes the HTML escape characters for a given string.
-     * 
-     * @param input String with HTML escape characters
-     * @return String with HTML escape characters replaced with hyphens
-     * @since 2.0
-     */
-    private static String removeHtmlEscape(final String input)
-    {
-    	String output = input;
-    	int start = 0;
-    	int end = 0;
-    	while(true)
-    	{
-    		start = output.indexOf('&');
-    		if(start == -1)
-    		{
-    			break;
-    			
-    		}//IF
-    		
-    		end = output.indexOf(';', start);
-    		if(end == -1)
-    		{
-    			break;
-    			
-    		}//IF
-    		
-    		StringBuilder builder = new StringBuilder();
-    		end++;
-    		if(start > 0)
-    		{
-    			builder.append(output.substring(0, start));
-    			
-    		}//IF
-    		
-    		builder.append('-');
-    		
-    		if(end < output.length())
-    		{
-    			builder.append(output.substring(end));
-    			
-    		}//IF
-    		
-    		output = builder.toString();
-    		
-    	}//IF
-    	
-    	return output;
     	
     }//METHOD
     

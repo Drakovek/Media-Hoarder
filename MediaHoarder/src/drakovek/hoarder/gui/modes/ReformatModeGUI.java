@@ -254,7 +254,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 			if(currentFolder != null && currentFolder.isDirectory())
 			{
 				String extension = ExtensionMethods.getExtension(getParentGUI().getDmfHandler().getMediaFile(i));
-				String outName = DWriter.getFileFriendlyName(getParentGUI().getDmfHandler().getTitle(i), true) + '_' + getParentGUI().getDmfHandler().getID(i);
+				String outName = DWriter.getFileFriendlyName(getParentGUI().getDmfHandler().getTitle(i)) + '_' + getParentGUI().getDmfHandler().getID(i);
 				File outFile = new File(currentFolder, outName + extension);
 				File tempFile = new File(currentFolder, "xxxTEMPxxx" + getParentGUI().getDmfHandler().getID(i) + extension); //$NON-NLS-1$
 				try

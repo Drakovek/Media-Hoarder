@@ -868,7 +868,7 @@ public class DMF
 	 */
 	public String getTitle()
 	{
-		return title;
+		return StringMethods.replaceHtmlEscapeCharacters(title);
 		
 	}//METHOD
 	
@@ -1114,7 +1114,7 @@ public class DMF
 	 */
 	public String getDescription()
 	{
-		return description;
+		return StringMethods.addHtmlEscapesToHtml(description);
 		
 	}//METHOD
 	

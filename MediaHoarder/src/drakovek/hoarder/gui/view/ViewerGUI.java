@@ -3,7 +3,6 @@ package drakovek.hoarder.gui.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
@@ -12,12 +11,8 @@ import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
-import drakovek.hoarder.gui.swing.components.DMenu;
-import drakovek.hoarder.gui.swing.components.DRadioButtonMenuItem;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
-import drakovek.hoarder.media.ImageHandler;
 import drakovek.hoarder.media.MediaViewer;
-import drakovek.hoarder.processing.BooleanInt;
 
 /**
  * FrameGUI for displaying and navigating through media files.
@@ -85,51 +80,6 @@ public class ViewerGUI extends FrameGUI
 		this.ownerGUI = ownerGUI;
 		this.dmfIndex = dmfIndex;
 		
-		//CREATE SCALE MENU
-		JMenuBar menubar = new JMenuBar();
-		DMenu scaleMenu = new DMenu(this, DefaultLanguage.SCALE);
-		ButtonGroup scaleGroup = new ButtonGroup();
-		DRadioButtonMenuItem scaleFull = new DRadioButtonMenuItem(this, settings.getScaleType() == ImageHandler.SCALE_FULL, DefaultLanguage.SCALE_FULL);
-		DRadioButtonMenuItem scale2dFit = new DRadioButtonMenuItem(this, settings.getScaleType() == ImageHandler.SCALE_2D_FIT, DefaultLanguage.SCALE_2D_FIT);
-		DRadioButtonMenuItem scale2dStretch = new DRadioButtonMenuItem(this, settings.getScaleType() == ImageHandler.SCALE_2D_STRETCH, DefaultLanguage.SCALE_2D_STRETCH);
-		DRadioButtonMenuItem scale1dFit = new DRadioButtonMenuItem(this, settings.getScaleType() == ImageHandler.SCALE_1D_FIT, DefaultLanguage.SCALE_1D_FIT);
-		DRadioButtonMenuItem scale1dStretch = new DRadioButtonMenuItem(this, settings.getScaleType() == ImageHandler.SCALE_1D_STRETCH, DefaultLanguage.SCALE_1D_STRETCH);
-		DRadioButtonMenuItem scaleDirect = new DRadioButtonMenuItem(this, settings.getScaleType() == ImageHandler.SCALE_DIRECT, DefaultLanguage.SCALE_DIRECT);
-		scaleGroup.add(scaleFull);
-		scaleGroup.add(scale2dFit);
-		scaleGroup.add(scale2dStretch);
-		scaleGroup.add(scale1dFit);
-		scaleGroup.add(scale1dStretch);
-		scaleGroup.add(scaleDirect);
-		scaleMenu.add(scaleFull);
-		scaleMenu.add(scale2dFit);
-		scaleMenu.add(scale2dStretch);
-		scaleMenu.add(scale1dFit);
-		scaleMenu.add(scale1dStretch);
-		scaleMenu.add(scaleDirect);
-		menubar.add(scaleMenu);
-		
-		//CREATE INFO MENU
-		DMenu detailMenu = new DMenu(this, DefaultLanguage.DETAILS);
-		ButtonGroup detailGroup = new ButtonGroup();
-		DRadioButtonMenuItem infoNone = new DRadioButtonMenuItem(this, settings.getDetailLocation() == MediaViewer.NO_DETAILS, DefaultLanguage.NO_DETAILS);
-		DRadioButtonMenuItem infoTop = new DRadioButtonMenuItem(this, settings.getDetailLocation() == MediaViewer.TOP_DETAILS, DefaultLanguage.TOP_DETAILS);
-		DRadioButtonMenuItem infoBottom = new DRadioButtonMenuItem(this, settings.getDetailLocation() == MediaViewer.BOTTOM_DETAILS, DefaultLanguage.BOTTOM_DETAILS);
-		DRadioButtonMenuItem infoLeft = new DRadioButtonMenuItem(this, settings.getDetailLocation() == MediaViewer.LEFT_DETAILS, DefaultLanguage.LEFT_DETAILS);
-		DRadioButtonMenuItem infoRight = new DRadioButtonMenuItem(this, settings.getDetailLocation() == MediaViewer.RIGHT_DETAILS, DefaultLanguage.RIGHT_DETAILS);
-		detailGroup.add(infoNone);
-		detailGroup.add(infoTop);
-		detailGroup.add(infoBottom);
-		detailGroup.add(infoLeft);
-		detailGroup.add(infoRight);
-		detailMenu.add(infoNone);
-		detailMenu.add(infoTop);
-		detailMenu.add(infoBottom);
-		detailMenu.add(infoLeft);
-		detailMenu.add(infoRight);
-		menubar.add(detailMenu);
-		
-		
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 3, getSettings().getSpaceSize(), 0));
@@ -140,16 +90,38 @@ public class ViewerGUI extends FrameGUI
 		bottomPanel.add(branchButton);
 		bottomPanel.add(nextButton);
 		
-		//INITIALIZE FRAME
+		//CREATE MENU BAR
 		mediaViewer = new MediaViewer(this, nextButton);
+		JMenuBar menubar = new JMenuBar();
+		menubar.add(mediaViewer.getScaleMenu());
+		menubar.add(mediaViewer.getDetailMenu());
+		
+		//INITIALIZE FRAME
 		getFrame().getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
 		getFrame().getContentPane().add(getSpacedPanel(mediaViewer.getViewerPanel()), BorderLayout.CENTER);
 		getFrame().setJMenuBar(menubar);
 		
 		ownerGUI.getFrame().setAllowExit(false);
 		getFrame().interceptFrameClose(this);
+		
+		int minWidth = getSettings().getFrameWidth() * getSettings().getFontSize();
+		int minHeight = getSettings().getFrameHeight() * getSettings().getFontSize();
+		int width = ownerGUI.getFrame().getWidth() - 100;
+		int height = ownerGUI.getFrame().getHeight() - 100;
+		if(width < minWidth)
+		{
+			width = minWidth;
+			
+		}//IF
+		
+		if(height < minHeight)
+		{
+			height = minHeight;
+			
+		}//IF
+		
+		getFrame().setSize(width, height);
 		getFrame().setLocationRelativeTo(ownerGUI.getFrame());
-		getFrame().packRestricted();
 		getFrame().setVisible(true);
 		
 		mediaViewer.setMedia(dmfIndex);
@@ -180,49 +152,30 @@ public class ViewerGUI extends FrameGUI
 		}//ELSE
 		
 	}//METHOD
-	
-	/**
-	 * Updates the GUI to show the DMF details in a new given location.
-	 * 
-	 * @param location Location passed in from the location radio button
-	 * @param isSelected Whether the given location was selected. If true, sets DMF details to given location, otherwise, does nothing.
-	 * @since 2.0
-	 */
-	private void updateDetailLocation(final int location, final boolean isSelected)
-	{
-		if(isSelected)
-		{
-			getSettings().setDetailLocation(location);
-			mediaViewer.updateDetailLocation();
-			
-		}//IF
-		
-	}//METHOD
-	
-	/**
-	 * Changes the current scale type to a new given scale type.
-	 * 
-	 * @param scaleType Scale type passed in from radio button
-	 * @param isSelected Whether the given scale type was selected. If true, sets current scale type to the scale type given, otherwise, does nothing.
-	 * @since 2.0
-	 */
-	private void changeScaleType(final int scaleType, final boolean isSelected)
-	{
-		if(isSelected)
-		{
-			getSettings().setScaleType(scaleType);
-			mediaViewer.updateMedia();
-			
-		}//IF
-		
-	}//METHOD
 
 	@Override
 	public void enableAll()
 	{	
-		previousButton.setEnabled(true);
-		nextButton.setEnabled(true);
-		branchButton.setEnabled(true);
+		if(dmfIndex > 0)
+		{
+			previousButton.setEnabled(true);
+		
+		}//IF
+		
+		if(dmfIndex < (getDmfHandler().getSize() - 1))
+		{
+			nextButton.setEnabled(true);
+		
+		}//IF
+		
+		if(getDmfHandler().getNextIDs(dmfIndex).length > 1)
+		{
+			branchButton.setEnabled(true);
+			
+		}//IF
+		
+		mediaViewer.getScaleMenu().setEnabled(true);
+		mediaViewer.getDetailMenu().setEnabled(true);
 		
 	}//METHOD
 
@@ -232,6 +185,8 @@ public class ViewerGUI extends FrameGUI
 		previousButton.setEnabled(false);
 		nextButton.setEnabled(false);
 		branchButton.setEnabled(false);
+		mediaViewer.getScaleMenu().setEnabled(false);
+		mediaViewer.getDetailMenu().setEnabled(false);
 		
 	}//METHOD
 
@@ -251,39 +206,6 @@ public class ViewerGUI extends FrameGUI
 			case DefaultLanguage.NEXT:
 				dmfIndex++;
 				updateMedia();
-				break;
-			case DefaultLanguage.NO_DETAILS:
-				updateDetailLocation(MediaViewer.NO_DETAILS, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.TOP_DETAILS:
-				updateDetailLocation(MediaViewer.TOP_DETAILS, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.BOTTOM_DETAILS:
-				updateDetailLocation(MediaViewer.BOTTOM_DETAILS, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.LEFT_DETAILS:
-				updateDetailLocation(MediaViewer.LEFT_DETAILS, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.RIGHT_DETAILS:
-				updateDetailLocation(MediaViewer.RIGHT_DETAILS, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.SCALE_FULL:
-				changeScaleType(ImageHandler.SCALE_FULL, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.SCALE_1D_FIT:
-				changeScaleType(ImageHandler.SCALE_1D_FIT, BooleanInt.getBoolean(value));
-				break;	
-			case DefaultLanguage.SCALE_1D_STRETCH:
-				changeScaleType(ImageHandler.SCALE_1D_STRETCH, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.SCALE_2D_FIT:
-				changeScaleType(ImageHandler.SCALE_2D_STRETCH, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.SCALE_2D_STRETCH:
-				changeScaleType(ImageHandler.SCALE_2D_STRETCH, BooleanInt.getBoolean(value));
-				break;
-			case DefaultLanguage.SCALE_DIRECT:
-				changeScaleType(ImageHandler.SCALE_DIRECT, BooleanInt.getBoolean(value));
 				break;
 				
 		}//SWITCH

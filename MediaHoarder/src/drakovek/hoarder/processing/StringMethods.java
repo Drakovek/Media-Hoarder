@@ -13,6 +13,17 @@ import java.util.List;
 public class StringMethods 
 {
 	/**
+	 * Array of HTML escape characters and their corresponding unicode characters.
+	 * 
+	 * @since 2.0
+	 */
+	private static final String[][] ESCAPE_CHARS = {{"&quot;", "\""}, //$NON-NLS-1$ //$NON-NLS-2$
+													{"&apos;", "'"}, //$NON-NLS-1$ //$NON-NLS-2$
+													{"&amp;", "&"}, //$NON-NLS-1$ //$NON-NLS-2$
+													{"&lt;", "<"},  //$NON-NLS-1$//$NON-NLS-2$
+													{"&gt;", ">"}, //$NON-NLS-1$ //$NON-NLS-2$
+													{"&nbsp;", " "}};  //$NON-NLS-1$//$NON-NLS-2$
+	/**
 	 * Character for separating Strings in a list.
 	 * 
 	 * @since 2.0
@@ -171,6 +182,251 @@ public class StringMethods
 		}//FOR
 		
 		return builder.toString();
+		
+	}//METHOD
+	
+	/**
+	 * Returns given text modified to have all uncommon unicode characters replaced by HTML escape characters.
+	 * 
+	 * @param text Given unicode text
+	 * @return Text with HTML escape characters
+	 * @since 2.0
+	 */
+	public static String addHtmlEscapes(final String text)
+	{
+    	StringBuilder builder = new StringBuilder();
+    	
+    	if(text != null && text.length() > 0)
+    	{
+    		for(int i = 0; i < text.length(); i++)
+    		{
+    			char myChar = text.charAt(i);
+    			if((myChar > 47 && myChar < 58) || (myChar > 64 && myChar < 91) || (myChar > 96 && myChar < 123) || myChar == ' ')
+    			{
+    				builder.append(myChar);
+    			
+    			}//IF
+    			else
+    			{
+    				builder.append('&');
+    				builder.append('#');
+    				builder.append(Integer.toString(myChar));
+    				builder.append(';');
+    			
+    			}//ELSE
+    		
+    		}//FOR
+    		
+    	}//IF
+    	
+    	return builder.toString();
+		
+	}//METHOD
+	
+	/**
+	 * Replaces uncommon unicode characters in HTML formatted text with escape characters, while keeping HTML values intact.
+	 * 
+	 * @param htmlText HTML Formatted Text
+	 * @return HTML Text with escape characters
+	 * @since 2.0
+	 */
+	public static String addHtmlEscapesToHtml(final String htmlText)
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		if(htmlText != null && htmlText.length() > 0)
+		{
+			ArrayList<String> separated = separateByEdgeCharacters(htmlText, '"', '"');
+			
+			for(int i = 0; i < separated.size(); i++)
+			{
+				String section = separated.get(i);
+				if(section.startsWith(Character.toString('"')) && section.endsWith(Character.toString('"')))
+				{
+					builder.append(section);
+
+				}//IF
+				else
+				{
+					for(int k = 0; k < section.length(); k++)
+			    	{
+			    		char myChar = section.charAt(k);
+			    		if((myChar > 31 && myChar < 127))
+			    		{
+			    			builder.append(myChar);
+			    			
+			    		}//IF
+			    		else
+			    		{
+			    			builder.append('&');
+			    			builder.append('#');
+			    			builder.append(Integer.toString(myChar));
+			    			builder.append(';');
+			    			
+			    		}//ELSE
+			    		
+			    	}//FOR
+					
+				}//ELSE
+				
+			}//FOR
+			
+		}//IF
+		
+		return builder.toString();
+		
+	}//METHOD
+	
+	/**
+	 * Returns given text with all HTML escape characters replaced by their equivalent unicode characters.
+	 * 
+	 * @param text Given Text
+	 * @return Unicode Text
+	 * @since 2.0
+	 */
+	public static String replaceHtmlEscapeCharacters(final String text)
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		if(text != null && text.length() > 0)
+		{
+			ArrayList<String> separated = separateByEdgeCharacters(text, '&', ';');
+			
+			int start;
+			int end;
+			for(int i = 0; i < separated.size(); i++)
+			{
+				String section = separated.get(i);
+				if(section.startsWith(Character.toString('&')) && section.endsWith(Character.toString(';')))
+				{
+					end = -1;
+					start = section.indexOf('#');
+					if(start != -1)
+					{
+						start++;
+						end = section.indexOf(';', start);
+						
+					}//IF
+					
+					if(end != -1)
+					{
+						try
+						{
+							char character = (char)Integer.parseInt(section.substring(start, end));
+							builder.append(character);
+							
+						}//TRY
+						catch(Exception e)
+						{
+							end = -1;
+							
+						}//CATCH
+						
+					}//IF
+					
+					if(end == -1)
+					{
+						for(int k = 0; k < ESCAPE_CHARS.length; k++)
+						{
+							if(ESCAPE_CHARS[k][0].equals(section))
+							{
+								builder.append(ESCAPE_CHARS[k][1]);
+								end = 0;
+								break;
+								
+							}//IF
+							
+						}//FOR
+						
+						if(end == -1)
+						{
+							builder.append(section);
+							
+						}//IF
+						
+					}//IF
+					
+				}//IF
+				else
+				{
+					builder.append(section);
+					
+				}//ELSE
+				
+			}//FOR
+			
+		}//IF
+		
+		return builder.toString();
+		
+	}//METHOD
+	
+	/**
+	 * Separates a string of text into sections based on the characters starting and ending string sections.
+	 * 
+	 * @param text Given Text
+	 * @param startChar Character at the start of sections to separate
+	 * @param endChar Character at the end of sections to separate
+	 * @return ArrayList with edge character sections separated
+	 * @since 2.0
+	 */
+	private static ArrayList<String> separateByEdgeCharacters(final String text, final char startChar, final char endChar)
+	{
+		String leftText = text;
+		ArrayList<String> separated = new ArrayList<>();
+		
+		if(text != null && text.length() > 0)
+		{
+			int start;
+			int end;
+			while(true)
+			{
+				end = -1;
+				start = leftText.indexOf(startChar);
+				if(start != -1 && (start + 1 < leftText.length()))
+				{
+					end = leftText.indexOf(endChar, start + 1);
+					
+				}//IF
+				
+				if(end == -1)
+				{
+					break;
+					
+				}//IF
+				
+				end++;
+				
+				if(start > 0)
+				{
+					separated.add(leftText.substring(0, start));
+				
+				}//IF
+				
+				separated.add(leftText.substring(start, end));
+				
+				if(end < leftText.length())
+				{
+					leftText = leftText.substring(end);
+					
+				}//IF
+				else
+				{
+					leftText = new String();
+					
+				}//ELSE
+				
+			}//WHILE
+			
+			if(leftText.length() > 0)
+			{
+				separated.add(leftText);
+				
+			}//IF
+			
+		}//IF
+		
+		return separated;
 		
 	}//METHOD
 	

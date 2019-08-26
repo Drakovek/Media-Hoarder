@@ -499,7 +499,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			boolean missingFolders = false;
 			for(int i = 0; i < artistHandler.getArtists().size(); i++)
 			{
-				File artistFolder = new File(getDirectory(), DWriter.getFileFriendlyName(artistHandler.getArtists().get(i), false));
+				File artistFolder = new File(getDirectory(), DWriter.getFileFriendlyName(artistHandler.getArtists().get(i)));
 				if(!artistFolder.isDirectory())
 				{
 					missingFolders = true;
@@ -597,7 +597,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 */
 	protected void downloadPages(DProgressInfoDialog pid, final String artist, final ArrayList<String> pages)
 	{
-		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist, false));
+		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist));
 		for(int i = pages.size() - 1; !pid.isCancelled() && i > -1; i--)
 		{
 			pid.setProcessLabel(DefaultLanguage.LOADING_PAGE);

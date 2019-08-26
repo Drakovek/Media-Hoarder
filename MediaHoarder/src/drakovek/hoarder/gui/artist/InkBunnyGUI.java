@@ -557,7 +557,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 			dmf.setSecondaryURL(secondaryURL);
 			
 			//DOWNLOAD FILE
-			String filename = DWriter.getFileFriendlyName(currentTitle, true) + Character.toString('_') + dmf.getID();
+			String filename = DWriter.getFileFriendlyName(currentTitle) + Character.toString('_') + dmf.getID();
 			File mediaFile = new File(baseFolder, filename + ExtensionMethods.getExtension(dmf.getMediaURL()));
 			dmf.setMediaFile(mediaFile);
 			getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
@@ -656,7 +656,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		dmf.setMediaURL(URL);
 		
 		//DOWNLOAD DMF
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle(), true) + Character.toString('_') + dmf.getID();
+		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
 		File mediaFile = new File(baseFolder, filename + ".html"); //$NON-NLS-1$
 		ArrayList<String> contents = new ArrayList<>();
 		contents.add("<!DOCTYPE html>"); //$NON-NLS-1$
