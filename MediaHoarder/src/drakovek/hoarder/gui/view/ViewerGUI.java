@@ -35,7 +35,7 @@ public class ViewerGUI extends FrameGUI
 	 * 
 	 * @since 2.0
 	 */
-	private FrameGUI ownerGUI;
+	private ViewBrowserGUI ownerGUI;
 	
 	/**
 	 * Panel for showing the currently selected media
@@ -198,6 +198,7 @@ public class ViewerGUI extends FrameGUI
 			case DCloseListener.FRAME_CLOSE_EVENT:
 				dispose();
 				ownerGUI.getFrame().setAllowExit(true);
+				ownerGUI.setOffset(dmfIndex);
 				break;
 			case DefaultLanguage.PREVIOUS:
 				dmfIndex--;

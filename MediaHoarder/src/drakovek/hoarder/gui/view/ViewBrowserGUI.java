@@ -447,6 +447,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		
 	}//METHOD
 	
+	
 	/**
 	 * Starts the process of updating previews, if necessary.
 	 * 
@@ -544,6 +545,19 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			}//IF
 			
 		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Sets the current offset value then updates media previews.
+	 * 
+	 * @param offset Given Offset
+	 * @since 2.0
+	 */
+	public void setOffset(final int offset)
+	{
+		this.offset = offset;
+		launchPreviewUpdate();
 		
 	}//METHOD
 	

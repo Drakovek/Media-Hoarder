@@ -22,6 +22,7 @@ import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.processing.ExtensionMethods;
+import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.web.Downloader;
 
 /**
@@ -343,7 +344,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 					{
 						try
 						{
-							long testEnd = Long.parseLong(linkString.substring(linkString.indexOf('-') + 1));
+							long testEnd = Long.parseLong(linkString.substring(linkString.lastIndexOf('-') + 1));
 							if(testEnd > 0L)
 							{
 								pages.add(linkString);
@@ -528,7 +529,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		if(dmf.getDescription() == null || dmf.getDescription().length() == 0)
 		{
 			List<DomElement> journalLarge = getDownloader().getPage().getByXPath("//div[@class='journal-wrapper2']"); //$NON-NLS-1$
-			contents.add(Downloader.getElement(journalLarge.get(0)));
+			contents.add(StringMethods.addHtmlEscapesToHtml(Downloader.getElement(journalLarge.get(0))));
 			
 		}//IF
 		else
@@ -728,7 +729,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		//GET TEXT
 		if(dmf.getMediaURL() == null || dmf.getMediaURL().length() == 0)
 		{
-			extension = ".txt"; //$NON-NLS-1$
+			extension = ".html"; //$NON-NLS-1$
 			dmf.setMediaURL(null);
 			List<DomElement> textElement = getDownloader().getPage().getByXPath("//div[@class='dev-view-deviation']//div[@class='text']"); //$NON-NLS-1$
 			text = Downloader.getElement(textElement.get(0));
@@ -743,11 +744,9 @@ public class DeviantArtGUI extends ArtistHostingGUI
 				
 			}//WHILE
 			
-			text = text.replaceAll("<br>", "\n\r").replaceAll("<br/>", "\n\r");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			text = "<!DOCTYPE html><html>" + StringMethods.addHtmlEscapesToHtml(text) + "</html>"; //$NON-NLS-1$ //$NON-NLS-2$
 			
 		}//IF
-		
-		
 		
 		//DOWNLOAD FILES
 		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();

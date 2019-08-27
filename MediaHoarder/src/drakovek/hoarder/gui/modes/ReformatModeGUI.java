@@ -3,7 +3,9 @@ package drakovek.hoarder.gui.modes;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
+import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
@@ -13,6 +15,7 @@ import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.processing.ExtensionMethods;
+import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.DWorker;
 
@@ -61,7 +64,8 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODE_START, DefaultLanguage.MANAGE_MODE};
 		String[] modeIDs = {DefaultLanguage.REFORMAT_DMFS,
 							DefaultLanguage.RENAME_FILES,
-							DefaultLanguage.DELETE_SEQUENCES};
+							DefaultLanguage.DELETE_SEQUENCES,
+							DefaultLanguage.REFORMAT_HTMLS};
 		
 		setContentPanel(backIDs, modeIDs);
 		
@@ -180,6 +184,52 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 				
 			}//IF
 			
+			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
+			dmf.writeDMF();
+			
+		}//FOR
+		
+	}//METHOD
+	
+	/**
+	 * Reformats HTML files referenced by DMFs by adding HTML escape characters.
+	 * 
+	 * @since 2.0
+	 */
+	private void reformatHTMLs()
+	{
+		int size = getParentGUI().getDmfHandler().getSize();
+		progressInfoDialog.setProcessLabel(DefaultLanguage.REFORMAT_HTMLS);
+		progressInfoDialog.setProgressBar(false, true, size, 0);
+		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
+		String artist = new String();
+		
+		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
+		{
+			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
+			if(artistCheck != null && !artistCheck.equals(artist))
+			{
+				artist = artistCheck;
+				progressInfoDialog.setProgressBar(false, true, size, i);
+				progressInfoDialog.setDetailLabel(artist, false);
+				progressInfoDialog.appendLog(artist, true);
+				
+			}//IF
+			
+			File mediaFile = getParentGUI().getDmfHandler().getMediaFile(i);
+			String extension = ExtensionMethods.getExtension(mediaFile);
+			if(extension.equals(".html") || extension.equals(".htm")) //$NON-NLS-1$ //$NON-NLS-2$
+			{
+				ArrayList<String> html = DReader.readFile(mediaFile);
+				for(int k = 0; k < html.size(); k++)
+				{
+					html.set(k, StringMethods.addHtmlEscapesToHtml(html.get(k)));
+					
+				}//FOR
+				
+				DWriter.writeToFile(mediaFile, html);
+				
+			}//IF
 			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
 			dmf.writeDMF();
 			
@@ -333,6 +383,9 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 				break;
 			case DefaultLanguage.DELETE_SEQUENCES:
 				deleteSequences();
+				break;
+			case DefaultLanguage.REFORMAT_HTMLS:
+				reformatHTMLs();
 				break;
 			
 		}//SWITCH

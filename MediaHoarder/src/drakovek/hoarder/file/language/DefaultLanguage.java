@@ -1186,6 +1186,13 @@ public class DefaultLanguage
 	public static final String DELETE_SEQUENCES = "delete_sequeces"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the button to start HTML reformatting process
+	 * 
+	 * @since 2.0
+	 */
+	public static final String REFORMAT_HTMLS = "reformat htmls"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for message shown to check if user wishes to reformat DMFs
 	 * 
 	 * @since 2.0
@@ -1484,6 +1491,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(REFORMAT_DMFS, "^Reformat DMFs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RENAME_FILES, "Re^name Files")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "^Delete Sequence Data")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(REFORMAT_HTMLS, "Reformat ^HTMLs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(REFORMAT_MESSAGE, "All DMFs will be reformatted.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RENAME_MESSAGE, "All DMFs and associated files will be renamed.")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DELETE_SEQUENCES_MESSAGE, "All sequence data will be deleted.")); //$NON-NLS-1$

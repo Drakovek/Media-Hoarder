@@ -307,7 +307,7 @@ public class DmfHandler
 		
 		if(groupArtists == true)
 		{
-			result = AlphaNumSort.compareAlpha(StringMethods.arrayToString(database.getArtists(dmfA)), StringMethods.arrayToString(database.getArtists(dmfB)));
+			result = AlphaNumSort.compareAlpha(StringMethods.arrayToString(database.getArtists(dmfA)).toLowerCase(), StringMethods.arrayToString(database.getArtists(dmfB)).toLowerCase());
 		
 		}//IF
 		
