@@ -1,10 +1,15 @@
 package drakovek.hoarder.file.dmf;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+
+import org.apache.tika.Tika;
 
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DWriter;
+import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.processing.ParseINI;
 import drakovek.hoarder.processing.StringMethods;
 
@@ -37,6 +42,30 @@ public class DMF
 	 * @since 2.0
 	 */
 	public static final String DMF_EXTENSION = ".dmf"; //$NON-NLS-1$
+	
+	/**
+	 * Array of file types and their corresponding extensions
+	 * 
+	 * @since 2.0
+	 */
+	private static final String[][] FILE_TYPES = {{"image/jpeg", ".jpg"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"image/png", ".png"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"image/gif", ".gif"},  //$NON-NLS-1$//$NON-NLS-2$
+												  {"image/vnd.adobe.photoshop", ".psd"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"image/bmp", ".bmp"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"text/html", ".html"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"text/plain", ".txt"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"application/pdf", ".pdf"},  //$NON-NLS-1$//$NON-NLS-2$
+												  {"application/rtf", ".rtf"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"application/msword", ".doc"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".docx"},  //$NON-NLS-1$//$NON-NLS-2$
+												  {"application/x-shockwave-flash", ".swf"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"video/quicktime", ".mov"},  //$NON-NLS-1$//$NON-NLS-2$
+												  {"video/x-ms-wmv", ".wmv"},  //$NON-NLS-1$//$NON-NLS-2$
+												  {"video/x-msvideo", ".avi"},  //$NON-NLS-1$//$NON-NLS-2$
+												  {"video/mp4", ".mp4"}, //$NON-NLS-1$ //$NON-NLS-2$
+												  {"video/webm", ".webm"},  //$NON-NLS-1$//$NON-NLS-2$
+												  {"audio/mpeg", ".mp3"}};  //$NON-NLS-1$//$NON-NLS-2$
 	
 	/**
 	 * Main header used at the top of DMF Files
@@ -611,6 +640,19 @@ public class DMF
 	 */
 	public boolean writeDMF()
 	{
+		return writeDMF(true);
+		
+	}//METHOD
+	
+	/**
+	 * Writes a DMF file to dmfFile
+	 *
+	 * @param checkFileType Whether to check the file file type of linked media files and change extensions accordingly if necessary
+	 * @return Whether the file was successfully written
+	 * @since 2.0
+	 */
+	public boolean writeDMF(final boolean checkFileType)
+	{
 		if(isValid())
 		{
 			ArrayList<String> contents = new ArrayList<>();
@@ -752,7 +794,49 @@ public class DMF
 			//WRITE TO FILE
 			DWriter.writeToFile(dmfFile, contents);
 			if(dmfFile.exists())
-			{
+			{	
+				if(checkFileType)
+				{
+					Tika tika = new Tika();
+					String extension = ExtensionMethods.getExtension(getMediaFile());
+					String secondaryExtension = ExtensionMethods.getExtension(getSecondaryFile());
+					
+					try
+					{
+						String response = tika.detect(getMediaFile());
+						for(int i = 0; i < FILE_TYPES.length; i++)
+						{
+							if(FILE_TYPES[i][0].equals(response))
+							{
+								extension = FILE_TYPES[i][1];
+								break;
+								
+							}//IF
+							
+						}//FOR
+						
+						if(getSecondaryFile() != null)
+						{
+							response = tika.detect(getSecondaryFile());
+							for(int i = 0; i < FILE_TYPES.length; i++)
+							{
+								if(FILE_TYPES[i][0].equals(response))
+								{
+									secondaryExtension = FILE_TYPES[i][1];
+									break;
+									
+								}//IF
+								
+							}//FOR
+							
+						}//IF
+						
+					}catch (IOException e){}
+					
+					rename(ExtensionMethods.removeExtension(getDmfFile()), extension, secondaryExtension);
+					
+				}//IF
+				
 				return true;
 				
 			}//IF
@@ -792,6 +876,69 @@ public class DMF
 		}//IF
 		
 		return valid;
+		
+	}//METHOD
+	
+	/**
+	 * Renames the DMF and its linked media.
+	 * 
+	 * @param filename Main Filename Body
+	 * @param mediaExtension Extension to use for the media file. If null, uses the media file's current extension.
+	 * @param secondaryExtension Extension to use for the secondary media file. If null, uses the secondary media file's current extension.
+	 * @since 2.0
+	 */
+	public void rename(final String filename, final String mediaExtension, final String secondaryExtension)
+	{
+		if(isValid())
+		{
+			File currentFolder = getDmfFile().getParentFile();
+			String extension = mediaExtension;
+			if(extension == null || extension.length() == 0)
+			{
+				extension = ExtensionMethods.getExtension(getMediaFile());
+				
+			}//IF
+			
+			File outFile = new File(currentFolder, filename + extension);
+			File tempFile = new File(currentFolder, "xxxTEMPxxx" + getID()); //$NON-NLS-1$
+			try
+			{
+				Files.move(getMediaFile().toPath(), tempFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+				Files.move(tempFile.toPath(), outFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+				setMediaFile(outFile);
+				
+				if(getSecondaryFile() != null)
+				{
+					extension = secondaryExtension;
+					if(extension == null || extension.length() == 0)
+					{
+						extension = ExtensionMethods.getExtension(getSecondaryFile());
+						
+					}//IF
+					
+					outFile = new File(currentFolder, filename + extension);
+					Files.move(getSecondaryFile().toPath(), tempFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+					Files.move(tempFile.toPath(), outFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+					setSecondaryFile(outFile);
+					
+				}//IF
+				
+				if(outFile.exists())
+				{
+					getDmfFile().delete();
+					setDmfFile(new File(currentFolder, filename + DMF_EXTENSION));
+					writeDMF(false);
+					
+				}//IF
+				
+			}//TRY
+			catch(IOException e)
+			{
+				System.out.println("Failed to remame - DMF.rename()"); //$NON-NLS-1$
+			
+			}//CATCH
+			
+		}//IF
 		
 	}//METHOD
 	
@@ -857,6 +1004,34 @@ public class DMF
 			this.id = null;
 			
 		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Returns the default base filename based on DMF info (TITLE_ID)
+	 * 
+	 * @return Default Filename
+	 * @since 2.0
+	 */
+	public String getDefaultFileName()
+	{
+		String currentTitle = getTitle();
+		if(currentTitle == null)
+		{
+			currentTitle = new String();
+			
+		}//IF
+		
+		currentTitle = DWriter.getFileFriendlyName(currentTitle);
+		
+		String currentID = getID();
+		if(currentID == null)
+		{
+			currentID = new String();
+			
+		}//IF
+		
+		return currentTitle + '_' + currentID;
 		
 	}//METHOD
 	

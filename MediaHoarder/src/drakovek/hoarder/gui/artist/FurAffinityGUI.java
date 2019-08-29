@@ -591,20 +591,19 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		}//IF
 		
 		//DOWNLOAD FILES
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
-		File mediaFile = new File(baseFolder, filename + mainExtension);
+		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + mainExtension);
 		dmf.setMediaFile(mediaFile);
 		getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
 		
 		if(dmf.getSecondaryURL() != null)
 		{
-			File secondaryFile = new File(baseFolder, filename + secondaryExtension);
+			File secondaryFile = new File(baseFolder, dmf.getDefaultFileName() + secondaryExtension);
 			dmf.setSecondaryFile(secondaryFile);
 			getDownloader().downloadFile(dmf.getSecondaryURL(), secondaryFile);
 			
 		}//IF
 		
-		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DMF_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())
@@ -679,8 +678,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		dmf.setMediaURL(pageURL);
 		
 		//DOWNLOAD DMF
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
-		File mediaFile = new File(baseFolder, filename + ".html"); //$NON-NLS-1$
+		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ".html"); //$NON-NLS-1$
 		ArrayList<String> contents = new ArrayList<>();
 		contents.add("<!DOCTYPE html>"); //$NON-NLS-1$
 		contents.add("<html>"); //$NON-NLS-1$
@@ -690,7 +688,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		dmf.setMediaFile(mediaFile);
 		DWriter.writeToFile(mediaFile, contents);
 	
-		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DMF_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())

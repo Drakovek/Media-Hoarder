@@ -541,12 +541,11 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		contents.add("</html>"); //$NON-NLS-1$
 		
 		//DOWNLOAD FILES
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
-		File mediaFile = new File(baseFolder, filename + ".html"); //$NON-NLS-1$
+		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ".html"); //$NON-NLS-1$
 		dmf.setMediaFile(mediaFile);
 		DWriter.writeToFile(mediaFile, contents);
 				
-		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DMF_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())
@@ -749,8 +748,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		}//IF
 		
 		//DOWNLOAD FILES
-		String filename = DWriter.getFileFriendlyName(dmf.getTitle()) + Character.toString('_') + dmf.getID();
-		File mediaFile = new File(baseFolder, filename + extension);
+		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + extension);
 		dmf.setMediaFile(mediaFile);
 		if(dmf.getMediaURL() != null)
 		{
@@ -763,7 +761,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			
 		}//ELSE
 				
-		File dmfFile = new File(baseFolder, filename + DMF.DMF_EXTENSION);
+		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DMF_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())

@@ -20,7 +20,53 @@ public class ExtensionMethods
 	 */
 	public static String getExtension(final File file)
 	{
+		if(file == null)
+		{
+			return null;
+			
+		}//IF
+		
 		return getExtension(file.getAbsolutePath());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the filename of a given file without the extension.
+	 * 
+	 * @param file Given File
+	 * @return Filename Without Extension
+	 * @since 2.0
+	 */
+	public static String removeExtension(final File file)
+	{
+		if(file == null)
+		{
+			return null;
+			
+		}//IF
+		
+		return removeExtension(file.getName());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the given filename without its extension.
+	 * 
+	 * @param filename Given Filename
+	 * @return Filename Without Extension
+	 * @since 2.0
+	 */
+	public static String removeExtension(final String filename)
+	{
+		if(filename == null || filename.length() == 0)
+		{
+			return new String();
+			
+		}//IF
+		
+		int extensionLength = getExtension(filename).length();
+		
+		return filename.substring(0, filename.length() - extensionLength);
 		
 	}//METHOD
 	
@@ -33,6 +79,12 @@ public class ExtensionMethods
 	 */
 	public static String getExtension(final String filename)
 	{
+		if(filename == null || filename.length() == 0)
+		{
+			return null;
+			
+		}//IF
+		
 		int end = filename.length();
 		if(filename.contains(Character.toString('?')))
 		{

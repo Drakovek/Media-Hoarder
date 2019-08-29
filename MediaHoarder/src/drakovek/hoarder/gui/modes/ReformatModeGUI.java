@@ -1,8 +1,6 @@
 package drakovek.hoarder.gui.modes;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 
 import drakovek.hoarder.file.DReader;
@@ -28,6 +26,7 @@ import drakovek.hoarder.work.DWorker;
  */
 public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 {
+	
 	/**
 	 * String containing ID for the current reformat process mode
 	 * 
@@ -186,6 +185,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 			
 			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
 			dmf.writeDMF();
+			getParentGUI().getDmfHandler().setDMF(dmf, i);
 			
 		}//FOR
 		
@@ -281,7 +281,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	 * @since 2.0
 	 */
 	private void renameFiles()
-	{
+	{	
 		int size = getParentGUI().getDmfHandler().getSize();
 		progressInfoDialog.setProcessLabel(DefaultLanguage.RENAME_FILES);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
@@ -300,33 +300,9 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 				
 			}//IF
 			
-			File currentFolder = getParentGUI().getDmfHandler().getDmfFile(i).getParentFile();
-			if(currentFolder != null && currentFolder.isDirectory())
-			{
-				String extension = ExtensionMethods.getExtension(getParentGUI().getDmfHandler().getMediaFile(i));
-				String outName = DWriter.getFileFriendlyName(getParentGUI().getDmfHandler().getTitle(i)) + '_' + getParentGUI().getDmfHandler().getID(i);
-				File outFile = new File(currentFolder, outName + extension);
-				File tempFile = new File(currentFolder, "xxxTEMPxxx" + getParentGUI().getDmfHandler().getID(i) + extension); //$NON-NLS-1$
-				try
-				{
-					Files.move(getParentGUI().getDmfHandler().getMediaFile(i).toPath(), tempFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-					Files.move(tempFile.toPath(), outFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-					DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
-					
-					if(outFile.exists())
-					{
-						dmf.getDmfFile().delete();
-						dmf.setDmfFile(new File(currentFolder, outName + DMF.DMF_EXTENSION));
-						dmf.setMediaFile(outFile);
-						dmf.writeDMF();
-						getParentGUI().getDmfHandler().setDMF(dmf, i);
-						
-					}//IF
-					
-				}//TRY
-				catch (IOException e){}
-	
-			}//IF
+			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFile(i));
+			dmf.rename(dmf.getDefaultFileName(), null, null);
+			getParentGUI().getDmfHandler().setDMF(dmf, i);
 			
 		}//FOR
 		
