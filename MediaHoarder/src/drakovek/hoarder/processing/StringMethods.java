@@ -186,6 +186,34 @@ public class StringMethods
 	}//METHOD
 	
 	/**
+	 * Returns given string with a given section removed.
+	 * 
+	 * @param text Given Text
+	 * @param start Start index of section to remove (inclusive)
+	 * @param end End index of section to remove (exclusive)
+	 * @return Text with given section removed
+	 * @since 2.0
+	 */
+	public static String removeStringSection(final String text, final int start, final int end)
+	{
+		StringBuilder builder = new StringBuilder();
+		if(start <= text.length())
+		{
+			builder.append(text.substring(0, start));
+			
+		}//IF
+		
+		if(end < text.length())
+		{
+			builder.append(text.substring(end));
+			
+		}//IF
+		
+		return builder.toString();
+		
+	}//METHOD
+	
+	/**
 	 * Returns given text modified to have all uncommon unicode characters replaced by HTML escape characters.
 	 * 
 	 * @param text Given unicode text

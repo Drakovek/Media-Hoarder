@@ -72,54 +72,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 */
 	public static final int RIGHT_DETAILS = 4;
 
-	/**
-	 * CSS class to use for elements requiring large text
-	 * 
-	 * @since 2.0
-	 */
-	private static final String LARGE_TEXT_CLASS = "drakovek_large_text"; //$NON-NLS-1$
-	
-	/**
-	 * CSS class to use for elements requiring small text
-	 * 
-	 * @since 2.0
-	 */
-	private static final String SMALL_TEXT_CLASS = "drakovek_small_text"; //$NON-NLS-1$
-	
-	/**
-	 * Hex color for the main CSS text color
-	 * 
-	 * @since 2.0
-	 */
-	private String fontColor;
-	
-	/**
-	 * Hex color for the hyperlink CSS text color
-	 * 
-	 * @since 2.0
-	 */
-	private String hyperlinkColor;
-	
-	/**
-	 * Font size used for large CSS text
-	 * 
-	 * @since 2.0
-	 */
-	private int largeFontSize;
-	
-	/**
-	 * Font size used for small CSS text
-	 * 
-	 * @since 2.0
-	 */
-	private int smallFontSize;
-	
-	/**
-	 * Border size used for CSS hr elements
-	 * 
-	 * @since 2.0
-	 */
-	private int borderSize;
 	
 	/**
 	 * Index of the currently shown DMF
@@ -134,6 +86,13 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * @since 2.0
 	 */
 	private String detailString;
+	
+	/**
+	 * FileTypeHandler mainly used to detect if secondary files are image files
+	 * 
+	 * @since 2.0
+	 */
+	private FileTypeHandler fileTypeHandler;
 	
 	/**
 	 * Parent GUI for the media viewer panel
@@ -248,6 +207,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		viewerPanel = new JPanel();
 		viewerPanel.setLayout(new GridLayout(1,1));
 		progressDialog = new DProgressDialog(getSettings());
+		fileTypeHandler = new FileTypeHandler(ownerGUI.getSettings());
 		
 		//CREATE SCALE MENU
 		scaleMenu = new DMenu(this, DefaultLanguage.SCALE);
@@ -292,7 +252,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		detailMenu.add(infoRight);
 
 		//CREATE MEDIA CONTAINER PANEL
-		mediaPanel = new MediaPanel(getSettings());
+		mediaPanel = new MediaPanel(ownerGUI, colorReference);
 		mediaContainerPanel = new JPanel();
 		verticalMediaPanels = new JPanel[2];
 		verticalMediaPanels[0] = new JPanel();
@@ -313,7 +273,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		mediaContainerPanel.addComponentListener(new DResizeListener(this, null));
 		
 		//CREATE DETAIL PANEL
-		detailText = new DEditorPane(ownerGUI);
+		detailText = new DEditorPane(ownerGUI, colorReference);
 		detailScroll = new DScrollPane(getSettings(), detailText);
 		detailPanel = new JPanel();
 		verticalDetailPanels = new JPanel[2];
@@ -333,34 +293,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 		detailPanel.add(horizontalDetailPanels[1], BorderLayout.SOUTH);
 		detailPanel.add(detailScroll, BorderLayout.CENTER);		
 		updateDetailLocation();
-		
-		//SET CSS VARIABLES
-		StringBuilder color = new StringBuilder();
-		color.append(StringMethods.extendNumberString(Integer.toHexString(colorReference.getForeground().getRed()), 2));
-		color.append(StringMethods.extendNumberString(Integer.toHexString(colorReference.getForeground().getGreen()), 2));
-		color.append(StringMethods.extendNumberString(Integer.toHexString(colorReference.getForeground().getBlue()), 2));
-		fontColor = color.toString();
-		
-		color = new StringBuilder();
-		color.append(StringMethods.extendNumberString(Integer.toHexString((colorReference.getBackground().getRed() + colorReference.getForeground().getRed()) / 2), 2));
-		color.append(StringMethods.extendNumberString(Integer.toHexString((colorReference.getBackground().getGreen() + colorReference.getForeground().getGreen()) / 2), 2));
-		color.append(StringMethods.extendNumberString(Integer.toHexString((colorReference.getBackground().getGreen() + colorReference.getForeground().getGreen()) / 2), 2));
-		hyperlinkColor = color.toString();
-		
-		largeFontSize = (int)((double)getSettings().getFontSize() * ((double)4/(double)3));
-		smallFontSize = (int)((double)getSettings().getFontSize() * ((double)3/(double)4));
-		if(smallFontSize < 1)
-		{
-			smallFontSize = 1;
-			
-		}//IF
-		
-		borderSize = (int)((double)getSettings().getFontSize() * ((double)1/(double)10));
-		if(borderSize < 1)
-		{
-			borderSize = 1;
-		
-		}//IF
 		
 	}//CONSTRUCTOR
 	
@@ -527,6 +459,8 @@ public class MediaViewer extends BaseGUI implements DWorker
 		progressDialog.setProcessLabel(DefaultLanguage.LOADING_MEDIA_MESSAGE);
 		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
+		mediaPanel.setPanelType(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
+		viewerPanel.revalidate();
 		(new DSwingWorker(this, DefaultLanguage.LOADING_MEDIA_MESSAGE)).execute();
 		
 	}//METHOD
@@ -562,30 +496,10 @@ public class MediaViewer extends BaseGUI implements DWorker
 	{
 		//SET STYLE
 		StringBuilder htmlText = new StringBuilder();
-		htmlText.append("<style type=\"text/css\">body{text-align:left;font-family:"); //$NON-NLS-1$
-		htmlText.append(ownerGUI.getFont().getFamily());
-		htmlText.append(";font-size:"); //$NON-NLS-1$
-		htmlText.append(getSettings().getFontSize());
-		htmlText.append("pt;color:#"); //$NON-NLS-1$
-		htmlText.append(fontColor);
-		htmlText.append(";}a{color:#"); //$NON-NLS-1$
-		htmlText.append(hyperlinkColor);
-		htmlText.append(";}."); //$NON-NLS-1$
-		htmlText.append(LARGE_TEXT_CLASS);
-		htmlText.append("{font-size:"); //$NON-NLS-1$
-		htmlText.append(largeFontSize);
-		htmlText.append("pt}."); //$NON-NLS-1$
-		htmlText.append(SMALL_TEXT_CLASS);
-		htmlText.append("{font-size:"); //$NON-NLS-1$
-		htmlText.append(smallFontSize);
-		htmlText.append("pt}hr{border:"); //$NON-NLS-1$
-		htmlText.append("px solid #"); //$NON-NLS-1$
-		htmlText.append(fontColor);
-		htmlText.append("}</style><body>"); //$NON-NLS-1$
 		
 		//SET TITLE AND ARTIST(S)
 		htmlText.append("<div class=\"drakovek_title_block\"><span class=\""); //$NON-NLS-1$
-		htmlText.append(LARGE_TEXT_CLASS);
+		htmlText.append(DEditorPane.LARGE_TEXT_CLASS);
 		htmlText.append("\"<b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getTitle(dmfIndex)));
 		htmlText.append("</b></span><br><i>"); //$NON-NLS-1$
@@ -595,7 +509,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		if(ownerGUI.getDmfHandler().getSequenceTitle(dmfIndex).length() > 0)
 		{
 			htmlText.append("<br><span class=\""); //$NON-NLS-1$
-			htmlText.append(SMALL_TEXT_CLASS);
+			htmlText.append(DEditorPane.SMALL_TEXT_CLASS);
 			htmlText.append("\">"); //$NON-NLS-1$
 			htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getSequenceTitle(dmfIndex)));
 			
@@ -611,7 +525,21 @@ public class MediaViewer extends BaseGUI implements DWorker
 		}//IF
 		
 		//SET DESCRIPTION
-		htmlText.append("</div><br><hr><br><div class=\"drakovek_description\">"); //$NON-NLS-1$
+		htmlText.append("</div><br><hr><br>"); //$NON-NLS-1$
+		
+		if(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex) != null && fileTypeHandler.isImageFile(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex)))
+		{
+			htmlText.append("<div style=\"text-align:center;\">"); //$NON-NLS-1$
+			htmlText.append("<img src=\"file://"); //$NON-NLS-1$
+			htmlText.append(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex).getAbsolutePath().replaceAll("\\\\", "\\/")); //$NON-NLS-1$ //$NON-NLS-2$
+			htmlText.append("\" alt=\""); //$NON-NLS-1$
+			htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getTitle(dmfIndex)));
+			htmlText.append("\"></div><br>"); //$NON-NLS-1$
+			
+		}//IF
+		
+		htmlText.append("<div class=\"drakovek_description\">"); //$NON-NLS-1$
+		
 		htmlText.append(ownerGUI.getDmfHandler().getDescription(dmfIndex));
 		
 		//SET TAGS
@@ -626,7 +554,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		
 		//SET INFO TABLE
 		htmlText.append("</div><br><div class=\""); //$NON-NLS-1$
-		htmlText.append(SMALL_TEXT_CLASS);
+		htmlText.append(DEditorPane.SMALL_TEXT_CLASS);
 		htmlText.append("\"><table><tr><td><b>"); //$NON-NLS-1$
 		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DATE));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
@@ -647,7 +575,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		htmlText.append(ownerGUI.getDmfHandler().getDmfFile(dmfIndex).getAbsolutePath().replaceAll("\\\\", "\\/"));  //$NON-NLS-1$//$NON-NLS-2$
 		htmlText.append("\">"); //$NON-NLS-1$
 		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DMF));
-		htmlText.append("</a></td></tr></table></div></body>"); //$NON-NLS-1$
+		htmlText.append("</a></td></tr></table></div>"); //$NON-NLS-1$
 		
 		detailString = htmlText.toString();
 	
@@ -769,7 +697,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		{
 			case DefaultLanguage.LOADING_MEDIA_MESSAGE:
 				setDetails(dmfIndex);
-				mediaPanel.setMedia(ownerGUI.getDmfHandler().getMediaFile(dmfIndex), ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex));
+				mediaPanel.setMedia(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
 				break;
 			default:
 				mediaPanel.updateMedia();
