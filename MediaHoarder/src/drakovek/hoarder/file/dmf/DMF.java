@@ -1043,6 +1043,12 @@ public class DMF
 	 */
 	public String getTitle()
 	{
+		if(title == null)
+		{
+			return null;
+			
+		}//IF
+		
 		return StringMethods.replaceHtmlEscapeCharacters(title);
 		
 	}//METHOD
@@ -1289,6 +1295,12 @@ public class DMF
 	 */
 	public String getDescription()
 	{
+		if(description == null)
+		{
+			return null;
+			
+		}//IF
+		
 		return StringMethods.addHtmlEscapesToHtml(description);
 		
 	}//METHOD

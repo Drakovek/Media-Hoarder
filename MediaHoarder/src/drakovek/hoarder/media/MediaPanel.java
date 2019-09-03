@@ -12,6 +12,7 @@ import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DEditorPane;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.components.DTextArea;
+import drakovek.hoarder.gui.swing.listeners.DHyperlinkListener;
 import drakovek.hoarder.processing.ExtensionMethods;
 
 /**
@@ -110,6 +111,7 @@ public class MediaPanel extends JPanel
 		textArea = new DTextArea(baseGUI);
 		textScroll = new DScrollPane(baseGUI.getSettings(), textArea);
 		editorPane = new DEditorPane(baseGUI, colorReference);
+		editorPane.addHyperlinkListener(new DHyperlinkListener(baseGUI));
 		editorScroll = new DScrollPane(baseGUI.getSettings(), editorPane);
 		
 	}//CONSTRUCTOR

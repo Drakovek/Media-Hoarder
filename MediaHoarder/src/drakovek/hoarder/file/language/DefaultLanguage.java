@@ -123,6 +123,13 @@ public class DefaultLanguage
 	public static final String SAVE = "save"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for "Copy"
+	 * 
+	 * @since 2.0
+	 */
+	public static final String COPY = "copy"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "Restart Program"
 	 * 
 	 * @since 2.0
@@ -1158,6 +1165,20 @@ public class DefaultLanguage
 	public static final String LOADING_MEDIA_MESSAGE = "loading_media_message"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable used to show the title of the dialog for showing hyperlink info.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String HYPERLINK_TITLE = "hyperlink_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable used to show the message of the dialog for showing hyperlink info.
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LINK = "link"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the button used to show available sequence branches.
 	 * 
 	 * @since 2.0
@@ -1262,6 +1283,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(YES, "^Yes")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NO, "^No")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE, "^Save")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(COPY, "Cop^y")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NON_APPLICABLE, "N/A")); //$NON-NLS-1$
 
@@ -1454,7 +1476,6 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS_TITLE, "Sorting DMFs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS, "Sorting DMFs:")); //$NON-NLS-1$
 		
-		
 		//VIEWER
 		languageFile.add(new String());
 		languageFile.add("[VIEWER]"); //$NON-NLS-1$
@@ -1484,6 +1505,11 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_TITLE, "Loading Media")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_MESSAGE, "Loading Media:")); //$NON-NLS-1$
 		
+		//HYPERLINK
+		languageFile.add(new String());
+		languageFile.add("[HYPERLINK]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(HYPERLINK_TITLE, "Hyperlink")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LINK, "Link:")); //$NON-NLS-1$
 		
 		//REFORMAT
 		languageFile.add(new String());

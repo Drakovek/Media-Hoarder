@@ -18,9 +18,11 @@ import drakovek.hoarder.gui.swing.components.DEditorPane;
 import drakovek.hoarder.gui.swing.components.DMenu;
 import drakovek.hoarder.gui.swing.components.DRadioButtonMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
+import drakovek.hoarder.gui.swing.compound.DHyperlinkDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
 import drakovek.hoarder.gui.swing.listeners.DActionListener;
+import drakovek.hoarder.gui.swing.listeners.DHyperlinkListener;
 import drakovek.hoarder.gui.swing.listeners.DResizeListener;
 import drakovek.hoarder.processing.BooleanInt;
 import drakovek.hoarder.processing.StringMethods;
@@ -93,6 +95,13 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * @since 2.0
 	 */
 	private FileTypeHandler fileTypeHandler;
+	
+	/**
+	 * Dialog for showing when a hyperlink has been clicked.
+	 * 
+	 * @since 2.0
+	 */
+	private DHyperlinkDialog hyperlinkDialog;
 	
 	/**
 	 * Parent GUI for the media viewer panel
@@ -207,7 +216,8 @@ public class MediaViewer extends BaseGUI implements DWorker
 		viewerPanel = new JPanel();
 		viewerPanel.setLayout(new GridLayout(1,1));
 		progressDialog = new DProgressDialog(getSettings());
-		fileTypeHandler = new FileTypeHandler(ownerGUI.getSettings());
+		fileTypeHandler = new FileTypeHandler(getSettings());
+		hyperlinkDialog = new DHyperlinkDialog(getSettings());
 		
 		//CREATE SCALE MENU
 		scaleMenu = new DMenu(this, DefaultLanguage.SCALE);
@@ -274,6 +284,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		
 		//CREATE DETAIL PANEL
 		detailText = new DEditorPane(ownerGUI, colorReference);
+		detailText.addHyperlinkListener(new DHyperlinkListener(this));
 		detailScroll = new DScrollPane(getSettings(), detailText);
 		detailPanel = new JPanel();
 		verticalDetailPanels = new JPanel[2];
@@ -684,6 +695,9 @@ public class MediaViewer extends BaseGUI implements DWorker
 				break;
 			case DefaultLanguage.SCALE:
 				setScaleDirect();
+				break;
+			default:
+				hyperlinkDialog.openDialog(ownerGUI.getFrame(), id);
 				break;
 				
 		}//SWITCH
