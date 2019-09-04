@@ -1284,6 +1284,76 @@ public class DefaultLanguage
 	public static final String IDENTICAL_IDS = "identical_ids"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the button to skip entries in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SKIP = "skip"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to add name data to above entries in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ABOVE = "above"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to add name data to below entries in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String BELOW = "below"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to add name data to a single entry in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SINGLE = "single"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to add name data to all entries in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String ALL = "all"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the section name label in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SECTION_NAME = "section_name"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to search for DMFs in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String SEARCH = "search"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to clear all entries in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String CLEAR = "clear"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to move entries upward in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String UP = "up"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the button to move entries downward in the sequencing GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String DOWN = "down"; //$NON-NLS-1$
+	
+	/**
 	 * Creates a default English language file for if no such file exists, and returns the default language name.
 	 * 
 	 * @param languageDirectory Directory to save the default language file within.
@@ -1558,6 +1628,20 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(MISSING_MEDIA, "Find Missing ^Media")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(UNLINKED_FILES, "Find ^Unlinked Files")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(IDENTICAL_IDS, "Find ^Identical IDs")); //$NON-NLS-1$
+		
+		//SEQUENCING
+		languageFile.add(new String());
+		languageFile.add("[SEQUENCING]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SKIP, "S^kip")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ABOVE, "^Above")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(BELOW, "^Below")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SINGLE, "S^ingle")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ALL, "A^ll")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SECTION_NAME, "^Section Name:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SEARCH, "Sea^rch")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CLEAR, "^Clear")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(UP, "^Up")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DOWN, "^Down")); //$NON-NLS-1$
 		
 		if(languageDirectory != null && languageDirectory.isDirectory())
 		{

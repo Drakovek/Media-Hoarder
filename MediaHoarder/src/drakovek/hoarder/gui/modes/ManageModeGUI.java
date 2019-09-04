@@ -2,6 +2,7 @@ package drakovek.hoarder.gui.modes;
 
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
+import drakovek.hoarder.gui.editing.SequencingGUI;
 
 /**
  * Mode GUI for choosing between modes of managing DMFs
@@ -35,6 +36,10 @@ public class ManageModeGUI extends ModeBaseGUI
 	{
 		switch(id)
 		{
+			case DefaultLanguage.SEQUENCE_MODE:
+				new SequencingGUI(getSettings(), getParentGUI().getDmfHandler());
+				getParentGUI().dispose();
+				break;
 			case DefaultLanguage.REFORMAT_MODE:
 				setContentPanel(new ReformatModeGUI(getParentGUI()));
 				break;

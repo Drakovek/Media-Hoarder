@@ -80,7 +80,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	}//METHOD
 	
 	/**
-	 * Loads DMFs from the given DMF directories if they are not already loaded.
+	 * Loads DMFs from the given DMF directories.
 	 * 
 	 * @since 2.0
 	 */
