@@ -262,7 +262,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		detailMenu.add(infoRight);
 
 		//CREATE MEDIA CONTAINER PANEL
-		mediaPanel = new MediaPanel(ownerGUI, colorReference);
+		mediaPanel = new MediaPanel(this, colorReference);
 		mediaContainerPanel = new JPanel();
 		verticalMediaPanels = new JPanel[2];
 		verticalMediaPanels[0] = new JPanel();
@@ -302,7 +302,8 @@ public class MediaViewer extends BaseGUI implements DWorker
 		detailPanel.add(verticalDetailPanels[1], BorderLayout.EAST);
 		detailPanel.add(horizontalDetailPanels[0], BorderLayout.NORTH);
 		detailPanel.add(horizontalDetailPanels[1], BorderLayout.SOUTH);
-		detailPanel.add(detailScroll, BorderLayout.CENTER);		
+		detailPanel.add(detailScroll, BorderLayout.CENTER);
+		detailScroll.addComponentListener(new DResizeListener(this, null));
 		updateDetailLocation();
 		
 	}//CONSTRUCTOR
@@ -567,26 +568,40 @@ public class MediaViewer extends BaseGUI implements DWorker
 		htmlText.append("</div><br><div class=\""); //$NON-NLS-1$
 		htmlText.append(DEditorPane.SMALL_TEXT_CLASS);
 		htmlText.append("\"><table><tr><td><b>"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.PAGE_URL));
+		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
+		htmlText.append(ownerGUI.getDmfHandler().getPageURL(dmfIndex));
+		htmlText.append("\">"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.LINK));
+		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$
 		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DATE));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
 		htmlText.append(TimeMethods.getDateString(getSettings(), TimeMethods.DATE_LONG, ownerGUI.getDmfHandler().getTime(dmfIndex)));
-		htmlText.append("</td><td><a href=\""); //$NON-NLS-1$
-		htmlText.append(ownerGUI.getDmfHandler().getPageURL(dmfIndex));
+		htmlText.append("</td></tr><tr><td><b>"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DIRECT_URL));
+		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
+		htmlText.append(ownerGUI.getDmfHandler().getMediaURL(dmfIndex));
 		htmlText.append("\">"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.PAGE_URL));
-		htmlText.append("</a></td></tr><tr><td><b>"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.LINK));
+		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$
 		htmlText.append(getSettings().getLanguageText(DefaultLanguage.TIME));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
 		htmlText.append(TimeMethods.getTimeString(getSettings(), ownerGUI.getDmfHandler().getTime(dmfIndex)));
-		htmlText.append("</td><td><a href=\""); //$NON-NLS-1$
-		htmlText.append(ownerGUI.getDmfHandler().getMediaURL(dmfIndex));
-		htmlText.append("\">"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DIRECT_URL));
-		htmlText.append("</a></td></tr><tr><td><a href=\"file://"); //$NON-NLS-1$
-		htmlText.append(ownerGUI.getDmfHandler().getDmfFile(dmfIndex).getAbsolutePath().replaceAll("\\\\", "\\/"));  //$NON-NLS-1$//$NON-NLS-2$
-		htmlText.append("\">"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DMF));
-		htmlText.append("</a></td></tr></table></div>"); //$NON-NLS-1$
+		htmlText.append("</td></tr>"); //$NON-NLS-1$
+		
+		if(ownerGUI.getDmfHandler().getSecondaryURL(dmfIndex).length() > 0)
+		{
+			htmlText.append("<tr><td><b>"); //$NON-NLS-1$
+			htmlText.append(getSettings().getLanguageText(DefaultLanguage.SECONDARY_URL));
+			htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
+			htmlText.append(ownerGUI.getDmfHandler().getSecondaryURL(dmfIndex));
+			htmlText.append("\">"); //$NON-NLS-1$
+			htmlText.append(getSettings().getLanguageText(DefaultLanguage.LINK));
+			htmlText.append("</a></tr></td>"); //$NON-NLS-1$
+			
+		}//IF
+		
+		htmlText.append("</table></div>"); //$NON-NLS-1$
 		
 		detailString = htmlText.toString();
 	

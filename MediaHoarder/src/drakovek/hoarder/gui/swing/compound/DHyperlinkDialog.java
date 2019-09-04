@@ -74,13 +74,12 @@ public class DHyperlinkDialog extends BaseGUI
 		
 		//CREATE CENTER PANEL
 		text = new DLabel(this, null, new String());
-		JPanel centerPanel = this.getVerticalStack(new DLabel(this, null, DefaultLanguage.LINK), text);
 		
 		//FINALIZE PANEL
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
-		panel.add(this.getSpacedPanel(centerPanel, 1, 0, true, true, true, true), BorderLayout.CENTER);
+		panel.add(this.getSpacedPanel(text, 1, 0, true, true, true, true), BorderLayout.CENTER);
 		
 	}//CONSTRUCTOR
 	
@@ -96,7 +95,7 @@ public class DHyperlinkDialog extends BaseGUI
 		this.currentURL = url;
 		text.setText(url);
 		owner.setAllowExit(false);
-		dialog = new DDialog(owner, panel, DefaultLanguage.HYPERLINK_TITLE, true, 0, 0);
+		dialog = new DDialog(owner, panel, getSettings().getLanguageText(DefaultLanguage.HYPERLINK_TITLE), true, 0, 0);
 		dialog.setVisible(true);
 		owner.setAllowExit(true);
 		

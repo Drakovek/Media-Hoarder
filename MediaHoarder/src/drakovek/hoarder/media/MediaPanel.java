@@ -108,11 +108,16 @@ public class MediaPanel extends JPanel
 		this.setLayout(new GridLayout(1, 1));;
 		
 		imageScroll = new ImageScrollPane(baseGUI.getSettings());
+		imageScroll.addDragListener();
+		
 		textArea = new DTextArea(baseGUI);
 		textScroll = new DScrollPane(baseGUI.getSettings(), textArea);
+		textScroll.addDragListener();
+		
 		editorPane = new DEditorPane(baseGUI, colorReference);
 		editorPane.addHyperlinkListener(new DHyperlinkListener(baseGUI));
 		editorScroll = new DScrollPane(baseGUI.getSettings(), editorPane);
+		editorScroll.addDragListener();
 		
 	}//CONSTRUCTOR
 	

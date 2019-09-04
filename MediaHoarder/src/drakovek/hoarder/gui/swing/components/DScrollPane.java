@@ -2,10 +2,12 @@ package drakovek.hoarder.gui.swing.components;
 
 import java.awt.Component;
 
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.gui.swing.listeners.DScrollDragListener;
 import drakovek.hoarder.work.DRunnable;
 import drakovek.hoarder.work.DWorker;
 
@@ -65,7 +67,7 @@ public class DScrollPane extends JScrollPane implements DWorker
 	 * 
 	 * @since 2.0
 	 */
-	private Component view;
+	private JComponent view;
 	
 	/**
 	 * Initializes the scroll pane
@@ -74,7 +76,7 @@ public class DScrollPane extends JScrollPane implements DWorker
 	 * @param view Component to show in the viewport.
 	 * @since 2.0
 	 */
-	public DScrollPane(DSettings settings, Component view)
+	public DScrollPane(DSettings settings, JComponent view)
 	{
 		super(view);
 		this.settings = settings;
@@ -92,7 +94,7 @@ public class DScrollPane extends JScrollPane implements DWorker
 	 * @param view Component to show in the viewport.
 	 * @since 2.0
 	 */
-	public DScrollPane(DSettings settings, int hsbPolicy, int vsbPolicy, Component view)
+	public DScrollPane(DSettings settings, int hsbPolicy, int vsbPolicy, JComponent view)
 	{
 		super(view, vsbPolicy, hsbPolicy);
 		this.settings = settings;
@@ -100,6 +102,20 @@ public class DScrollPane extends JScrollPane implements DWorker
 		setScrollUnit();
 		
 	}//CONSTRUCTOR
+	
+	/**
+	 * Adds DScrollDragListener so the user can scroll by dragging the mouse
+	 * 
+	 * @since 2.0
+	 */
+	public void addDragListener()
+	{
+		view.setAutoscrolls(true);
+		DScrollDragListener dragListener = new DScrollDragListener(this, view);
+		view.addMouseListener(dragListener);
+		view.addMouseMotionListener(dragListener);
+		
+	}//METHOD
 	
 	/**
 	 * Sets the scroll increment for this scroll pane.

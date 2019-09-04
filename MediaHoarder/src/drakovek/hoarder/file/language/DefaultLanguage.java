@@ -1039,11 +1039,18 @@ public class DefaultLanguage
 	public static final String DIRECT_URL = "direct_url"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the DMF link in the viewer GUI's DMF info pane
+	 * Language variable for the secondary URL link in the viewer GUI's DMF info pane
 	 * 
 	 * @since 2.0
 	 */
-	public static final String DMF = "dmf"; //$NON-NLS-1$
+	public static final String SECONDARY_URL = "secondary_url"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the links in the viewer GUI's DMF info pane
+	 * 
+	 * @since 2.0
+	 */
+	public static final String LINK = "link"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the scale menu in the viewer GUI
@@ -1170,13 +1177,6 @@ public class DefaultLanguage
 	 * @since 2.0
 	 */
 	public static final String HYPERLINK_TITLE = "hyperlink_title"; //$NON-NLS-1$
-	
-	/**
-	 * Language variable used to show the message of the dialog for showing hyperlink info.
-	 * 
-	 * @since 2.0
-	 */
-	public static final String LINK = "link"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button used to show available sequence branches.
@@ -1484,9 +1484,10 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(USER_TAGS, "User Tags:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DATE, "Date:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TIME, "Time:")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(PAGE_URL, "Page URL")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(DIRECT_URL, "Direct URL")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(DMF, "DMF")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(PAGE_URL, "Page URL:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DIRECT_URL, "Direct URL:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SECONDARY_URL, "Secondary URL:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LINK, "Link")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SCALE, "^Scale")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SCALE_FULL, "^Full Size")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SCALE_2D_FIT, "^2-D Fit")); //$NON-NLS-1$
@@ -1504,12 +1505,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(RIGHT_DETAILS, "Details on ^Right Side")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_TITLE, "Loading Media")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_MESSAGE, "Loading Media:")); //$NON-NLS-1$
-		
-		//HYPERLINK
-		languageFile.add(new String());
-		languageFile.add("[HYPERLINK]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(HYPERLINK_TITLE, "Hyperlink")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(LINK, "Link:")); //$NON-NLS-1$
 		
 		//REFORMAT
 		languageFile.add(new String());
