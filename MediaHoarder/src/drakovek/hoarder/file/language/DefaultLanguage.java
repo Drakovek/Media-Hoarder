@@ -1158,6 +1158,34 @@ public class DefaultLanguage
 	public static final String RIGHT_DETAILS = "right_details"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Fullscreen" menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String FULLSCREEN = "fullscreen"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Open Media File" menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String OPEN_MEDIA_FILE = "open_media_file"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Open Secondary File" menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String OPEN_SECONDARY_FILE = "open_secondary_file"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Open DMF" menu item in the viewer GUI
+	 * 
+	 * @since 2.0
+	 */
+	public static final String OPEN_DMF = "open_dmf"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable used for progress dialog title when loading a media file.
 	 * 
 	 * @since 2.0
@@ -1488,6 +1516,11 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(DIRECT_URL, "Direct URL:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SECONDARY_URL, "Secondary URL:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LINK, "Link")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_TITLE, "Loading Media")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_MESSAGE, "Loading Media:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(HYPERLINK_TITLE, "Hyperlink")); //$NON-NLS-1$
+		
+		//VIEWER MENUS
 		languageFile.add(ParseINI.getAssignmentString(SCALE, "^Scale")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SCALE_FULL, "^Full Size")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SCALE_2D_FIT, "^2-D Fit")); //$NON-NLS-1$
@@ -1503,9 +1536,10 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(BOTTOM_DETAILS, "Details on ^Bottom")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LEFT_DETAILS, "Details on ^Left Side")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RIGHT_DETAILS, "Details on ^Right Side")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_TITLE, "Loading Media")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(LOADING_MEDIA_MESSAGE, "Loading Media:")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(HYPERLINK_TITLE, "Hyperlink")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FULLSCREEN, "^Fullscreen")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(OPEN_MEDIA_FILE, "Open ^Media File")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(OPEN_SECONDARY_FILE, "Open ^Secondary File")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(OPEN_DMF, "Open ^DMF")); //$NON-NLS-1$
 		
 		//REFORMAT
 		languageFile.add(new String());

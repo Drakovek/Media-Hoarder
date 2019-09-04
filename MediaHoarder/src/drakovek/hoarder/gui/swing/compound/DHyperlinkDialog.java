@@ -1,7 +1,6 @@
 package drakovek.hoarder.gui.swing.compound;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -11,6 +10,7 @@ import java.io.File;
 import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
+import drakovek.hoarder.file.FileOpener;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -130,22 +130,10 @@ public class DHyperlinkDialog extends BaseGUI
 	 */
 	private void openURL()
 	{
-		if(Desktop.isDesktopSupported())
+		if(currentURL.toLowerCase().startsWith("file:")) //$NON-NLS-1$
 		{
-			
-			Desktop desktop = Desktop.getDesktop();
-			
-			try
-			{
-				if(currentURL.toLowerCase().startsWith("file:")) //$NON-NLS-1$
-				{
-					File file = new File(currentURL.substring(("file:").length())); //$NON-NLS-1$
-					desktop.open(file);
-					
-				}//IF
-				
-			}//TRY
-			catch(Exception e){}
+			File file = new File(currentURL.substring(("file:").length())); //$NON-NLS-1$
+			FileOpener.openFile(file);
 			
 		}//IF
 		

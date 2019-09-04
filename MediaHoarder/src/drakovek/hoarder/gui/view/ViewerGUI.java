@@ -95,6 +95,7 @@ public class ViewerGUI extends FrameGUI
 		JMenuBar menubar = new JMenuBar();
 		menubar.add(mediaViewer.getScaleMenu());
 		menubar.add(mediaViewer.getDetailMenu());
+		menubar.add(mediaViewer.getViewMenu());
 		
 		//INITIALIZE FRAME
 		getFrame().getContentPane().add(getSpacedPanel(bottomPanel, 1, 0, false, true, true, true), BorderLayout.SOUTH);
@@ -176,6 +177,7 @@ public class ViewerGUI extends FrameGUI
 		
 		mediaViewer.getScaleMenu().setEnabled(true);
 		mediaViewer.getDetailMenu().setEnabled(true);
+		mediaViewer.getViewMenu().setEnabled(true);
 		
 	}//METHOD
 
@@ -187,6 +189,7 @@ public class ViewerGUI extends FrameGUI
 		branchButton.setEnabled(false);
 		mediaViewer.getScaleMenu().setEnabled(false);
 		mediaViewer.getDetailMenu().setEnabled(false);
+		mediaViewer.getViewMenu().setEnabled(false);
 		
 	}//METHOD
 

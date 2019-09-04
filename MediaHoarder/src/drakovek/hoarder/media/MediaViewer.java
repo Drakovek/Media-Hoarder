@@ -10,12 +10,14 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import drakovek.hoarder.file.FileOpener;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DEditorPane;
 import drakovek.hoarder.gui.swing.components.DMenu;
+import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DRadioButtonMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.compound.DHyperlinkDialog;
@@ -123,6 +125,13 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * @since 2.0
 	 */
 	private DMenu detailMenu;
+	
+	/**
+	 * Menu for viewing files associated with the currently selected DMF
+	 * 
+	 * @since 2.0
+	 */
+	private DMenu viewMenu;
 	
 	/**
 	 * Main viewer panel used to contain both media and DMF info
@@ -260,6 +269,14 @@ public class MediaViewer extends BaseGUI implements DWorker
 		detailMenu.add(infoBottom);
 		detailMenu.add(infoLeft);
 		detailMenu.add(infoRight);
+		
+		//CREATE VIEW MENU
+		viewMenu = new DMenu(this, DefaultLanguage.VIEW);
+		viewMenu.add(new DMenuItem(this, DefaultLanguage.FULLSCREEN));
+		viewMenu.addSeparator();
+		viewMenu.add(new DMenuItem(this, DefaultLanguage.OPEN_MEDIA_FILE));
+		viewMenu.add(new DMenuItem(this, DefaultLanguage.OPEN_SECONDARY_FILE));
+		viewMenu.add(new DMenuItem(this, DefaultLanguage.OPEN_DMF));
 
 		//CREATE MEDIA CONTAINER PANEL
 		mediaPanel = new MediaPanel(this, colorReference);
@@ -329,6 +346,18 @@ public class MediaViewer extends BaseGUI implements DWorker
 	public DMenu getDetailMenu()
 	{
 		return detailMenu;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the view menu.
+	 * 
+	 * @return View Menu
+	 * @since 2.0
+	 */
+	public DMenu getViewMenu()
+	{
+		return viewMenu;
 		
 	}//METHOD
 	
@@ -710,6 +739,17 @@ public class MediaViewer extends BaseGUI implements DWorker
 				break;
 			case DefaultLanguage.SCALE:
 				setScaleDirect();
+				break;
+			case DefaultLanguage.FULLSCREEN:
+				break;
+			case DefaultLanguage.OPEN_MEDIA_FILE:
+				FileOpener.openFile(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
+				break;
+			case DefaultLanguage.OPEN_SECONDARY_FILE:
+				FileOpener.openFile(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex));
+				break;
+			case DefaultLanguage.OPEN_DMF:
+				FileOpener.openFile(ownerGUI.getDmfHandler().getDmfFile(dmfIndex));
 				break;
 			default:
 				hyperlinkDialog.openDialog(ownerGUI.getFrame(), id);
