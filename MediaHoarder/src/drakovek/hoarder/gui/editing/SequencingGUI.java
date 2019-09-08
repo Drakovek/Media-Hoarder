@@ -256,7 +256,7 @@ public class SequencingGUI extends FrameGUI implements DWorker
 				
 		//FINALIZE FRAME
 		settingsBar = new SettingsBarGUI(this);
-		getFrame().add(menubar);
+		getFrame().setJMenuBar(menubar);
 		getFrame().getContentPane().add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getSpacedPanel(fullPanel), mediaViewer.getViewerPanel()), BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);
 		getFrame().packRestricted();
@@ -328,6 +328,12 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	@Override
 	public void event(String id, int value)
 	{
+		
+	}//METHOD
+
+	@Override
+	public void run(String id)
+	{
 		switch(id)
 		{
 			case DefaultLanguage.LOADING_DMFS:
@@ -340,7 +346,7 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	}//METHOD
 
 	@Override
-	public void run(String id)
+	public void done(String id)
 	{
 		progressDialog.setCancelled(false);
 		progressDialog.closeProgressDialog();
@@ -354,11 +360,6 @@ public class SequencingGUI extends FrameGUI implements DWorker
 				
 		}//SWITCH
 		
-	}//METHOD
-
-	@Override
-	public void done(String id)
-	{
 	}//METHOD
 
 }//CLASS

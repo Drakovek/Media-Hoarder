@@ -321,11 +321,11 @@ public class DmfDatabase
 				File[] files = directories.get(0).listFiles(filter);
 				boolean hasDMF = false;
 				
-				for(File file: files)
+				for(int i = 0; i < files.length; i++)
 				{
-					if(file.isDirectory())
+					if(files[i].isDirectory())
 					{
-						directories.add(file);
+						directories.add(files[i]);
 						
 					}//IF
 					else

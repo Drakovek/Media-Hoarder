@@ -320,7 +320,20 @@ public class MediaViewer extends BaseGUI implements DWorker
 		detailPanel.add(horizontalDetailPanels[0], BorderLayout.NORTH);
 		detailPanel.add(horizontalDetailPanels[1], BorderLayout.SOUTH);
 		detailPanel.add(detailScroll, BorderLayout.CENTER);
-		detailScroll.addComponentListener(new DResizeListener(this, null));
+		
+		//ADD SPACER
+		int width = getSettings().getFontSize() * 20;
+		int height = getSettings().getFontSize() * 15;
+		
+		verticalMediaPanels[0].add(Box.createRigidArea(new Dimension(1, height)));
+		verticalMediaPanels[1].add(Box.createRigidArea(new Dimension(1, height)));
+		horizontalMediaPanels[0].add(Box.createRigidArea(new Dimension(width, 1)));
+		horizontalMediaPanels[1].add(Box.createRigidArea(new Dimension(width, 1)));
+		verticalDetailPanels[0].add(Box.createRigidArea(new Dimension(1, height)));
+		verticalDetailPanels[1].add(Box.createRigidArea(new Dimension(1, height)));
+		horizontalDetailPanels[0].add(Box.createRigidArea(new Dimension(width, 1)));
+		horizontalDetailPanels[1].add(Box.createRigidArea(new Dimension(width, 1)));
+		
 		updateDetailLocation();
 		
 	}//CONSTRUCTOR
@@ -370,72 +383,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	public JPanel getViewerPanel()
 	{
 		return viewerPanel;
-		
-	}//METHOD
-	
-	/**
-	 * Sets the spacers in the media container panel and the DMF detail panel to set their minimum sizes.
-	 * 
-	 * @since 2.0
-	 */
-	private void setMinimumSizes()
-	{
-		int mediaWidth = viewerPanel.getWidth() / 2;
-		int mediaHeight = viewerPanel.getHeight() / 2;
-		
-		if(mediaWidth < 1)
-		{
-			mediaWidth = 1;
-		}//IF
-		
-		if(mediaHeight < 1)
-		{
-			mediaHeight = 1;
-			
-		}//IF
-		
-		int detailWidth = getSettings().getFontSize() * 20;
-		int detailHeight = getSettings().getFontSize() * 15;
-		
-		if(detailWidth > mediaWidth)
-		{
-			detailWidth = mediaWidth;
-			
-		}//IF
-		
-		if(detailHeight > mediaHeight)
-		{
-			detailHeight = mediaHeight;
-			
-		}//IF
-		
-		verticalMediaPanels[0].removeAll();
-		verticalMediaPanels[1].removeAll();
-		horizontalMediaPanels[0].removeAll();
-		horizontalMediaPanels[1].removeAll();
-		verticalDetailPanels[0].removeAll();
-		verticalDetailPanels[1].removeAll();
-		horizontalDetailPanels[0].removeAll();
-		horizontalDetailPanels[1].removeAll();
-		
-		verticalMediaPanels[0].add(Box.createRigidArea(new Dimension(1, mediaHeight)));
-		verticalMediaPanels[1].add(Box.createRigidArea(new Dimension(1, mediaHeight)));
-		horizontalMediaPanels[0].add(Box.createRigidArea(new Dimension(mediaWidth, 1)));
-		horizontalMediaPanels[1].add(Box.createRigidArea(new Dimension(mediaWidth, 1)));
-		verticalDetailPanels[0].add(Box.createRigidArea(new Dimension(1, detailHeight)));
-		verticalDetailPanels[1].add(Box.createRigidArea(new Dimension(1, detailHeight)));
-		horizontalDetailPanels[0].add(Box.createRigidArea(new Dimension(detailWidth, 1)));
-		horizontalDetailPanels[1].add(Box.createRigidArea(new Dimension(detailWidth, 1)));
-		
-		verticalMediaPanels[0].revalidate();
-		verticalMediaPanels[1].revalidate();
-		horizontalMediaPanels[0].revalidate();
-		horizontalMediaPanels[1].revalidate();
-		verticalDetailPanels[0].revalidate();
-		verticalDetailPanels[1].revalidate();
-		horizontalDetailPanels[0].revalidate();
-		horizontalDetailPanels[1].revalidate();
-		viewerPanel.revalidate();
 		
 	}//METHOD
 	
@@ -704,7 +651,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 		switch(id)
 		{
 			case DResizeListener.RESIZE:
-				setMinimumSizes();
 				updateMedia();
 				break;
 			case DefaultLanguage.NO_DETAILS:

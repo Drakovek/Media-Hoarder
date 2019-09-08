@@ -394,7 +394,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		String[] rootStrings = new String[roots.length];
 		for(int i = 0; i < roots.length; i++)
 		{
-			rootStrings[i] = roots[i].getName();
+			rootStrings[i] = roots[i].getAbsolutePath();
 			
 		}//FOR
 		
@@ -518,8 +518,13 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 					directoryString = directoryString.substring(4);
 					
 				}//IF
+				
+				if(directoryString.startsWith(Character.toString('/')) || directoryString.startsWith(Character.toString('\\')))
+				{
+					directoryString = directoryString.substring(1);
 					
-				directoryString = directoryString.substring(1);
+				}//IF
+				
 				int i = directoryString.indexOf('/');
 				if(i == -1)
 				{

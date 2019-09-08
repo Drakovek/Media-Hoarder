@@ -173,7 +173,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		}//IF
 		
 		setNewClient();
-		setPage("https://www.furaffinity.net/login/?mode=imagecaptcha"); //$NON-NLS-1$
+		getDownloader().getPage("https://www.furaffinity.net/login/?mode=imagecaptcha"); //$NON-NLS-1$
 		if(getDownloader().getPage() != null)
 		{
 			List<DomAttr> captchaImage = getDownloader().getPage().getByXPath("//img[@id='captcha_img']/@src"); //$NON-NLS-1$
