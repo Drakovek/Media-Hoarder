@@ -31,6 +31,145 @@ public class StringMethods
 	public static final char LIST_SEPARATOR_CHAR = ',';
 	
 	/**
+	 * Converts a char array to a String array.
+	 * 
+	 * @param chars Char Array
+	 * @return Equivalent String Array
+	 * @since 2.0
+	 */
+	public static String[] charArrayToStringArray(final char[] chars)
+	{
+		String[] strings = new String[chars.length];
+		for(int i = 0; i < chars.length; i++)
+		{
+			strings[i] = Character.toString(chars[i]);
+			
+		}//FOR
+		
+		return strings;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given String starts with any of the given prefix characters.
+	 * 
+	 * @param text Given String
+	 * @param prefixes Prefix characters to check
+	 * @return Whether the given String starts with any of the prefix characters
+	 * @since 2.0
+	 */
+	public static boolean startsWith(final String text, final char[] prefixes)
+	{
+		return startsWith(text, charArrayToStringArray(prefixes));
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given String starts with any of the given prefix Strings.
+	 * 
+	 * @param text Given String
+	 * @param prefixes Prefix Strings to check
+	 * @return Whether the given String starts with any of the prefix strings
+	 * @since 2.0
+	 */
+	public static boolean startsWith(final String text, final String[] prefixes)
+	{
+		for(int i = 0; i < prefixes.length; i++)
+		{
+			if(text.startsWith(prefixes[i]))
+			{
+				return true;
+				
+			}//IF
+			
+		}//FOR
+		
+		return false;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given String ends with any of the given suffix characters.
+	 * 
+	 * @param text Given String
+	 * @param suffixes Suffix characters to check
+	 * @return Whether the given String ends with any of the suffix characters
+	 * @since 2.0
+	 */
+	public static boolean endsWith(final String text, final char[] suffixes)
+	{
+		return endsWith(text, charArrayToStringArray(suffixes));
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given String ends with any of the given suffix Strings.
+	 * 
+	 * @param text Given String
+	 * @param suffixes Suffix Strings to check
+	 * @return Whether the given String ends with any of the suffix strings
+	 * @since 2.0
+	 */
+	public static boolean endsWith(final String text, final String[] suffixes)
+	{
+		for(int i = 0; i < suffixes.length; i++)
+		{
+			if(text.endsWith(suffixes[i]))
+			{
+				return true;
+				
+			}//IF
+			
+		}//FOR
+		
+		return false;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the index of the first instance of any of the characters in the given character array.
+	 * 
+	 * @param text Given text to search
+	 * @param chars Given chars to search for
+	 * @return First instance of any character. Returns -1 if no given character is found.
+	 * @since 2.0
+	 */
+	public static int indexOf(final String text, final char[] chars)
+	{
+		return indexOf(text, chars, 0);
+		
+	}//METHOD
+	
+	/**
+	 * Returns the index of the first instance of any of the characters in the given character array.
+	 * 
+	 * @param text Given text to search
+	 * @param chars Given chars to search for
+	 * @param fromIndex Given index to search from
+	 * @return First instance of any character. Returns -1 if no given character is found.
+	 * @since 2.0
+	 */
+	public static int indexOf(final String text, final char[] chars, final int fromIndex)
+	{
+		int lowest = -1;
+		int current;
+		
+		for(int i = 0; i < chars.length; i++)
+		{
+			current = text.indexOf(chars[i], fromIndex);
+			if(current != -1 && (lowest == -1 || current < lowest))
+			{
+				lowest = current;
+				
+			}//IF
+			
+		}//FOR
+		
+		return lowest;
+		
+	}//METHOD
+	
+	/**
 	 * Converts a List<String> to an ArrayList<String>
 	 * 
 	 * @param list Input List<String>

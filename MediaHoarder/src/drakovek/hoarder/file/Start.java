@@ -9,6 +9,7 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 import drakovek.hoarder.gui.settings.SettingsGUI;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
+import drakovek.hoarder.processing.BooleanSearch;
 
 /**
  * Main class for starting the Media Hoarder Program
@@ -27,7 +28,15 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
-		startGUI();
+		//TODO Reinstate after boolean search testing.
+		//startGUI();
+		
+		BooleanSearch.createLogicArray(null);
+		BooleanSearch.createLogicArray("  testing-string&whatnot"); //$NON-NLS-1$
+		BooleanSearch.createLogicArray("&!| testing -string(&whatnot) \"\"!&|"); //$NON-NLS-1$
+		BooleanSearch.createLogicArray("!testing -string(&whatnot) \"\""); //$NON-NLS-1$
+		BooleanSearch.createLogicArray("\"this | that\") & (not!\"this   "); //$NON-NLS-1$
+		BooleanSearch.createLogicArray("\"this test\" & \'that test\' | whatever"); //$NON-NLS-1$
 		
 	}//METHOD
 	
