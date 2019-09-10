@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * @since 2.0
  */
 public class Downloader
-{
+{	
 	/**
 	 * Number of milliseconds to wait before loading a page, for rate-limiting purposes
 	 * 
@@ -233,14 +233,13 @@ public class Downloader
 	{
 		try
 		{
+			page = client.getPage(url);
+			
 			if(timeout > 0)
 			{
 				TimeUnit.MILLISECONDS.sleep(timeout);
 				
 			}//IF
-
-			page = client.getPage(url);
-			
 			
 		}//TRY
 		catch(Exception e)

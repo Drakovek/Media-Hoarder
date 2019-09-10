@@ -390,46 +390,103 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		ArrayList<String> tags = new ArrayList<>();
 		
 		//GET RATING
-		final List<DomElement> ratingElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//div[@style='width: 120px; color: #333333; font-size: 10pt;']"); //$NON-NLS-1$
-		String ratingText = Downloader.getElement(ratingElement.get(0)).toLowerCase();
-		if(ratingText.contains("general")) //$NON-NLS-1$
+		final List<DomElement> ratingElements = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//div"); //$NON-NLS-1$
+		String ratingText = null;
+		for(int ratingNum = 0; ratingNum < ratingElements.size(); ratingNum++)
 		{
-			tags.add(GENERAL_RATING);
+			ratingText = Downloader.getElement(ratingElements.get(ratingNum)).toLowerCase();
+			if(ratingText.contains(">rating:<")) //$NON-NLS-1$
+			{
+				if(ratingText.contains("general")) //$NON-NLS-1$
+				{
+					tags.add(GENERAL_RATING);
+					break;
+					
+				}//IF
+				else if(ratingText.contains("mature")) //$NON-NLS-1$
+				{
+					tags.add(MATURE_RATING);
+					break;
+					
+				}//ELSE IF
+				else if(ratingText.contains("adult")) //$NON-NLS-1$
+				{
+					tags.add(ADULT_RATING);
+					break;
+					
+				}//ELSE IF
+				
+			}//IF
 			
-		}//IF
-		else if(ratingText.contains("mature")) //$NON-NLS-1$
-		{
-			tags.add(MATURE_RATING);
+			ratingText = null;
 			
-		}//ELSE IF
-		else if(ratingText.contains("adult")) //$NON-NLS-1$
-		{
-			tags.add(ADULT_RATING);
-			
-		}//ELSE IF
-		else
+		}//FOR
+		
+		if(ratingText == null)
 		{
 			throw new Exception("Couldn't find rating tag"); //$NON-NLS-1$
 			
-		}//ELSE
+		}//IF
 		
 		//GET MEDIA TYPE
-		final List<DomElement> type = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//div[@style='width: 160px; color: #333333; font-size: 10pt;']"); //$NON-NLS-1$
-		String typeText = Downloader.getElement(type.get(0), true, true).replaceAll("\t", new String()); //$NON-NLS-1$
-		start = typeText.lastIndexOf('>') + 1;
+		final List<DomElement> types = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//div"); //$NON-NLS-1$
+		String typeText = null;
+		for(int typeNum = 0; typeNum < types.size(); typeNum++)
+		{
+			typeText = Downloader.getElement(types.get(typeNum), true, true).replaceAll("\t", new String()); //$NON-NLS-1$
+			if(typeText.contains(">Type:<")) //$NON-NLS-1$
+			{
+				start = typeText.indexOf('>', typeText.indexOf(">Type:<") + 1) + 1; //$NON-NLS-1$
+				end = typeText.indexOf('<', start);
+				if(end == -1)
+				{
+					end = typeText.length();
+					
+				}//IF
+				
+				tags.add(typeText.substring(start, end));
+				break;
+				
+			}//IF
+			
+			typeText = null;
+			
+		}//FOR
 		
-		tags.add(typeText.substring(start, typeText.length()));
+		if(typeText == null)
+		{
+			throw new Exception("Couldn't find type tag"); //$NON-NLS-1$
+			
+		}//IF
 		
 		//pool
-		final List<DomElement> pool = getDownloader().getPage().getByXPath("//table[@class='pooltable ']//div/a[@style='border-color: #888a85; color: #d3d7cf;']"); //$NON-NLS-1$
+		final List<DomElement> pool = getDownloader().getPage().getByXPath("//table[@class='pooltable ']//div/a"); //$NON-NLS-1$
 		if(pool.size() > 0)
 		{
-			tags.add(Downloader.getElement(pool.get(0)));
+			String poolString = null;
+			for(int poolNum = 0; poolNum < pool.size(); poolNum++)
+			{
+				poolString = Downloader.getElement(pool.get(poolNum), false, false);
+				if(poolString.contains("href=\"poolview_process.php")) //$NON-NLS-1$
+				{
+					tags.add(Downloader.getElement(pool.get(poolNum)));
+					break;
+				
+				}//IF
+				
+				poolString = null;
+			}//FOR
+			
+			if(poolString == null)
+			{
+				throw new Exception("Couldn't find pool tag"); //$NON-NLS-1$
+				
+			}//IF
 			
 		}//IF
 		
 		//GET MAIN TAGS
-		final List<DomElement> tagElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//a//span[@style='']"); //$NON-NLS-1$
+		final List<DomElement> tagElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//div//div//a//span"); //$NON-NLS-1$
 		for(int i = 0; i < tagElement.size(); i++)
 		{
 			tags.add(Downloader.getElement(tagElement.get(i)));
@@ -447,11 +504,27 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		
 		//GET PAGES IN SEQUENCE
 		ArrayList<String> pageURLs = new ArrayList<>();
-		final List<DomAttr> sequenceAttribute = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_white']//div[@class='content']//div[@style='width: 300px; margin: 0px auto 0px auto;']//a/@href"); //$NON-NLS-1$
+		final List<DomAttr> sequenceAttribute = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_white']//div[@class='content']//a/@href"); //$NON-NLS-1$
+		String idNum = URL;
+		while(URL.endsWith(Character.toString('/')))
+		{
+			idNum = idNum.substring(0, idNum.length() - 1);
+			
+		}//WHILE
+		start = URL.lastIndexOf('/');
+		end = URL.indexOf('-', start);
+		if(end == -1)
+		{
+			end = URL.length();
+			
+		}//IF
+		
+		idNum = idNum.substring(start, end);
+		
 		for(int i = 0; i < sequenceAttribute.size(); i++)
 		{
 			String pageURL = "https://inkbunny.net" + Downloader.getAttribute(sequenceAttribute.get(i)); //$NON-NLS-1$
-			if(pageURL.contains("#pictop")) //$NON-NLS-1$
+			if(!pageURLs.contains(pageURL) && pageURL.contains("#pictop") && pageURL.contains(idNum)) //$NON-NLS-1$
 			{
 				pageURLs.add(pageURL);
 				
@@ -472,7 +545,16 @@ public class InkBunnyGUI extends ArtistHostingGUI
 			String currentTitle = title;
 			if(pageURLs.size() > 1)
 			{
-				currentTitle = title + ' ' + '[' + Integer.toString(i + 1) + '/' + Integer.toString(pageURLs.size()) + ']';
+				int pageNum = 1;
+				end = pageURLs.get(i).lastIndexOf('-');
+				if(end != -1)
+				{
+					start = pageURLs.get(i).lastIndexOf('p', end) + 1;
+					pageNum = Integer.parseInt(pageURLs.get(i).substring(start, end));
+					
+				}//IF
+				
+				currentTitle = title + ' ' + '[' + Integer.toString(pageNum) + '/' + Integer.toString(pageURLs.size()) + ']';
 			
 			}//IF
 			

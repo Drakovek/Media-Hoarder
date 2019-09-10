@@ -77,7 +77,6 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	{
 		super(settings, dmfHandler, new LoginGUI(settings, DefaultLanguage.FUR_AFFINITY_LOGIN, true), DefaultLanguage.FUR_AFFINITY_MODE, DefaultLanguage.CHOOSE_FUR_AFFINITY_FOLDER);
 		idStrings = new ArrayList<>();
-		getDownloader().setTimeout(3000);
 		
 	}//CONSTRUCTOR
 
@@ -173,7 +172,12 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		}//IF
 		
 		setNewClient();
+		getDownloader().setTimeout(5000);
+		getDownloader().getClient().getOptions().setThrowExceptionOnFailingStatusCode(false);
 		getDownloader().getPage("https://www.furaffinity.net/login/?mode=imagecaptcha"); //$NON-NLS-1$
+		getDownloader().getClient().waitForBackgroundJavaScript(5000);
+		getDownloader().setTimeout(3000);
+		getDownloader().getPage("https://www.furaffinity.net/login/?mode=imagecaptcha"); //$NON-NLS-1$-
 		if(getDownloader().getPage() != null)
 		{
 			List<DomAttr> captchaImage = getDownloader().getPage().getByXPath("//img[@id='captcha_img']/@src"); //$NON-NLS-1$
@@ -199,7 +203,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	{
 		getDownloader().setNewClient();
 		getDownloader().getClient().getOptions().setCssEnabled(false);
-		getDownloader().getClient().getOptions().setJavaScriptEnabled(false);
+		getDownloader().getClient().getOptions().setJavaScriptEnabled(true);
 		getDownloader().getClient().getOptions().setThrowExceptionOnScriptError(false);
 		getDownloader().getClient().setJavaScriptTimeout(10000);
 		getDownloader().getClient().setAjaxController(new NicelyResynchronizingAjaxController());

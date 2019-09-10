@@ -701,7 +701,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		pid.setProgressBar(true, false, 0, 0);
 		pid.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pageURL, true);
 		
-		if(pageURL.contains(getMainURL()))
+		if(pageURL != null && pageURL.contains(getMainURL()))
 		{
 			if(!isDownloaded(pageURL))
 			{
