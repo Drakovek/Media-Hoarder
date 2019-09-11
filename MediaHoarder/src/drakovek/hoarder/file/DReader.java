@@ -13,14 +13,11 @@ import java.util.ArrayList;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DReader
 {
 	/**
 	 * BufferedReader used when reading files.
-	 * 
-	 * @since 2.0
 	 */
     private static BufferedReader bufferedReader;
     
@@ -29,7 +26,6 @@ public class DReader
      *
      * @param inputFile Text File to read
      * @return Contents of Text File
-     * @since 1.0
      */
     public static ArrayList<String> readFile(final File inputFile)
     {
@@ -79,7 +75,6 @@ public class DReader
      * @param parentFile Parent Directory
      * @param directoryName Name of the Directory
      * @return File for the Directory
-     * @since 2.0
      */
     public static File getDirectory(final File parentFile, final String directoryName)
     {
@@ -111,7 +106,6 @@ public class DReader
 	 * @param extensions Extensions of the file types to be returned.
 	 * @param checkSubs Whether to check sub-directories for files.
 	 * @return ArrayList<File> of all files of a given extension(s) within a directory
-	 * @since 2.0
 	 */
 	public static ArrayList<File> getFilesOfType(final File directory, final String[] extensions, final boolean checkSubs)
 	{

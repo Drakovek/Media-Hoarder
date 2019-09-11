@@ -20,77 +20,56 @@ import drakovek.hoarder.processing.ParseINI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DmfIndexing
 {
 	/**
 	 * Name of the folder that holds DMF Directory index files
-	 * 
-	 * @since 2.0
 	 */
 	private static final String INDEX_FOLDER = "index"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the index list file
-	 * 
-	 * @since 2.0
 	 */
 	private static final String INDEX_LIST_FILE = "index" + ParseINI.INI_EXTENSION; //$NON-NLS-1$
 	
 	/**
 	 * Main header for the index list file
-	 * 
-	 * @since 2.0
 	 */
 	private static final String INDEX_HEADER = "[INDEX]"; //$NON-NLS-1$
 	
 	/**
 	 * Folder containing DMF Directory index files
-	 * 
-	 * @since 2.0
 	 */
 	private File indexFolder;
 	
 	/**
 	 * File for the index list
-	 * 
-	 * @since 2.0
 	 */
 	private File indexListFile;
 	
 	/**
 	 * List of directories linked to saved index files
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> indexedDirectories;
 	
 	/**
 	 * FileOutputStream for saving index files
-	 * 
-	 * @since 2.0
 	 */
 	private FileOutputStream fileOutputStream;
 	
 	/**
 	 * ObjectOutputStream for saving index files
-	 * 
-	 * @since 2.0
 	 */
 	private ObjectOutputStream objectOutputStream;
 	
 	/**
 	 * FileInputStream for reading index files
-	 * 
-	 * @since 2.0
 	 */
 	private FileInputStream fileInputStream;
 	
 	/**
 	 * ObjectInputStream for reading index files
-	 * 
-	 * @since 2.0
 	 */
 	private ObjectInputStream objectInputStream;
 	
@@ -98,7 +77,6 @@ public class DmfIndexing
 	 * Initializes the DmfIndexing class.
 	 * 
 	 * @param settings Program settings
-	 * @since 2.0
 	 */
 	public DmfIndexing()
 	{
@@ -122,7 +100,6 @@ public class DmfIndexing
 	 * @param useIndex Whether to use index files to load DMF info rather than directly
 	 * @param updateIndex Whether to update index file to reflect changes in DMFs
 	 * @return DmfDirectory with DMFs loaded from given directory
-	 * @since 2.0
 	 */
 	public DmfDirectory loadDMFs(final File directory, DProgressDialog progressDialog, final boolean useIndex, final boolean updateIndex)
 	{	
@@ -189,7 +166,6 @@ public class DmfIndexing
 	 * Saves a DmfDirectory to an index file, either overwriting existing file or creating a new file.
 	 * 
 	 * @param dmfDirectory DmfDirectory to save
-	 * @since 2.0
 	 */
 	public void saveIndex(DmfDirectory dmfDirectory)
 	{
@@ -253,8 +229,6 @@ public class DmfIndexing
 	
 	/**
 	 * Cleans up index files and saves an index list file.
-	 * 
-	 * @since 2.0
 	 */
 	public void close()
 	{
@@ -266,8 +240,6 @@ public class DmfIndexing
 	
 	/**
 	 * Removes items from the index list file if linked index files no longer exist or if a given index file hasn't been accessed in several sessions.
-	 * 
-	 * @since 2.0
 	 */
 	private void removeItems()
 	{
@@ -291,8 +263,6 @@ public class DmfIndexing
 	
 	/**
 	 * Deletes index files that are not referenced in the index list file
-	 * 
-	 * @since 2.0
 	 */
 	public void deleteFiles()
 	{
@@ -317,8 +287,6 @@ public class DmfIndexing
 	
 	/**
 	 * Saves index list file that ties saved index files to the directories they represent.
-	 * 
-	 * @since 2.0
 	 */
 	private void saveListFile()
 	{
@@ -342,8 +310,6 @@ public class DmfIndexing
 	
 	/**
 	 * Reads index list file that ties saved index files to the directories they represent.
-	 * 
-	 * @since 2.0
 	 */
 	private void readListFile()
 	{

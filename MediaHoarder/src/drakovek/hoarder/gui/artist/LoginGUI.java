@@ -36,98 +36,71 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 {
 	/**
 	 * Name of the captcha file to load before any actual captcha has been loaded from online.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String TEMP_CAPTCHA_FILE = "captcha.png"; //$NON-NLS-1$
 	
 	/**
 	 * Main dialog for showing the login GUI
-	 * 
-	 * @since 2.0
 	 */
 	private DDialog dialog;
 	
 	/**
 	 * Object to deal with attempting a user login.
-	 * 
-	 * @since 2.0
 	 */
 	private LoginMethods loginMethods;
 	
 	/**
 	 * Dialog for showing progress
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressDialog progressDialog;
 	
 	/**
 	 * Language ID for the title for the login dialog
-	 * 
-	 * @since 2.0
 	 */
 	private String titleID;
 	
 	/**
 	 * Boolean that determines whether to use the captcha GUI when creating the login GUI.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean useCaptcha;
 	
 	/**
 	 * Text field for the user to input the contents of a captcha.
-	 * 
-	 * @since 2.0
 	 */
 	private DTextField captchaText;
 	
 	/**
 	 * Text field for the user to input their username
-	 * 
-	 * @since 2.0
 	 */
 	private DTextField usernameText;
 	
 	/**
 	 * Button to login
-	 * 
-	 * @since 2.0
 	 */
 	private DButton loginButton;
 	
 	/**
 	 * Button for refreshing the image captcha
-	 * 
-	 * @since 2.0
 	 */
 	private DButton captchaButton;
 	
 	/**
 	 * Password field for the user to input their password
-	 * 
-	 * @since 2.0
 	 */
 	private DPasswordField passwordText;
 	
 	/**
 	 * ImageScrollPane for holding image captchas.
-	 * 
-	 * @since 2.0
 	 */
 	private ImageScrollPane imageScroll;
 	
 	/**
 	 * directory for holding image captchas.
-	 * 
-	 * @since 2.0
 	 */
 	private File captchaFolder;
 	
@@ -137,7 +110,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	 * @param settings Program Settings
 	 * @param titleID Language ID for the title for the login dialog
 	 * @param useCaptcha Boolean that determines whether to use the captcha GUI when creating the login GUI.
-	 * @since 2.0
 	 */
 	public LoginGUI(DSettings settings, final String titleID, final boolean useCaptcha)
 	{
@@ -172,7 +144,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	 * Sets the LoginMethods object for the class.
 	 * 
 	 * @param loginMethods LoginMethods object
-	 * @since 2.0
 	 */
 	public void setLoginMethods(LoginMethods loginMethods)
 	{
@@ -184,7 +155,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	 * Opens the login dialog.
 	 * 
 	 * @param owner DFrame linked to the dialog
-	 * @since 2.0
 	 */
 	public void openLoginDialog(DFrame owner)
 	{
@@ -200,7 +170,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	 * Returns the main panel for the login dialog
 	 * 
 	 * @return Login Panel
-	 * @since 2.0
 	 */
 	public JPanel getLoginPanel()
 	{
@@ -306,8 +275,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	
 	/**
 	 * Clears the captcha, username, and password fields.
-	 * 
-	 * @since 2.0
 	 */
 	public void clearFields()
 	{
@@ -321,7 +288,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	 * Returns the directory for holding image captchas.
 	 * 
 	 * @return Captcha Folder
-	 * @since 2.0
 	 */
 	public File getCaptchaFolder()
 	{
@@ -331,8 +297,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	
 	/**
 	 * Starts the worker to load an image captcha
-	 * 
-	 * @since 2.0
 	 */
 	private void loadCaptcha()
 	{
@@ -348,8 +312,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	
 	/**
 	 * Sets the image captcha.
-	 * 
-	 * @since 2.0
 	 */
 	private void setCaptchaImage()
 	{
@@ -370,8 +332,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	
 	/**
 	 * Starts the worker that attempts login.
-	 * 
-	 * @since 2.0
 	 */
 	private void login()
 	{
@@ -390,8 +350,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	
 	/**
 	 * Gets the login information provided by the user, then passes it to the loginMethods object.
-	 * 
-	 * @since 2.0
 	 */
 	private void loginWork()
 	{
@@ -409,8 +367,6 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	
 	/**
 	 * Finishes the login process and checks if the login was successful, closing the dialog if it was.
-	 * 
-	 * @since 2.0
 	 */
 	private void loginEnd()
 	{

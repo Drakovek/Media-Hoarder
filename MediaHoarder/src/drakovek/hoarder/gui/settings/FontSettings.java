@@ -22,63 +22,46 @@ import drakovek.hoarder.processing.BooleanInt;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class FontSettings extends SettingsModeGUI
 {
 	/**
 	 * DList for the user to select a font
-	 * 
-	 * @since 2.0
 	 */
 	private DList fontList;
 	
 	/**
 	 * DTextField for the user to input the font size
-	 * 
-	 * @since 2.0
 	 */
 	private DTextField sizeText;
 	
 	/**
 	 * DTextArea to show a preview of the selected font
-	 * 
-	 * @since 2.0
 	 */
 	private DTextArea previewText;
 	
 	/**
 	 * List of available fonts
-	 * 
-	 * @since 2.0
 	 */
 	private String[] fonts;
 	
 	/**
 	 * The currently selected font
-	 * 
-	 * @since 2.0
 	 */
 	private String font;
 	
 	/**
 	 * The current setting for whether the font is bold
-	 * 
-	 * @since 2.0
 	 */
 	private boolean bold;
 	
 	/**
 	 * The current setting for whether the font is anti-aliased
-	 * 
-	 * @since 2.0
 	 */
 	private boolean aa;
 	
 	/**
 	 * The currently edited font size
-	 * 
-	 * @since 2.0
 	 */
 	private int size;
 	
@@ -86,7 +69,6 @@ public class FontSettings extends SettingsModeGUI
 	 * Initializes the FontSettings class.
 	 * 
 	 * @param settingsGUI Parent SettingsGUI
-	 * @since 2.0
 	 */
 	public FontSettings(SettingsGUI settingsGUI)
 	{
@@ -173,8 +155,6 @@ public class FontSettings extends SettingsModeGUI
 
 	/**
 	 * Updates the font size based on what the user has input in the size text box.
-	 * 
-	 * @since 2.0
 	 */
 	private void updateSize()
 	{
@@ -195,8 +175,6 @@ public class FontSettings extends SettingsModeGUI
 	
 	/**
 	 * Updates the font based on which font the user has selected in the font list.
-	 * 
-	 * @since 2.0
 	 */
 	private void updateFont()
 	{
@@ -212,8 +190,6 @@ public class FontSettings extends SettingsModeGUI
 	
 	/**
 	 * Updates the text preview to show what the currently selected font will look like.
-	 * 
-	 * @since 2.0
 	 */
 	private void updatePreview()
 	{
@@ -225,7 +201,6 @@ public class FontSettings extends SettingsModeGUI
 	 * Returns whether any of the font settings have changed from the values saved to disk.
 	 * 
 	 * @return Whether font settings have changed
-	 * @since 2.0
 	 */
 	private boolean checkChanged()
 	{

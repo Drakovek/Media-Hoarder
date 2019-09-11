@@ -15,28 +15,21 @@ import drakovek.hoarder.gui.swing.components.DScrollPane;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DScrollDragListener extends MouseAdapter
 {
 	/**
 	 * Point where a user started a drag, used as reference against the current mouse position.
-	 * 
-	 * @since 2.0
 	 */
 	private Point start;
 	
 	/**
 	 * Linked scroll pane
-	 * 
-	 * @since 2.0
 	 */
 	private DScrollPane scrollPane;
 	
 	/**
 	 * Component used in the scroll pane
-	 * 
-	 * @since 2.0
 	 */
 	private JComponent view;
 	
@@ -45,7 +38,6 @@ public class DScrollDragListener extends MouseAdapter
 	 * 
 	 * @param scrollPane Linked Scroll Pane
 	 * @param view Component used in the scroll pane
-	 * @since 2.0
 	 */
 	public DScrollDragListener(DScrollPane scrollPane, JComponent view)
 	{

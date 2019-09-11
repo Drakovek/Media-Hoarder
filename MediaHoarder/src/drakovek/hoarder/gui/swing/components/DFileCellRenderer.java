@@ -20,63 +20,46 @@ import drakovek.hoarder.processing.StringMethods;
  *
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DFileCellRenderer extends DefaultListCellRenderer
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 1774598669923495036L;
 
 	/**
 	 * FileSystemView used to get file icons.
-	 * 
-	 * @since 2.0
 	 */
 	private FileSystemView fileSystemView;
 	
 	/**
 	 * Cell label for showing file names.
-	 * 
-	 * @since 2.0
 	 */
 	private DLabel label;
 	
 	/**
 	 * Cell panel for holding cell contents.
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel panel;
 	
 	/**
 	 * Border used when cell is focused.
-	 * 
-	 * @since 2.0
 	 */
 	private Border focusBorder;
 	
 	/**
 	 * Border used when cell is not focused.
-	 * 
-	 * @since 2.0
 	 */
 	private Border noBorder;
 	
 	/**
 	 * Default background color.
-	 * 
-	 * @since 2.0
 	 */
 	private Color background;
 	
 	/**
 	 * Background color to use if cell is selected.
-	 * 
-	 * @since 2.0
 	 */
 	private Color backgroundSelected;
 	
@@ -84,7 +67,6 @@ public class DFileCellRenderer extends DefaultListCellRenderer
 	 * Initializes the cell renderer.
 	 * 
 	 * @param baseGUI BaseGUI used for formatting the labels and cell spacing.
-	 * @since 2.0
 	 */
 	public DFileCellRenderer(BaseGUI baseGUI)
 	{

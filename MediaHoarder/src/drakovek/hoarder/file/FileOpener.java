@@ -8,7 +8,6 @@ import java.io.File;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class FileOpener
 {
@@ -16,7 +15,6 @@ public class FileOpener
 	 * Opens a given file in an external program.
 	 * 
 	 * @param file Given File
-	 * @since 2.0
 	 */
 	public static void openFile(final File file)
 	{

@@ -10,56 +10,41 @@ import drakovek.hoarder.file.language.DefaultLanguage;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class TimeMethods
 {
 	/**
 	 * Value indicating short date format (DD/MM/YYYY, etc.)
-	 * 
-	 * @since 2.0
 	 */
 	public static final int DATE_SHORT = 0;
 	
 	/**
 	 * Value indicating long date format (DD Month YYYY, etc.)
-	 * 
-	 * @since 2.0
 	 */
 	public static final int DATE_LONG = 1;
 	
 	/**
 	 * Value indicating Month-Day-Year date format.
-	 * 
-	 * @since 2.0
 	 */
 	public static final int DATE_MDY = 0;
 	
 	/**
 	 * Value indicating Day-Month-Year date format.
-	 * 
-	 * @since 2.0
 	 */
 	public static final int DATE_DMY = 1;
 	
 	/**
 	 * Value indicating Year-Month-Day date format.
-	 * 
-	 * @since 2.0
 	 */
 	public static final int DATE_YMD = 2;
 	
 	/**
 	 * Value indicating a 12 hour clock format.
-	 * 
-	 * @since 2.0
 	 */
 	public static final int HOUR_12 = 0;
 	
 	/**
 	 * Value indicating a 24 hour clock format.
-	 * 
-	 * @since 2.0
 	 */
 	public static final int HOUR_24 = 1;
 	
@@ -69,7 +54,6 @@ public class TimeMethods
 	 * @param settings Program Settings
 	 * @param dateLengthFormat Whether to use short or long date format
 	 * @return String for date/time
-	 * @since 2.0
 	 */
 	public static String getCurrentTimeString(DSettings settings, final int dateLengthFormat)
 	{
@@ -85,7 +69,6 @@ public class TimeMethods
 	 * @param dateFormat Format for the date
 	 * @param clockFormat Format for the clock time
 	 * @return String for date/time
-	 * @since 2.0
 	 */
 	public static String getCurrentTimeString(DSettings settings, final int dateLengthFormat, final int dateFormat, final int clockFormat)
 	{
@@ -108,7 +91,6 @@ public class TimeMethods
 	 * @param minute Minute
 	 * @param second Second of Minute
 	 * @return String for date/time
-	 * @since 2.0
 	 */
 	public static String getFullTimeString(DSettings settings, final int dateLengthFormat, final int dateFormat, final int clockFormat, final int year, final int month, final int day, final int hour, final int minute, final int second)
 	{
@@ -125,9 +107,7 @@ public class TimeMethods
 	 * 
 	 * @param settings Program Settings
 	 * @param time Long value of date and time
-	 * @return Time String
-	 * @since 2.0
-	 */
+	 * @return Time String	 */
 	public static String getTimeString(DSettings settings, final long time)
 	{
 		return getTimeString(settings, settings.getClockFormat(), time);
@@ -141,7 +121,6 @@ public class TimeMethods
 	 * @param clockFormat Format for the clock time
 	 * @param time Long value of date and time
 	 * @return Time String
-	 * @since 2.0
 	 */
 	public static String getTimeString(DSettings settings, final int clockFormat, final long time)
 	{
@@ -171,7 +150,6 @@ public class TimeMethods
 	 * @param minute Minute
 	 * @param second Second of Minute
 	 * @return Time String
-	 * @since 2.0
 	 */
 	public static String getTimeString(DSettings settings, final int clockFormat, final int hour, final int minute, final int second)
 	{
@@ -238,7 +216,6 @@ public class TimeMethods
 	 * @param dateLengthFormat Whether to use short or long date format
 	 * @param time Long value of date and time
 	 * @return Date String
-	 * @since 2.0
 	 */
 	public static String getDateString(DSettings settings, final int dateLengthFormat, final long time)
 	{
@@ -254,7 +231,6 @@ public class TimeMethods
 	 * @param dateFormat Format for the date
 	 * @param time Long value of date and time
 	 * @return Date String
-	 * @since 2.0
 	 */
 	public static String getDateString(DSettings settings, final int dateLengthFormat, final int dateFormat, final long time)
 	{
@@ -286,7 +262,6 @@ public class TimeMethods
 	 * @param month Month
 	 * @param day Day of Month
 	 * @return Date String
-	 * @since 2.0
 	 */
 	public static String getDateString(DSettings settings, final int dateLengthFormat, final int dateFormat, final int year, final int month, final int day)
 	{

@@ -28,63 +28,46 @@ import drakovek.hoarder.processing.StringMethods;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class SettingsGUI extends FrameGUI
 {
 	/**
 	 * List of action/language IDs for the possible settings modes the user can choose.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[] SETTINGS_EVENTS = {DefaultLanguage.LANGUAGE, DefaultLanguage.DMF_DIRECTORIES, DefaultLanguage.THEME, DefaultLanguage.FONT};
 	
 	/**
 	 * FrameGUI that opened the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	private FrameGUI ownerGUI;
 	
 	/**
 	 * GUI for setting particular settings to include within the main settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	private SettingsModeGUI modeGUI;
 	
 	/**
 	 * Panel to contain GUI for changing settings
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel contentPanel;
 	
 	/**
 	 * List to select the current settings mode
-	 * 
-	 * @since 2.0
 	 */
 	private DList settingsList;
 	
 	/**
 	 * Button for applying the currently edited settings
-	 * 
-	 * @since 2.0
 	 */
 	private DButton applyButton;
 	
 	/**
 	 * Button for applying the currently edited settings, then closing the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	private DButton saveButton;
 	
 	/**
 	 * Boolean determining if any settings have changed
-	 * 
-	 * @since 2.0
 	 */
 	private boolean changed;
 	
@@ -94,7 +77,6 @@ public class SettingsGUI extends FrameGUI
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DmfHandler
 	 * @param ownerGUI FrameGUI that opened the settings GUI, if applicable
-	 * @since 2.0
 	 */
 	public SettingsGUI(DSettings settings, DmfHandler dmfHandler, FrameGUI ownerGUI)
 	{
@@ -204,7 +186,6 @@ public class SettingsGUI extends FrameGUI
 	 * Sets the current setting mode of the settings GUI.
 	 * 
 	 * @param setting Language ID of the setting mode to select
-	 * @since 2.0
 	 */
 	public void setSettingMode(final String setting)
 	{
@@ -223,8 +204,6 @@ public class SettingsGUI extends FrameGUI
 	
 	/**
 	 * Handles the finishing operations of the SettingsGUI, closing the frame, and restarting the program if necessary.
-	 * 
-	 * @since 2.0
 	 */
 	private void finish()
 	{
@@ -255,8 +234,6 @@ public class SettingsGUI extends FrameGUI
 	
 	/**
 	 * Called when one of the settings options is selected. Sets main settings panel to GUI for editing the settings specified.
-	 * 
-	 * @since 2.0
 	 */
 	private void settingSelected()
 	{
@@ -294,8 +271,6 @@ public class SettingsGUI extends FrameGUI
 	
 	/**
 	 * Enables the "Apply" button.
-	 * 
-	 * @since 2.0
 	 */
 	public void applyEnable()
 	{
@@ -306,8 +281,6 @@ public class SettingsGUI extends FrameGUI
 	
 	/**
 	 * Disables the "Apply" button.
-	 * 
-	 * @since 2.0
 	 */
 	public void applyDisable()
 	{
@@ -318,8 +291,6 @@ public class SettingsGUI extends FrameGUI
 	
 	/**
 	 * Applies the currently edited settings.
-	 * 
-	 * @since 2.0
 	 */
 	private void apply()
 	{

@@ -10,7 +10,6 @@ import drakovek.hoarder.gui.swing.listeners.DCheckBoxListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DCheckBox extends JCheckBox
 {
@@ -25,7 +24,6 @@ public class DCheckBox extends JCheckBox
 	 * @param baseGUI Linked BaseGUI
 	 * @param selected Whether the CheckBox starts as selected
 	 * @param id Action ID for the CheckBox
-	 * @since 2.0
 	 */
 	public DCheckBox(BaseGUI baseGUI, final boolean selected, final String id)
 	{

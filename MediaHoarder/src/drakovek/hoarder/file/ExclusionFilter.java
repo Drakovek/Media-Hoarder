@@ -8,21 +8,16 @@ import java.io.FileFilter;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ExclusionFilter implements FileFilter
 {
 	/**
 	 * Extensions of files not to return
-	 * 
-	 * @since 2.0
 	 */
 	private String[] excludedExtensions;
 	
 	/**
 	 * Whether to allow returning directories
-	 * 
-	 * @since 2.0
 	 */
 	private boolean allowDirectories;
 	
@@ -31,7 +26,6 @@ public class ExclusionFilter implements FileFilter
 	 * 
 	 * @param excludedExtensions Extensions of files not to return
 	 * @param allowDirectories Whether to allow returning directories
-	 * @since 2.0
 	 */
 	public ExclusionFilter(final String[] excludedExtensions, final boolean allowDirectories)
 	{

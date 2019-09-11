@@ -18,21 +18,16 @@ import drakovek.hoarder.gui.swing.components.DScrollPane;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ImageScrollPane extends DScrollPane
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -5158625448937053337L;
 	
 	/**
 	 * ImagePanel held within the scroll pane.
-	 * 
-	 * @since 2.0
 	 */
 	private ImagePanel imagePanel;
 	
@@ -40,7 +35,6 @@ public class ImageScrollPane extends DScrollPane
 	 * Initializes the ImageScrollPane with no starting image.
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public ImageScrollPane(DSettings settings)
 	{
@@ -55,7 +49,6 @@ public class ImageScrollPane extends DScrollPane
 	 * 
 	 * @param settings Program Settings
 	 * @param file File used as starting image
-	 * @since 2.0
 	 */
 	public ImageScrollPane(DSettings settings, final File file)
 	{
@@ -68,8 +61,6 @@ public class ImageScrollPane extends DScrollPane
 	
 	/**
 	 * Sets the size values relevant to properly fitting an image into frame.
-	 * 
-	 * @since 2.0
 	 */
 	private void setSizes()
 	{
@@ -98,7 +89,6 @@ public class ImageScrollPane extends DScrollPane
 	 * Sets a new image based on a given file.
 	 * 
 	 * @param file Input File
-	 * @since 2.0
 	 */
 	public void setFile(final File file)
 	{
@@ -109,8 +99,6 @@ public class ImageScrollPane extends DScrollPane
 	
 	/**
 	 * Scales the current image to fit in the scroll pane.
-	 * 
-	 * @since 2.0
 	 */
 	public void scaleImage()
 	{
@@ -124,7 +112,6 @@ public class ImageScrollPane extends DScrollPane
 	 * 
 	 * @param scaleType Int value indicating the type of scaling to use
 	 * @param scaleAmount Double value to multiply image size by when scaling directly
-	 * @since 2.0
 	 */
 	public void setScale(final int scaleType, final double scaleAmount)
 	{
@@ -134,8 +121,6 @@ public class ImageScrollPane extends DScrollPane
 	
 	/**
 	 * Resets the scroll pane to match the scroll bar needs of the current image.
-	 * 
-	 * @since 2.0
 	 */
 	private void resetScroll()
 	{
@@ -150,7 +135,6 @@ public class ImageScrollPane extends DScrollPane
 	 * Returns the dimension of the currently displayed image.
 	 * 
 	 * @return Image Dimensions
-	 * @since 2.0
 	 */
 	public Dimension getImageDimension()
 	{

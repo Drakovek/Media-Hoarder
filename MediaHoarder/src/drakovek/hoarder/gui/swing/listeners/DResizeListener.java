@@ -8,28 +8,21 @@ import java.awt.event.ComponentListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DResizeListener implements ComponentListener
 {
 	/**
 	 * Action ID for the component being resized
-	 * 
-	 * @since 2.0
 	 */
 	public static final String RESIZE = "RESIZE"; //$NON-NLS-1$
 	
 	/**
 	 * DEvent to call when component is resized.
-	 * 
-	 * @since 2.0
 	 */
 	private DEvent event;
 	
 	/**
 	 * ActionID to add to the RESIZE ID; If null, uses only the RESIZE ID
-	 * 
-	 * @since 2.0
 	 */
 	private String id;
 	
@@ -38,7 +31,6 @@ public class DResizeListener implements ComponentListener
 	 * 
 	 * @param event DEvent to call when component is resized.
 	 * @param id ActionID to add to the RESIZE ID; If null, uses only the RESIZE ID
-	 * @since 2.0
 	 */
 	public DResizeListener(DEvent event, final String id)
 	{

@@ -21,28 +21,21 @@ import drakovek.hoarder.processing.sort.FileSort;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DirectorySettingsGUI extends SettingsModeGUI
 {
 	/**
 	 * List showing the currently listed DMF Directories
-	 * 
-	 * @since 2.0
 	 */
 	DList directoryList;
 	
 	/**
 	 * ArrayList of DMF Directories
-	 * 
-	 * @since 2.0
 	 */
 	ArrayList<File> dmfDirectories;
 	
 	/**
 	 * File chooser for choosing DMF directories
-	 * 
-	 * @since 2.0
 	 */
 	DFileChooser fileChooser;
 	
@@ -50,7 +43,6 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 	 * Initializes the DirectorySettingsGUI class.
 	 * 
 	 * @param settingsGUI SettingsGUI Parent settingsGUI
-	 * @since 2.0
 	 */
 	public DirectorySettingsGUI(SettingsGUI settingsGUI)
 	{
@@ -78,8 +70,6 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 	
 	/**
 	 * Sets the displayed directory list based off of the current list of DMF directories while removing invalid entries.
-	 * 
-	 * @since 2.0
 	 */
 	private void setDirectoryList()
 	{
@@ -127,8 +117,6 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 
 	/**
 	 * Checks if any of the DMF directories have changed from those found in the settings file, and if so, allows the user to save changes.
-	 * 
-	 * @since 2.0
 	 */
 	private void checkChanged()
 	{
@@ -169,8 +157,6 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 	
 	/**
 	 * Adds a directory selected with a file chooser to the list of DMF Directories.
-	 * 
-	 * @since 2.0
 	 */
 	private void addDirectory()
 	{
@@ -189,8 +175,6 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 	
 	/**
 	 * Removes selected entries from the list of DMF directories.
-	 * 
-	 * @since 2.0
 	 */
 	private void removeDirectories()
 	{

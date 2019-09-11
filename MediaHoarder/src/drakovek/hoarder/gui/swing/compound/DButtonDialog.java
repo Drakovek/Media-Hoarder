@@ -22,22 +22,17 @@ import drakovek.hoarder.gui.swing.components.DLabel;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DButtonDialog extends BaseGUI
 {
 	
 	/**
 	 * Main Button Dialog
-	 * 
-	 * @since 2.0
 	 */
 	private DDialog dialog;
 	
 	/**
 	 * String to return when button is pressed.
-	 * 
-	 * @since 2.0
 	 */
 	private String returnString;
 	
@@ -45,7 +40,6 @@ public class DButtonDialog extends BaseGUI
 	 * Initializes DButtonDialog Class
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public DButtonDialog(DSettings settings)
 	{
@@ -61,7 +55,6 @@ public class DButtonDialog extends BaseGUI
 	 * @param messageIDs Language IDs for the dialog message(s)
 	 * @param buttonIDs Language IDs for the dialog buttons
 	 * @return Language ID from buttonIDs corresponding to the button pressed by the user
-	 * @since 2.0
 	 */
 	public String openButtonDialog(DFrame owner, final String titleID, final String[] messageIDs, final String[] buttonIDs)
 	{
@@ -84,7 +77,6 @@ public class DButtonDialog extends BaseGUI
 	 * @param messageIDs Language IDs for the dialog message(s)
 	 * @param buttonIDs Language IDs for the dialog buttons
 	 * @return Language ID from buttonIDs corresponding to the button pressed by the user
-	 * @since 2.0
 	 */
 	public String openButtonDialog(ComponentDisabler disabler, DDialog owner, final String titleID, final String[] messageIDs, final String[] buttonIDs)
 	{
@@ -104,7 +96,6 @@ public class DButtonDialog extends BaseGUI
      * @param messageIDs IDs for the dialog's messages
      * @param buttonIDs IDs for the dialog's buttons
      * @return JPanel for the dialog.
-     * @since 1.0
      */
     private JPanel getDialogPanel(final String[] messageIDs, final String[] buttonIDs)
     {	

@@ -10,28 +10,21 @@ import java.awt.GraphicsEnvironment;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 1.0
  */
 public class ScreenDimensions 
 {
 	/**
 	 * DisplayMode for the smallest screen size being used.
-	 * 
-	 * @since 1.0
 	 */
 	private DisplayMode smallScreen;
 	
 	/**
 	 * DisplayMode for the largest screen size being used.
-	 * 
-	 * @since 1.0
 	 */
 	private DisplayMode largeScreen;
 	
 	/**
 	 * Initializes the ScreenDimensions class by getting the largest and smallest monitor sizes.
-	 * 
-	 * @since 1.0
 	 */
 	public ScreenDimensions()
 	{
@@ -70,7 +63,6 @@ public class ScreenDimensions
      * Returns dimensions of the smallest screen.
      * 
      * @return Small Screen Dimensions
-     * @since 1.0
      */
     public Dimension getSmallScreenDimensions()
     {
@@ -82,7 +74,6 @@ public class ScreenDimensions
      * Returns width of the smallest screen.
      * 
      * @return Small Screen Width
-     * @since 1.0
      */
     public int getSmallScreenWidth()
     {
@@ -94,7 +85,6 @@ public class ScreenDimensions
      * Returns height of the smallest screen.
      * 
      * @return Small Screen Height
-     * @since 1.0
      */
     public int getSmallScreenHeight()
     {
@@ -106,7 +96,6 @@ public class ScreenDimensions
      * Returns dimensions of largest screen.
      * 
      * @return Large Screen Dimensions
-     * @since 1.0
      */
     public Dimension getLargeScreenDimensions()
     {
@@ -118,7 +107,6 @@ public class ScreenDimensions
      * Returns width of the largest screen.
      * 
      * @return Large Screen Width
-     * @since 1.0
      */
     public int getLargeScreenWidth()
     {
@@ -130,7 +118,6 @@ public class ScreenDimensions
      * Returns height of the largest screen.
      * 
      * @return Large Screen Height
-     * @since 1.0
      */
     public int getLargeScreenHeight()
     {
@@ -142,7 +129,6 @@ public class ScreenDimensions
      * Returns maximum dimensions to set a frame.
      * 
      * @return Maximum Dimensions
-     * @since 1.0
      */
     public Dimension getMaximumDimensions()
     {
@@ -168,7 +154,6 @@ public class ScreenDimensions
      * Returns maximum width to set a frame.
      * 
      * @return Maximum Width
-     * @since 1.0
      */
     public int getMaximumWidth()
     {
@@ -180,7 +165,6 @@ public class ScreenDimensions
      * Returns maximum height to set a frame.
      * 
      * @return Maximum Height
-     * @since 1.0
      */
     public int getMaximumHeight()
     {

@@ -20,44 +20,33 @@ import drakovek.hoarder.gui.swing.components.DLabel;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 {
 	/**
 	 * Main label for the Settings Bar
-	 * 
-	 * @since 2.0
 	 */
 	private DLabel label;
 	
 	/**
 	 * Main Settings Bar Panel for the class
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel barPanel;
 	
 	/**
 	 * Button used to open the SettingsGUI
-	 * 
-	 * @since 2.0
 	 */
 	private DButton settingsButton;
 	
 	/**
 	 * FrameGUI the settings bar is contained within
-	 * 
-	 * @since 2.0
 	 */
 	private FrameGUI ownerGUI;
-	
 
 	/**
 	 * Initializes the SettingsBarGUI class with its default Swing Layout.
 	 * 
 	 * @param ownerGUI FrameGUI the settings bar is contained within
-	 * @since 2.0
 	 */
 	public SettingsBarGUI(FrameGUI ownerGUI)
 	{
@@ -93,7 +82,6 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	 * Returns the Settings Bar Panel
 	 * 
 	 * @return Settings Bar Panel
-	 * @since 2.0
 	 */
 	public JPanel getPanel()
 	{
@@ -105,7 +93,6 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	 * Sets the main label for the settings bar to reflect a currently selected directory.
 	 * 
 	 * @param file Directory to display
-	 * @since 2.0
 	 */
 	public void setLabel(final File file)
 	{
@@ -126,7 +113,6 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	 * Sets the main label of the settings bar to show if the multiple directories have been properly loaded.
 	 * 
 	 * @param loaded Whether DMF directories have been properly loaded
-	 * @since 2.0
 	 */
 	public void setLabelLoaded(final boolean loaded)
 	{

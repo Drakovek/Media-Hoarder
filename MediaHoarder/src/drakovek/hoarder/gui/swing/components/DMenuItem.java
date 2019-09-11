@@ -10,21 +10,16 @@ import drakovek.hoarder.gui.swing.listeners.DActionListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DMenuItem extends JMenuItem
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 4120141873171027530L;
 
 	/**
 	 * BaseGUI linked to the DMenuItem
-	 * 
-	 * @since 2.0
 	 */
 	private BaseGUI baseGUI;
 	
@@ -51,7 +46,6 @@ public class DMenuItem extends JMenuItem
 	 * Sets the text for the menuItem based on a Language ID.
 	 * 
 	 * @param id Language ID
-	 * @since 2.0
 	 */
 	public void setTextID(final String id)
 	{

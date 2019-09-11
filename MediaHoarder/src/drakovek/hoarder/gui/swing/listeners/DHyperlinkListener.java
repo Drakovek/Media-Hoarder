@@ -8,14 +8,11 @@ import javax.swing.event.HyperlinkListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DHyperlinkListener implements HyperlinkListener
 {
 	/**
 	 * Event to call when hyperlink is activated
-	 * 
-	 * @since 2.0
 	 */
 	private DEvent event;
 	
@@ -23,7 +20,6 @@ public class DHyperlinkListener implements HyperlinkListener
 	 * Initializes the DHyperlinkListener class.
 	 * 
 	 * @param event Event to call when hyperlink is activated
-	 * @since 2.0
 	 */
 	public DHyperlinkListener(DEvent event)
 	{

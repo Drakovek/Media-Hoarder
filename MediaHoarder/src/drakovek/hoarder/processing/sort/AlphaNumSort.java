@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class AlphaNumSort
 {
@@ -16,7 +15,6 @@ public class AlphaNumSort
 	 * 
 	 * @param inputList Starting ArrayList<String>
 	 * @return Sorted ArrayList<String>
-	 * @since 2.0
 	 */
 	public static ArrayList<String> sort(final ArrayList<String> inputList)
 	{
@@ -80,7 +78,6 @@ public class AlphaNumSort
 	 * @param aString First String
 	 * @param bString Second String
 	 * @return Compare int (int < 0: aString is first, int > 0 bString is first)
-	 * @since 2.0
 	 */
     public static int compareAlpha(final String aString, final String bString)
     {
@@ -148,7 +145,6 @@ public class AlphaNumSort
      * @param inputString Input String
      * @param firstCharPos Position of the first character of the section
      * @return Section containing either only characters or only a number value
-     * @since 2.0
      */
     private static String getSection(final String inputString, final int firstCharPos)
     {
@@ -202,7 +198,6 @@ public class AlphaNumSort
      * 
      * @param inputChar Input char
      * @return true if input char is a number, false if not
-     * @since 2.0
      */
     private static boolean isNumber(final char inputChar)
     {

@@ -13,119 +13,86 @@ import drakovek.hoarder.processing.ParseINI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class FileTypeHandler 
 {	
 	/**
 	 * Header for the audio extensions file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String AUDIO_HEADER = "[AUDIO EXTENSIONS]"; //$NON-NLS-1$
 	
 	/**
 	 * Header for the image extensions file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String IMAGE_HEADER = "[IMAGE EXTENSIONS]"; //$NON-NLS-1$
 	
 	/**
 	 * Header for the text extensions file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String TEXT_HEADER = "[TEXT EXTENSIONS]"; //$NON-NLS-1$
 	
 	/**
 	 * Header for the video extensions file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String VIDEO_HEADER = "[VIDEO EXTENSIONS]"; //$NON-NLS-1$
 	
 	/**
 	 * Embedded audio extensions.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[] EMBEDDED_AUDIO = {"flac", "mp3", "ogg", "wav"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	
 	/**
 	 * Embedded image extensions.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[] EMBEDDED_IMAGE = {"bmp", "gif", "jpg", "jpeg", "png"};  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	
 	/**
 	 * Embedded text extensions.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[] EMBEDDED_TEXT = {"doc", "docx", "html", "htm", "pdf", "rtf", "txt"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 	
 	/**
 	 * Embedded video extensions.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[] EMBEDDED_VIDEO = {"avi", "mkv", "mov", "mp4"};  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	
 	/**
 	 * Audio extensions file.
-	 * 
-	 * @since 2.0
 	 */
 	private File audioFile;
 	
 	/**
 	 * Image extensions file.
-	 * 
-	 * @since 2.0
 	 */
 	private File imageFile;
 	
 	/**
 	 * Text extensions file.
-	 * 
-	 * @since 2.0
 	 */
 	private File textFile;
 	
 	/**
 	 * Video extensions file.
-	 * 
-	 * @since 2.0
 	 */
 	private File videoFile;
 	
 	/**
 	 * Audio extensions added by the user
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> userAudio;
 	
 	/**
 	 * Image extensions added by the user
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> userImage;
 	
 	/**
 	 * Text extensions added by the user
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> userText;
 	
 	/**
 	 * Video extensions added by the user
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> userVideo;
 	
@@ -133,7 +100,6 @@ public class FileTypeHandler
 	 * Initializes the FileTypeHandler class by loading then reformatting extension files.
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public FileTypeHandler(DSettings settings)
 	{
@@ -233,7 +199,6 @@ public class FileTypeHandler
 	 * @param header Header of the extension file
 	 * @param embedded Embedded extensions to include in the extension file
 	 * @param userExtensions User added extensions to include in the extension file
-	 * @since 2.0
 	 */
 	private static void saveExtensions(final File file, final String header, final String[] embedded, final ArrayList<String> userExtensions)
 	{
@@ -262,7 +227,6 @@ public class FileTypeHandler
 	 * 
 	 * @param file Input File
 	 * @return Whether the file is an audio file
-	 * @since 2.0
 	 */
 	public boolean isAudioFile(final File file)
 	{
@@ -275,7 +239,6 @@ public class FileTypeHandler
 	 * 
 	 * @param file Input File
 	 * @return Whether the file is an image file
-	 * @since 2.0
 	 */
 	public boolean isImageFile(final File file)
 	{
@@ -288,7 +251,6 @@ public class FileTypeHandler
 	 * 
 	 * @param file Input File
 	 * @return Whether the file is a text file
-	 * @since 2.0
 	 */
 	public boolean isTextFile(final File file)
 	{
@@ -301,7 +263,6 @@ public class FileTypeHandler
 	 * 
 	 * @param file Input File
 	 * @return Whether the file is a video file
-	 * @since 2.0
 	 */
 	public boolean isVideoFile(final File file)
 	{
@@ -316,7 +277,6 @@ public class FileTypeHandler
 	 * @param embedded Embedded extensions to check against
 	 * @param userExtensions User added extensions to check against
 	 * @return Whether the given filename has any of the given extensions
-	 * @since 2.0
 	 */
 	private static boolean isFileType(final File file, final String[] embedded, final ArrayList<String> userExtensions)
 	{

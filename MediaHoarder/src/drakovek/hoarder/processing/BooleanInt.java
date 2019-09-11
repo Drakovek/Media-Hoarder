@@ -5,7 +5,6 @@ package drakovek.hoarder.processing;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class BooleanInt
 {
@@ -14,7 +13,6 @@ public class BooleanInt
 	 * 
 	 * @param boolInt Input int
 	 * @return Boolean representing the int
-	 * @since 2.0
 	 */
 	public static boolean getBoolean(final int boolInt)
 	{
@@ -33,7 +31,6 @@ public class BooleanInt
 	 * 
 	 * @param bool Input boolean
 	 * @return Int representing the boolean
-	 * @since 2.0
 	 */
 	public static int getInt(final boolean bool)
 	{

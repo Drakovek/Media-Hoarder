@@ -19,28 +19,21 @@ import drakovek.hoarder.gui.swing.components.DTextField;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DTextDialog extends BaseGUI
 {
 	/**
 	 * Main dialog for the GUI
-	 * 
-	 * @since 2.0
 	 */
 	private DDialog dialog;
 	
 	/**
 	 * String to return when the dialog is closed. Will either be null or text from the user.
-	 * 
-	 * @since 2.0
 	 */
 	private String returnString;
 	
 	/**
 	 * Text field used to get text from the user
-	 * 
-	 * @since 2.0
 	 */
 	private DTextField textField;
 	
@@ -48,7 +41,6 @@ public class DTextDialog extends BaseGUI
 	 * Initializes the DTextDialog class
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public DTextDialog(DSettings settings)
 	{
@@ -64,7 +56,6 @@ public class DTextDialog extends BaseGUI
 	 * @param messageIDs Language IDs for the message to be shown.
 	 * @param fieldText Text to use in the text field (sets as blank if null)
 	 * @return String entered by the user
-	 * @since 2.0
 	 */
 	public String openTextDialog(DFrame owner, final String titleID, final String[] messageIDs, final String fieldText)
 	{
@@ -84,7 +75,6 @@ public class DTextDialog extends BaseGUI
 	 * @param messageIDs Language IDs for the message to be shown.
 	 * @param fieldText Text to use in the text field (sets as blank if null)
 	 * @return Panel to use in the text dialog
-	 * @since 2.0
 	 */
 	private JPanel getDialogPanel(final String[] messageIDs, final String fieldText)
 	{

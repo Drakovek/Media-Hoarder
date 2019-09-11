@@ -5,7 +5,6 @@ package drakovek.hoarder.work;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public interface DWorker
 {
@@ -13,7 +12,6 @@ public interface DWorker
 	 * Called when a worker starts.
 	 * 
 	 * @param id ID of the work.
-	 * @since 2.0
 	 */
 	public void run(final String id);
 	
@@ -21,7 +19,6 @@ public interface DWorker
 	 * Called when a worker ends.
 	 * 
 	 * @param id ID of the work
-	 * @since 2.0
 	 */
 	public void done(final String id);
 	

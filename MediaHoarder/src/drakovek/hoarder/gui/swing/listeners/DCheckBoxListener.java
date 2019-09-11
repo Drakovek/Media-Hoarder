@@ -10,21 +10,16 @@ import drakovek.hoarder.processing.BooleanInt;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DCheckBoxListener implements ItemListener
 {
 	/**
 	 * DEvent to call when CheckBox is selected or unselected
-	 * 
-	 * @since 2.0
 	 */
 	private DEvent event;
 	
 	/**
 	 * Action ID for the CheckBox
-	 * 
-	 * @since 2.0
 	 */
 	private String id;
 	
@@ -33,7 +28,6 @@ public class DCheckBoxListener implements ItemListener
 	 * 
 	 * @param event DEvent to call when CheckBox is selected or unselected
 	 * @param id Action ID for the CheckBox
-	 * @since 2.0
 	 */
 	public DCheckBoxListener(DEvent event, final String id)
 	{

@@ -20,42 +20,31 @@ import drakovek.hoarder.gui.swing.components.DScrollPane;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 {
 	/**
 	 * Main Panel containing all the content for the Mode GUI.
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel contentPanel;
 	
 	/**
 	 * DButtons used to return to previous Mode GUIs
-	 * 
-	 * @since 2.0
 	 */
 	private DButton[] backButtons;
 	
 	/**
 	 * DButtons used to change the mode of operation.
-	 * 
-	 * @since 2.0
 	 */
 	private DButton[] modeButtons;
 	
 	/**
 	 * ModeBaseGUI to pass commands to if it is opened.
-	 * 
-	 * @since 2.0
 	 */
 	private ModeBaseGUI modeBaseGUI;
 	
 	/**
 	 * FrameGUI this mode GUI is contained within.
-	 * 
-	 * @since 2.0
 	 */
 	private FrameGUI frameGUI;
 	
@@ -63,7 +52,6 @@ public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 	 * Initializes the ModeBaseGUI class.
 	 * 
 	 * @param frameGUI FrameGUI this mode GUI is contained within.
-	 * @since 2.0
 	 */
 	public ModeBaseGUI(FrameGUI frameGUI)
 	{
@@ -83,7 +71,6 @@ public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 	 * Returns the modeGUI's main content panel.
 	 * 
 	 * @return Content Panel
-	 * @since 2.0
 	 */
 	public JPanel getContentPanel()
 	{
@@ -96,7 +83,6 @@ public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 	 * 
 	 * @param backIDs IDs for buttons to return to previous Mode GUIs
 	 * @param modeIDs IDs for buttons to change the mode of operation
-	 * @since 2.0
 	 */
 	public void setContentPanel(String backIDs[], String[] modeIDs)
 	{
@@ -160,7 +146,6 @@ public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 	 * Refreshes the content panel with a separate mode GUI
 	 * 
 	 * @param modeBaseGUI Mode GUI to replace this mode GUI
-	 * @since 2.0
 	 */
 	public void setContentPanel(ModeBaseGUI modeBaseGUI)
 	{
@@ -227,7 +212,6 @@ public abstract class ModeBaseGUI extends BaseGUI implements ComponentDisabler
 	 * Returns the parent FrameGUI
 	 * 
 	 * @return Parent FrameGUI
-	 * @since 2.0
 	 */
 	public FrameGUI getParentGUI()
 	{

@@ -10,7 +10,6 @@ import drakovek.hoarder.gui.swing.listeners.DActionListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DTextField extends JTextField
 {
@@ -24,7 +23,6 @@ public class DTextField extends JTextField
 	 * 
 	 * @param baseGUI Linked BaseGUI
 	 * @param id Action ID for the Text Field
-	 * @since 2.0
 	 */
 	public DTextField(BaseGUI baseGUI, final String id)
 	{

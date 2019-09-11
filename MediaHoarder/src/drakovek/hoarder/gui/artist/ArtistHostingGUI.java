@@ -47,175 +47,126 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods, DWorker
 {	
 	/**
 	 * Suffix used at the end of a DMF ID to indicate the DMF is referring to a journal rather than a media file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String JOURNAL_SUFFIX = "-J"; //$NON-NLS-1$
 	
 	/**
 	 * Tag for showing a DMF refers to a journal
-	 * 
-	 * @since 2.0
 	 */
 	public static final String JOURNAL_TAG = "Journal"; //$NON-NLS-1$
 	
 	/**
 	 * Tag for General Rating
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GENERAL_RATING = "General Rating"; //$NON-NLS-1$
 	
 	/**
 	 * Tag for Mature Rating
-	 * 
-	 * @since 2.0
 	 */
 	public static final String MATURE_RATING = "Mature Rating"; //$NON-NLS-1$
 	
 	/**
 	 * Tag for Adult Rating
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ADULT_RATING = "Adult Rating"; //$NON-NLS-1$
 	
 	/**
 	 * Tag for Scraps Gallery
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SCRAPS_GALLERY = "Scraps Gallery"; //$NON-NLS-1$
 	
 	/**
 	 * Tag for Main Gallery
-	 * 
-	 * @since 2.0
 	 */
 	public static final String MAIN_GALLERY = "Main Gallery"; //$NON-NLS-1$
 	
 	/**
 	 * List of currently selected artists
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> artists;
 	
 	/**
 	 * Whether to check all gallery pages or just the latest gallery pages
-	 * 
-	 * @since 2.0
 	 */
 	private boolean checkAllPages;
 	
 	/**
 	 * Settings Bar for the GUI
-	 * 
-	 * @since 2.0
 	 */
 	private SettingsBarGUI settingsBar;
 	
 	/**
 	 * DFileChooser for the GUI to choose the directory in which to save files.
-	 * 
-	 * @since 2.0
 	 */
 	private DFileChooser fileChooser;
 	
 	/**
 	 * GUI for logging into the artist hosting website
-	 * 
-	 * @since 2.0
 	 */
 	private LoginGUI loginGUI;
 	
 	/**
 	 * Downloader object for downloading information.
-	 * 
-	 * @since 2.0
 	 */
 	private Downloader downloader;
 	
 	/**
 	 * Object for handling the artist list
-	 * 
-	 * @since 2.0
 	 */
 	private ArtistHandler artistHandler;
 	
 	/**
 	 * Button to check new pages from which to save info
-	 * 
-	 * @since 2.0
 	 */
 	private DButton newButton;
 	
 	/**
 	 * Button to check all pages from which to save info
-	 * 
-	 * @since 2.0
 	 */
 	private DButton allButton;
 	
 	/**
 	 * Button to save info from a single page
-	 * 
-	 * @since 2.0
 	 */
 	private DButton singleButton;
 	
 	/**
 	 * Button to add artists from the artist list.
-	 * 
-	 * @since 2.0
 	 */
 	private DButton addButton;
 	
 	/**
 	 * Button to remove artists from the artist list.
-	 * 
-	 * @since 2.0
 	 */
 	private DButton removeButton;
 	
 	/**
 	 * Checkbox to determine whether to save journal pages.
-	 * 
-	 * @since 2.0
 	 */
 	private DCheckBox journalCheck;
 	
 	/**
 	 * List of artists to download from
-	 * 
-	 * @since 2.0
 	 */
 	private DList artistList;
 	
 	/**
 	 * Main progress dialog for the class
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressDialog progressDialog;
 	
 	/**
 	 * Progress dialog used for showing log information
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressInfoDialog progressInfoDialog;
 	
 	/**
 	 * PageURL given by the user when downloading an individual DMF
-	 * 
-	 * @since 2.0
 	 */
 	private String pageURL;
 	
@@ -227,7 +178,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param loginGUI GUI for logging into the artist hosting website
 	 * @param subtitleID ID for the sub-title of the frame
 	 * @param openID Language ID for the "open" menu item
-	 * @since 2.0
 	 */
 	public ArtistHostingGUI(DSettings settings, DmfHandler dmfHandler, LoginGUI loginGUI, final String subtitleID, final String openID)
 	{
@@ -336,7 +286,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Sets the directory from which to save DMFs
 	 * 
 	 * @param directory Given Directory
-	 * @since 2.0
 	 */
 	protected abstract void setDirectory(final File directory);
 	
@@ -344,14 +293,11 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Returns the directory from which to save DMFs
 	 * 
 	 * @return Directory
-	 * @since 2.0
 	 */
 	protected abstract File getDirectory();
 	
 	/**
 	 * Loads all IDs related to the current service to check if media has already been downloaded.
-	 * 
-	 * @since 2.0
 	 */
 	protected abstract void getIdStrings();
 	
@@ -359,7 +305,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Returns the title to use for the progress log.
 	 * 
 	 * @return Progress Log Title
-	 * @since 2.0
 	 */
 	protected abstract String getTitle();
 	
@@ -371,7 +316,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param checkAll Whether to check all gallery pages
 	 * @param scraps Whether to check the scraps gallery
 	 * @return List of page URLs
-	 * @since 2.0
 	 */
 	protected abstract ArrayList<String> getMediaPages(DProgressInfoDialog pd, final String artist, final boolean checkAll, final boolean scraps);
 	
@@ -382,7 +326,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param artist Fur Affinity Artist
 	 * @param checkAll Whether to check all gallery pages
 	 * @return List of page URLs
-	 * @since 2.0
 	 */
 	protected abstract ArrayList<String> getJournalPages(DProgressInfoDialog pd, final String artist, final boolean checkAll);
 	
@@ -391,7 +334,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * 
 	 * @param artist Given Artist
 	 * @return Formatted Artist String for use in URL
-	 * @since 2.0
 	 */
 	protected abstract String getUrlArtist(final String artist);
 	
@@ -402,7 +344,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param URL PageURL to read
 	 * @return Title of the most recently downloaded page
 	 * @throws Exception Any problem reading Fur Affinity data
-	 * @since 2.0
 	 */
 	protected abstract String downloadMediaPage(final File baseFolder, final String URL) throws Exception; 
 	
@@ -413,7 +354,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param URL PageURL to read
 	 * @return Title of the most recently downloaded page
 	 * @throws Exception Any problem reading Fur Affinity data
-	 * @since 2.0
 	 */
 	protected abstract String downloadJournalPage(final File baseFolder, final String URL) throws Exception;
 	
@@ -422,7 +362,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * 
 	 * @param URL Page URL to download
 	 * @return Whether the URL has already downloaded
-	 * @since 2.0
 	 */
 	protected abstract boolean isDownloaded(final String URL);
 	
@@ -430,7 +369,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Returns section of page URL that shows it is part of a media gallery
 	 * 
 	 * @return Gallery URL Fragment
-	 * @since 2.0
 	 */
 	protected abstract String getGalleryUrlFragment();
 	
@@ -443,8 +381,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Displays the current list of artists.
-	 * 
-	 * @since 2.0
 	 */
 	private void updateArtistList()
 	{
@@ -459,7 +395,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Starts the process to check pages for one or multiple artists.
 	 * 
 	 * @param checkAll Whether to check all of the pages, if false only checks the new pages.
-	 * @since 2.0
 	 */
 	private void checkPages(final boolean checkAll)
 	{	
@@ -560,7 +495,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param checkAll Whether to check all pages or just new pages.
 	 * @param checkJournals Whether to check for the artist's journals
 	 * @return Artist's Page URLs
-	 * @since 2.0
 	 */
 	protected ArrayList<String> getPages(DProgressInfoDialog pid, final String artist, final boolean checkAll, final boolean checkJournals)
 	{
@@ -593,7 +527,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param pid DProgressInfoDialog used to show progress
 	 * @param artist Given Artist
 	 * @param pages Page URLs
-	 * @since 2.0
 	 */
 	protected void downloadPages(DProgressInfoDialog pid, final String artist, final ArrayList<String> pages)
 	{
@@ -636,8 +569,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Starts the process of downloading a single media file.
-	 * 
-	 * @since 2.0
 	 */
 	private void downloadSingle()
 	{
@@ -692,7 +623,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * @param pid DProgressInfoDialog used to show progress
 	 * @param URL Given URL
 	 * @param baseDirectory Directory in which to save URL
-	 * @since 2.0
 	 */
 	protected void downloadSinglePage(DProgressInfoDialog pid, final String URL, final File baseDirectory)
 	{
@@ -749,8 +679,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Loads DMFs from the given DMF directories if they are not already loaded.
-	 * 
-	 * @since 2.0
 	 */
 	private void loadDMFs()
 	{
@@ -768,7 +696,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Returns the object's Downloader object.
 	 * 
 	 * @return Downloader
-	 * @since 2.0
 	 */
 	public Downloader getDownloader()
 	{
@@ -780,7 +707,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Returns the directory for holding image captchas.
 	 * 
 	 * @return Captcha Folder
-	 * @since 2.0
 	 */
 	public File getCaptchaFolder()
 	{
@@ -790,8 +716,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 
 	/**
 	 * Selects the main directory for this object.
-	 * 
-	 * @since 2.0
 	 */
 	private void selectDirectory()
 	{
@@ -808,8 +732,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Adds a given artist to the list of artists.
-	 * 
-	 * @since 2.0
 	 */
 	private void addArtist()
 	{
@@ -828,8 +750,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Removes selected artist(s) from the list of artists.
-	 * 
-	 * @since 2.0
 	 */
 	private void removeArtists()
 	{
@@ -853,8 +773,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Starts the downloading process.
-	 * 
-	 * @since 2.0
 	 */
 	private void startDownload()
 	{
@@ -883,8 +801,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Starts process of downloading media from selected artists.
-	 * 
-	 * @since 2.0
 	 */
 	private void downloadArtistMedia()
 	{
@@ -900,8 +816,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Starts process of downloading media from a given page URL
-	 * 
-	 * @since 2.0
 	 */
 	private void downloadSingleMedia()
 	{
@@ -913,8 +827,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Deals with a process being finished, closing the progress dialog and allowing input.
-	 * 
-	 * @since 2.0
 	 */
 	private void processFinished()
 	{
@@ -926,8 +838,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	
 	/**
 	 * Deals with an info process being finished, closing the info progress dialog and allowing input.
-	 * 
-	 * @since 2.0
 	 */
 	private void infoProcessFinished()
 	{

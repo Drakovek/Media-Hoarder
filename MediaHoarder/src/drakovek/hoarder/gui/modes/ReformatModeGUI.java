@@ -22,29 +22,22 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 {
 	
 	/**
 	 * String containing ID for the current reformat process mode
-	 * 
-	 * @since 2.0
 	 */
 	private String mode;
 	
 	/**
 	 * Progress Dialog for showing progress in loading DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressDialog progressDialog;
 	
 	/**
 	 * Progress Info Dialog for showing progress in reformatting processes
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressInfoDialog progressInfoDialog;
 	
@@ -52,7 +45,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	 * Initializes ReformatModeGUI class.
 	 * 
 	 * @param frameGUI FrameGUI this mode GUI is contained within.
-	 * @since 2.0
 	 */
 	public ReformatModeGUI(FrameGUI frameGUI)
 	{
@@ -72,8 +64,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Starts reformatting process by asking if the user wants to continue and loading DMFs.
-	 * 
-	 * @since 2.0
 	 */
 	private void startProcess()
 	{
@@ -121,8 +111,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Loads DMFs from the given DMF directories if they are not already loaded.
-	 * 
-	 * @since 2.0
 	 */
 	private void loadDMFs()
 	{
@@ -138,8 +126,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Deals with DMF loading being finished, closing the progress dialog and allowing input.
-	 * 
-	 * @since 2.0
 	 */
 	private void loadDmfsFinished()
 	{
@@ -160,8 +146,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Reformats DMFs to fit the current format for DMF files.
-	 * 
-	 * @since 2.0
 	 */
 	private void reformatDMFs()
 	{
@@ -193,8 +177,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Reformats HTML files referenced by DMFs by adding HTML escape characters.
-	 * 
-	 * @since 2.0
 	 */
 	private void reformatHTMLs()
 	{
@@ -239,8 +221,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Deletes all DMF sequence data.
-	 * 
-	 * @since 2.0
 	 */
 	private void deleteSequences()
 	{
@@ -277,8 +257,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Renames files to fit DMF titles
-	 * 
-	 * @since 2.0
 	 */
 	private void renameFiles()
 	{	
@@ -310,8 +288,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Deals with an info process being finished, closing the info progress dialog and allowing input.
-	 * 
-	 * @since 2.0
 	 */
 	private void infoProcessFinished()
 	{

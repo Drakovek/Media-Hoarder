@@ -9,14 +9,11 @@ import drakovek.hoarder.gui.BaseGUI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DMenu extends JMenu
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 1203234815659039624L;
 
@@ -25,7 +22,6 @@ public class DMenu extends JMenu
 	 * 
 	 * @param baseGUI Linked BaseGUI
 	 * @param id Language ID
-	 * @since 2.0
 	 */
 	public DMenu(BaseGUI baseGUI, final String id)
 	{

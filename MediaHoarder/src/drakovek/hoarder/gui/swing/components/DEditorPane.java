@@ -11,70 +11,51 @@ import drakovek.hoarder.processing.StringMethods;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DEditorPane extends JEditorPane
 {
 	/**
 	 * CSS class to use for elements requiring large text
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LARGE_TEXT_CLASS = "drakovek_large_text"; //$NON-NLS-1$
 	
 	/**
 	 * CSS class to use for elements requiring small text
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SMALL_TEXT_CLASS = "drakovek_small_text"; //$NON-NLS-1$
 	
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 1156133161692245991L;
 
 	/**
 	 * Linked BaseGUI
-	 * 
-	 * @since 2.0
 	 */
 	private BaseGUI baseGUI;
 	
 	/**
 	 * Hex color for the main CSS text color
-	 * 
-	 * @since 2.0
 	 */
 	private String fontColor;
 	
 	/**
 	 * Hex color for the hyperlink CSS text color
-	 * 
-	 * @since 2.0
 	 */
 	private String hyperlinkColor;
 	
 	/**
 	 * Font size used for large CSS text
-	 * 
-	 * @since 2.0
 	 */
 	private int largeFontSize;
 	
 	/**
 	 * Font size used for small CSS text
-	 * 
-	 * @since 2.0
 	 */
 	private int smallFontSize;
 	
 	/**
-	 * Border size used for CSS hr elements
-	 * 
-	 * @since 2.0
+	 * Border size used for CSS HR elements
 	 */
 	private int borderSize;
 	
@@ -83,7 +64,6 @@ public class DEditorPane extends JEditorPane
 	 * 
 	 * @param baseGUI Linked BaseGUI
 	 * @param colorReference JComponent from which to get color information for CSS
-	 * @since 2.0
 	 */
 	public DEditorPane(BaseGUI baseGUI, JComponent colorReference)
 	{
@@ -127,7 +107,6 @@ public class DEditorPane extends JEditorPane
 	 * Sets the text for the editor pane in HTML format.
 	 * 
 	 * @param text HTML text
-	 * @since 2.0
 	 */
 	public void setTextHTML(final String text)
 	{

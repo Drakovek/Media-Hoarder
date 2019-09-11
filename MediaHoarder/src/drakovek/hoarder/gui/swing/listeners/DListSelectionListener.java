@@ -8,21 +8,16 @@ import javax.swing.event.ListSelectionListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DListSelectionListener implements ListSelectionListener
 {
 	/**
 	 * DEvent to call when event occurs
-	 * 
-	 * @since 2.0
 	 */
 	private DEvent event;
 	
 	/**
 	 * ID of the event
-	 * 
-	 * @since 2.0
 	 */
 	private String id;
 	
@@ -31,7 +26,6 @@ public class DListSelectionListener implements ListSelectionListener
 	 * 
 	 * @param event DEvent to call when list item is selected.
 	 * @param id ID of the list selection event.
-	 * @since 2.0
 	 */
 	public DListSelectionListener(DEvent event, final String id)
 	{

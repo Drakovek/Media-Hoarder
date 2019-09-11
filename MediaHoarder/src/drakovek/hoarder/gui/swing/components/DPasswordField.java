@@ -10,14 +10,11 @@ import drakovek.hoarder.gui.swing.listeners.DActionListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DPasswordField extends JPasswordField
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -5240158498525787038L;
 
@@ -26,7 +23,6 @@ public class DPasswordField extends JPasswordField
 	 * 
 	 * @param baseGUI Linked BaseGUI
 	 * @param id Action ID for the Password Field
-	 * @since 2.0
 	 */
 	public DPasswordField(BaseGUI baseGUI, final String id)
 	{

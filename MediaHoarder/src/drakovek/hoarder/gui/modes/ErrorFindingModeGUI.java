@@ -19,28 +19,21 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 {
 	/**
 	 * String containing ID for the current reformat process mode
-	 * 
-	 * @since 2.0
 	 */
 	private String mode;
 	
 	/**
 	 * Progress Dialog for showing progress in loading DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressDialog progressDialog;
 	
 	/**
 	 * Progress Info Dialog for showing progress in reformatting processes
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressInfoDialog progressInfoDialog;
 	
@@ -48,7 +41,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	 * Initializes the ErrorFindingModeGUI.
 	 * 
 	 * @param frameGUI FrameGUI this mode GUI is contained within.
-	 * @since 2.0
 	 */
 	public ErrorFindingModeGUI(FrameGUI frameGUI)
 	{
@@ -67,8 +59,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 
 	/**
 	 * Starts reformatting process by asking if the user wants to continue and loading DMFs.
-	 * 
-	 * @since 2.0
 	 */
 	private void startProcess()
 	{
@@ -81,8 +71,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Loads DMFs from the given DMF directories.
-	 * 
-	 * @since 2.0
 	 */
 	private void loadDMFs()
 	{
@@ -93,8 +81,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Deals with DMF loading being finished, closing the progress dialog and allowing input.
-	 * 
-	 * @since 2.0
 	 */
 	private void loadDmfsFinished()
 	{
@@ -115,8 +101,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Deals with an info process being finished, closing the info progress dialog and allowing input.
-	 * 
-	 * @since 2.0
 	 */
 	private void infoProcessFinished()
 	{
@@ -128,8 +112,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Finds DMFs that are missing their attached media file(s)
-	 * 
-	 * @since 2.0
 	 */
 	private void findMissingMedia()
 	{
@@ -172,8 +154,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Finds media files in DMF folders that are not linked to DMF files.
-	 * 
-	 * @since 2.0
 	 */
 	private void findUnlinkedFiles()
 	{
@@ -205,8 +185,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	
 	/**
 	 * Find DMFs that share identical IDs
-	 * 
-	 * @since 2.0
 	 */
 	private void findIdenticalIDs()
 	{

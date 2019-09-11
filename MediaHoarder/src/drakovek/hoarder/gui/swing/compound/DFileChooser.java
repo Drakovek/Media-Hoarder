@@ -36,140 +36,101 @@ import drakovek.hoarder.processing.sort.FileSort;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DFileChooser extends BaseGUI implements ComponentDisabler
 {
 	/**
 	 * Action ID for when enter is pressed while the file list is in focus
-	 * 
-	 * @since 2.0
 	 */
 	private static final String LIST_ENTER_ACTION = DefaultLanguage.FILE + DEnterListener.ENTER_PRESSED;
 	
 	/**
 	 * Ellipsis string
-	 * 
-	 * @since 2.0
 	 */
 	private static final String ELLIPSIS = "..."; //$NON-NLS-1$
 	
 	/**
 	 * Main file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	private DDialog dialog;
 	
 	/**
 	 * Main panel for the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel panel;
 	
 	/**
 	 * Combo Box for selecting root directories
-	 * 
-	 * @since 2.0
 	 */
 	private DComboBox rootBox;
 	
 	/**
 	 * Combo Box for selecting the file types to show.
-	 * 
-	 * @since 2.0
 	 */
 	private DComboBox fileTypeBox;
 	
 	/**
 	 * Label to show the currently selected directory
-	 * 
-	 * @since 2.0
 	 */
 	private DLabel directoryLabel;
 	
 	/**
 	 * Text Field for showing and entering the selected file path
-	 * 
-	 * @since 2.0
 	 */
 	private DTextField fileNameText;
 	
 	/**
 	 * List showing the files of the currently displayed directory
-	 * 
-	 * @since 2.0
 	 */
 	private DFileList fileList;
 	
 	/**
 	 * Scroll pane for holding the file list
-	 * 
-	 * @since 2.0
 	 */
 	private DScrollPane fileScroll;
 	
 	/**
 	 * Button used for finishing the file chooser process. Shows either "Open" or "Save"
-	 * 
-	 * @since 2.0
 	 */
 	private DButton finishButton;
 	
 	/**
 	 * File to return when finished with the file chooser.
-	 * 
-	 * @since 2.0
 	 */
 	private File returnFile;
 	
 	/**
 	 * File currently selected by the user.
-	 * 
-	 * @since 2.0
 	 */
 	private File selectedFile;
 	
 	/**
 	 * Whether or not the user is prompted to open a file. If false, the user is prompted to save a file.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean isOpening;
 	
 	/**
 	 * Array of the extensions allowed to be shown when showing the contents of a directory
-	 * 
-	 * @since 2.0
 	 */
 	private String[] extensions;
 	
 	/**
 	 * Array of the user's root directories
-	 * 
-	 * @since 2.0
 	 */
 	private File[] roots;
 	
 	/**
 	 * Array of files in the current directory
-	 * 
-	 * @since 2.0
 	 */
 	private File[] files;
 	
 	/**
 	 * The directory currently being shown to the user.
-	 * 
-	 * @since 2.0
 	 */
 	private File currentDirectory;
 	
 	/**
 	 * Filter for the showing the files of the current directory
-	 * 
-	 * @since 2.0
 	 */
 	private ExtensionFilter filter;
 	
@@ -177,7 +138,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * Initializes the DFileChooser class by formatting the main GUI.
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public DFileChooser(DSettings settings)
 	{
@@ -263,7 +223,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * @param startDirectory Directory to start with when the file chooser opens
 	 * @param fileExtensions Extensions to allow opening
 	 * @return File chosen by the user (null if no file chosen)
-	 * @since 2.0
 	 */
 	public File openDialog(DFrame owner, final File startDirectory, final String[] fileExtensions)
 	{
@@ -289,7 +248,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * @param startDirectory Directory to start with when the file chooser opens
 	 * @param fileExtensions Extensions to allow opening
 	 * @return File chosen by the user (null if no file chosen)
-	 * @since 2.0
 	 */
 	public File openDialog(DDialog owner, final File startDirectory, final String[] fileExtensions)
 	{
@@ -313,7 +271,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * @param startDirectory Directory to start with when the file chooser opens
 	 * @param fileExtensions Extensions to allow opening
 	 * @return File chosen by the user (null if no file chosen)
-	 * @since 2.0
 	 */
 	public File openSaveDialog(DFrame owner, final File startDirectory, final String[] fileExtensions)
 	{
@@ -339,7 +296,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * @param startDirectory Directory to start with when the file chooser opens
 	 * @param fileExtensions Extensions to allow opening
 	 * @return File chosen by the user (null if no file chosen)
-	 * @since 2.0
 	 */
 	public File openSaveDialog(DDialog owner, final File startDirectory, final String[] fileExtensions)
 	{
@@ -360,7 +316,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * Sets the initial state of the file chooser when it is opened.
 	 * 
 	 * @param startDirectory Directory to start with when the file chooser opens
-	 * @since 2.0
 	 */
 	private void initializeChooser(final File startDirectory)
 	{
@@ -464,7 +419,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * Sets the displayed file list to show the contents of a given directory.
 	 * 
 	 * @param directory Given Directory
-	 * @since 2.0
 	 */
 	private void setDirectory(final File directory)
 	{
@@ -495,7 +449,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * Sets the directory label to show a given directory.
 	 * 
 	 * @param directory Given Directory
-	 * @since 2.0
 	 */
 	private void setDirectoryLabel(final File directory)
 	{
@@ -555,7 +508,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * Sets the current directory to a a directory in the file list corresponding to a given index.
 	 * 
 	 * @param index Index of file to use as current directory
-	 * @since 2.0
 	 */
 	private void setDirectoryFromIndex(final int index)
 	{
@@ -569,8 +521,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	
 	/**
 	 * Deals with a root directory being selected. Sets the current directory to the selected root.
-	 * 
-	 * @since 2.0
 	 */
 	private void rootSelected()
 	{
@@ -585,8 +535,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	
 	/**
 	 * Deals with a file name being entered. Sets the current directory to the file name entered in the file name text field.
-	 * 
-	 * @since 2.0
 	 */
 	private void fileNameEntered()
 	{
@@ -628,8 +576,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	
 	/**
 	 * Changes the current file filter based on the user's selection in the file type combo box.
-	 * 
-	 * @since 2.0
 	 */
 	private void changeFilter()
 	{
@@ -658,8 +604,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	
 	/**
 	 * Deals with a file being selected in the currently displayed directory.
-	 * 
-	 * @since 2.0
 	 */
 	public void fileSelected()
 	{
@@ -675,8 +619,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	
 	/**
 	 * Attempts to finish the file choosing process, attempting to set the return file.
-	 * 
-	 * @since 2.0
 	 */
 	private void attemptFinish()
 	{	
@@ -765,7 +707,6 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	 * Sets the file name text field based on a given file.
 	 * 
 	 * @param file Given File
-	 * @since 2.0
 	 */
 	private void setNameText(final File file)
 	{

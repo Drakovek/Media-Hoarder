@@ -17,28 +17,21 @@ import drakovek.hoarder.gui.swing.components.DScrollPane;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ThemeSettingsGUI extends SettingsModeGUI
 {
 	/**
 	 * DList for selecting the program's theme.
-	 * 
-	 * @since 2.0
 	 */
 	private DList themeList;
 	
 	/**
 	 * List of the installed themes (Swing "Look and Feel"s)
-	 * 
-	 * @since 2.0
 	 */
 	private LookAndFeelInfo[] themes;
 	
 	/**
 	 * Currently selected theme.
-	 * 
-	 * @since 2.0
 	 */
 	private String theme;
 	
@@ -46,7 +39,6 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 	 * Initializes the ThemeSettingsGUI class.
 	 * 
 	 * @param settingsGUI Parent SettingsGUI
-	 * @since 2.0
 	 */
 	public ThemeSettingsGUI(SettingsGUI settingsGUI)
 	{
@@ -96,8 +88,6 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 
 	/**
 	 * Sets the current theme to the theme selected by the user.
-	 * 
-	 * @since 2.0
 	 */
 	private void setThemeSelected()
 	{

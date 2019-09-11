@@ -12,63 +12,46 @@ import drakovek.hoarder.processing.sort.AlphaNumSort;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DmfHandler
 {
 	/**
 	 * Int value indicating to sort DMFs by time published.
-	 * 
-	 * @since 2.0
 	 */
 	public static final int SORT_TIME = 0;
 	
 	/**
 	 * Int value indicating to sort DMFs Alpha-numerically by title.
-	 * 
-	 * @since 2.0
 	 */
 	public static final int SORT_ALPHA = 1;
 	
 	/**
-	 * Int value indicating to sort dmfs by rating.
-	 * 
-	 * @since 2.0
+	 * Int value indicating to sort DMFs by rating.
 	 */
 	public static final int SORT_RATING = 2;
 	
 	/**
 	 * ArrayList full of indexes referencing DMFs loaded in DmfDatabase, sorted in a given order.
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Integer> sorted;
 	
 	/**
 	 * ArrayList full of indexes referencing DMFs loaded in DmfDatabase, with certain indexes being omitted via a filter.
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Integer> filtered;
 	
 	/**
 	 * DMF Database from which to load DMF info
-	 * 
-	 * @since 2.0
 	 */
 	private DmfDatabase database;
 	
 	/**
 	 * Boolean to show if DMFs were loaded properly
-	 * 
-	 * @since 2.0
 	 */
 	private boolean loaded;
 	
 	/**
 	 * Initializes DmfHandler class
-	 * 
-	 * @since 2.0
 	 */
 	public DmfHandler()
 	{
@@ -78,8 +61,6 @@ public class DmfHandler
 	
 	/**
 	 * Resets all DMF information from the object
-	 * 
-	 * @since 2.0
 	 */
 	public void clearDMFs()
 	{
@@ -99,7 +80,6 @@ public class DmfHandler
 	 * @param useIndexes Whether to use index files to load DmfDirectory object
 	 * @param saveIndexes Whether to save DmfDirectories as index files
 	 * @param updateIndexes Whether to update index files to reflect changes in DMFs
-	 * @since 2.0
 	 */
 	public void loadDMFs(final ArrayList<File> dmfDirectories, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
 	{
@@ -114,7 +94,6 @@ public class DmfHandler
 	 * Returns whether DMFs loaded properly.
 	 * 
 	 * @return Whether DMFs loaded properly
-	 * @since 2.0
 	 */
 	public boolean isLoaded()
 	{
@@ -124,8 +103,6 @@ public class DmfHandler
 	
 	/**
 	 * Resets the sorted list to match the default order of DmfDatabase
-	 * 
-	 * @since 2.0
 	 */
 	private void resetSorted()
 	{
@@ -141,8 +118,6 @@ public class DmfHandler
 
 	/**
 	 * Resets the filtered list to match with the sorted list
-	 * 
-	 * @since 2.0
 	 */
 	private void resetFiltered()
 	{
@@ -163,7 +138,6 @@ public class DmfHandler
 	 * @param groupArtists Whether to group artists
 	 * @param groupSequences Whether to group sequences
 	 * @param groupSections Whether to group sections
-	 * @since 2.0
 	 */
 	public void sort(final int sortType, final boolean groupArtists, final boolean groupSequences, final boolean groupSections)
 	{
@@ -234,7 +208,6 @@ public class DmfHandler
 	 * @param sortType Sort Type
 	 * @param groupArtists Whether to group artists together
 	 * @return Sorted list of DMF indexes
-	 * @since 2.0
 	 */
 	private ArrayList<Integer> sortMerge(final ArrayList<Integer> startList, final int sortType, final boolean groupArtists)
 	{
@@ -299,7 +272,6 @@ public class DmfHandler
 	 * @param sortType Sort Type, used to determine which criteria to compare DMFs by
 	 * @param groupArtists Whether to group artists together
 	 * @return int value showing how the DMFs compare
-	 * @since 2.0
 	 */
 	private int compareDMFs(final int dmfA, final int dmfB, final int sortType, final boolean groupArtists)
 	{
@@ -355,7 +327,6 @@ public class DmfHandler
 	 * Returns the number of DMFs loaded.
 	 * 
 	 * @return Number of DMFs loaded
-	 * @since 2.0
 	 */
 	public int getSize()
 	{
@@ -367,7 +338,6 @@ public class DmfHandler
 	 * Returns the DMF Database linked to the handler.
 	 * 
 	 * @return DmfDatabase
-	 * @since 2.0
 	 */
 	public DmfDatabase getDatabase()
 	{
@@ -380,7 +350,6 @@ public class DmfHandler
 	 * 
 	 * @param dmf Given DMF
 	 * @param index Given Index
-	 * @since 2.0
 	 */
 	public void setDMF(DMF dmf, final int index)
 	{
@@ -393,7 +362,6 @@ public class DmfHandler
 	 * 
 	 * @param dmf Given DMF
 	 * @param index Given Index
-	 * @since 2.0
 	 */
 	public void addDMF(DMF dmf)
 	{
@@ -408,7 +376,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return DMF File
-	 * @since 2.0
 	 */
 	public File getDmfFile(final int index)
 	{
@@ -421,7 +388,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return ID
-	 * @since 2.0
 	 */
 	public String getID(final int index)
 	{
@@ -434,7 +400,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Title
-	 * @since 2.0
 	 */
 	public String getTitle(final int index)
 	{
@@ -447,7 +412,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Artists
-	 * @since 2.0
 	 */
 	public String[] getArtists(final int index)
 	{
@@ -460,7 +424,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Time
-	 * @since 2.0
 	 */
 	public long getTime(final int index)
 	{
@@ -473,7 +436,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Web Tags
-	 * @since 2.0
 	 */
 	public String[] getWebTags(final int index)
 	{
@@ -486,7 +448,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Description
-	 * @since 2.0
 	 */
 	public String getDescription(final int index)
 	{
@@ -499,7 +460,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Page URL
-	 * @since 2.0
 	 */
 	public String getPageURL(final int index)
 	{
@@ -512,7 +472,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Media URL
-	 * @since 2.0
 	 */
 	public String getMediaURL(final int index)
 	{
@@ -525,7 +484,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Secondary URL
-	 * @since 2.0
 	 */
 	public String getSecondaryURL(final int index)
 	{
@@ -538,7 +496,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Media File
-	 * @since 2.0
 	 */
 	public File getMediaFile(final int index)
 	{
@@ -551,7 +508,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Secondary Media File
-	 * @since 2.0
 	 */
 	public File getSecondaryFile(final int index)
 	{
@@ -564,7 +520,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Last IDs
-	 * @since 2.0
 	 */
 	public String[] getLastIDs(final int index)
 	{
@@ -577,7 +532,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Next IDs
-	 * @since 2.0
 	 */
 	public String[] getNextIDs(final int index)
 	{
@@ -590,7 +544,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Whether DMF is first in section
-	 * @since 2.0
 	 */
 	public boolean getIsFirst(final int index)
 	{
@@ -603,7 +556,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Whether DMF is last in section
-	 * @since 2.0
 	 */
 	public boolean getIsLast(final int index)
 	{
@@ -616,7 +568,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Sequence Title
-	 * @since 2.0
 	 */
 	public String getSequenceTitle(final int index)
 	{
@@ -629,7 +580,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Section Title
-	 * @since 2.0
 	 */
 	public String getSectionTitle(final int index)
 	{
@@ -642,7 +592,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Branch Titles
-	 * @since 2.0
 	 */
 	public String[] getBranchTitles(final int index)
 	{
@@ -655,7 +604,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return Rating
-	 * @since 2.0
 	 */
 	public int getRating(final int index)
 	{
@@ -668,7 +616,6 @@ public class DmfHandler
 	 * 
 	 * @param index Index
 	 * @return User Tags
-	 * @since 2.0
 	 */
 	public String[] getUserTags(final int index)
 	{

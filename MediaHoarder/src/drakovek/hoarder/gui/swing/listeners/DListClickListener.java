@@ -10,36 +10,27 @@ import javax.swing.JList;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DListClickListener extends MouseAdapter
 {
 	/**
 	 * Default action id for when a list element is clicked.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LIST_CLICKED = "list_clicked"; //$NON-NLS-1$
 	
 	/**
 	 * DEvent to call if an item has been clicked.
-	 * 
-	 * @since 2.0
 	 */
 	private DEvent event;
 	
 	/**
 	 * List from which to check for clicks
-	 * 
-	 * @since 2.0
 	 */
 	@SuppressWarnings("rawtypes")
 	private JList list;
 	
 	/**
 	 * Action ID
-	 * 
-	 * @since 2.0
 	 */
 	private String id;
 	
@@ -49,7 +40,6 @@ public class DListClickListener extends MouseAdapter
 	 * @param event DEvent to call if an item has been clicked.
 	 * @param list List from which to check for clicks
 	 * @param id Action ID
-	 * @since 2.0
 	 */
 	@SuppressWarnings("rawtypes")
 	public DListClickListener(DEvent event, JList list, final String id)

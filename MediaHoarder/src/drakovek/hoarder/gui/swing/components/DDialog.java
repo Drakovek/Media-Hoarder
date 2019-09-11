@@ -13,14 +13,11 @@ import drakovek.hoarder.gui.ScreenDimensions;
  * 
  * @author Drakovek
  * @version 1.0
- * @since 1.0
  */
 public class DDialog extends JDialog
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 3346226802678631049L;
 
@@ -33,7 +30,6 @@ public class DDialog extends JDialog
 	 * @param modal Whether the dialog is modal (Disables the ownerFrame)
 	 * @param width Desired width of the dialog. If 0, the dialog will use it's default value
 	 * @param height Desired height of the dialog. If 0, the dialog will use it's default value
-	 * @since 2.0
 	 */
 	public DDialog(DFrame ownerFrame, JPanel dialogPanel, final String title, final boolean modal, final int width, final int height)
 	{
@@ -52,7 +48,6 @@ public class DDialog extends JDialog
 	 * @param modal Whether the dialog is modal (Disables the ownerDialog)
 	 * @param width Desired width of the dialog. If 0, the dialog will use it's default value
 	 * @param height Desired height of the dialog. If 0, the dialog will use it's default value
-	 * @since 2.0
 	 */
 	public DDialog(DDialog ownerDialog, JPanel dialogPanel, final String title, final boolean modal, final int width, final int height)
 	{
@@ -68,7 +63,6 @@ public class DDialog extends JDialog
 	 * @param dialogPanel Panel contained in the DDialog
 	 * @param width Desired width of the dialog. If 0, the dialog will use it's default value
 	 * @param height Desired height of the dialog. If 0, the dialog will use it's default value
-	 * @since 2.0
 	 */
 	private void initializeDialog(JPanel dialogPanel, final int width, final int height)
 	{

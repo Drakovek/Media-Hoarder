@@ -12,21 +12,16 @@ import drakovek.hoarder.gui.settings.SettingsBarGUI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ModeContainerGUI extends FrameGUI
 {
 	/**
 	 * Main settings bar for the ModeContainerGUI
-	 * 
-	 * @since 2.0
 	 */
 	private SettingsBarGUI settingsBar;
 	
 	/**
 	 * Main ModeBaseGUI for choosing modes of operation.
-	 * 
-	 * @since 2.0
 	 */
 	private ModeBaseGUI modeBaseGUI;
 	
@@ -35,7 +30,6 @@ public class ModeContainerGUI extends FrameGUI
 	 * 
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DmfHandler
-	 * @since 2.0
 	 */
 	public ModeContainerGUI(DSettings settings, DmfHandler dmfHandler)
 	{

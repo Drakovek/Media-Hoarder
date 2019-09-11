@@ -20,77 +20,56 @@ import drakovek.hoarder.processing.ExtensionMethods;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class MediaPanel extends JPanel
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 7128125548135572761L;
 	
 	/**
 	 * Value indicating a given file is an image file
-	 * 
-	 * @since 2.0
 	 */
 	private static final int IMAGE = 0;
 	
 	/**
 	 * Value indicating a given file is a text file
-	 * 
-	 * @since 2.0
 	 */
 	private static final int TEXT = 1;
 	
 	/**
 	 * Value indicating a given file is an HTML file
-	 * 
-	 * @since 2.0
 	 */
 	private static final int HTML = 2;
 	
 	/**
 	 * Value of the currently loaded media type
-	 * 
-	 * @since 2.0
 	 */
 	private int mediaType;
 	
 	/**
 	 * ImageScrollPane for displaying images.
-	 * 
-	 * @since 2.0
 	 */
 	private ImageScrollPane imageScroll;
 	
 	/**
 	 * TextArea for displaying text files
-	 * 
-	 * @since 2.0
 	 */
 	private DTextArea textArea;
 	
 	/**
 	 * Scroll pane for holding the main text area
-	 * 
-	 * @since 2.0
 	 */
 	private DScrollPane textScroll;
 	
 	/**
 	 * EditorPane for displaying HTML and rich text files
-	 * 
-	 * @since 2.0
 	 */
 	private DEditorPane editorPane;
 	
 	/**
 	 * Scroll pane for holding the main editor pane
-	 * 
-	 * @since 2.0
 	 */
 	private DScrollPane editorScroll;
 	
@@ -99,7 +78,6 @@ public class MediaPanel extends JPanel
 	 * 
 	 * @param baseGUI Linked BaseGUI
 	 * @param colorReference JComponent from which to get color information for CSS
-	 * @since 2.0
 	 */
 	public MediaPanel(BaseGUI baseGUI, JComponent colorReference)
 	{
@@ -125,7 +103,6 @@ public class MediaPanel extends JPanel
 	 * Sets the current media file to show.
 	 * 
 	 * @param mediaFile Media file to show
-	 * @since 2.0
 	 */
 	public void setMedia(final File mediaFile)
 	{
@@ -150,7 +127,6 @@ public class MediaPanel extends JPanel
 	 * Sets the current panel type to match the panel needed for displaying the given media file.
 	 * 
 	 * @param mediaFile Given Media File
-	 * @since 2.0
 	 */
 	public void setPanelType(final File mediaFile)
 	{
@@ -182,7 +158,6 @@ public class MediaPanel extends JPanel
 	 * 
 	 * @param mediaFile Given File
 	 * @return Integer Media Type Value
-	 * @since 2.0
 	 */
 	private static int getMediaType(final File mediaFile)
 	{
@@ -211,7 +186,6 @@ public class MediaPanel extends JPanel
 	 * Displays a given text file.
 	 * 
 	 * @param mediaFile Given Text File
-	 * @since 2.0
 	 */
 	private void setText(final File mediaFile)
 	{
@@ -234,7 +208,6 @@ public class MediaPanel extends JPanel
 	 * Displays a given HTML file.
 	 * 
 	 * @param mediaFile Given Text File
-	 * @since 2.0
 	 */
 	private void setHTML(final File mediaFile)
 	{
@@ -255,7 +228,6 @@ public class MediaPanel extends JPanel
 	 * Displays a given image file.
 	 * 
 	 * @param mediaFile Given Text File
-	 * @since 2.0
 	 */
 	private void setImage(final File mediaFile)
 	{
@@ -265,8 +237,6 @@ public class MediaPanel extends JPanel
 	
 	/**
 	 * Updates the current media, mainly to adjust for current size of the panel.
-	 * 
-	 * @since 2.0
 	 */
 	public void updateMedia()
 	{

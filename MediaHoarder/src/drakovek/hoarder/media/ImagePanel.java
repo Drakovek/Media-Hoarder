@@ -17,91 +17,66 @@ import drakovek.hoarder.file.DSettings;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ImagePanel extends JPanel implements Scrollable
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -5627708724281375282L;
 
 	/**
 	 * Image used for holding animated GIFs
-	 * 
-	 * @since 2.0
 	 */
 	private Image gifImage;
 	
 	/**
 	 * BufferedImage used to hold a scaled version of the image currently stored in memory
-	 * 
-	 * @since 2.0
 	 */
 	private BufferedImage scaledImage;
 	
 	/**
 	 * BufferedImage used to hold an image at its original specified resolution.
-	 * 
-	 * @since 2.0
 	 */
 	private BufferedImage originalImage;
 	
 	/**
 	 * Dimension of the image to be drawn to the panel
-	 * 
-	 * @since 2.0
 	 */
 	private Dimension imageDimension;
 	
 	/**
 	 * Object to handle loading and scaling images
-	 * 
-	 * @since 2.0
 	 */
 	private ImageHandler imageHandler;
 	
 	/**
 	 * Width of the gap between the panel and its parent scroll pane
-	 * 
-	 * @since 2.0
 	 */
 	private int gapWidth;
 	
 	/**
 	 * Height of the gap between the panel and its parent scroll pane
-	 * 
-	 * @since 2.0
 	 */
 	private int gapHeight;
 	
 	/**
 	 * Width of a vertical scroll bar
-	 * 
-	 * @since 2.0
 	 */
 	private int scrollWidth;
 	
 	/**
 	 * Height of a horizontal scroll bar
-	 * 
-	 * @since 2.0
 	 */
 	private int scrollHeight;
 	
 	/**
 	 * Int value indicating the type of scaling to use
-	 * 
-	 * @since 2.0
 	 */
 	private int scaleType;
 	
 	/**
 	 * Double value to multiply image size by when scaling directly
-	 * 
-	 * @since 2.0
 	 */
 	private double scaleAmount;
 	
@@ -109,7 +84,6 @@ public class ImagePanel extends JPanel implements Scrollable
 	 * Initializes the ImagePanel to have now image to start with.
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public ImagePanel(DSettings settings)
 	{
@@ -150,7 +124,6 @@ public class ImagePanel extends JPanel implements Scrollable
 	 * 
 	 * @param scaleType Int value indicating the type of scaling to use
 	 * @param scaleAmount Double value to multiply image size by when scaling directly
-	 * @since 2.0
 	 */
 	public void setScale(final int scaleType, final double scaleAmount)
 	{
@@ -163,7 +136,6 @@ public class ImagePanel extends JPanel implements Scrollable
 	 * Sets the image of the ImagePanel based on an image file.
 	 * 
 	 * @param file Given Image File
-	 * @since 2.0
 	 */
 	public void setFile(final File file)
 	{
@@ -184,7 +156,6 @@ public class ImagePanel extends JPanel implements Scrollable
 	 * Sets the gifImage Image object to contain an animated GIF from a given image file.
 	 * 
 	 * @param file Animated GIF File
-	 * @since 2.0
 	 */
 	private void setGifImage(final File file)
 	{		
@@ -210,7 +181,6 @@ public class ImagePanel extends JPanel implements Scrollable
 	 * Sets the originalImage BufferedImage object based on an given file.
 	 * 
 	 * @param file Input File
-	 * @since 2.0
 	 */
 	private void setImage(final File file)
 	{
@@ -224,8 +194,6 @@ public class ImagePanel extends JPanel implements Scrollable
 	
 	/**
 	 * Sets the scaledImage BufferedImage object to be a scaled version of the originalImage object fit to the ImagePanel.
-	 * 
-	 * @since 2.0
 	 */
 	public void scaleImage()
 	{
@@ -282,7 +250,6 @@ public class ImagePanel extends JPanel implements Scrollable
 	 * Returns the dimension of the currently displayed image.
 	 * 
 	 * @return Image Dimensions
-	 * @since 2.0
 	 */
 	public Dimension getImageDimension()
 	{

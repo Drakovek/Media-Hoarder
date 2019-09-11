@@ -25,14 +25,11 @@ import drakovek.hoarder.web.Downloader;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class InkBunnyGUI extends ArtistHostingGUI
 { 
 	/**
 	 * String Array of available months in Inkbunny format.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[] MONTHS = {"jan", "feb", "mar", "apr",   //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
 											"may", "jun", "jul", "aug", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -40,29 +37,21 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	
 	/**
 	 * Prefix for a DMF ID that indicates that the DMF is sourced from Inkbunny.net
-	 * 
-	 * @since 2.0
 	 */
 	private static final String ID_PREFIX = "INK"; //$NON-NLS-1$
 	
 	/**
 	 * Section of Inkbunny page URL that shows it is part of a media gallery
-	 * 
-	 * @since 2.0
 	 */
 	private static final String GALLERY_URL = "/s/"; //$NON-NLS-1$
 	
 	/**
 	 * Section of Inkbunny page URL that shows it is part of a journal gallery
-	 * 
-	 * @since 2.0
 	 */
 	private static final String JOURNAL_URL = "/j/"; //$NON-NLS-1$
 	
 	/**
 	 * ArrayList of modified Inkbunny IDs to check if media has already been downloaded
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> idStrings;
 	
@@ -71,7 +60,6 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DmfHandler
-	 * @since 2.0
 	 */
 	public InkBunnyGUI(DSettings settings, DmfHandler dmfHandler)
 	{

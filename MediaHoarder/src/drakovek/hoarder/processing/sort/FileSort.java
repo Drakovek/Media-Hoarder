@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class FileSort 
 {
@@ -17,7 +16,6 @@ public class FileSort
 	 * 
 	 * @param inputFiles Unsorted File Array
 	 * @return Sorted File Array
-	 * @since 2.0
 	 */
 	public static File[] sortFiles(File[] inputFiles)
 	{
@@ -55,7 +53,6 @@ public class FileSort
 	 * 
 	 * @param inputList Starting ArrayList<File>
 	 * @return Sorted ArrayList<File>
-	 * @since 2.0
 	 */
 	public static ArrayList<File> sortFiles(final ArrayList<File> inputList)
 	{
@@ -117,7 +114,6 @@ public class FileSort
    	 * @param aFile 1st file
    	 * @param bFile 2nd file
    	 * @return return int
-   	 * @since 2.0
    	 */
    	private static int compareFiles(File aFile, File bFile)
    	{

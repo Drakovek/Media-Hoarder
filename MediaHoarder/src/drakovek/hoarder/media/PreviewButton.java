@@ -16,42 +16,31 @@ import drakovek.hoarder.gui.swing.listeners.DEvent;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class PreviewButton extends JButton
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -7234967063333386274L;
 	
 	/**
 	 * ID of preview button being pressed
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PREVIEW_EVENT = "preview_event"; //$NON-NLS-1$
 
 	/**
 	 * Image loaded to be used as a preview
-	 * 
-	 * @since 2.0
 	 */
 	BufferedImage image;
 	
 	/**
 	 * ImageHandler for scaling and processing preview images
-	 * 
-	 * @since 2.0
 	 */
 	ImageHandler imageHandler;
 	
 	/**
 	 * Dimensions of the preview image
-	 * 
-	 * @since 2.0
 	 */
 	Dimension imageDimension;
 	
@@ -61,7 +50,6 @@ public class PreviewButton extends JButton
 	 * @param event DEvent to call when the preview button is pressed
 	 * @param settings Program settings
 	 * @param index Index of the preview button, used as value in DEvent when button is pressed
-	 * @since 2.0
 	 */
 	public PreviewButton(DEvent event, DSettings settings, final int index)
 	{
@@ -79,7 +67,6 @@ public class PreviewButton extends JButton
 	 * @param mediaFile Main media file, may contain image
 	 * @param secondaryFile Secondary media file in case the main file is not an image
 	 * @param useIcon Whether to use an icon rather than a thumbnail
-	 * @since 2.0
 	 */
 	public void setImage(final File mediaFile, final File secondaryFile, final boolean useIcon)
 	{

@@ -37,176 +37,126 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class MediaViewer extends BaseGUI implements DWorker
 {
 	/**
 	 * Value indicating not to show DMF details
-	 * 
-	 * @since 2.0
 	 */
 	public static final int NO_DETAILS = 0;
 	
 	/**
 	 * Value indicating to place DMF details on the top of the media panel
-	 * 
-	 * @since 2.0
 	 */
 	public static final int TOP_DETAILS = 1;
 
 	/**
 	 * Value indicating to place DMF details on the bottom of the media panel
-	 * 
-	 * @since 2.0
 	 */
 	public static final int BOTTOM_DETAILS = 2;
 	
 	/**
 	 * Value indicating to place DMF details on the left side of the media panel
-	 * 
-	 * @since 2.0
 	 */
 	public static final int LEFT_DETAILS = 3;
 	
 	/**
 	 * Value indicating to place DMF details on the right side of the media panel
-	 * 
-	 * @since 2.0
 	 */
 	public static final int RIGHT_DETAILS = 4;
 
-	
 	/**
 	 * Index of the currently shown DMF
-	 * 
-	 * @since 2.0
 	 */
 	private int dmfIndex;
 	
 	/**
 	 * String containing HTML/CSS formatted DMF details of the currently shown DMF
-	 * 
-	 * @since 2.0
 	 */
 	private String detailString;
 	
 	/**
 	 * FileTypeHandler mainly used to detect if secondary files are image files
-	 * 
-	 * @since 2.0
 	 */
 	private FileTypeHandler fileTypeHandler;
 	
 	/**
 	 * Dialog for showing when a hyperlink has been clicked.
-	 * 
-	 * @since 2.0
 	 */
 	private DHyperlinkDialog hyperlinkDialog;
 	
 	/**
 	 * Parent GUI for the media viewer panel
-	 * 
-	 * @since 2.0
 	 */
 	private FrameGUI ownerGUI;
 	
 	/**
 	 * Menu for selecting between different scale types for images
-	 * 
-	 * @since 2.0
 	 */
 	private DMenu scaleMenu;
 	
 	/**
 	 * Menu for selecting how to display DMF info for the currently selected media
-	 * 
-	 * @since 2.0
 	 */
 	private DMenu detailMenu;
 	
 	/**
 	 * Menu for viewing files associated with the currently selected DMF
-	 * 
-	 * @since 2.0
 	 */
 	private DMenu viewMenu;
 	
 	/**
 	 * Main viewer panel used to contain both media and DMF info
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel viewerPanel;
 	
 	/**
 	 * Media Panel that contains and handles media viewing
-	 * 
-	 * @since 2.0
 	 */
 	private MediaPanel mediaPanel;
 	
 	/**
 	 * Panel for containing the media panel and controlling it's size
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel mediaContainerPanel;
 	
 	/**
 	 * Panel for containing the DMF Detail scroll pane and controlling it's size
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel detailPanel;
 	
 	/**
 	 * Panels containing vertical spacers to control the size of the media container panel
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel[] verticalMediaPanels;
 	
 	/**
 	 * Panels containing horizontal spacers to control the size of the media container panel
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel[] horizontalMediaPanels;
 	
 	/**
 	 * Panels containing vertical spacers to control the size of the DMF details panel
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel[] verticalDetailPanels;
 	
 	/**
 	 * Panels containing horizontal spacers to control the size of the DMF details panel
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel[] horizontalDetailPanels;
 	
 	/**
 	 * DEditorPane for showing DMF details
-	 * 
-	 * @since 2.0
 	 */
 	private DEditorPane detailText;
 	
 	/**
 	 * Scroll pane for holding the detail editor pane
-	 * 
-	 * @since 2.0
 	 */
 	private DScrollPane detailScroll;
 	
 	/**
 	 * Main progress dialog for showing when media files are being loaded.
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressDialog progressDialog;
 
@@ -215,7 +165,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * 
 	 * @param ownerGUI Parent GUI for the media viewer panel
 	 * @param colorReference JComponent from which to get color information for CSS
-	 * @since 2.0
 	 */
 	public MediaViewer(FrameGUI ownerGUI, JComponent colorReference)
 	{
@@ -342,7 +291,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * Returns the scale menu.
 	 * 
 	 * @return Scale Menu
-	 * @since 2.0
 	 */
 	public DMenu getScaleMenu()
 	{
@@ -354,7 +302,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * Returns the detail menu.
 	 * 
 	 * @return Detail Menu
-	 * @since 2.0
 	 */
 	public DMenu getDetailMenu()
 	{
@@ -366,7 +313,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * Returns the view menu.
 	 * 
 	 * @return View Menu
-	 * @since 2.0
 	 */
 	public DMenu getViewMenu()
 	{
@@ -378,7 +324,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * Returns the main viewer panel.
 	 * 
 	 * @return Viewer Panel
-	 * @since 2.0
 	 */
 	public JPanel getViewerPanel()
 	{
@@ -388,8 +333,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	
 	/**
 	 * Updates the location of the DMF Detail panel
-	 * 
-	 * @since 2.0
 	 */
 	public void updateDetailLocation()
 	{
@@ -436,7 +379,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * Sets what media file should be shown.
 	 * 
 	 * @param dmfIndex Index of the DMF from which to get details
-	 * @since 2.0
 	 */
 	public void setMedia(final int dmfIndex)
 	{
@@ -455,8 +397,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	
 	/**
 	 * Updates the current media file to reflect the current size of the viewer.
-	 * 
-	 * @since 2.0
 	 */
 	public void updateMedia()
 	{
@@ -478,7 +418,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * Sets the details editor pane to show the information from a DMF at a given index.
 	 * 
 	 * @param dmfIndex DMF Index
-	 * @since 2.0
 	 */
 	private void setDetails(final int dmfIndex)
 	{
@@ -588,7 +527,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * 
 	 * @param location Location passed in from the location radio button
 	 * @param isSelected Whether the given location was selected. If true, sets DMF details to given location, otherwise, does nothing.
-	 * @since 2.0
 	 */
 	private void updateDetailLocation(final int location, final boolean isSelected)
 	{
@@ -606,7 +544,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * 
 	 * @param scaleType Scale type passed in from radio button
 	 * @param isSelected Whether the given scale type was selected. If true, sets current scale type to the scale type given, otherwise, does nothing.
-	 * @since 2.0
 	 */
 	private void changeScaleType(final int scaleType, final boolean isSelected)
 	{
@@ -621,8 +558,6 @@ public class MediaViewer extends BaseGUI implements DWorker
 	
 	/**
 	 * Sets the scale if the direct scale option is selected, prompting the use to choose the scaling amount.
-	 * 
-	 * @since 2.0
 	 */
 	private void setScaleDirect()
 	{
