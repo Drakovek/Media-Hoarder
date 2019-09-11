@@ -100,7 +100,7 @@ public class BooleanSearch
 	{
 		System.out.println();
 		System.out.println(argument);
-		System.out.println(separateToChunks(argument));
+		System.out.println(fixLogic(separateToChunks(argument)));
 		return new String();
 		
 	}//METHOD
@@ -225,6 +225,118 @@ public class BooleanSearch
 			
 		}//WHILE
 		
+		
+		return chunks;
+		
+	}//METHOD
+	
+	/**
+	 * Fixes any logic errors in a given boolean expression.
+	 * 
+	 * @param inputChunks Boolean search input split into chunks of strings and operators.
+	 * @return ArrayList of string and operator chunks with fixed logic
+	 */
+	private static ArrayList<String> fixLogic(final ArrayList<String> inputChunks)
+	{
+		ArrayList<String> chunks = new ArrayList<>();
+		chunks.addAll(inputChunks);
+		
+		//COMPLETE HANGING LEFT BINDERS
+		for(int pStart = 0; pStart < chunks.size(); pStart++)
+		{
+			if(chunks.get(pStart).charAt(0) == LEFT_BINDER)
+			{
+				int numLeft = 1;
+				int numRight = 0;
+				
+				for(int pEnd = pStart + 1; numLeft != numRight && pEnd < chunks.size(); pEnd++)
+				{
+					if(chunks.get(pEnd).charAt(0) == LEFT_BINDER)
+					{
+						numLeft++;
+						
+					}//IF
+					else if(chunks.get(pEnd).charAt(0) == RIGHT_BINDER)
+					{
+						numRight++;
+						
+					}//ELSE IF
+					
+				}//FOR
+				
+				if(numLeft != numRight)
+				{
+					chunks.add(Character.toString(RIGHT_BINDER));
+					pStart--;
+					
+				}//IF
+				
+			}//IF
+			
+		}//FOR
+		
+		//COMPLETE HANGING RIGHT BINDERS
+		for(int pEnd = chunks.size() - 1; pEnd > -1; pEnd--)
+		{
+			if(chunks.get(pEnd).charAt(0) == RIGHT_BINDER)
+			{
+				int numLeft = 0;
+				int numRight = 1;
+				
+				for(int pStart = pEnd -1; numLeft != numRight && pStart > -1; pStart--)
+				{
+					if(chunks.get(pStart).charAt(0) == LEFT_BINDER)
+					{
+						numLeft++;
+						
+					}//IF
+					else if (chunks.get(pStart).charAt(0) == RIGHT_BINDER)
+					{
+						numRight++;
+						
+					}//ELSE IF
+					
+				}//FOR
+				
+				if(numLeft != numRight)
+				{
+					chunks.add(0, Character.toString(LEFT_BINDER));
+					pEnd += 2;
+					
+				}//IF
+				
+			}//IF
+			
+		}//FOR
+		
+		//ADD AND OPERATOR TO UNLINKED LOGIC STATEMENTS
+		for(int i = 1; i < chunks.size(); i++)
+		{
+			if((chunks.get(i).charAt(0) == LEFT_BINDER && (chunks.get(i - 1).charAt(0) == RIGHT_BINDER || chunks.get(i - 1).charAt(0) == QUOTE)) ||
+			   (chunks.get(i).charAt(0) == QUOTE && (chunks.get(i - 1).charAt(0) == RIGHT_BINDER || chunks.get(i - 1).charAt(0) == QUOTE)) ||
+			   (chunks.get(i).charAt(0) == NOT && chunks.get(i - 1).charAt(0) != AND && chunks.get(i - 1).charAt(0) != OR))
+					
+			{
+				chunks.add(i, Character.toString(AND));
+				
+			}//IF
+			
+		}//FOR
+		
+		//ADD BLANK STRING TO HANGING OPERATORS
+		for(int i  = 1; i < chunks.size(); i++)
+		{
+			if(
+			  (chunks.get(i).charAt(0) == RIGHT_BINDER && (chunks.get(i - 1).charAt(0) == AND || chunks.get(i - 1).charAt(0) == OR || chunks.get(i - 1).charAt(0) == NOT)) ||
+			  (chunks.get(i).charAt(0) == AND && chunks.get(i - 1).charAt(0) != QUOTE && chunks.get(i - 1).charAt(0) != RIGHT_BINDER) ||
+			  (chunks.get(i).charAt(0) == OR && chunks.get(i - 1).charAt(0) != QUOTE && chunks.get(i - 1).charAt(0) != RIGHT_BINDER)
+			)
+			{
+				chunks.add(i, "\"\""); //$NON-NLS-1$
+				i--;
+			}//IF
+			
+		}//FOR
 		
 		return chunks;
 		
