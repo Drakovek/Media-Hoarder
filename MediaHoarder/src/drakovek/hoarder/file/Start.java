@@ -26,14 +26,8 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
-		//TODO Reinstate after boolean search testing.
-		//startGUI();
+		startGUI();
 		
-		BooleanSearch booleanSearch = new BooleanSearch();
-		booleanSearch.createSearchLogic(null);
-		booleanSearch.createSearchLogic("!apples | oranges"); //$NON-NLS-1$
-		System.out.println(booleanSearch.searchText("I like apples.", false, false)); //$NON-NLS-1$
-	
 	}//METHOD
 	
 	/**
