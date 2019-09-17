@@ -29,19 +29,11 @@ public class Start
 		//TODO Reinstate after boolean search testing.
 		//startGUI();
 		
-		BooleanSearch.createLogicArray(null);
-		BooleanSearch.createLogicArray("  testing-string&whatnot"); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("&!| testing -string(&whatnot) \"\"!&|"); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("!testing -string(&whatnot) \"\""); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("\"this | that\") & (not!\"this   "); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("\"this test\" & \'that test\' | whatever"); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("a)))[[[b"); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("this that"); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("(~this) (that)"); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("this !that"); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("this !!that"); //$NON-NLS-1$
-		BooleanSearch.createLogicArray("ha !)"); //$NON-NLS-1$
-		
+		BooleanSearch booleanSearch = new BooleanSearch();
+		booleanSearch.createSearchLogic(null);
+		booleanSearch.createSearchLogic("!apples | oranges"); //$NON-NLS-1$
+		System.out.println(booleanSearch.searchText("I like apples.", false, false)); //$NON-NLS-1$
+	
 	}//METHOD
 	
 	/**
