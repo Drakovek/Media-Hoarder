@@ -15,21 +15,16 @@ import drakovek.hoarder.gui.swing.listeners.DListSelectionListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DFileList extends JList<File>
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -5532350862927679564L;
 	
 	/**
 	 * Height of a single cell.
-	 * 
-	 * @since 2.0
 	 */
 	private int cellHeight = 0;
 	
@@ -69,8 +64,6 @@ public class DFileList extends JList<File>
 	
 	/**
 	 * Sets the number of visible rows to fit within the size of the list. ONLY WORKS WHEN LIST IS WITHIN A SCROLL PANE.
-	 * 
-	 * @since 2.0
 	 */
 	public void fitRowsToSize()
 	{

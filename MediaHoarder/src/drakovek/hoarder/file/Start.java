@@ -9,21 +9,20 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 import drakovek.hoarder.gui.settings.SettingsGUI;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
+import drakovek.hoarder.processing.BooleanSearch;
 
 /**
  * Main class for starting the Media Hoarder Program
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class Start 
 {
 	/**
 	 * Starts the Media Hoarder Program
 	 * 
-	 * @param args Not Used
-	 * @since 2.0
+	 * @param args (Not Used)
 	 */
 	public static void main(String[] args)
 	{
@@ -33,8 +32,6 @@ public class Start
 	
 	/**
 	 * Starts the GUI for the program.
-	 * 
-	 * @since 2.0
 	 */
 	public static void startGUI()
 	{
@@ -70,7 +67,6 @@ public class Start
 	 * 
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DmfHandler
-	 * @since 2.0
 	 */
 	public static void startGUI(DSettings settings, DmfHandler dmfHandler)
 	{

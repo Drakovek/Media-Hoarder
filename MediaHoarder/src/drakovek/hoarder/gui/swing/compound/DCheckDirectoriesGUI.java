@@ -13,7 +13,6 @@ import drakovek.hoarder.gui.swing.components.DFrame;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DCheckDirectoriesGUI
 {
@@ -24,7 +23,6 @@ public class DCheckDirectoriesGUI
 	 * @param dmfHandler Program's DmfHandler
 	 * @param frame Frame to parent button dialog to, if necessary
 	 * @param file Given directory to check if it is included in the DMF directories list
-	 * @since 2.0
 	 */
 	public DCheckDirectoriesGUI(DSettings settings, DmfHandler dmfHandler, DFrame frame, final File file)
 	{
@@ -53,7 +51,6 @@ public class DCheckDirectoriesGUI
 	 * @param settings Program Settings
 	 * @param file Given directory to check if it is included in the DMF directories list
 	 * @return Whether given directory is included in the DMF directories list
-	 * @since 2.0
 	 */
 	private static boolean isDirectoryListed(DSettings settings, final File file)
 	{

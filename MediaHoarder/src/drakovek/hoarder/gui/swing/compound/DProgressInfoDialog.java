@@ -23,70 +23,51 @@ import drakovek.hoarder.processing.TimeMethods;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DProgressInfoDialog extends DProgressDialog
 {
 	/**
 	 * String for spacing out text in the logText
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SPACER = " - "; //$NON-NLS-1$
 	
 	/**
 	 * Text area for showing a progress log
-	 * 
-	 * @since 2.0
 	 */
 	private DTextArea logText;
 	
 	/**
 	 * Text area for showing the final progress log when process has ended
-	 * 
-	 * @since 2.0
 	 */
 	private DTextArea finalLogText;
 	
 	/**
 	 * Scroll pane that holds the progress log
-	 * 
-	 * @since 2.0
 	 */
 	private DScrollPane logScroll;
 	
 	/**
 	 * Scroll pane that holds the final progress log
-	 * 
-	 * @since 2.0
 	 */
 	private DScrollPane finalLogScroll;
 	
 	/**
 	 * Panel for holding the final progress log
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel finalPanel;
 	
 	/**
 	 * Dialog for showing the final progress log
-	 * 
-	 * @since 2.0
 	 */
 	private DDialog finalDialog;
 	
 	/**
 	 * File chooser used for saving log text
-	 * 
-	 * @since 2.0
 	 */
 	private DFileChooser fileChooser;
 	
 	/**
 	 * Directory for the file chooser to start within
-	 * 
-	 * @since 2.0
 	 */
 	private File directory;
 	
@@ -94,7 +75,6 @@ public class DProgressInfoDialog extends DProgressDialog
 	 * Initializes the DProgressInfoDialog class.
 	 * 
 	 * @param settings Program settings
-	 * @since 2.0
 	 */
 	public DProgressInfoDialog(DSettings settings)
 	{
@@ -155,8 +135,6 @@ public class DProgressInfoDialog extends DProgressDialog
 	
 	/**
 	 * Resets the progress dialog to contain no text.
-	 * 
-	 * @since 2.0
 	 */
 	public void resetLog()
 	{
@@ -169,7 +147,6 @@ public class DProgressInfoDialog extends DProgressDialog
 	 * 
 	 * @param text Text to append
 	 * @param addTimestamp Whether to add a time stamp to the appended text
-	 * @since 2.0
 	 */
 	public void appendLog(final String text, final boolean addTimestamp)
 	{
@@ -207,7 +184,6 @@ public class DProgressInfoDialog extends DProgressDialog
 	 * @param ownerFrame Frame used as the final progress dialog's owner
 	 * @param titleID Title of the final progress dialog
 	 * @param startDirectory Directory to start from when saving log.
-	 * @since 2.0
 	 */
 	public void showFinalLog(DFrame ownerFrame, final String titleID, final File startDirectory)
 	{
@@ -224,8 +200,6 @@ public class DProgressInfoDialog extends DProgressDialog
 	
 	/**
 	 * Method to save log text to a text file.
-	 * 
-	 * @since 2.0
 	 */
 	private void saveLog()
 	{

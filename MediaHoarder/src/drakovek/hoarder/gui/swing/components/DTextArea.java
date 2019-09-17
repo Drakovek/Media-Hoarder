@@ -11,7 +11,6 @@ import drakovek.hoarder.gui.BaseGUI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DTextArea extends JTextArea
 {
@@ -24,7 +23,6 @@ public class DTextArea extends JTextArea
 	 * Initializes the DTextArea class.
 	 * 
 	 * @param baseGUI Linked BaseGUI
-	 * @since 2.0
 	 */
 	public DTextArea(BaseGUI baseGUI)
 	{
@@ -43,7 +41,6 @@ public class DTextArea extends JTextArea
 	 * @param fontName Name of the font family.
 	 * @param bold Whether the font is bold
 	 * @param size Size of the font
-	 * @since 2.0
 	 */
 	public void setFont(final String fontName, final boolean bold, final int size)
 	{

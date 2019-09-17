@@ -8,21 +8,16 @@ import java.io.FileFilter;
  *
  * @author Drakovek
  * @version 1.0
- * @since 1.0
  */
 public class ExtensionFilter implements FileFilter
 {
 	/**
 	 * Extensions to allow, should start with '.'
-	 * 
-	 * @since 2.0
 	 */
 	private String[] extensions;
 	
 	/**
 	 * Whether to allow all files of any extension
-	 * 
-	 * @since 2.0
 	 */
 	private boolean allowAll;
 	
@@ -31,7 +26,6 @@ public class ExtensionFilter implements FileFilter
 	 * 
 	 * @param extensions Extensions to allow
 	 * @param allowAll Whether to allow all files of any extension
-	 * @since 2.0
 	 */
 	public ExtensionFilter(final String[] extensions, final boolean allowAll)
 	{
@@ -44,7 +38,6 @@ public class ExtensionFilter implements FileFilter
 	 * Sets the extensions to be filtered.
 	 * 
 	 * @param extensions Extensions
-	 * @since 2.0
 	 */
 	public void setExtensions(final String[] extensions)
 	{
@@ -56,7 +49,6 @@ public class ExtensionFilter implements FileFilter
 	 * Sets whether to allow all files of any extension.
 	 * 
 	 * @param allowAll Allow All
-	 * @since 2.0
 	 */
 	public void setAllowAll(final boolean allowAll)
 	{

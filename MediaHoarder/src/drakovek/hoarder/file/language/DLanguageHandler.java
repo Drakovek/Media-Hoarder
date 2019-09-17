@@ -14,28 +14,21 @@ import drakovek.hoarder.processing.ParseINI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DLanguageHandler
 {
 	/**
 	 * Name of the program's language folder.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String LANGUAGE_FOLDER = "language"; //$NON-NLS-1$
 	
 	/**
 	 * The program's language folder located in the program's data folder.
-	 * 
-	 * @since 2.0
 	 */
 	private File languageFolder;
 	
 	/**
 	 * INI formatted text for the currently selected language.
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> languageInfo;
 	
@@ -44,7 +37,6 @@ public class DLanguageHandler
 	 * 
 	 * @param settings Program Settings
 	 * @param languageName Name of the language to use for the program's text
-	 * @since 2.0
 	 */
 	public DLanguageHandler(DSettings settings, final String languageName)
 	{
@@ -58,7 +50,6 @@ public class DLanguageHandler
 	 * Sets the current language of the project, determining which language files to read from.
 	 * 
 	 * @param languageName Name of the selected language
-	 * @since 2.0
 	 */
 	public void setLanguage(final String languageName)
 	{	
@@ -94,7 +85,6 @@ public class DLanguageHandler
 	 * Returns an ArrayList<String> of all the language files within the program's language folder.
 	 * 
 	 * @return ArrayList<String> of language files
-	 * @since 2.0
 	 */
 	private ArrayList<File> getLanguageFiles()
 	{
@@ -120,7 +110,6 @@ public class DLanguageHandler
 	 * Returns an ArrayList<String> of all the languages available through language files.
 	 * 
 	 * @return ArrayList<String> of all languages available
-	 * @since 2.0
 	 */
 	public ArrayList<String> getLanguages()
 	{
@@ -148,7 +137,6 @@ public class DLanguageHandler
 	 * 
 	 * @param id Language ID Variable
 	 * @return Text for the given Language ID
-	 * @since 2.0
 	 */
 	public String getLanuageText(final String id)
 	{
@@ -161,7 +149,6 @@ public class DLanguageHandler
 	 * 
 	 * @param id Language ID
 	 * @return [0] int value of mnemonic keystroke, [1] character index to show as mnemonic
-	 * @since 2.0
 	 */
 	public int[] getLanguageMnemonic(final String id)
 	{

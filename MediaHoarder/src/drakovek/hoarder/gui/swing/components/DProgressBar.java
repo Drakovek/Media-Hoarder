@@ -18,49 +18,36 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DProgressBar extends JPanel implements DWorker
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -284022798601497770L;
 	
 	/**
 	 * Main progress bar
-	 * 
-	 * @since 2.0
 	 */
 	private JProgressBar progressBar;
 	
 	/**
 	 * Whether the current process is of indeterminate length
-	 * 
-	 * @since 2.0
 	 */
 	private boolean indeterminate;
 	
 	/**
 	 * Whether to show a percentage value on the progress bar
-	 * 
-	 * @since 2.0
 	 */
 	private boolean painted;
 	
 	/**
 	 * Maximum value for the progress bar
-	 * 
-	 * @since 2.0
 	 */
 	private int maximum;
 	
 	/**
 	 * Current value of the progress bar
-	 * 
-	 * @since 2.0
 	 */
 	private int value;
 
@@ -68,7 +55,6 @@ public class DProgressBar extends JPanel implements DWorker
 	 * Initializes the DProgressBar
 	 * 
 	 * @param baseGUI Linked BaseGUI
-	 * @since 2.0
 	 */
 	public DProgressBar(BaseGUI baseGUI)
 	{
@@ -98,7 +84,6 @@ public class DProgressBar extends JPanel implements DWorker
 	 * @param painted Whether to show a percentage value on the progress bar.
 	 * @param maximum Maximum value for the progress bar (N/A if indeterminate)
 	 * @param value Current value of the progress bar (N/A if indeterminate)
-	 * @since 2.0
 	 */
 	public void setProgressBar(final boolean indeterminate, final boolean painted, final int maximum, final int value)
 	{
@@ -113,8 +98,6 @@ public class DProgressBar extends JPanel implements DWorker
 	
 	/**
 	 * Sets the state of the progress bar.
-	 * 
-	 * @since 2.0
 	 */
 	private void setProgress()
 	{

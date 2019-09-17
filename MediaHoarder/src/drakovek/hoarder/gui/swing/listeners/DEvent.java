@@ -5,7 +5,6 @@ package drakovek.hoarder.gui.swing.listeners;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public interface DEvent
 {
@@ -14,7 +13,6 @@ public interface DEvent
 	 * 
 	 * @param id ID of the event.
 	 * @param value Value for the event.
-	 * @since 2.0
 	 */
 	public void event(final String id, final int value);
 	

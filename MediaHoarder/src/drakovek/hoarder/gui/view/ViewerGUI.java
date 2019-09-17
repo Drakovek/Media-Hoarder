@@ -19,49 +19,36 @@ import drakovek.hoarder.media.MediaViewer;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ViewerGUI extends FrameGUI
 {
 	/**
 	 * Index of the currently shown DMF
-	 * 
-	 * @since 2.0
 	 */
 	private int dmfIndex;
 	
 	/**
 	 * ViewBrowserGUI Parent
-	 * 
-	 * @since 2.0
 	 */
 	private ViewBrowserGUI ownerGUI;
 	
 	/**
 	 * Panel for showing the currently selected media
-	 * 
-	 * @since 2.0
 	 */
 	private MediaViewer mediaViewer;
 	
 	/**
 	 * Button for displaying the previous DMF
-	 * 
-	 * @since 2.0
 	 */
 	private DButton previousButton;
 	
 	/**
 	 * Button for displaying the next DMF
-	 * 
-	 * @since 2.0
 	 */
 	private DButton nextButton;
 	
 	/**
 	 * Button for displaying available sequence branches
-	 * 
-	 * @since 2.0
 	 */
 	private DButton branchButton;
 	
@@ -72,7 +59,6 @@ public class ViewerGUI extends FrameGUI
 	 * @param dmfHandler Program's DmfHandler
 	 * @param ownerGUI ViewBrowserGUI Parent
 	 * @param dmfIndex Index of DMF to show when GUI opens
-	 * @since 2.0
 	 */
 	public ViewerGUI(DSettings settings, DmfHandler dmfHandler, ViewBrowserGUI ownerGUI, final int dmfIndex)
 	{
@@ -131,8 +117,6 @@ public class ViewerGUI extends FrameGUI
 	
 	/**
 	 * Updates the displayed media to reflect the current DMF index, if valid.
-	 * 
-	 * @since 2.0
 	 */
 	private void updateMedia()
 	{

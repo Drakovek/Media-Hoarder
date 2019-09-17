@@ -12,437 +12,313 @@ import drakovek.hoarder.processing.ParseINI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DSettings
 {
 	/**
 	 * Name of the program's data folder.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String DATA_FOLDER = "data"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the program's settings file.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SETTINGS_FILE = "settings" + ParseINI.INI_EXTENSION; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the language name.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String LANGUAGE_NAME = "language_name"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for whether to use DMF indexes.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String USE_INDEXES = "use_indexes"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for whether to update DMF indexes when they are loaded.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String UPDATE_INDEXES = "update_indexes"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for user's DMF directories
-	 * 
-	 * @since 2.0
 	 */
 	private static final String DMF_DIRECTORY = "dmf_directory"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the space multiplier.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SPACE_MULTIPLIER = "space_multiplier"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the frame width multiplier.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String FRAME_WIDTH = "frame_width"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the frame height multiplier.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String FRAME_HEIGHT = "frame_height"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the scroll unit
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SCROLL_UNIT = "scroll_unit"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the program theme
-	 * 
-	 * @since 2.0
 	 */
 	private static final String THEME = "theme"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the font name.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String FONT_NAME = "font_name"; //$NON-NLS-1$
 	
 	/**
-	 * INI Variable for the font size.
-	 * 
-	 * @since 2.0
+	 * INI Variable for the font size
 	 */
 	private static final String FONT_SIZE = "font_size"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for whether the main font is bold.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String FONT_BOLD = "font_bold"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for font anti-aliasing.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String FONT_AA = "font_aa"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the default clock format
-	 * 
-	 * @since 2.0
 	 */
 	private static final String CLOCK_FORMAT = "clock_format"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the default date format
-	 * 
-	 * @since 2.0
 	 */
 	private static final String DATE_FORMAT = "date_format"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for whether to save journals
-	 * 
-	 * @since 2.0
+	 * INI variable for whether to save journal
 	 */
 	private static final String SAVE_JOURNALS = "save_journals"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the DeviantArt directory
-	 * 
-	 * @since 2.0
 	 */
 	private static final String DEVIANTART_DIRECTORY = "deviantart_directory"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the Fur Affinity directory
-	 * 
-	 * @since 2.0
 	 */
 	private static final String FUR_AFFINITY_DIRECTORY = "fur_affinity_directory"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the Inkbunny directory
-	 * 
-	 * @since 2.0
 	 */
 	private static final String INKBUNY_DIRECTORY = "inkbunny_directory"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the size of DMF preview thumbnails.
-	 *
-	 * @since 2.0
 	 */
 	private static final String PREVIEW_SIZE = "preview_size"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the scale type.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SCALE_TYPE = "scale_type"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the scale amount.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SCALE_AMOUNT = "scale_amount"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the detail location
-	 * 
-	 * @since 2.0
 	 */
 	private static final String DETAIL_LOCATION = "detail_location"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for using thumbnails
-	 * 
-	 * @since 2.0
 	 */
 	private static final String USE_THUMBNAILS = "use_thumbnails"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the default sort type.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SORT_TYPE = "sort_type"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for whether to group artists.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String GROUP_ARTISTS = "group_artists"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for whether to group sequences
-	 * 
-	 * @since 2.0
 	 */
 	private static final String GROUP_SEQUENCES = "group_sequences"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for whether to group sections
-	 * 
-	 * @since 2.0
 	 */
 	private static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
 	
 	/**
 	 * Program's data folder located in the main program directory.
-	 * 
-	 * @since 2.0
 	 */
 	private File dataFolder;
 	
 	/**
 	 * DLanguageHandler for getting language values.
-	 * 
-	 * @since 2.0
 	 */
 	private DLanguageHandler languageHandler;
-	
 	
 	//SETTINGS VARIABLES
 
 	/**
 	 * Name of the selected language.
-	 * 
-	 * @since 2.0
 	 */
 	private String languageName;
 	
 	/**
 	 * Whether the user prefers to use index files to load DMF directories.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean useIndexes;
 	
 	/**
 	 * Whether the user prefers to update indexes when using index files to load DMF directories.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean updateIndexes;
 	
 	/**
 	 * ArrayList containing the user's selected directories for storing and loading DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<File> dmfDirectories;
 	
 	/**
 	 * Multiplied by fontSize to get the default space between Swing components.
-	 * 
-	 * @since 2.0
 	 */
 	private double spaceMultiplier;
 	
 	/**
 	 * Multiplied by fontSize to get the minimum DFrame width.
-	 * 
-	 * @since 2.0
 	 */
 	private int frameWidth;
 	
 	/**
 	 * Multiplied by fontSize to get the minimum DFrame height.
-	 * 
-	 * @since 2.0
 	 */
 	private int frameHeight;
 	
 	/**
 	 * Scroll unit, determines the sensitivity of scroll bars.
-	 * 
-	 * @since 2.0
 	 */
 	private int scrollUnit;
 	
 	/**
 	 * Swing "Look and Feel" for the program
-	 * 
-	 * @since 2.0
 	 */
 	private String theme;
 	
 	/**
 	 * Name of Font used for Swing components
-	 * 
-	 * @since 2.0
 	 */
 	private String fontName;
 	
 	/**
 	 * Font Size for Swing components.
-	 * 
-	 * @since 2.0
 	 */
 	private int fontSize;
 	
 	/**
 	 * Whether the program's main font is bold.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean fontBold;
 	
 	/**
 	 * Whether the font should be anti-aliased.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean fontAA;
 	
 	/**
 	 * Value of the default formatting for time clocks (12 or 24 hour)
-	 * 
-	 * @since 2.0
 	 */
 	private int clockFormat;
 	
 	/**
 	 * Value of the default formatting for dates (day-month-year, month-day-year, etc.)
-	 * 
-	 * @since 2.0
 	 */
 	private int dateFormat;
 	
 	/**
 	 * Whether to save journals when using the artist hosting GUI downloader
-	 * 
-	 * @since 2.0
 	 */
 	private boolean saveJournals;
 	
 	/**
 	 * Directory to save DMFs to when downloading from DeviantArt
-	 * 
-	 * @since 2.0
 	 */
 	private File deviantArtDirectory;
 	
 	/**
 	 * Directory to save DMFs to when downloading from FurAffinity
-	 * 
-	 * @since 2.0
 	 */
 	private File furAffinityDirectory;
 	
 	/**
 	 * Directory to save DMFs to when downloading from Inkbunny
-	 * 
-	 * @since 2.0
 	 */
 	private File inkbunnyDirectory;
 	
 	/**
 	 * Size of the preview thumbnails in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	private int previewSize;
 	
 	/**
 	 * Int value representing the type of scaling to use on images.
-	 * 
-	 * @since 2.0
 	 */
 	private int scaleType;
 	
 	/**
 	 * Double to multiply image size by when scaling directly.
-	 * 
-	 * @since 2.0
 	 */
 	private double scaleAmount;
 	
 	/**
 	 * Location of DMF details in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	private int detailLocation;
 	
 	/**
 	 * Whether to use thumbnails in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	private boolean useThumbnails;
 	
 	/**
 	 * Default sort type for the program.
-	 * 
-	 * @since 2.0
 	 */
 	private int sortType;
 	
 	/**
 	 * Whether to group artists when sorting DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private boolean groupArtists;
 	
 	/**
 	 * Whether to group sequences when sorting DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private boolean groupSequences;
 	
 	/**
 	 * Whether to group sections when sorting DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private boolean groupSections;
 	
 	/**
 	 * Initializes the DSettings Class
-	 * 
-	 * @since 2.0
 	 */
 	public DSettings()
 	{
@@ -454,8 +330,6 @@ public class DSettings
 	
 	/**
 	 * Sets the location of the main data folder for the project.
-	 * 
-	 * @since 2.0
 	 */
 	private void setDataFolder()
 	{
@@ -482,8 +356,6 @@ public class DSettings
 	
 	/**
 	 * Sets all settings variables to their default settings.
-	 * 
-	 * @since 2.0
 	 */
 	private void clearSettings()
 	{
@@ -531,8 +403,6 @@ public class DSettings
 	
 	/**
 	 * Reads the main settings file and sets the settings variables accordingly.
-	 * 
-	 * @since 2.0
 	 */
 	private void readSettings()
 	{
@@ -589,8 +459,6 @@ public class DSettings
 	
 	/**
 	 * Writes the contents of settings variables to the main settings file.
-	 * 
-	 * @since 2.0
 	 */
 	public void writeSettings()
 	{
@@ -666,7 +534,6 @@ public class DSettings
 	 * 
 	 * @param id Language ID Variable
 	 * @return Text for the given Language ID
-	 * @since 2.0
 	 */
 	public String getLanguageText(final String id)
 	{
@@ -679,7 +546,6 @@ public class DSettings
 	 * 
 	 * @param id Language ID
 	 * @return [0] int value of mnemonic keystroke, [1] character index to show as mnemonic
-	 * @since 2.0
 	 */
 	public int[] getLanguageMnemonic(final String id)
 	{
@@ -691,7 +557,6 @@ public class DSettings
 	 * Returns an ArrayList<String> of all the languages available through language files.
 	 * 
 	 * @return ArrayList<String> of all languages available
-	 * @since 2.0
 	 */
 	public ArrayList<String> getLanguages()
 	{
@@ -703,7 +568,6 @@ public class DSettings
 	 * Sets the Language Name
 	 * 
 	 * @param languageName Language Name
-	 * @since 2.0
 	 */
 	public void setLanguageName(final String languageName)
 	{
@@ -717,7 +581,6 @@ public class DSettings
 	 * Returns the program's data folder located in the main program directory.
 	 * 
 	 * @return Data Folder
-	 * @since 2.0
 	 */
 	public File getDataFolder()
 	{
@@ -729,7 +592,6 @@ public class DSettings
 	 * Gets the Language Name.
 	 * 
 	 * @return Language Name
-	 * @since 2.0
 	 */
 	public String getLanguageName()
 	{
@@ -741,7 +603,6 @@ public class DSettings
 	 * Sets value of useIndexes.
 	 * 
 	 * @param useIndexes useIndexes
-	 * @since 2.0
 	 */
 	public void setUseIndexes(final boolean useIndexes)
 	{
@@ -753,7 +614,6 @@ public class DSettings
 	 * Returns value of useIndexes.
 	 * 
 	 * @return useIndexes
-	 * @since 2.0
 	 */
 	public boolean getUseIndexes()
 	{
@@ -765,7 +625,6 @@ public class DSettings
 	 * Sets the value of updateIndexes.
 	 * 
 	 * @param updateIndexes updateIndexes
-	 * @since 2.0
 	 */
 	public void setUpdateIndexes(final boolean updateIndexes)
 	{
@@ -777,7 +636,6 @@ public class DSettings
 	 * Returns the value of updateIndexes.
 	 * 
 	 * @return updateIndexes
-	 * @since 2.0
 	 */
 	public boolean getUpdateIndexes()
 	{
@@ -789,7 +647,6 @@ public class DSettings
 	 * Sets the DMF directories.
 	 * 
 	 * @param dmfDirectories DMF Directories
-	 * @since 2.0
 	 */
 	public void setDmfDirectories(final ArrayList<File> dmfDirectories)
 	{
@@ -801,7 +658,6 @@ public class DSettings
 	 * Returns list of DMF Directories.
 	 * 
 	 * @return DMF Directories
-	 * @since 2.0
 	 */
 	public ArrayList<File> getDmfDirectories()
 	{
@@ -815,7 +671,6 @@ public class DSettings
 	 * Gets the Space Multiplier
 	 * 
 	 * @return Space Multiplier
-	 * @since 2.0
 	 */
 	public double getSpaceMultiplier()
 	{
@@ -827,7 +682,6 @@ public class DSettings
 	 * Gets the default space size for Swing Components
 	 * 
 	 * @return Default Space Size
-	 * @since 2.0
 	 */
 	public int getSpaceSize()
 	{
@@ -839,7 +693,6 @@ public class DSettings
 	 * Gets the Frame Height Multiplier
 	 * 
 	 * @return Frame Height Multiplier
-	 * @since 2.0
 	 */
 	public int getFrameHeight()
 	{
@@ -851,7 +704,6 @@ public class DSettings
 	 * Gets the Frame Width Multiplier
 	 * 
 	 * @return Frame Width Multiplier
-	 * @since 2.0
 	 */
 	public int getFrameWidth()
 	{
@@ -863,7 +715,6 @@ public class DSettings
 	 * Gets the scroll bar Scroll Unit.
 	 * 
 	 * @return Scroll Unit
-	 * @since 2.0
 	 */
 	public int getScrollUnit()
 	{
@@ -875,7 +726,6 @@ public class DSettings
 	 * Sets the program theme.
 	 * 
 	 * @param theme Theme
-	 * @since 2.0
 	 */
 	public void setTheme(final String theme)
 	{
@@ -887,7 +737,6 @@ public class DSettings
 	 * Gets the program theme.
 	 * 
 	 * @return Theme
-	 * @since 2.0
 	 */
 	public String getTheme()
 	{
@@ -899,7 +748,6 @@ public class DSettings
 	 * Sets the Font Name.
 	 * 
 	 * @param fontName Font Name
-	 * @since 2.0
 	 */
 	public void setFontName(final String fontName)
 	{
@@ -911,7 +759,6 @@ public class DSettings
 	 * Gets the Font Name
 	 * 
 	 * @return Font Name
-	 * @since 2.0
 	 */
 	public String getFontName()
 	{
@@ -923,7 +770,6 @@ public class DSettings
 	 * Sets the Font Size.
 	 * 
 	 * @param fontSize Font Size
-	 * @since 2.0
 	 */
 	public void setFontSize(final int fontSize)
 	{
@@ -935,7 +781,6 @@ public class DSettings
 	 * Gets the Font Size.
 	 * 
 	 * @return Font Size
-	 * @since 2.0
 	 */
 	public int getFontSize()
 	{
@@ -947,7 +792,6 @@ public class DSettings
 	 * Sets whether the main font is bold.
 	 * 
 	 * @param fontBold Whether Font should be Bold
-	 * @since 2.0
 	 */
 	public void setFontBold(final boolean fontBold)
 	{
@@ -959,7 +803,6 @@ public class DSettings
 	 * Gets whether the main font is bold.
 	 * 
 	 * @return Whether Font is Bold
-	 * @since 2.0
 	 */
 	public boolean getFontBold()
 	{
@@ -971,7 +814,6 @@ public class DSettings
 	 * Sets the font anti-aliasing
 	 * 
 	 * @param fontAA Font Anti-Aliasing
-	 * @since 2.0
 	 */
 	public void setFontAA(final boolean fontAA)
 	{
@@ -983,7 +825,6 @@ public class DSettings
 	 * Returns the font anti-aliasing
 	 * 
 	 * @return Font Anti-Aliasing
-	 * @since 2.0
 	 */
 	public boolean getFontAA()
 	{
@@ -995,7 +836,6 @@ public class DSettings
 	 * Sets the default clock format.
 	 * 
 	 * @param clockFormat Clock Format
-	 * @since 2.0
 	 */
 	public void setClockFormat(final int clockFormat)
 	{
@@ -1007,7 +847,6 @@ public class DSettings
 	 * Returns the default clock format.
 	 * 
 	 * @return Clock Format
-	 * @since 2.0
 	 */
 	public int getClockFormat()
 	{
@@ -1019,7 +858,6 @@ public class DSettings
 	 * Sets the default date format.
 	 * 
 	 * @param dateFormat Date Format
-	 * @since 2.0
 	 */
 	public void setDateFormat(final int dateFormat)
 	{
@@ -1031,7 +869,6 @@ public class DSettings
 	 * Returns the default date format.
 	 * 
 	 * @return Date Format
-	 * @since 2.0
 	 */
 	public int getDateFormat()
 	{
@@ -1043,7 +880,6 @@ public class DSettings
 	 * Sets whether to save journals.
 	 * 
 	 * @param saveJournals Whether to save journals.
-	 * @since 2.0
 	 */
 	public void setSaveJournals(final boolean saveJournals)
 	{
@@ -1054,7 +890,7 @@ public class DSettings
 	/**
 	 * Returns whether to save journals.
 	 * 
-	 * @return 2.0
+	 * @return Whether to save journals
 	 */
 	public boolean getSaveJournals()
 	{
@@ -1066,7 +902,6 @@ public class DSettings
 	 * Sets the DeviantArt directory.
 	 * 
 	 * @param deviantArtDirectory DeviantArt Directory
-	 * @since 2.0
 	 */
 	public void setDeviantArtDirectory(final File deviantArtDirectory)
 	{
@@ -1078,7 +913,6 @@ public class DSettings
 	 * Returns the DeviantArt directory.
 	 * 
 	 * @return DeviantArt Directory
-	 * @since 2.0
 	 */
 	public File getDeviantArtDirectory()
 	{
@@ -1090,7 +924,6 @@ public class DSettings
 	 * Sets the Fur Affinity Directory
 	 * 
 	 * @param furAffinityDirectory Fur Affinity Directory
-	 * @since 2.0
 	 */
 	public void setFurAffinityDirectory(final File furAffinityDirectory)
 	{
@@ -1102,7 +935,6 @@ public class DSettings
 	 * Returns the Fur Affinity Directory
 	 * 
 	 * @return Fur Affinity Directory
-	 * @since 2.0
 	 */
 	public File getFurAffinityDirectory()
 	{
@@ -1114,7 +946,6 @@ public class DSettings
 	 * Sets the Inkbunny Directory
 	 * 
 	 * @param inkbunnyDirectory Inkbunny Directory
-	 * @since 2.0
 	 */
 	public void setInkbunnyDirectory(final File inkbunnyDirectory)
 	{
@@ -1126,7 +957,6 @@ public class DSettings
 	 * Returns the Inkbunny Directory
 	 * 
 	 * @return Inkbunny Directory
-	 * @since 2.0
 	 */
 	public File getInkbunnyDirectory()
 	{
@@ -1138,7 +968,6 @@ public class DSettings
 	 * Returns the Preview Size
 	 * 
 	 * @return Preview Size
-	 * @since 2.0
 	 */
 	public int getPreviewSize()
 	{
@@ -1150,7 +979,6 @@ public class DSettings
 	 * Sets the scale type.
 	 * 
 	 * @param scaleType Scale Type
-	 * @since 2.0
 	 */
 	public void setScaleType(final int scaleType)
 	{
@@ -1162,7 +990,6 @@ public class DSettings
 	 * Returns the scale type.
 	 * 
 	 * @return Scale Type
-	 * @since 2.0
 	 */
 	public int getScaleType()
 	{
@@ -1174,7 +1001,6 @@ public class DSettings
 	 * Sets the scale amount.
 	 * 
 	 * @param scaleAmount Scale Amount
-	 * @since 2.0
 	 */
 	public void setScaleAmount(final double scaleAmount)
 	{
@@ -1186,7 +1012,6 @@ public class DSettings
 	 * Returns the scale amount.
 	 * 
 	 * @return Scale Amount
-	 * @since 2.0
 	 */
 	public double getScaleAmount()
 	{
@@ -1198,7 +1023,6 @@ public class DSettings
 	 * Sets the location of DMF details.
 	 * 
 	 * @param detailLocation Location of DMF Details
-	 * @since 2.0
 	 */
 	public void setDetailLocation(final int detailLocation)
 	{
@@ -1210,7 +1034,6 @@ public class DSettings
 	 * Returns the location of DMF details.
 	 * 
 	 * @return Location of DMF Details
-	 * @since 2.0
 	 */
 	public int getDetailLocation()
 	{
@@ -1222,7 +1045,6 @@ public class DSettings
 	 * Sets whether to use thumbnails.
 	 * 
 	 * @param useThumbnails Use Thumbnails
-	 * @since 2.0
 	 */
 	public void setUseThumbnails(final boolean useThumbnails)
 	{
@@ -1234,7 +1056,6 @@ public class DSettings
 	 * Gets whether to use thumbnails.
 	 * 
 	 * @return Use Thumbnails
-	 * @since 2.0
 	 */
 	public boolean getUseThumbnails()
 	{
@@ -1246,7 +1067,6 @@ public class DSettings
 	 * Sets the sort type.
 	 * 
 	 * @param sortType Sort Type
-	 * @since 2.0
 	 */
 	public void setSortType(final int sortType)
 	{
@@ -1258,7 +1078,6 @@ public class DSettings
 	 * Returns the sort type.
 	 * 
 	 * @return Sort Type
-	 * @since 2.0
 	 */
 	public int getSortType()
 	{
@@ -1270,7 +1089,6 @@ public class DSettings
 	 * Sets whether to group artists.
 	 * 
 	 * @param groupArtists Whether to group artists
-	 * @since 2.0
 	 */
 	public void setGroupArtists(final boolean groupArtists)
 	{
@@ -1282,7 +1100,6 @@ public class DSettings
 	 * Returns whether to group artists.
 	 * 
 	 * @return Whether to group artists
-	 * @since 2.0
 	 */
 	public boolean getGroupArtists()
 	{
@@ -1294,7 +1111,6 @@ public class DSettings
 	 * Sets whether to group sequences.
 	 * 
 	 * @param groupSequences Whether to group sequences
-	 * @since 2.0
 	 */
 	public void setGroupSequences(final boolean groupSequences)
 	{
@@ -1306,7 +1122,6 @@ public class DSettings
 	 * Returns whether to group sequences.
 	 * 
 	 * @return Whether to group sequences
-	 * @since 2.0
 	 */
 	public boolean getGroupSequences()
 	{
@@ -1318,7 +1133,6 @@ public class DSettings
 	 * Sets whether to group sections.
 	 * 
 	 * @param groupSections Whether to group sections
-	 * @since 2.0
 	 */
 	public void setGroupSections(final boolean groupSections)
 	{
@@ -1330,7 +1144,6 @@ public class DSettings
 	 * Returns whether to group sections.
 	 * 
 	 * @return Whether to group sections
-	 * @since 2.0
 	 */
 	public boolean getGroupSections()
 	{

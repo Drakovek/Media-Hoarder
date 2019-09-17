@@ -8,28 +8,21 @@ import java.awt.event.ActionListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DActionListener implements ActionListener
 {
 	/**
 	 * DEvent to call when event occurs
-	 * 
-	 * @since 2.0
 	 */
 	private DEvent event;
 	
 	/**
 	 * ID of the event
-	 * 
-	 * @since 2.0
 	 */
 	private String id;
 	
 	/**
 	 * Value to pass during action event
-	 * 
-	 * @since 2.0
 	 */
 	private int value;
 	
@@ -39,7 +32,6 @@ public class DActionListener implements ActionListener
 	 * @param event DEvent to call when event occurs
 	 * @param id ID of the event
 	 * @param value Value to pass during action event
-	 * @since 2.0
 	 */
 	public DActionListener(DEvent event, final String id, final int value)
 	{
@@ -54,7 +46,6 @@ public class DActionListener implements ActionListener
 	 * 
 	 * @param event DEvent to call when event occurs
 	 * @param id ID of the event
-	 * @since 2.0
 	 */
 	public DActionListener(DEvent event, final String id)
 	{

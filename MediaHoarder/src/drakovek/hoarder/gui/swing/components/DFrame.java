@@ -15,49 +15,36 @@ import drakovek.hoarder.gui.swing.listeners.DEvent;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DFrame extends JFrame
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -7020014407451285996L;
 
 	/**
 	 * Program Settings
-	 * 
-	 * @since 2.0
 	 */
 	private DSettings settings;
 	
 	/**
 	 * GUI Object implementing ComponentDisabler to be called when processRunning boolean changes.
-	 * 
-	 * @since 2.0
 	 */
 	private ComponentDisabler disabler;
 	
 	/**
 	 * Called when user attempts to close the frame, if event has been initialized.
-	 * 
-	 * @since 2.0
 	 */
 	private DEvent event;
 	
 	/**
 	 * Boolean indicating whether a worker process is running.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean processRunning;
 	
 	/**
 	 * Whether to allow the frame to close
-	 * 
-	 * @since 2.0
 	 */
 	private boolean allowExit;
 
@@ -67,7 +54,6 @@ public class DFrame extends JFrame
 	 * @param settings Program Settings
 	 * @param disabler GUI Object implementing ComponentDisabler to call when a process starts/stops running
 	 * @param title Title of the Frame
-	 * @since 2.0
 	 */
 	public DFrame(DSettings settings, final String title)
 	{
@@ -85,7 +71,6 @@ public class DFrame extends JFrame
 	 * @param settings Program Settings
 	 * @param disabler GUI Object implementing ComponentDisabler to call when a process starts/stops running
 	 * @param title Title of the Frame
-	 * @since 2.0
 	 */
 	public DFrame(ComponentDisabler disabler, DSettings settings, final String title)
 	{
@@ -99,8 +84,6 @@ public class DFrame extends JFrame
 	
 	/**
 	 * Initializes features of the DFrame shared between all of DFrame's constructors.
-	 * 
-	 * @since 2.0
 	 */
 	private void commonInitialize()
 	{
@@ -120,7 +103,6 @@ public class DFrame extends JFrame
 	 * 
 	 * @param width Frame Width
 	 * @param height Frame Height
-	 * @since 2.0
 	 */
 	public void setSizeRestrictive(final int width, final int height)
 	{
@@ -130,8 +112,6 @@ public class DFrame extends JFrame
 	
 	/**
 	 * Packs the frame while ensuring it does not exceed the screen dimensions.
-	 * 
-	 * @since 2.0
 	 */
 	public void packRestricted()
 	{
@@ -146,7 +126,6 @@ public class DFrame extends JFrame
 	 * @param width Desired Width
 	 * @param height Desired Height
 	 * @return Restricted Dimension
-	 * @since 2.0
 	 */
 	private Dimension getRestrictedDimensions(final int width, final int height)
 	{
@@ -190,7 +169,6 @@ public class DFrame extends JFrame
 	 * Sets the Frame to call a DEvent when user attempts to close the frame, rather than handling the event internally.
 	 * 
 	 * @param dEvent DEvent to be called when user attempts to close the frame.
-	 * @since 2.0
 	 */
 	public void interceptFrameClose(DEvent dEvent)
 	{
@@ -200,8 +178,6 @@ public class DFrame extends JFrame
 	
 	/**
 	 * Runs when user attempts to close the frame. Executed by DCloseListener.
-	 * 
-	 * @since 2.0
 	 */
 	public void closeFrame()
 	{
@@ -234,7 +210,6 @@ public class DFrame extends JFrame
 	 * Returns the value of processRunning. Should indicate whether a worker is currently running.
 	 * 
 	 * @return Process Running
-	 * @since 2.0
 	 */
     public boolean isProcessRunning()
     {
@@ -246,7 +221,6 @@ public class DFrame extends JFrame
      * Sets the value of processRunning.
      * 
      * @param processRunning Process Running
-     * @since 2.0
      */
     public void setProcessRunning(final boolean processRunning)
     {
@@ -285,7 +259,6 @@ public class DFrame extends JFrame
      * Returns whether the frame is allowed to close.
      * 
      * @return Whether the frame is allowed to close
-     * @since 2.0
      */
     public boolean getAllowExit()
     {

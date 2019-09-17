@@ -19,50 +19,37 @@ import drakovek.hoarder.gui.swing.components.DProgressBar;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DProgressDialog extends BaseGUI
 {
 	
 	/**
 	 * Whether the current process is cancelled
-	 * 
-	 * @since 2.0
 	 */
 	private boolean cancelled;
 	
 	/**
 	 * Main panel for showing progress
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel progressPanel;
 	
 	/**
 	 * Label for a running process
-	 * 
-	 * @since 2.0
 	 */
 	private DLabel processLabel;
 	
 	/**
 	 * Label for the details of a running process
-	 * 
-	 * @since 2.0
 	 */
 	private DLabel detailLabel;
 	
 	/**
 	 * Main progress bar for showing progress.
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressBar progressBar;
 	
 	/**
 	 * Main dialog for showing progress.
-	 * 
-	 * @since 2.0
 	 */
 	private DDialog dialog;
 	
@@ -70,7 +57,6 @@ public class DProgressDialog extends BaseGUI
 	 * Initializes the DProgressDialog class.
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public DProgressDialog(DSettings settings)
 	{
@@ -91,8 +77,6 @@ public class DProgressDialog extends BaseGUI
 	
 	/**
 	 * Creates the initial panel to use for showing progress.
-	 * 
-	 * @since 2.0
 	 */
 	protected void initializePanel()
 	{
@@ -117,7 +101,6 @@ public class DProgressDialog extends BaseGUI
 	 * Sets the main progress panel.
 	 * 
 	 * @param progressPanel Progress Panel
-	 * @since 2.0
 	 */
 	public void setProgressPanel(JPanel progressPanel)
 	{
@@ -129,7 +112,6 @@ public class DProgressDialog extends BaseGUI
 	 * Returns the process label.
 	 * 
 	 * @return Process Label
-	 * @since 2.0
 	 */
 	public DLabel getProcessLabel()
 	{
@@ -141,7 +123,6 @@ public class DProgressDialog extends BaseGUI
 	 * Returns the detail label.
 	 * 
 	 * @return Detail Label
-	 * @since 2.0
 	 */
 	public DLabel getDetailLabel()
 	{
@@ -153,7 +134,6 @@ public class DProgressDialog extends BaseGUI
 	 * Returns the progress bar.
 	 * 
 	 * @return Progress Bar
-	 * @since 2.0
 	 */
 	public DProgressBar getProgressBar()
 	{
@@ -166,7 +146,6 @@ public class DProgressDialog extends BaseGUI
 	 * 
 	 * @param ownerFrame DFrame used as the dialog's owner.
 	 * @param titleID Language ID for the dialog title
-	 * @since 2.0
 	 */
 	public void startProgressDialog(DFrame ownerFrame, final String titleID)
 	{
@@ -181,7 +160,6 @@ public class DProgressDialog extends BaseGUI
 	 * @param titleID Language ID for the dialog title
 	 * @param width Desired dialog width
 	 * @param height Desired dialog height
-	 * @since 2.0
 	 */
 	public void startProgressDialog(DFrame ownerFrame, final String titleID, final int width, final int height)
 	{
@@ -201,7 +179,6 @@ public class DProgressDialog extends BaseGUI
 	 * 
 	 * @param ownerDialog DDialog used as the dialog's owner.
 	 * @param titleID Language ID for the dialog title
-	 * @since 2.0
 	 */
 	public void startProgressDialog(DDialog ownerDialog, final String titleID)
 	{
@@ -216,7 +193,6 @@ public class DProgressDialog extends BaseGUI
 	 * @param titleID Language ID for the dialog title
 	 * @param width Desired dialog width
 	 * @param height Desired dialog height
-	 * @since 2.0
 	 */
 	public void startProgressDialog(DDialog ownerDialog, final String titleID, final int width, final int height)
 	{
@@ -235,8 +211,6 @@ public class DProgressDialog extends BaseGUI
 
 	/**
 	 * Closes the current progress dialog.
-	 * 
-	 * @since 2.0
 	 */
 	public void closeProgressDialog()
 	{
@@ -258,7 +232,6 @@ public class DProgressDialog extends BaseGUI
 	 * @param maximum Maximum value for the progress bar (N/A if indeterminate)
 	 * @param value Current value of the progress bar (N/A if indeterminate)
 	 * @param progressString String to show on the progress bar (N/A if not painted)
-	 * @since 2.0
 	 */
 	public void setProgressBar(final boolean indeterminate, final boolean painted, final int maximum, final int value)
 	{
@@ -270,7 +243,6 @@ public class DProgressDialog extends BaseGUI
 	 * Sets the text of the process label.
 	 * 
 	 * @param id Language ID for the process label
-	 * @since 2.0
 	 */
 	public void setProcessLabel(final String id)
 	{
@@ -283,7 +255,6 @@ public class DProgressDialog extends BaseGUI
 	 * 
 	 * @param text Text for detail label
 	 * @param isID Whether the text is a language ID or not
-	 * @since 2.0
 	 */
 	public void setDetailLabel(final String text, final boolean isID)
 	{
@@ -304,7 +275,6 @@ public class DProgressDialog extends BaseGUI
 	 * Returns whether the current process has been cancelled.
 	 * 
 	 * @return Whether the current process has been cancelled
-	 * @since 2.0
 	 */
 	public boolean isCancelled()
 	{
@@ -316,7 +286,6 @@ public class DProgressDialog extends BaseGUI
 	 * Sets whether the current process is cancelled
 	 * 
 	 * @param cancelled Whether the current process is cancelled.
-	 * @since 2.0
 	 */
 	public void setCancelled(final boolean cancelled)
 	{

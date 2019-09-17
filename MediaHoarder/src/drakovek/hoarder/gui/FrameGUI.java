@@ -10,21 +10,16 @@ import drakovek.hoarder.gui.swing.components.DFrame;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 {
 	/**
 	 * Main DFrame for the FrameGUI object
-	 * 
-	 * @since 2.0
 	 */
 	private DFrame frame;
 	
 	/**
 	 * Program's DmfHandler
-	 * 
-	 * @since 2.0
 	 */
 	private DmfHandler dmfHandler;
 	
@@ -34,7 +29,6 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DmfHanlder
 	 * @param subtitleID ID of the subtitle. If null, just uses the default title
-	 * @since 2.0
 	 */
 	public FrameGUI(DSettings settings, DmfHandler dmfHandler, final String subtitleID)
 	{
@@ -48,7 +42,6 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	 * Returns the main DFrame for FrameGUI
 	 * 
 	 * @return Frame
-	 * @since 2.0
 	 */
 	public DFrame getFrame()
 	{
@@ -60,7 +53,6 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	 * Returns the DmfHandler.
 	 * 
 	 * @return DmfHandler
-	 * @since 2.0
 	 */
 	public DmfHandler getDmfHandler()
 	{
@@ -70,8 +62,6 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	
 	/**
 	 * Disposes of the main DFrame.
-	 * 
-	 * @since 2.0
 	 */
 	public void dispose()
 	{

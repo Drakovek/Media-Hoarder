@@ -5,21 +5,16 @@ package drakovek.hoarder.gui.swing.components;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public interface ComponentDisabler 
 {
 	/**
 	 * Enables all swing components.
-	 * 
-	 * @since 2.0
 	 */
 	public void enableAll();
 	
 	/**
 	 * Disables all swing components.
-	 * 
-	 * @since 2.0
 	 */
 	public void disableAll();
 	

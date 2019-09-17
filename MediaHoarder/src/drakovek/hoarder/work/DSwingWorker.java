@@ -7,21 +7,16 @@ import javax.swing.SwingWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DSwingWorker extends SwingWorker<int[], Void>
 {
 	/**
 	 * ID of the work
-	 * 
-	 * @since 2.0
 	 */
 	private String id;
 	
 	/**
 	 * Object implementing Worker interface. Called when DSwingWorker starts and ends
-	 * 
-	 * @since 2.0
 	 */
 	private DWorker worker;
 	
@@ -30,7 +25,6 @@ public class DSwingWorker extends SwingWorker<int[], Void>
 	 * 
 	 * @param worker Object implementing DWorker interface
 	 * @param id ID of the work
-	 * @since 2.0
 	 */
 	public DSwingWorker(DWorker worker, final String id)
 	{

@@ -10,14 +10,11 @@ import drakovek.hoarder.gui.swing.listeners.DActionListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DComboBox extends JComboBox<String>
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 2373613947616129301L;
 
@@ -26,7 +23,6 @@ public class DComboBox extends JComboBox<String>
 	 * 
 	 * @param baseGUI Linked BaseGUI
 	 * @param id Action ID for the DComboBox
-	 * @since 2.0
 	 */
 	public DComboBox(BaseGUI baseGUI, final String id)
 	{
@@ -40,7 +36,6 @@ public class DComboBox extends JComboBox<String>
 	 * Sets the data contained in the combo box.
 	 * 
 	 * @param data String array to show in the combo box
-	 * @since 2.0
 	 */
 	public void setData(final String[] data)
 	{

@@ -12,35 +12,26 @@ import javax.swing.Scrollable;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DScrollablePanel extends JPanel implements Scrollable
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 3544103412588453998L;
 
 	/**
 	 * Whether to limit the width to the container's width
-	 * 
-	 * @since 2.0
 	 */
 	private boolean fitWidth;
 	
 	/**
 	 * Whether to limit the height to the container's height
-	 * 
-	 * @since 2.0
 	 */
 	private boolean fitHeight;
 	
 	/**
 	 * The preferred size of the scroll pane viewport
-	 * 
-	 * @since 2.0
 	 */
 	private Dimension preferredViewPortSize;
 	
@@ -50,7 +41,6 @@ public class DScrollablePanel extends JPanel implements Scrollable
 	 * @param panel Panel to contain, which will fill the Scrollable panel.
 	 * @param fitWidth Whether to limit the width to the container's width
 	 * @param fitHeight Whether to limit the height to the container's height
-	 * @since 2.0
 	 */
 	public DScrollablePanel(JPanel panel, final boolean fitWidth, final boolean fitHeight)
 	{

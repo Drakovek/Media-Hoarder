@@ -11,7 +11,6 @@ import drakovek.hoarder.gui.artist.InkBunnyGUI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DownloadModeGUI extends ModeBaseGUI
 {
@@ -19,7 +18,6 @@ public class DownloadModeGUI extends ModeBaseGUI
 	 * Initializes the ModesGUI object.
 	 * 
 	 * @param frameGUI FrameGUI this mode GUI is contained within.
-	 * @since 2.0
 	 */
 	public DownloadModeGUI(FrameGUI frameGUI)
 	{

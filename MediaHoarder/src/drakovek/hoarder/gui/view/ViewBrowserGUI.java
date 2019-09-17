@@ -41,140 +41,101 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ViewBrowserGUI extends FrameGUI implements DWorker
 {
 	/**
 	 * Action for when pageText event occurs.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String PAGE_ACTION = "page"; //$NON-NLS-1$
 	
 	/**
 	 * Main settings bar for the class.
-	 * 
-	 * @since 2.0
 	 */
 	private SettingsBarGUI settingsBar;
 	
 	/**
 	 * Main progress dialog for the class
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressDialog progressDialog;
 	
 	/**
 	 * Panel within which to hold image previews and titles of DMF media.
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel previewPanel;
 	
 	/**
 	 * Panels that each hold a preview for an individual DMF
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel[] previewPanels;
 	
 	/**
 	 * Array of buttons used to show previews of DMFs and open DMF media.
-	 * 
-	 * @since 2.0
 	 */
 	private PreviewButton[] previewButtons;
 	
 	/**
 	 * Array of labels to show previews of DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private DLabel[] previewLabels;
 	
 	/**
 	 * Index values for all the previews in the preview panel
-	 * 
-	 * @since 2.0
 	 */
 	private int[] previewValues;
 	
 	/**
 	 * File Menu for the GUI
-	 * 
-	 * @since 2.0
 	 */
 	private DMenu fileMenu;
 	
 	/**
 	 * View Menu for the GUI
-	 * 
-	 * @since 2.0
 	 */
 	private DMenu viewMenu;
 	
 	/**
 	 * Sort Menu for the GUI
-	 * 
-	 * @since 2.0
 	 */
 	private DMenu sortMenu;
 	
 	/**
 	 * Button to show DMF media prior to the current page
-	 * 
-	 * @since 2.0
 	 */
 	private DButton previousButton;
 	
 	/**
 	 * Button to show DMF media after the current page
-	 * 
-	 * @since 2.0
 	 */
 	private DButton nextButton;
 	
 	/**
 	 * Text Field to set the current page/offset for the DMF media being shown
-	 * 
-	 * @since 2.0
 	 */
 	private DTextField pageText;
 	
 	/**
 	 * Width of a preview section, used to determine how many previews can be fit in the preview panel.
-	 * 
-	 * @since 2.0
 	 */
 	private int sectionWidth;
 	
 	/**
 	 * Height of a preview section, used to determine how many previews can be fit in the preview panel.
-	 * 
-	 * @since 2.0
 	 */
 	private int sectionHeight;
 	
 	/**
 	 * Width of the preview panel based on the number of previews.
-	 * 
-	 * @since 2.0
 	 */
 	private int previewWidth;
 	
 	/**
 	 * Height of the preview panel based on the number of previews.
-	 * 
-	 * @since 2.0
 	 */
 	private int previewHeight;
 	
 	/**
 	 * Value showing the index value for the first preview in the preview panel.
-	 * 
-	 * @since 2.0
 	 */
 	private int offset;
 	
@@ -183,7 +144,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	 * 
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DmfHandler
-	 * @since 2.0
 	 */
 	public ViewBrowserGUI(DSettings settings, DmfHandler dmfHandler)
 	{
@@ -275,8 +235,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 
 	/**
 	 * Creates the preview panels for the frame.
-	 * 
-	 * @since 2.0
 	 */
 	private void createPreviewPanels()
 	{
@@ -359,8 +317,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Runs when sectionPanel is resized, and sets a new grid panel for previews.
-	 * 
-	 * @since 1.0
 	 */
 	private void previewResized()
 	{
@@ -407,7 +363,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	 * Starts the process for loading DMFs from a directory.
 	 * 
 	 * @param useIndexSettings Whether to use the user's settings for reading DMF indexes. If false, DmfHanlder will load DMFs without using index files.
-	 * @since 2.0
 	 */
 	private void loadDirectory(final boolean useIndexSettings)
 	{
@@ -434,8 +389,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Resets the preview values.
-	 * 
-	 * @since 2.0
 	 */
 	private void resetValues()
 	{
@@ -450,8 +403,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Starts the process of updating previews, if necessary.
-	 * 
-	 * @since 2.0
 	 */
 	private void launchPreviewUpdate()
 	{
@@ -503,8 +454,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Updates the preview panel.
-	 * 
-	 * @since 2.0
 	 */
 	private void updatePreview()
 	{
@@ -552,7 +501,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	 * Sets the current offset value then updates media previews.
 	 * 
 	 * @param offset Given Offset
-	 * @since 2.0
 	 */
 	public void setOffset(final int offset)
 	{
@@ -563,8 +511,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Updates panel to the next page of previews.
-	 * 
-	 * @since 2.0
 	 */
 	private void nextPage()
 	{
@@ -592,8 +538,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Updates panel to the previous page of previews.
-	 * 
-	 * @since 2.0
 	 */
 	private void previousPage()
 	{
@@ -621,8 +565,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Deals with text being entered to move to a new page or search for a title with a given query.
-	 * 
-	 * @since 2.0
 	 */
 	private void textEntered()
 	{
@@ -734,7 +676,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	 * 
 	 * @param sortType Sort Type
 	 * @param isSelected Whether the sort type was selected or deselected. If deselected, does nothing.
-	 * @since 2.0
 	 */
 	private void sortRadioPressed(final int sortType, final boolean isSelected)
 	{
@@ -749,8 +690,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Starts the DMF sorting process.
-	 * 
-	 * @since 2.0
 	 */
 	private void sort()
 	{

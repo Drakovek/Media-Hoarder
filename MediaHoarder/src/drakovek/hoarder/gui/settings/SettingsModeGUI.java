@@ -9,21 +9,16 @@ import drakovek.hoarder.gui.BaseGUI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public abstract class SettingsModeGUI extends BaseGUI
 {
 	/**
 	 * Main panel for the mode GUI
-	 * 
-	 * @since 2.0
 	 */
 	private JPanel panel;
 	
 	/**
 	 * Parent SettingsGUI
-	 * 
-	 * @since 2.0
 	 */
 	private SettingsGUI settingsGUI;
 	
@@ -31,7 +26,6 @@ public abstract class SettingsModeGUI extends BaseGUI
 	 * Initializes the SettingsModeGUI class.
 	 * 
 	 * @param settingsGUI Parent SettingsGUI
-	 * @since 2.0
 	 */
 	public SettingsModeGUI(SettingsGUI settingsGUI)
 	{
@@ -46,7 +40,6 @@ public abstract class SettingsModeGUI extends BaseGUI
 	 * Returns the parent SettingsGUI
 	 * 
 	 * @return SettingsGUI
-	 * @since 2.0
 	 */
 	public SettingsGUI getSettingsGUI()
 	{
@@ -58,7 +51,6 @@ public abstract class SettingsModeGUI extends BaseGUI
 	 * Returns the main settings panel
 	 * 
 	 * @return Settings Panel
-	 * @since 2.0
 	 */
 	public JPanel getPanel()
 	{
@@ -68,8 +60,6 @@ public abstract class SettingsModeGUI extends BaseGUI
 	
 	/**
 	 * Method called when to apply the current settings edited in the settings panel
-	 * 
-	 * @since 2.0
 	 */
 	public abstract void apply();
 

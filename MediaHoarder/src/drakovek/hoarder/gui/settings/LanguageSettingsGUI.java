@@ -16,28 +16,21 @@ import drakovek.hoarder.processing.StringMethods;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class LanguageSettingsGUI extends SettingsModeGUI
 {
 	/**
 	 * Currently selected language.
-	 * 
-	 * @since 2.0
 	 */
 	private String language;
 	
 	/**
 	 * List of available languages.
-	 * 
-	 * @since 2.0
 	 */
 	private String[] languages;
 	
 	/**
 	 * DList for selecting the program's language.
-	 * 
-	 * @since 2.0
 	 */
 	private DList languageList;
 	
@@ -45,7 +38,6 @@ public class LanguageSettingsGUI extends SettingsModeGUI
 	 * Initializes the LanguageSettingsGUI class.
 	 * 
 	 * @param settingsGUI Parent SettingsGUI
-	 * @since 2.0
 	 */
 	public LanguageSettingsGUI(SettingsGUI settingsGUI)
 	{
@@ -93,8 +85,6 @@ public class LanguageSettingsGUI extends SettingsModeGUI
 	
 	/**
 	 * Sets the current language to the language selected by the user.
-	 * 
-	 * @since 2.0
 	 */
 	private void setLanguageSelected()
 	{

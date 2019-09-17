@@ -9,7 +9,6 @@ import drakovek.hoarder.gui.editing.SequencingGUI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ManageModeGUI extends ModeBaseGUI
 {
@@ -17,7 +16,6 @@ public class ManageModeGUI extends ModeBaseGUI
 	 * Initializes the ManageModeGUI class.
 	 * 
 	 * @param frameGUI FrameGUI this mode GUI is contained within.
-	 * @since 2.0
 	 */
 	public ManageModeGUI(FrameGUI frameGUI)
 	{

@@ -18,35 +18,26 @@ import drakovek.hoarder.processing.StringMethods;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DMF
 {
 	/**
 	 * Empty ID variable used identify when there are no DMFs either following or preceding the current DMF in a sequence.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String EMPTY_ID = "XX"; //$NON-NLS-1$
 	
 	/**
 	 * Empty section variable to identify when a section of a sequence has no section title
-	 * 
-	 * @since 2.0
 	 */
 	public static final String EMPTY_SECTION = ":"; //$NON-NLS-1$
 	
 	/**
 	 * Extension used for DMF Files
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DMF_EXTENSION = ".dmf"; //$NON-NLS-1$
 	
 	/**
 	 * Array of file types and their corresponding extensions
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[][] FILE_TYPES = {{"image/jpeg", ".jpg"}, //$NON-NLS-1$ //$NON-NLS-2$
 												  {"image/png", ".png"}, //$NON-NLS-1$ //$NON-NLS-2$
@@ -69,218 +60,156 @@ public class DMF
 	
 	/**
 	 * Main header used at the top of DMF Files
-	 * 
-	 * @since 2.0
 	 */
 	private static final String DMF_HEADER = "[DMF]"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the DMF ID
-	 * 
-	 * @since 2.0
 	 */
 	private static final String ID = "id"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the DMF Title
-	 * 
-	 * @since 2.0
 	 */
 	private static final String TITLE = "title"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the artist(s) of the DMF media
-	 * 
-	 * @since 2.0
 	 */
 	private static final String ARTISTS = "artists"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for DMF artists, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_ARTIST = "artist"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the time of publishing for the DMF media
-	 * 
-	 * @since 2.0
 	 */
 	private static final String TIME = "time"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for the time of publishing, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_DATE = "date"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for all the original web tags for the DMF media
-	 * 
-	 * @since 2.0
 	 */
 	private static final String WEB_TAGS = "web_tags"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for original tags, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_OTAGS = "oTags"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the DMF's description
-	 * 
-	 * @since 2.0
 	 */
 	private static final String DESCRIPTION = "description"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for the description, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_DESC = "desc"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the DMF's original page URL
-	 * 
-	 * @since 2.0
 	 */
 	private static final String PAGE_URL = "page_url"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for the page URL, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_PAGE_URL = "pageURL"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the DMF's original media URL
-	 * 
-	 * @since 2.0
 	 */
 	private static final String MEDIA_URL = "media_url"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for the media URL, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_MEDIA_URL = "mediaURL"; //$NON-NLS-1$
 	
 	/**
 	 * DMF INI variable for the secondary media URL
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SECONDARY_URL = "secondary_url"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the media file linked to the DMF
-	 * 
-	 * @since 2.0
 	 */
 	private static final String MEDIA_FILE = "media_file"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for the media file, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_FILENAME = "filename"; //$NON-NLS-1$
 	
 	/**
 	 * DMF INI variable for the secondary media file
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SECONDARY_FILE = "secondary_file"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the ID(s) of the previous DMF(s)
-	 * 
-	 * @since 2.0
 	 */
 	private static final String LAST_IDS = "last_ids"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the ID(s) of the next DMF(s)
-	 * 
-	 * @since 2.0
 	 */
 	private static final String NEXT_IDS = "next_ids"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for whether the DMF is the first in a section
-	 * 
-	 * @since 2.0
 	 */
 	private static final String FIRST = "first"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for whether the DMF is the last in a section
-	 * 
-	 * @since 2.0
 	 */
 	private static final String LAST = "last"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for all DMF sequence data.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_SEQ_DATA = "seqData"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the title of the current sequence
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SEQUENCE_TITLE = "sequence_title"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for the sequence title, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_SEQ_TITLE = "seqTitle"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the title of the current section of the current sequence.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String SECTION_TITLE = "section_title"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for the section(Sub-sequence) title, used for reading old DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private static final String OLD_SUB_SEQ_TITLE = "subSeqTitle"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for titles of sequence branches coming from this DMF
-	 * 
-	 * @since 2.0
 	 */
 	private static final String BRANCH_TITLES = "branch_titles"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the DMF user rating
-	 * 
-	 * @since 2.0
 	 */
 	private static final String RATING = "rating"; //$NON-NLS-1$
 	
 	/**
 	 * INI variable for the DMF's user tags
-	 * 
-	 * @since 2.0
 	 */
 	private static final String USER_TAGS = "user_tags"; //$NON-NLS-1$
 	
@@ -293,155 +222,111 @@ public class DMF
 	
 	/**
 	 * File for the currently selected DMF
-	 * 
-	 * @since 2.0
 	 */
 	private File dmfFile;
 	
 	/**
 	 * Unique ID for the currently selected DMF
-	 * 
-	 * @since 2.0
 	 */
 	private String id;
 	
 	/**
 	 * Title of the DMF media
-	 * 
-	 * @since 2.0
 	 */
 	private String title;
 	
 	/**
 	 * Artist(s) of the DMF media
-	 * 
-	 * @since 2.0
 	 */
 	private String[] artists;
 	
 	/**
 	 * Time of publishing for the DMF media (Structured YYYYMMDDhhmm. Example: April 22, 2001 @ 4:30PM = 200104211630)
-	 * 
-	 * @since 2.0
 	 */
 	private long time;
 	
 	/**
 	 * Original web tags for the DMF
-	 * 
-	 * @since 2.0
 	 */
 	private String[] webTags;
 	
 	/**
 	 * Description of the DMF media
-	 * 
-	 * @since 2.0
 	 */
 	private String description;
 	
 	/**
 	 * The URL for the page that the DMF originates from
-	 * 
-	 * @since 2.0
 	 */
 	private String pageURL;
 	
 	/**
 	 * The URL for the direct media download URL that the DMF originates from
-	 * 
-	 * @since 2.0
 	 */
 	private String mediaURL;
 	
 	/**
 	 * URL for the direct media download URL for the secondary media file
-	 * 
-	 * @since 2.0
 	 */
 	private String secondaryURL;
 	
 	/**
 	 * Media File linked to the DMF
-	 * 
-	 * @since 2.0
 	 */
 	private File mediaFile;
 	
 	/**
 	 * Media File linked to the DMF for use as a secondary media file
-	 * 
-	 * @since 2.0
 	 */
 	private File secondaryFile;
 	
 	/**
 	 * Array of IDs directly preceding the current DMF in a sequence. If there are multiple IDs, this means the DMF comes directly after multiple branching paths.
-	 * 
-	 * @since 2.0
 	 */
 	private String[] lastIDs;
 	
 	/**
 	 * Array of IDs directly proceeding the current DMF in a sequence. If there are multiple IDs, this means the DMF leads to multiple branching paths.
-	 * 
-	 * @since 2.0
 	 */
 	private String[] nextIDs;
 	
 	/**
 	 * Whether the current DMF is the first in a sequence section.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean first;
 	
 	/**
 	 * Whether the current DMF is the last in a sequence section.
-	 * 
-	 * @since 2.0
 	 */
 	private boolean last;
 	
 	/**
 	 * Title for the sequence the current DMF is a part of, if applicable
-	 * 
-	 * @since 2.0
 	 */
 	private String sequenceTitle;
 	
 	/**
 	 * Title for the section of a sequence the current DMF is a part of, if applicable
-	 * 
-	 * @since 2.0
 	 */
 	private String sectionTitle;
 	
 	/**
 	 * Array of titles for sequence branches coming from this DMF, if applicable.
-	 * 
-	 * @since 2.0
 	 */
 	private String[] branchTitles;
 	
 	/**
 	 * User given rating for the DMF, ranging from 1 to 5
-	 * 
-	 * @since 2.0
 	 */
 	private int rating;
 	
 	/**
 	 * Tags for the DMF given by the user
-	 * 
-	 * @since 2.0
 	 */
 	private String[] userTags;
 	
 	/**
 	 * Initializes DMF to represent an empty DMF file.
-	 * 
-	 * @since 2.0
 	 */
 	public DMF()
 	{
@@ -454,7 +339,6 @@ public class DMF
 	 * Initializes DMF to represent given DMF file.
 	 * 
 	 * @param dmfFile DMF File to load
-	 * @since 2.0
 	 */
 	public DMF(final File dmfFile)
 	{
@@ -465,8 +349,6 @@ public class DMF
 	
 	/**
 	 * Clears all DMF variables so this DMF object represents an empty DMF File.
-	 * 
-	 * @since 2.0
 	 */
 	private void clearDMF()
 	{
@@ -504,8 +386,6 @@ public class DMF
 	
 	/**
 	 * Loads DMF info from dmfFile so the DMF object represents a given DMF File.
-	 * 
-	 * @since 2.0
 	 */
 	public void loadDMF()
 	{
@@ -636,7 +516,6 @@ public class DMF
 	 * Writes a DMF file to dmfFile
 	 *
 	 * @return Whether the file was successfully written
-	 * @since 2.0
 	 */
 	public boolean writeDMF()
 	{
@@ -649,7 +528,6 @@ public class DMF
 	 *
 	 * @param checkFileType Whether to check the file file type of linked media files and change extensions accordingly if necessary
 	 * @return Whether the file was successfully written
-	 * @since 2.0
 	 */
 	public boolean writeDMF(final boolean checkFileType)
 	{
@@ -851,7 +729,6 @@ public class DMF
 	 * Checks if the current state of the DMF object can be written to make a valid DMF. Must have a valid name for a file, and a non-empty ID and media file.
 	 *
 	 * @return Whether the current DMF is valid
-	 * @since 2.0
 	 */
 	public boolean isValid()
 	{
@@ -885,7 +762,6 @@ public class DMF
 	 * @param filename Main Filename Body
 	 * @param mediaExtension Extension to use for the media file. If null, uses the media file's current extension.
 	 * @param secondaryExtension Extension to use for the secondary media file. If null, uses the secondary media file's current extension.
-	 * @since 2.0
 	 */
 	public void rename(final String filename, final String mediaExtension, final String secondaryExtension)
 	{
@@ -948,7 +824,6 @@ public class DMF
 	 * Returns dmfFile
 	 * 
 	 * @return dmfFile
-	 * @since 2.0
 	 */
 	public File getDmfFile()
 	{
@@ -960,7 +835,6 @@ public class DMF
 	 * Sets dmfFile.
 	 * 
 	 * @param dmfFile dmfFile
-	 * @since 2.0
 	 */
 	public void setDmfFile(final File dmfFile)
 	{
@@ -972,7 +846,6 @@ public class DMF
 	 * Returns the DMF ID
 	 * 
 	 * @return DMF ID
-	 * @since 2.0
 	 */
 	public String getID()
 	{
@@ -990,7 +863,6 @@ public class DMF
 	 * Sets the DMF ID
 	 * 
 	 * @param id DMF ID
-	 * @since 2.0
 	 */
 	public void setID(final String id)
 	{
@@ -1011,7 +883,6 @@ public class DMF
 	 * Returns the default base filename based on DMF info (TITLE_ID)
 	 * 
 	 * @return Default Filename
-	 * @since 2.0
 	 */
 	public String getDefaultFileName()
 	{
@@ -1039,7 +910,6 @@ public class DMF
 	 * Returns the DMF Title
 	 * 
 	 * @return DMF Title
-	 * @since 2.0
 	 */
 	public String getTitle()
 	{
@@ -1057,7 +927,6 @@ public class DMF
 	 * Sets the DMF Title
 	 * 
 	 * @param title DMF Title
-	 * @since 2.0
 	 */
 	public void setTitle(final String title)
 	{
@@ -1069,7 +938,6 @@ public class DMF
 	 * Gets the DMF Artist(s)
 	 * 
 	 * @return DMF Artists
-	 * @since 2.0
 	 */
 	public String[] getArtists()
 	{
@@ -1081,7 +949,6 @@ public class DMF
 	 * Sets the DMF Artists(s)
 	 * 
 	 * @param artists DMF Artists
-	 * @since 2.0
 	 */
 	public void setArtists(final ArrayList<String> artists)
 	{	
@@ -1102,7 +969,6 @@ public class DMF
 	 * Sets the DMF Artist variable from a single artist String
 	 * 
 	 * @param artist DMF Artist
-	 * @since 2.0
 	 */
 	public void setArtist(final String artist)
 	{
@@ -1124,7 +990,6 @@ public class DMF
 	 * Sets the DMF Time
 	 * 
 	 * @param time DMF Time
-	 * @since 2.0
 	 */
 	public void setTime(final long time)
 	{
@@ -1136,7 +1001,6 @@ public class DMF
 	 * Sets the DMF Time from a DMF String
 	 * 
 	 * @param timeString DMF Time String
-	 * @since 2.0
 	 */
 	private void setTime(final String timeString)
 	{
@@ -1172,7 +1036,6 @@ public class DMF
 	 * @param dayString Day String
 	 * @param hourString Hour String
 	 * @param minuteString Minute String
-	 * @since 2.0
 	 */
 	public void setTime(final String yearString, final String monthString, final String dayString, final String hourString, final String minuteString)
 	{
@@ -1220,7 +1083,6 @@ public class DMF
 	 * Returns the DMF Time
 	 * 
 	 * @return DMF Time
-	 * @since 2.0
 	 */
 	public long getTime()
 	{
@@ -1232,7 +1094,6 @@ public class DMF
 	 * Gets DMF Time as a String
 	 * 
 	 * @return String representation of DMF Time
-	 * @since 2.0
 	 */
 	public String getTimeString()
 	{
@@ -1246,7 +1107,6 @@ public class DMF
 	 * Sets the DMF's web tags
 	 * 
 	 * @param webTags DMF Web Tags
-	 * @since 2.0
 	 */
 	public void setWebTags(final ArrayList<String> webTags)
 	{
@@ -1267,7 +1127,6 @@ public class DMF
 	 * Gets the DMF's web tags
 	 * 
 	 * @return DMF Web Tags
-	 * @since 2.0
 	 */
 	public String[] getWebTags()
 	{
@@ -1279,7 +1138,6 @@ public class DMF
 	 * Sets the description for the current DMF
 	 * 
 	 * @param description DMF Description
-	 * @since 2.0
 	 */
 	public void setDescription(final String description)
 	{
@@ -1291,7 +1149,6 @@ public class DMF
 	 * Gets the description from the current DMF
 	 * 
 	 * @return DMF Description
-	 * @since 2.0
 	 */
 	public String getDescription()
 	{
@@ -1309,7 +1166,6 @@ public class DMF
 	 * Sets the DMF's Page URL
 	 * 
 	 * @param pageURL Page URL
-	 * @since 2.0
 	 */
 	public void setPageURL(final String pageURL)
 	{
@@ -1321,7 +1177,6 @@ public class DMF
 	 * Returns the DMF's Page URL
 	 * 
 	 * @return Page URL
-	 * @since 2.0
 	 */
 	public String getPageURL()
 	{
@@ -1333,7 +1188,6 @@ public class DMF
 	 * Sets  the DMF's Media URL
 	 * 
 	 * @param mediaURL Media URL
-	 * @since 2.0
 	 */
 	public void setMediaURL(final String mediaURL)
 	{
@@ -1345,7 +1199,6 @@ public class DMF
 	 * Returns the DMF's Media URL
 	 * 
 	 * @return Media URL
-	 * @since 2.0
 	 */
 	public String getMediaURL()
 	{
@@ -1357,7 +1210,6 @@ public class DMF
 	 * Sets the secondary URL.
 	 * 
 	 * @param secondaryURL Secondary URL
-	 * @since 2.0
 	 */
 	public void setSecondaryURL(final String secondaryURL)
 	{
@@ -1369,7 +1221,6 @@ public class DMF
 	 * Returns the secondary URL.
 	 * 
 	 * @return Secondary URL
-	 * @since 2.0
 	 */
 	public String getSecondaryURL()
 	{
@@ -1381,7 +1232,6 @@ public class DMF
 	 * Sets the linked media file.
 	 * 
 	 * @param mediaFile Media File
-	 * @since 2.0
 	 */
 	public void setMediaFile(final File mediaFile)
 	{
@@ -1393,7 +1243,6 @@ public class DMF
 	 * Sets the linked media file based on a filename. Uses the same directory as the DMF File.
 	 * 
 	 * @param filename Name of the Media File
-	 * @since 2.0
 	 */
 	public void setMediaFile(final String filename)
 	{
@@ -1422,7 +1271,6 @@ public class DMF
 	 * Gets the linked media file.
 	 * 
 	 * @return Media File
-	 * @since 2.0
 	 */
 	public File getMediaFile()
 	{
@@ -1434,7 +1282,6 @@ public class DMF
 	 * Sets the secondary File.
 	 * 
 	 * @param secondaryFile Secondary File
-	 * @since 2.0
 	 */
 	public void setSecondaryFile(final File secondaryFile)
 	{
@@ -1447,7 +1294,6 @@ public class DMF
 	 * Sets the linked secondary media file based on a filename. Uses the same directory as the DMF File.
 	 * 
 	 * @param filename Name of the Secondary Media File
-	 * @since 2.0
 	 */
 	public void setSecondaryFile(final String filename)
 	{
@@ -1476,7 +1322,6 @@ public class DMF
 	 * Returns the secondary file.
 	 * 
 	 * @return Secondary File
-	 * @since 2.0
 	 */
 	public File getSecondaryFile()
 	{
@@ -1488,7 +1333,6 @@ public class DMF
 	 * Sets the IDs preceding the current DMF
 	 * 
 	 * @param lastIDs Last IDs
-	 * @since 2.0
 	 */
 	public void setLastIDs(final ArrayList<String> lastIDs)
 	{
@@ -1509,7 +1353,6 @@ public class DMF
 	 * Sets a single ID preceding the current DMF
 	 * 
 	 * @param lastID Last ID
-	 * @since 2.0
 	 */
 	public void setLastID(final String lastID)
 	{
@@ -1531,7 +1374,6 @@ public class DMF
 	 * Returns a list of IDs before the current DMF in a sequence.
 	 * 
 	 * @return Last IDs
-	 * @since 2.0
 	 */
 	public String[] getLastIDs()
 	{
@@ -1543,7 +1385,6 @@ public class DMF
 	 * Sets the IDs after the current DMF
 	 * 
 	 * @param nextIDs Next IDs
-	 * @since 2.0
 	 */
 	public void setNextIDs(final ArrayList<String> nextIDs)
 	{
@@ -1564,7 +1405,6 @@ public class DMF
 	 * Sets a single ID after the current DMF
 	 * 
 	 * @param nextID Next ID
-	 * @since 2.0
 	 */
 	public void setNextID(final String nextID)
 	{
@@ -1586,7 +1426,6 @@ public class DMF
 	 * Returns a list of IDs after the current DMF in a sequence.
 	 * 
 	 * @return Next IDs
-	 * @since 2.0
 	 */
 	public String[] getNextIDs()
 	{
@@ -1598,7 +1437,6 @@ public class DMF
 	 * Sets if the current DMF is the first in a section.
 	 * 
 	 * @param first First in Section
-	 * @since 2.0
 	 */
 	public void setFirst(final boolean first)
 	{
@@ -1610,7 +1448,6 @@ public class DMF
 	 * Returns whether the current DMF is the first in a section.
 	 * 
 	 * @return First in Section
-	 * @since 2.0
 	 */
 	public boolean isFirstInSection()
 	{
@@ -1622,7 +1459,6 @@ public class DMF
 	 * Sets if the current DMF is the last in a section.
 	 * 
 	 * @param last Last in Section
-	 * @since 2.0
 	 */
 	public void setLast(final boolean last)
 	{
@@ -1634,7 +1470,6 @@ public class DMF
 	 * Returns whether the current DMF is the last in a section.
 	 * 
 	 * @return Last in Section
-	 * @since 2.0
 	 */
 	public boolean isLastInSection()
 	{
@@ -1646,7 +1481,6 @@ public class DMF
 	 * Sets all the sequence data based on the old DMF sequence data standards.
 	 * 
 	 * @param sequenceData Sequence Data String
-	 * @since 2.0
 	 */
 	private void setSequenceData(final String sequenceData)
 	{
@@ -1687,7 +1521,6 @@ public class DMF
 	 * Sets the sequence title.
 	 * 
 	 * @param sequenceTitle Sequence Title
-	 * @since 2.0
 	 */
 	public void setSequenceTitle(final String sequenceTitle)
 	{
@@ -1699,7 +1532,6 @@ public class DMF
 	 * Returns the sequence title.
 	 * 
 	 * @return Sequence Title
-	 * @since 2.0
 	 */
 	public String getSequenceTitle()
 	{
@@ -1711,7 +1543,6 @@ public class DMF
 	 * Sets the section title.
 	 * 
 	 * @param sectionTitle Section Title
-	 * @since 2.0
 	 */
 	public void setSectionTitle(final String sectionTitle)
 	{
@@ -1723,7 +1554,6 @@ public class DMF
 	 * Returns the section title.
 	 * 
 	 * @return Section Title
-	 * @since 2.0
 	 */
 	public String getSectionTitle()
 	{
@@ -1741,7 +1571,6 @@ public class DMF
 	 * Sets the DMF's branch titles.
 	 * 
 	 * @param branchTitles Branch Titles
-	 * @since 2.0
 	 */
 	public void setBranchTitles(final ArrayList<String> branchTitles)
 	{
@@ -1762,7 +1591,6 @@ public class DMF
 	 * Returns the DMF's branch titles.
 	 * 
 	 * @return Branch Titles
-	 * @since 2.0
 	 */
 	public String[] getBranchTitles()
 	{
@@ -1774,7 +1602,6 @@ public class DMF
 	 * Sets the DMF's rating.
 	 * 
 	 * @param rating DMF Rating
-	 * @since 2.0
 	 */
 	public void setRating(final int rating)
 	{
@@ -1795,7 +1622,6 @@ public class DMF
 	 * Returns the DMF's rating.
 	 * 
 	 * @return DMF Rating
-	 * @since 2.0
 	 */
 	public int getRating()
 	{
@@ -1807,7 +1633,6 @@ public class DMF
 	 * Sets the user tags.
 	 * 
 	 * @param userTags User Tags
-	 * @since 2.0
 	 */
 	public void setUserTags(final ArrayList<String> userTags)
 	{
@@ -1828,7 +1653,6 @@ public class DMF
 	 * Returns the user tags.
 	 * 
 	 * @return User Tags
-	 * @since 2.0
 	 */
 	public String[] getUserTags()
 	{

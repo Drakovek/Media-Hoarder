@@ -30,43 +30,32 @@ import drakovek.hoarder.web.Downloader;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DeviantArtGUI extends ArtistHostingGUI
 {
 	/**
 	 * ArrayList of modified DeviantArt IDs to check if media has already been downloaded
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> idStrings;
 	
 	
 	/**
 	 * Prefix for a DMF ID that indicates that the DMF is sourced from FurAffinity.net
-	 * 
-	 * @since 2.0
 	 */
 	private static final String ID_PREFIX = "DVA"; //$NON-NLS-1$
 	
 	/**
 	 * Section of DeviantArt page URL that indicates the page is a poll.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String POLL_URL = "/poll/"; //$NON-NLS-1$
 	
 	/**
 	 * Section of DeviantArt page URL that shows it is part of a media gallery
-	 * 
-	 * @since 2.0
 	 */
 	private static final String GALLERY_URL = "/art/"; //$NON-NLS-1$
 	
 	/**
 	 * Section of DeviantArt page URL that shows it is part of a journal gallery
-	 * 
-	 * @since 2.0
 	 */
 	private static final String JOURNAL_URL = "/journal/"; //$NON-NLS-1$
 	
@@ -75,7 +64,6 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DmfHandler
-	 * @since 2.0
 	 */
 	public DeviantArtGUI(DSettings settings, DmfHandler dmfHandler)
 	{
@@ -186,7 +174,6 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 * Sets DeviantArt to either use the Eclipse or the classic theme.
 	 * 
 	 * @param setToEclipse Whether to set to eclipse theme. If false, sets to classic theme.
-	 * @since 2.0
 	 */
 	private void setEclipseValue(final boolean setToEclipse)
 	{

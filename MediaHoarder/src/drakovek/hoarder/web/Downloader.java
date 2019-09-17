@@ -23,35 +23,26 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class Downloader
 {	
 	/**
 	 * Number of milliseconds to wait before loading a page, for rate-limiting purposes
-	 * 
-	 * @since 2.0
 	 */
 	private int timeout;
 	
 	/**
 	 * Main WebClient for the class.
-	 * 
-	 * @since 2.0
 	 */
 	private WebClient client;
 	
 	/**
 	 * Main HtmlPage for the class.
-	 * 
-	 * @since 2.0
 	 */
 	private HtmlPage page;
 
 	/**
 	 * InputStream for reading URL data.
-	 * 
-	 * @since 2.0
 	 */
 	private InputStream myInput;
 	
@@ -59,7 +50,6 @@ public class Downloader
 	 * Initializes the Downloader class.
 	 * 
 	 * @param clientMethods ClientMethods object.
-	 * @since 2.0
 	 */
 	public Downloader(ClientMethods clientMethods)
 	{	
@@ -72,7 +62,6 @@ public class Downloader
 	 * 
 	 * @param url URL to download.
 	 * @param outputFile File to save to
-	 * @since 2.0
 	 */
 	public void downloadFile(final String url, final File outputFile)
 	{
@@ -135,7 +124,6 @@ public class Downloader
 	 * 
 	 * @param url URL to download.
 	 * @param outputFile File to save to
-	 * @since 2.0
 	 */
 	public static void basicDownload(String url, File outputFile)
     {
@@ -203,7 +191,6 @@ public class Downloader
 	 * Returns the object's main WebClient
 	 * 
 	 * @return Web Client
-	 * @since 2.0
 	 */
 	public WebClient getClient()
 	{
@@ -215,7 +202,6 @@ public class Downloader
 	 * Returns the object's main HtmlPage
 	 * 
 	 * @return HTML Page
-	 * @since 2.0
 	 */
 	public HtmlPage getPage()
 	{
@@ -227,7 +213,6 @@ public class Downloader
 	 * Sets the main HtmlPage to the data loaded from a given URL.
 	 * 
 	 * @param url Input URL
-	 * @since 2.0
 	 */
 	public void getPage(final String url)
 	{
@@ -254,7 +239,6 @@ public class Downloader
 	 * Sets the timeout in milliseconds.
 	 * 
 	 * @param timeout Timeout
-	 * @since 2.0
 	 */
 	public void setTimeout(final int timeout)
 	{
@@ -266,7 +250,6 @@ public class Downloader
 	 * Sets the main HtmlPage to a separate given HtmlPage
 	 * 
 	 * @param page Input HtmlPage
-	 * @since 2.0
 	 */
 	public void setPage(HtmlPage page)
 	{
@@ -276,8 +259,6 @@ public class Downloader
 	
 	/**
 	 * Sets the main WebClient as a new WebClient object.
-	 * 
-	 * @since 2.0
 	 */
 	public void setNewClient()
 	{
@@ -290,7 +271,6 @@ public class Downloader
 	 * 
 	 * @param attribute DomAttr to get value from.
 	 * @return String value of DOM Attribute
-	 * @since 2.0
 	 */
 	public static String getAttribute(final DomAttr attribute)
 	{
@@ -325,7 +305,6 @@ public class Downloader
 	 * 
 	 * @param element DOM Element
 	 * @return Interior text of a DOM element
-	 * @since 2.0
 	 */
 	public static String getElement(final DomElement element)
 	{	
@@ -340,7 +319,6 @@ public class Downloader
 	 * @param removeAllSpaces Whether to remove all extraneous spaces from the DOM element
 	 * @param removeEnds Whether to remove the HTML tags at the ends of the DOM element
 	 * @return Interior text of a DOM element
-	 * @since 2.0
 	 */
 	public static String getElement(final DomElement element, final boolean removeAllSpaces, final boolean removeEnds)
 	{

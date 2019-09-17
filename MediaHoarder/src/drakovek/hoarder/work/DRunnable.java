@@ -5,21 +5,17 @@ package drakovek.hoarder.work;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
+
  */
 public class DRunnable implements Runnable
 {
 	/**
 	 * ID of the work type
-	 * 
-	 * @since 2.0
 	 */
 	private String id;
 	
 	/**
 	 * Object implementing Worker interface. Called when DRunnable runs
-	 * 
-	 * @since 2.0
 	 */
 	private DWorker worker;
 	

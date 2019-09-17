@@ -14,35 +14,26 @@ import drakovek.hoarder.processing.sort.AlphaNumSort;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ArtistHandler
 {	
 	/**
 	 * INI value for listing artists
-	 * 
-	 * @since 2.0
 	 */
 	private static final String ARTIST = "artist"; //$NON-NLS-1$
 	
 	/**
 	 * Main header for the artist list file
-	 * 
-	 * @since 2.0
 	 */
 	private String header;
 	
 	/**
 	 * Artist list file this object is handling
-	 * 
-	 * @since 2.0
 	 */
 	private File file;
 	
 	/**
 	 * List of artists
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> artists;
 	
@@ -51,7 +42,6 @@ public class ArtistHandler
 	 * 
 	 * @param settings Program Settings
 	 * @param service Service for which the artists are linked
-	 * @since 2.0
 	 */
 	public ArtistHandler(DSettings settings, final String service)
 	{
@@ -69,8 +59,6 @@ public class ArtistHandler
 	
 	/**
 	 * Reads list of artists from an artist list file.
-	 * 
-	 * @since 2.0
 	 */
 	private void readArtistFile()
 	{
@@ -85,7 +73,6 @@ public class ArtistHandler
 	 * Returns the currently loaded list of artists.
 	 * 
 	 * @return Artist List
-	 * @since 2.0
 	 */
 	public ArrayList<String> getArtists()
 	{
@@ -98,7 +85,6 @@ public class ArtistHandler
 	 * 
 	 * @param indexes Artist indexes
 	 * @return Selected Artists
-	 * @since 2.0
 	 */
 	public ArrayList<String> getArtists(final int[] indexes)
 	{
@@ -128,7 +114,6 @@ public class ArtistHandler
 	 * Adds an artist to the list of artists.
 	 * 
 	 * @param artist Artist
-	 * @since 2.0
 	 */
 	public void addArtist(final String artist)
 	{
@@ -141,7 +126,6 @@ public class ArtistHandler
 	 * Adds multiple artists to the list of artists.
 	 * 
 	 * @param artistList List of Artists
-	 * @since 2.0
 	 */
 	public void addAartists(final ArrayList<String> artistList)
 	{
@@ -154,7 +138,6 @@ public class ArtistHandler
 	 * Removes the artists at the specified indexes from the artist list.
 	 * 
 	 * @param indexes Indexes of the artists to remove.
-	 * @since 2.0
 	 */
 	public void deleteArtists(final int[] indexes)
 	{
@@ -187,8 +170,6 @@ public class ArtistHandler
 	
 	/**
 	 * Makes sure the artist list contains no duplicates and are in alpha-numerical order.
-	 * 
-	 * @since 2.0
 	 */
 	private void organizeArtists()
 	{
@@ -213,8 +194,6 @@ public class ArtistHandler
 	
 	/**
 	 * Saves the current list of artists to a file.
-	 * 
-	 * @since 2.0
 	 */
 	public void saveArtists()
 	{

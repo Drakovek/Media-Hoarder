@@ -8,14 +8,11 @@ import java.util.List;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class StringMethods 
 {
 	/**
 	 * Array of HTML escape characters and their corresponding unicode characters.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[][] ESCAPE_CHARS = {{"&quot;", "\""}, //$NON-NLS-1$ //$NON-NLS-2$
 													{"&apos;", "'"}, //$NON-NLS-1$ //$NON-NLS-2$
@@ -25,17 +22,146 @@ public class StringMethods
 													{"&nbsp;", " "}};  //$NON-NLS-1$//$NON-NLS-2$
 	/**
 	 * Character for separating Strings in a list.
-	 * 
-	 * @since 2.0
 	 */
 	public static final char LIST_SEPARATOR_CHAR = ',';
+	
+	/**
+	 * Converts a char array to a String array.
+	 * 
+	 * @param chars Char Array
+	 * @return Equivalent String Array
+	 */
+	public static String[] charArrayToStringArray(final char[] chars)
+	{
+		String[] strings = new String[chars.length];
+		for(int i = 0; i < chars.length; i++)
+		{
+			strings[i] = Character.toString(chars[i]);
+			
+		}//FOR
+		
+		return strings;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given String starts with any of the given prefix characters.
+	 * 
+	 * @param text Given String
+	 * @param prefixes Prefix characters to check
+	 * @return Whether the given String starts with any of the prefix characters
+	 */
+	public static boolean startsWith(final String text, final char[] prefixes)
+	{
+		return startsWith(text, charArrayToStringArray(prefixes));
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given String starts with any of the given prefix Strings.
+	 * 
+	 * @param text Given String
+	 * @param prefixes Prefix Strings to check
+	 * @return Whether the given String starts with any of the prefix strings
+	 */
+	public static boolean startsWith(final String text, final String[] prefixes)
+	{
+		for(int i = 0; i < prefixes.length; i++)
+		{
+			if(text.startsWith(prefixes[i]))
+			{
+				return true;
+				
+			}//IF
+			
+		}//FOR
+		
+		return false;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given String ends with any of the given suffix characters.
+	 * 
+	 * @param text Given String
+	 * @param suffixes Suffix characters to check
+	 * @return Whether the given String ends with any of the suffix characters
+	 */
+	public static boolean endsWith(final String text, final char[] suffixes)
+	{
+		return endsWith(text, charArrayToStringArray(suffixes));
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the given String ends with any of the given suffix Strings.
+	 * 
+	 * @param text Given String
+	 * @param suffixes Suffix Strings to check
+	 * @return Whether the given String ends with any of the suffix strings
+	 */
+	public static boolean endsWith(final String text, final String[] suffixes)
+	{
+		for(int i = 0; i < suffixes.length; i++)
+		{
+			if(text.endsWith(suffixes[i]))
+			{
+				return true;
+				
+			}//IF
+			
+		}//FOR
+		
+		return false;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the index of the first instance of any of the characters in the given character array.
+	 * 
+	 * @param text Given text to search
+	 * @param chars Given chars to search for
+	 * @return First instance of any character. Returns -1 if no given character is found.
+	 */
+	public static int indexOf(final String text, final char[] chars)
+	{
+		return indexOf(text, chars, 0);
+		
+	}//METHOD
+	
+	/**
+	 * Returns the index of the first instance of any of the characters in the given character array.
+	 * 
+	 * @param text Given text to search
+	 * @param chars Given chars to search for
+	 * @param fromIndex Given index to search from
+	 * @return First instance of any character. Returns -1 if no given character is found.
+	 */
+	public static int indexOf(final String text, final char[] chars, final int fromIndex)
+	{
+		int lowest = -1;
+		int current;
+		
+		for(int i = 0; i < chars.length; i++)
+		{
+			current = text.indexOf(chars[i], fromIndex);
+			if(current != -1 && (lowest == -1 || current < lowest))
+			{
+				lowest = current;
+				
+			}//IF
+			
+		}//FOR
+		
+		return lowest;
+		
+	}//METHOD
 	
 	/**
 	 * Converts a List<String> to an ArrayList<String>
 	 * 
 	 * @param list Input List<String>
 	 * @return Output ArrayList<String>
-	 * @since 2.0
 	 */
 	public static ArrayList<String> listToArrayList(final List<String> list)
 	{
@@ -55,7 +181,6 @@ public class StringMethods
 	 * 
 	 * @param array Input String Array
 	 * @return String with entries separated by LIST_SEPARATOR_CHAR
-	 * @since 2.0
 	 */
 	public static String arrayToString(final String[] array)
 	{
@@ -70,7 +195,6 @@ public class StringMethods
 	 * @param isDisplayString Whether the String is meant to be displayed. If false, array string will be separated without space in between items.
 	 * @param emptyString String to return if the array is empty
 	 * @return String with entries separated by LIST_SEPARATOR_CHAR
-	 * @since 2.0
 	 */
 	public static String arrayToString(final String[] array, final boolean isDisplayString, final String emptyString)
 	{
@@ -108,7 +232,6 @@ public class StringMethods
 	 * 
 	 * @param arraylist Input ArrayList<String>
 	 * @return Output String[]
-	 * @since 2.0
 	 */
 	public static String[] arrayListToArray(final ArrayList<String> arraylist)
 	{
@@ -130,7 +253,6 @@ public class StringMethods
 	 * @param string Number String
 	 * @param length Length to extend String
 	 * @return Extended Number String
-	 * @since 2.0
 	 */
 	public static String extendNumberString(final String string, final int length)
 	{
@@ -155,7 +277,6 @@ public class StringMethods
 	 * @param integer Input int
 	 * @param length Length to extend String
 	 * @return Extended Number String
-	 * @since 2.0
 	 */
 	public static String extendNumberString(final int integer, final int length)
 	{
@@ -170,7 +291,6 @@ public class StringMethods
 	 * @param character Character to repeat
 	 * @param length Length of the returning String
 	 * @return Extended String
-	 * @since 2.0
 	 */
 	public static String extendCharacter(final char character, final int length)
 	{
@@ -192,7 +312,6 @@ public class StringMethods
 	 * @param start Start index of section to remove (inclusive)
 	 * @param end End index of section to remove (exclusive)
 	 * @return Text with given section removed
-	 * @since 2.0
 	 */
 	public static String removeStringSection(final String text, final int start, final int end)
 	{
@@ -218,7 +337,6 @@ public class StringMethods
 	 * 
 	 * @param text Given unicode text
 	 * @return Text with HTML escape characters
-	 * @since 2.0
 	 */
 	public static String addHtmlEscapes(final String text)
 	{
@@ -256,7 +374,6 @@ public class StringMethods
 	 * 
 	 * @param htmlText HTML Formatted Text
 	 * @return HTML Text with escape characters
-	 * @since 2.0
 	 */
 	public static String addHtmlEscapesToHtml(final String htmlText)
 	{
@@ -310,7 +427,6 @@ public class StringMethods
 	 * 
 	 * @param text Given Text
 	 * @return Unicode Text
-	 * @since 2.0
 	 */
 	public static String replaceHtmlEscapeCharacters(final String text)
 	{
@@ -396,7 +512,6 @@ public class StringMethods
 	 * @param startChar Character at the start of sections to separate
 	 * @param endChar Character at the end of sections to separate
 	 * @return ArrayList with edge character sections separated
-	 * @since 2.0
 	 */
 	private static ArrayList<String> separateByEdgeCharacters(final String text, final char startChar, final char endChar)
 	{

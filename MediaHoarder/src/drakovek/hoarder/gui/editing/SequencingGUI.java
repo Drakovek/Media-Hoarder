@@ -31,105 +31,76 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class SequencingGUI extends FrameGUI implements DWorker
 {
 	/**
 	 * Main progress dialog for the class
-	 * 
-	 * @since 2.0
 	 */
 	private DProgressDialog progressDialog;
 	
 	/**
 	 * Main settings bar for the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	private SettingsBarGUI settingsBar;
 	
 	/**
 	 * Panel for showing the currently selected media
-	 * 
-	 * @since 2.0
 	 */
 	private MediaViewer mediaViewer;
 	
 	/**
 	 * Text field for entering the names of sections and branches
-	 * 
-	 * @since 2.0
 	 */
 	private DTextField nameText;
 	
 	/**
 	 * Text field for entering an index number to move a given entry.
-	 * 
-	 * @since 2.0
 	 */
 	private DTextField indexText;
 	
 	/**
 	 * List that shows the sequence data
-	 * 
-	 * @since 2.0
 	 */
 	private DList sequenceList;
 	
 	/**
 	 * Button for adding name data to above entries
-	 * 
-	 * @since 2.0
 	 */
 	private DButton aboveButton;
 	
 	/**
 	 * Button for adding name data to below entries
-	 * 
-	 * @since 2.0
 	 */
 	private DButton belowButton;
 	
 	/**
 	 * Button for adding name data to a single entry
-	 * 
-	 * @since 2.0
 	 */
 	private DButton singleButton;
 	
 	/**
 	 * Button for adding name data to all entries
-	 * 
-	 * @since 2.0
 	 */
 	private DButton allButton;
 	
 	/**
 	 * Button for skipping entries
-	 * 
-	 * @since 2.0
 	 */
 	private DButton skipButton;
 	
 	/**
 	 * Button for saving the current sequence
-	 * 
-	 * @since 2.0
 	 */
 	private DButton saveButton;
 	
 	/**
 	 * Button used to search for DMFs
-	 * 
-	 * @since 2.0
 	 */
 	private DButton searchButton;
 	
 	/**
 	 * Button for removing entries from the sequence list
-	 * 
-	 * @since 2.0
 	 */
 	private DButton removeButton;
 	
@@ -140,15 +111,11 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Button for moving selected entries upward in the sequence list
-	 * 
-	 * @since 2.0
 	 */
 	private DButton upButton;
 	
 	/**
 	 * Button for moving selected entries downward in the sequence list
-	 * 
-	 * @since 2.0
 	 */
 	private DButton downButton;
 	
@@ -157,7 +124,6 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	 * 
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DMF Handler
-	 * @since 2.0
 	 */
 	public SequencingGUI(DSettings settings, DmfHandler dmfHandler)
 	{
@@ -271,8 +237,6 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	
 	/**
 	 * Starts process of loading all DMFs from the default DMF directories.
-	 * 
-	 * @since 2.0
 	 */
 	private void loadDirectories()
 	{

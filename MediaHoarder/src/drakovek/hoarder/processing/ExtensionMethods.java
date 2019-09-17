@@ -7,7 +7,6 @@ import java.io.File;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ExtensionMethods
 {
@@ -16,7 +15,6 @@ public class ExtensionMethods
 	 * 
 	 * @param file Given File
 	 * @return File Extension
-	 * @since 2.0
 	 */
 	public static String getExtension(final File file)
 	{
@@ -35,7 +33,6 @@ public class ExtensionMethods
 	 * 
 	 * @param file Given File
 	 * @return Filename Without Extension
-	 * @since 2.0
 	 */
 	public static String removeExtension(final File file)
 	{
@@ -54,7 +51,6 @@ public class ExtensionMethods
 	 * 
 	 * @param filename Given Filename
 	 * @return Filename Without Extension
-	 * @since 2.0
 	 */
 	public static String removeExtension(final String filename)
 	{
@@ -75,7 +71,6 @@ public class ExtensionMethods
 	 * 
 	 * @param filename Given Filename
 	 * @return File Extension
-	 * @since 2.0
 	 */
 	public static String getExtension(final String filename)
 	{

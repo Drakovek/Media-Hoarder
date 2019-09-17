@@ -14,154 +14,111 @@ import drakovek.hoarder.processing.sort.FileSort;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DmfDatabase
 {
 	/**
 	 * ArrayList containing DMF Files from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<File> dmfFiles;
 	
 	/**
 	 * ArrayList containing IDs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> ids;
 	
 	/**
 	 * ArrayList containing Titles from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> titles;
 	
 	/**
 	 * ArrayList containing Artists from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> artists;
 
 	/**
 	 * ArrayList containing Times from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Long> times;
 	
 	/**
 	 * ArrayList containing Web Tags from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> webTags;
 	
 	/**
 	 * ArrayList containing Descriptions from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> descriptions;
 	
 	/**
 	 * ArrayList containing Page URLs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> pageURLs;
 	
 	/**
 	 * ArrayList containing Media URLs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> mediaURLs;
 	
 	/**
 	 * ArrayList containing Secondary Media URLs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> secondaryURLs;
 	
 	/**
 	 * ArrayList containing Media Files from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<File> mediaFiles;
 	
 	/**
 	 * ArrayList containing Secondary Media Files from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<File> secondaryFiles;
 	
 	/**
 	 * ArrayList containing Last IDs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> lastIDs;
 	
 	/**
 	 * ArrayList containing Next IDs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> nextIDs;
 	
 	/**
 	 * ArrayList containing "firstInSection" booleans from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Boolean> isFirst;
 	
 	/**
 	 * ArrayList containing "lastInSection" booleans from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Boolean> isLast;
 	
 	/**
 	 * ArrayList containing Sequence Titles from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> sequenceTitles;
 	
 	/**
 	 * ArrayList containing Section Titles from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> sectionTitles;
 	
 	/**
 	 * ArrayList containing Branch Titles from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> branchTitles;
 	
 	/**
 	 * ArrayList containing Ratings from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Integer> ratings;
 	
 	/**
 	 * ArrayList containing User Tags from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> userTags;
 	
@@ -169,7 +126,6 @@ public class DmfDatabase
 	 * Initializes the DmfDatabase class to be empty.
 	 * 
 	 * @param settings Program's settings
-	 * @since 2.0
 	 */
 	public DmfDatabase()
 	{
@@ -179,8 +135,6 @@ public class DmfDatabase
 	
 	/**
 	 * Clears all the DMF information from the object.
-	 * 
-	 * @since 2.0
 	 */
 	private void clearDMFs()
 	{
@@ -227,7 +181,6 @@ public class DmfDatabase
 	 * @param updateIndexes Whether to update index files to reflect changes in DMFs
 	 * @return Whether all DMFs were successfully loaded
 	 * @version 2.0
-	 * @since 2.0
 	 */
 	public boolean loadDMFs(final ArrayList<File> dmfDirectories, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
 	{
@@ -268,7 +221,6 @@ public class DmfDatabase
 	 * 
 	 * @param dmfDirectories Given Directories
 	 * @return List of Directories containing DMFs
-	 * @since 2.0
 	 */
 	public static ArrayList<File> getDmfFolders(final ArrayList<File> dmfDirectories)
 	{
@@ -304,7 +256,6 @@ public class DmfDatabase
 	 * 
 	 * @param inputFolder Given Directory
 	 * @return List of Directories containing DMFs
-	 * @since 2.0
 	 */
 	private static ArrayList<File> getDmfFolders(final File inputFolder)
 	{
@@ -358,7 +309,6 @@ public class DmfDatabase
 	 * Adds all DMFs from a given folder into the object's list of DMF information
 	 *  
 	 * @param dmfDirectory Directory from which to load DMFs
-	 * @since 2.0
 	 */
 	private void addDMFs(DmfDirectory dmfDirectory)
 	{
@@ -401,7 +351,6 @@ public class DmfDatabase
 	 * @param index DMF Index
 	 * @param sectionTitle Section Title of the section to include in the list (if null, returns the full sequence)
 	 * @return ArrayList<Integer> of indexes in a sequence.
-	 * @since 2.0
 	 */
 	public ArrayList<Integer> getSequenceList(final int index, final String sectionTitle)
 	{	
@@ -448,7 +397,6 @@ public class DmfDatabase
 	 * 
 	 * @param index DMF Index
 	 * @return Sequence ID Tree
-	 * @since 2.0
 	 */
 	private ArrayList<String> getSequenceIdTree(final int index)
 	{
@@ -489,7 +437,6 @@ public class DmfDatabase
 	 * @param level Level of the Start index
 	 * @param currentTree Tree passed in to expand on
 	 * @return Sequence ID Tree
-	 * @since 2.0
 	 */
 	private ArrayList<String> getTreeFromIndex(final int index, final int level, final ArrayList<String> currentTree)
 	{
@@ -604,7 +551,6 @@ public class DmfDatabase
 	 * 
 	 * @param ID DMF ID
 	 * @return DMF Index (-1 if DMF with given ID does not exist)
-	 * @since 2.0
 	 */
 	private int getIdIndex(final String ID)
 	{
@@ -622,7 +568,6 @@ public class DmfDatabase
 	 * Returns the number of DMFs loaded.
 	 * 
 	 * @return Number of DMFs loaded
-	 * @since 2.0
 	 */
 	public int getSize()
 	{
@@ -635,7 +580,6 @@ public class DmfDatabase
 	 * 
 	 * @param dmf Given DMF
 	 * @param index Given Index
-	 * @since 2.0
 	 */
 	public void setDMF(DMF dmf, final int index)
 	{
@@ -695,7 +639,6 @@ public class DmfDatabase
 	 * 
 	 * @param dmf Given DMF
 	 * @param index Given Index
-	 * @since 2.0
 	 */
 	public void addDMF(DMF dmf)
 	{
@@ -755,7 +698,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return DMF File
-	 * @since 2.0
 	 */
 	public File getDmfFile(final int index)
 	{
@@ -768,7 +710,6 @@ public class DmfDatabase
 	 * 
 	 * @param index DMF Index
 	 * @return Whether DMF at a given index is a single DMF
-	 * @since 2.0
 	 */
 	public boolean isSingle(final int index)
 	{
@@ -781,7 +722,6 @@ public class DmfDatabase
 	 * 
 	 * @param index DMF Index
 	 * @return Whether DMF at a given index is the first in a sequence
-	 * @since 2.0
 	 */
 	public boolean isFirstInSequence(final int index)
 	{
@@ -794,7 +734,6 @@ public class DmfDatabase
 	 * 
 	 * @param index DMF Index
 	 * @return Whether DMF at a given index is the last in a sequence
-	 * @since 2.0
 	 */
 	public boolean isLastInSequence(final int index)
 	{
@@ -807,7 +746,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return ID
-	 * @since 2.0
 	 */
 	public String getID(final int index)
 	{
@@ -827,7 +765,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Title
-	 * @since 2.0
 	 */
 	public String getTitle(final int index)
 	{
@@ -848,7 +785,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Artists
-	 * @since 2.0
 	 */
 	public String[] getArtists(final int index)
 	{
@@ -869,7 +805,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Time
-	 * @since 2.0
 	 */
 	public long getTime(final int index)
 	{
@@ -890,7 +825,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Web Tags
-	 * @since 2.0
 	 */
 	public String[] getWebTags(final int index)
 	{
@@ -911,7 +845,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Description
-	 * @since 2.0
 	 */
 	public String getDescription(final int index)
 	{
@@ -932,7 +865,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Page URL
-	 * @since 2.0
 	 */
 	public String getPageURL(final int index)
 	{
@@ -953,7 +885,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Media URL
-	 * @since 2.0
 	 */
 	public String getMediaURL(final int index)
 	{
@@ -974,7 +905,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Secondary URL
-	 * @since 2.0
 	 */
 	public String getSecondaryURL(final int index)
 	{
@@ -995,7 +925,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Media File
-	 * @since 2.0
 	 */
 	public File getMediaFile(final int index)
 	{
@@ -1008,7 +937,6 @@ public class DmfDatabase
 	 * 
 	 * @param file Given File
 	 * @return Whether file is contained in media file list
-	 * @since 2.0
 	 */
 	public boolean containsMediaFile(final File file)
 	{
@@ -1021,7 +949,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Secondary File
-	 * @since 2.0
 	 */
 	public File getSecondaryFile(final int index)
 	{
@@ -1034,7 +961,6 @@ public class DmfDatabase
 	 * 
 	 * @param file Given File
 	 * @return Whether file is contained in secondary file list
-	 * @since 2.0
 	 */
 	public boolean containsSecondaryFile(final File file)
 	{
@@ -1047,7 +973,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Last IDs
-	 * @since 2.0
 	 */
 	public String[] getLastIDs(final int index)
 	{
@@ -1068,7 +993,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Next IDs
-	 * @since 2.0
 	 */
 	public String[] getNextIDs(final int index)
 	{
@@ -1089,7 +1013,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Whether DMF is first in section
-	 * @since 2.0
 	 */
 	public boolean getIsFirst(final int index)
 	{
@@ -1102,7 +1025,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Whether DMF is last in section
-	 * @since 2.0
 	 */
 	public boolean getIsLast(final int index)
 	{
@@ -1115,7 +1037,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Sequence Title
-	 * @since 2.0
 	 */
 	public String getSequenceTitle(final int index)
 	{
@@ -1136,7 +1057,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Section Title
-	 * @since 2.0
 	 */
 	public String getSectionTitle(final int index)
 	{
@@ -1157,7 +1077,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Branch Titles
-	 * @since 2.0
 	 */
 	public String[] getBranchTitles(final int index)
 	{
@@ -1178,7 +1097,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return Rating
-	 * @since 2.0
 	 */
 	public int getRating(final int index)
 	{
@@ -1199,7 +1117,6 @@ public class DmfDatabase
 	 * 
 	 * @param index Index
 	 * @return User Tags
-	 * @since 2.0
 	 */
 	public String[] getUserTags(final int index)
 	{

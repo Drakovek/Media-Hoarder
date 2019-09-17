@@ -21,106 +21,77 @@ import drakovek.hoarder.file.DSettings;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ImageHandler
 {
 
 	/**
 	 * Static int for full scale (Doesn't scale image)
-	 * 
-	 * @since 2.0
 	 */
 	public static final int SCALE_FULL = 0;
 	
 	/**
 	 * Static int for 2D Fit Scale (Fits full image in frame)
-	 * 
-	 * @since 2.0
 	 */
 	public static final int SCALE_2D_FIT = 1;
 	
 	/**
 	 * Static int for 2D Stretch Scale (Fits full image in frame, stretching to frame size if smaller than frame)
-	 * 
-	 * @since 2.0
 	 */
 	public static final int SCALE_2D_STRETCH = 2;
 	
 	/**
 	 * Static int for 1D Fit Scale (Fits one dimension in frame)
-	 * 
-	 * @since 2.0
 	 */
 	public static final int SCALE_1D_FIT = 3;
 	
 	/**
 	 * Static int for 1D Stretch Scale (Fits one dimension in frame, stretching to frame size if smaller than frame)
-	 * 
-	 * @since 2.0
 	 */
 	public static final int SCALE_1D_STRETCH = 4;
 	
 	/**
 	 * Static int for Direct Scale (Scales image by a given multiplier)
-	 * 
-	 * @since 2.0
 	 */
 	public static final int SCALE_DIRECT = 5;
 	
 	/**
 	 * ImageInputStream used for loading animated GIFs.
-	 * 
-	 * @since 2.0
 	 */
 	private static ImageInputStream imageInputStream;
 	
 	/**
 	 * Object for determining the file type of given files.
-	 * 
-	 * @since 2.0
 	 */
 	private FileTypeHandler fileTypeHandler;
 	
 	/**
 	 * BufferedImage for an icon representing an audio file
-	 * 
-	 * @since 2.0
 	 */
 	private BufferedImage audioIcon;
 	
 	/**
 	 * BufferedImage for an icon representing an image file
-	 * 
-	 * @since 2.0
 	 */
 	private BufferedImage imageIcon;
 	
 	/**
 	 * BufferedImage for an icon representing a text file
-	 * 
-	 * @since 2.0
 	 */
 	private BufferedImage textIcon;
 	
 	/**
 	 * BufferedImage for an icon representing a video file
-	 * 
-	 * @since 2.0
 	 */
 	private BufferedImage videoIcon;
 	
 	/**
 	 * BufferedImage for an icon representing a file of an unknown file type
-	 * 
-	 * @since 2.0
 	 */
 	private BufferedImage unknownIcon;
 	
 	/**
 	 * Program Settings
-	 * 
-	 * @since 2.0
 	 */
 	private DSettings settings;
 	
@@ -128,7 +99,6 @@ public class ImageHandler
 	 * Initializes the ImageHandler class.
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public ImageHandler(DSettings settings)
 	{
@@ -159,7 +129,6 @@ public class ImageHandler
 	 * 
 	 * @param file Input File
 	 * @return Whether inputFile is an Animated GIF
-	 * @since 2.0
 	 */
 	public static boolean isAnimatedGif(final File file)
 	{
@@ -209,7 +178,6 @@ public class ImageHandler
 	 * 
 	 * @param file Input File
 	 * @return Image of Animated GIF
-	 * @since 2.0
 	 */
 	public static Image getGifImage(final File file)
 	{
@@ -235,7 +203,6 @@ public class ImageHandler
 	 * @param allowReturningIcon Whether to allow returning a file type icon if the main file cannot be loaded
 	 * @param useIcon Whether to use a file type icon rather than the image from the given file
 	 * @return BufferedImage representing the file
-	 * @since 2.0
 	 */
 	public BufferedImage getImage(final File file, final boolean allowReturningIcon, final boolean useIcon)
 	{
@@ -277,7 +244,6 @@ public class ImageHandler
 	 * @return Dimensions to fit image into given dimensions
 	 * @param scrollWidth Width of a vertical scroll bar, used to properly fit image in frame
 	 * @param scrollHeight Height of a horizontal scroll bar, used to properly fit image in frame
-	 * @since 2.0
 	 */
 	public Dimension getScaleDimensions(final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight, final int scrollWidth, final int scrollHeight)
 	{
@@ -297,7 +263,6 @@ public class ImageHandler
 	 * @param scrollWidth Width of a vertical scroll bar, used to properly fit image in frame
 	 * @param scrollHeight Height of a horizontal scroll bar, used to properly fit image in frame
 	 * @return Dimensions to fit image into given dimensions
-	 * @since 2.0
 	 */
 	public Dimension getScaleDimensions(final int scaleType, final double scaleAmount, final int imageWidth, final int imageHeight, final int paneWidth, final int paneHeight, final int scrollWidth, final int scrollHeight)
 	{
@@ -528,7 +493,6 @@ public class ImageHandler
 	 * 
 	 * @param file Input File
 	 * @return File Type Icon
-	 * @since 2.0
 	 */
 	public BufferedImage getIcon(final File file)
 	{
@@ -567,7 +531,6 @@ public class ImageHandler
 	 * @param secondaryFile Secondary media file in case the main file is not an image
 	 * @param useIcon Whether to use an icon rather than a thumbnail
 	 * @return Preview Image
-	 * @since 2.0
 	 */
 	public BufferedImage getPreview(final File mediaFile, final File secondaryFile, final boolean useIcon)
 	{

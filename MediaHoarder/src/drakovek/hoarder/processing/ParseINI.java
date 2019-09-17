@@ -10,14 +10,11 @@ import drakovek.hoarder.processing.sort.FileSort;
  *
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ParseINI
 {
 	/**
 	 * Extension for a .ini file
-	 * 
-	 * @since 2.0
 	 */
 	public static final String INI_EXTENSION = ".dini"; //$NON-NLS-1$
 	
@@ -27,7 +24,6 @@ public class ParseINI
 	 * @param header INI header
 	 * @param iniText INI formatted text
 	 * @return Section of .ini file
-	 * @since 2.0
 	 */
 	public static ArrayList<String> getSection(final String header, final ArrayList<String> iniText)
 	{
@@ -55,7 +51,6 @@ public class ParseINI
 	 * @param variable INI Variable
 	 * @param iniText INI Formatted Text
 	 * @return String Values of variable
-	 * @since 2.0
 	 */
 	private static ArrayList<String> getValues(final String header, final String variable, final ArrayList<String> iniText)
 	{
@@ -81,7 +76,6 @@ public class ParseINI
 	 * @param variable INI Variable
 	 * @param iniText INI Formatted Text
 	 * @return String Values of variable
-	 * @since 2.0
 	 */
 	private static ArrayList<String> getValues(final String variable, final ArrayList<String> iniText)
 	{
@@ -113,7 +107,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return String Values of variable
-	 * @since 2.0
 	 */
     public static ArrayList<String> getStringValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<String> defaultValue)
     {
@@ -136,7 +129,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return String Value of variable
-	 * @since 2.0
 	 */
     public static String getStringValue(final String header, final String variable, final ArrayList<String> iniText, final String defaultValue)
     {
@@ -159,7 +151,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return File Values of variable
-	 * @since 2.0
 	 */
     public static ArrayList<File> getFileValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<File> defaultValue)
     {
@@ -196,7 +187,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return File Value of variable
-	 * @since 2.0
 	 */
     public static File getFileValue(final String header, final String variable, final ArrayList<String> iniText, final File defaultValue)
     {
@@ -220,7 +210,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return Boolean Values of variable
-	 * @since 2.0
 	 */
     public static ArrayList<Boolean> getBooleanValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<Boolean> defaultValue)
     {
@@ -250,7 +239,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return Boolean Value of variable
-	 * @since 2.0
 	 */
     public static boolean getBooleanValue(final String header, final String variable, final ArrayList<String> iniText, final boolean defaultValue)
     {
@@ -274,7 +262,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return ArrayList<String> Value of variable
-	 * @since 2.0
 	 */
     public static ArrayList<String> getStringListValue(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<String> defaultValue)
     {
@@ -321,7 +308,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return int Values of variable
-	 * @since 2.0
 	 */
     public static ArrayList<Integer> getIntValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<Integer> defaultValue)
     {
@@ -358,7 +344,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return int Value of variable
-	 * @since 2.0
 	 */
     public static int getIntValue(final String header, final String variable, final ArrayList<String> iniText, final int defaultValue)
     {
@@ -382,7 +367,6 @@ public class ParseINI
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
 	 * @return Double Values of variable
-	 * @since 2.0
 	 */
     public static ArrayList<Double> getDoubleValues(final String header, final String variable, final ArrayList<String> iniText, final ArrayList<Double> defaultValue)
     {
@@ -418,8 +402,7 @@ public class ParseINI
 	 * @param variable INI Variable
 	 * @param iniText INI Formatted Text
 	 * @param defaultValue Value returned if no relevant value is found
-	 * @return Doubel Value of variable
-	 * @since 2.0
+	 * @return Double Value of variable
 	 */
     public static double getDoubleValue(final String header, final String variable, final ArrayList<String> iniText, final double defaultValue)
     {
@@ -440,7 +423,6 @@ public class ParseINI
      * @param variable Name of .ini Variable
      * @param value Value of variable
      * @return .ini Assignment String
-     * @since 2.0
      */
     public static String getAssignmentString(final String variable, final String value)
     {
@@ -454,7 +436,6 @@ public class ParseINI
      * @param variable Name of .ini Variable
      * @param value Value of variable
      * @return .ini Assignment String
-     * @since 2.0
      */
     public static String getAssignmentString(final String variable, final int value)
     {
@@ -468,7 +449,6 @@ public class ParseINI
      * @param variable Name of .ini Variable
      * @param value Value of variable
      * @return .ini Assignment String
-     * @since 2.0
      */
     public static String getAssignmentString(final String variable, final double value)
     {
@@ -482,7 +462,6 @@ public class ParseINI
      * @param variable Name of .ini Variable
      * @param value Value of variable
      * @return .ini Assignment String
-     * @since 2.0
      */
     public static String getAssignmentString(final String variable, final boolean value)
     {
@@ -496,7 +475,6 @@ public class ParseINI
      * @param variable Name of .ini Variable
      * @param value Value of variable
      * @return .ini Assignment String
-     * @since 2.0
      */
     public static String getAssignmentString(final String variable, final String[] value)
     {
@@ -510,7 +488,6 @@ public class ParseINI
      * @param variable Name of .ini Variable
      * @param value Value of variable
      * @return .ini Assignment String
-     * @since 2.0
      */
     public static String getAssignmentString(final String variable, final File value)
     {

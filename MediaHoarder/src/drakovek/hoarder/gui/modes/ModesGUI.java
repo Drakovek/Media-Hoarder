@@ -9,7 +9,6 @@ import drakovek.hoarder.gui.view.ViewBrowserGUI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class ModesGUI extends ModeBaseGUI
 {
@@ -17,7 +16,6 @@ public class ModesGUI extends ModeBaseGUI
 	 * Initializes the ModesGUI object.
 	 * 
 	 * @param frameGUI FrameGUI this mode GUI is contained within.
-	 * @since 2.0
 	 */
 	public ModesGUI(FrameGUI frameGUI)
 	{

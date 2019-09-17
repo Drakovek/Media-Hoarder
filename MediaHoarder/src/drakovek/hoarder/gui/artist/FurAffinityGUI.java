@@ -25,14 +25,11 @@ import drakovek.hoarder.web.Downloader;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class FurAffinityGUI extends ArtistHostingGUI
 {
 	/**
 	 * String Array of available months in Fur Affinity format.
-	 * 
-	 * @since 2.0
 	 */
 	private static final String[] MONTHS = {"jan", "feb", "mar", "apr", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 											"may", "jun", "jul", "aug",  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -40,29 +37,21 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	
 	/**
 	 * Section of Fur Affinity page URL that shows it is part of a media gallery
-	 * 
-	 * @since 2.0
 	 */
 	private static final String GALLERY_URL = "/view/"; //$NON-NLS-1$
 	
 	/**
 	 * Section of Fur Affinity page URL that shows it is part of a journal gallery
-	 * 
-	 * @since 2.0
 	 */
 	private static final String JOURNAL_URL = "/journal/"; //$NON-NLS-1$
 	
 	/**
 	 * Prefix for a DMF ID that indicates that the DMF is sourced from FurAffinity.net
-	 * 
-	 * @since 2.0
 	 */
 	private static final String ID_PREFIX = "FAF"; //$NON-NLS-1$
 	
 	/**
 	 * ArrayList of modified Fur Affinity IDs to check if media has already been downloaded
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> idStrings;
 	
@@ -71,7 +60,6 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
 	 * @param dmfHandler Program's DmfHandler
-	 * @since 2.0
 	 */
 	public FurAffinityGUI(DSettings settings, DmfHandler dmfHandler)
 	{
@@ -716,7 +704,6 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	 * @param dmf DMF to set time for
 	 * @param timeString Time String from FurAffinity
 	 * @throws Exception Any exception handling time string
-	 * @since 2.0
 	 */
 	private static void setTime(DMF dmf, final String timeString) throws Exception
 	{

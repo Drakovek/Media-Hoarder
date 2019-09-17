@@ -16,56 +16,41 @@ import drakovek.hoarder.work.DWorker;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 1.0
  */
 public class DScrollPane extends JScrollPane implements DWorker
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -3855985632736412421L;
 	
 	/**
 	 * Work ID for scrolling to the top left corner of the scroll pane
-	 * 
-	 * @since 2.0
 	 */
 	private static final String TOP_LEFT = "top_left"; //$NON-NLS-1$
 	
 	/**
 	 * Work ID for scrolling to the top right corner of the scroll pane
-	 * 
-	 * @since 2.0
 	 */
 	private static final String TOP_RIGHT = "top_right"; //$NON-NLS-1$
 	
 	/**
 	 * Work ID for scrolling to the bottom left corner of the scroll pane
-	 * 
-	 * @since 2.0
 	 */
 	private static final String BOTTOM_LEFT = "bottom_left"; //$NON-NLS-1$
 	
 	/**
 	 * Work ID for scrolling to the bottom right corner of the scroll pane
-	 * 
-	 * @since 2.0
 	 */
 	private static final String BOTTOM_RIGHT = "bottom_right"; //$NON-NLS-1$
 
 	/**
 	 * Program Settings
-	 * 
-	 * @since 2.0
 	 */
 	private DSettings settings;
 	
 	/**
 	 * Component used in the scroll pane's viewport.
-	 * 
-	 * @since 2.0
 	 */
 	private JComponent view;
 	
@@ -74,7 +59,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	 * 
 	 * @param settings Program Settings
 	 * @param view Component to show in the viewport.
-	 * @since 2.0
 	 */
 	public DScrollPane(DSettings settings, JComponent view)
 	{
@@ -92,7 +76,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	 * @param hsbPolicy Horizontal Scroll Bar Policy
 	 * @param vsbPolicy Vertical Scroll Bar Policy
 	 * @param view Component to show in the viewport.
-	 * @since 2.0
 	 */
 	public DScrollPane(DSettings settings, int hsbPolicy, int vsbPolicy, JComponent view)
 	{
@@ -105,8 +88,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	
 	/**
 	 * Adds DScrollDragListener so the user can scroll by dragging the mouse
-	 * 
-	 * @since 2.0
 	 */
 	public void addDragListener()
 	{
@@ -119,8 +100,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	
 	/**
 	 * Sets the scroll increment for this scroll pane.
-	 * 
-	 * @since 2.0
 	 */
 	private void setScrollUnit()
 	{
@@ -133,7 +112,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	 * Returns the component used in the scroll pane's viewport.
 	 * 
 	 * @return Viewport Component
-	 * @since 2.0
 	 */
 	public Component getView()
 	{
@@ -143,8 +121,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	
 	/**
 	 * Sets the Scroll Pane to the top left.
-	 * 
-	 * @since 2.0
 	 */
 	public void resetTopLeft()
 	{
@@ -154,8 +130,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	
 	/**
 	 * Sets the Scroll Pane to the top right.
-	 * 
-	 * @since 2.0
 	 */
 	public void resetTopRight()
 	{
@@ -165,8 +139,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	
 	/**
 	 * Sets the Scroll Pane to the bottom left.
-	 * 
-	 * @since 2.0
 	 */
 	public void resetBottomLeft()
 	{
@@ -176,8 +148,6 @@ public class DScrollPane extends JScrollPane implements DWorker
 	
 	/**
 	 * Sets the Scroll Pane to the bottom right.
-	 * 
-	 * @since 2.0
 	 */
 	public void resetBottomRight()
 	{

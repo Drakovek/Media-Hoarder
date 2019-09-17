@@ -19,28 +19,21 @@ import drakovek.hoarder.gui.swing.listeners.DEvent;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public abstract class BaseGUI implements DEvent
 {
 	/**
 	 * Program's settings.
-	 * 
-	 * @since 2.0
 	 */
 	private DSettings settings;
 	
 	/**
 	 * Default font for the program's Swing components.
-	 * 
-	 * @since 2.0
 	 */
 	private Font font;
 	
 	/**
 	 * Large font to use for the program's Swing components.
-	 * 
-	 * @since 2.0
 	 */
 	private Font largeFont;
 	
@@ -48,7 +41,6 @@ public abstract class BaseGUI implements DEvent
 	 * Initializes the BaseGUI Class
 	 * 
 	 * @param settings Program's Settings
-	 * @since 2.0
 	 */
 	public BaseGUI(DSettings settings)
 	{
@@ -71,7 +63,6 @@ public abstract class BaseGUI implements DEvent
 	 * Returns the program settings.
 	 * 
 	 * @return Program Settings
-	 * @since 2.0
 	 */
 	public DSettings getSettings()
 	{
@@ -83,7 +74,6 @@ public abstract class BaseGUI implements DEvent
 	 * Gets the default font for the project.
 	 * 
 	 * @return Default Font
-	 * @since 2.0
 	 */
 	public Font getFont()
 	{
@@ -95,7 +85,6 @@ public abstract class BaseGUI implements DEvent
 	 * Gets the project's large font.
 	 * 
 	 * @return Large Font
-	 * @since 2.0
 	 */
 	public Font getLargeFont()
 	{
@@ -108,7 +97,6 @@ public abstract class BaseGUI implements DEvent
 	 * 
 	 * @param component Component to be centered within the panel
 	 * @return Panel with component centered
-	 * @since 2.0
 	 */
 	public JPanel getSpacedPanel(Component component)
 	{
@@ -125,7 +113,6 @@ public abstract class BaseGUI implements DEvent
 	 * @param hasLeftSpace Whether to use a space on the panel's LEFT
 	 * @param hasRightSpace Whether to use a space on the panel's RIGHT
 	 * @return Panel with component centered
-	 * @since 2.0
 	 */
 	public JPanel getSpacedPanel(Component component, final boolean hasTopSpace, final boolean hasBottomSpace, final boolean hasLeftSpace, final boolean hasRightSpace)
 	{
@@ -144,7 +131,6 @@ public abstract class BaseGUI implements DEvent
 	 * @param hasLeftSpace Whether to use a space on the panel's LEFT
 	 * @param hasRightSpace Whether to use a space on the panel's RIGHT
 	 * @return Panel with component centered
-	 * @since 2.0
 	 */
 	public JPanel getSpacedPanel(Component component, final int weightx, final int weighty, final boolean hasTopSpace, final boolean hasBottomSpace, final boolean hasLeftSpace, final boolean hasRightSpace)
 	{
@@ -213,7 +199,6 @@ public abstract class BaseGUI implements DEvent
 	 * @param bottomComponent Component to place on bottom
 	 * @param bottomWeight Weight of the bottom component
 	 * @return Vertical Stack Panel
-	 * @since 2.0
 	 */
 	public JPanel getVerticalStack(Component topComponent, final int topWeight, Component bottomComponent, final int bottomWeight)
 	{
@@ -242,7 +227,6 @@ public abstract class BaseGUI implements DEvent
 	 * @param topComponent Component to place on top
 	 * @param bottomComponent Component to place on bottom
 	 * @return Vertical Stack Panel
-	 * @since 2.0
 	 */
 	public JPanel getVerticalStack(Component topComponent, Component bottomComponent)
 	{
@@ -258,7 +242,6 @@ public abstract class BaseGUI implements DEvent
 	 * @param rightComponent Component to place on the right
 	 * @param rightWeight Weight of the right component
 	 * @return Horizontal Stack Panel
-	 * @since 2.0
 	 */
 	public JPanel getHorizontalStack(Component leftComponent, final int leftWeight, Component rightComponent, final int rightWeight)
 	{
@@ -287,7 +270,6 @@ public abstract class BaseGUI implements DEvent
 	 * @param leftComponent Component to place on the left
 	 * @param rightComponent Component to place on the right
 	 * @return Horizontal Stack Panel
-	 * @since 2.0
 	 */
 	public JPanel getHorizontalStack(Component leftComponent, Component rightComponent)
 	{	
@@ -299,7 +281,6 @@ public abstract class BaseGUI implements DEvent
 	 * Returns a rigid area component with the width of the default space for the program.
 	 * 
 	 * @return Rigid Area Component
-	 * @since 2.0
 	 */
 	public Component getHorizontalSpace()
 	{
@@ -311,7 +292,6 @@ public abstract class BaseGUI implements DEvent
 	 * Returns a rigid area component with the height of the default space for the program.
 	 * 
 	 * @return Rigid Area Component
-	 * @since 2.0
 	 */
 	public Component getVerticalSpace()
 	{
@@ -323,7 +303,6 @@ public abstract class BaseGUI implements DEvent
 	 * Returns the default button Insets based on the default space size for the program.
 	 * 
 	 * @return Default Button Insets
-	 * @since 2.0
 	 */
 	public Insets getButtonInsets()
 	{
@@ -342,7 +321,6 @@ public abstract class BaseGUI implements DEvent
 	 * Returns the default menu Insets based on the default space size for the program.
 	 * 
 	 * @return Default Menu Insets
-	 * @since 2.0
 	 */
 	public Insets getMenuInsets()
 	{
@@ -362,7 +340,6 @@ public abstract class BaseGUI implements DEvent
 	 * 
 	 * @param subtitleID ID for the subtitle. If null, only uses the default title.
 	 * @return Title
-	 * @since 2.0
 	 */
 	public String getTitle(final String subtitleID)
 	{

@@ -10,21 +10,16 @@ import drakovek.hoarder.gui.swing.listeners.DActionListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DButton extends JButton
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 3839715899344861685L;
 	
 	/**
 	 * BaseGUI linked to the DButton to get Swing information and to call events.
-	 * 
-	 * @since 2.0
 	 */
 	private BaseGUI baseGUI;
 	
@@ -33,7 +28,6 @@ public class DButton extends JButton
 	 * 
 	 * @param baseGUI Linked BaseGUI
 	 * @param id Event/Language ID
-	 * @since 2.0
 	 */
 	public DButton(BaseGUI baseGUI, final String id)
 	{
@@ -52,8 +46,6 @@ public class DButton extends JButton
 	
 	/**
 	 * Sets the button's font to large.
-	 * 
-	 * @since 2.0
 	 */
 	public void setFontLarge()
 	{
@@ -65,7 +57,6 @@ public class DButton extends JButton
 	 * Sets the text for the button based on a Language ID.
 	 * 
 	 * @param id Language ID
-	 * @since 2.0
 	 */
 	public void setTextID(final String id)
 	{

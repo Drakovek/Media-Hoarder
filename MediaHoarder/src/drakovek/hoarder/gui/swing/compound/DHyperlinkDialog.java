@@ -23,35 +23,26 @@ import drakovek.hoarder.gui.swing.components.DLabel;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DHyperlinkDialog extends BaseGUI
 {
 	/**
 	 * Main hyperlink dialog
-	 * 
-	 * @since 2.0
 	 */
 	DDialog dialog;
 	
 	/**
 	 * The currently displayed URL
-	 * 
-	 * @since 2.0
 	 */
 	String currentURL;
 	
 	/**
 	 * The main dialog panel
-	 * 
-	 * @since 2.0
 	 */
 	JPanel panel;
 	
 	/**
 	 * Label for displaying the current URL
-	 * 
-	 * @since 2.0
 	 */
 	DLabel text;
 	
@@ -59,7 +50,6 @@ public class DHyperlinkDialog extends BaseGUI
 	 * Initializes the DHyperLinkDialog class.
 	 * 
 	 * @param settings Program Settings
-	 * @since 2.0
 	 */
 	public DHyperlinkDialog(DSettings settings)
 	{
@@ -88,7 +78,6 @@ public class DHyperlinkDialog extends BaseGUI
 	 * 
 	 * @param owner Parent frame of the dialog
 	 * @param url URL to display
-	 * @since 2.0
 	 */
 	public void openDialog(DFrame owner, final String url)
 	{
@@ -103,8 +92,6 @@ public class DHyperlinkDialog extends BaseGUI
 	
 	/**
 	 * Attempts to copy the current URL into the desktop clipboard.
-	 * 
-	 * @since 2.0
 	 */
 	private void copyURL()
 	{
@@ -125,8 +112,6 @@ public class DHyperlinkDialog extends BaseGUI
 	
 	/**
 	 * Attempts to open the current URL in an external program.
-	 * 
-	 * @since 2.0
 	 */
 	private void openURL()
 	{

@@ -13,14 +13,11 @@ import java.util.ArrayList;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DWriter 
 {
 	/**
 	 * Main bufferedWriter for writing data.
-	 * 
-	 * @since 2.0
 	 */
 	private static BufferedWriter bufferedWriter;
 	
@@ -29,7 +26,6 @@ public class DWriter
 	 * 
 	 * @param outputFile File to be written
 	 * @param fileContents Contents to be written.
-	 * @since 2.0
 	 */
 	public static void writeToFile(final File outputFile, final ArrayList<String> fileContents)
 	{
@@ -100,7 +96,6 @@ public class DWriter
 	 * 
 	 * @param outputFile File to be written
 	 * @param fileContents Contents to be written.
-	 * @since 2.0
 	 */
     public static void writeToFile(final File outputFile, final String fileContents)
     {
@@ -116,7 +111,6 @@ public class DWriter
      * 
      * @param text Given String
      * @return File Friendly Name
-     * @since 2.0
      */
     public static String getFileFriendlyName(final String text)
     {	

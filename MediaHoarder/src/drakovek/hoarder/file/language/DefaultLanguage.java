@@ -11,7 +11,6 @@ import drakovek.hoarder.processing.ParseINI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DefaultLanguage 
 {
@@ -19,15 +18,11 @@ public class DefaultLanguage
 	
 	/**
 	 * Header text for all language files.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LANGUAGE_HEADER = "[LANGUAGE FILE]"; //$NON-NLS-1$
 	
 	/**
 	 * Variable for the language of a particular language file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LANGUAGE_VARIABLE = "language_value"; //$NON-NLS-1$
 	
@@ -35,50 +30,36 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for the default title for Frames/Dialogs
-	 * 
-	 * @since 2.0
 	 */
 	public static final String TITLE_VALUE = "title_value"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "OK"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String OK = "ok"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Add"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ADD = "add"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Remove"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String REMOVE = "remove"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Yes"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String YES = "yes"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "No"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NO = "no"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Cancel"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CANCEL = "cancel"; //$NON-NLS-1$
 	
@@ -89,80 +70,56 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for "File"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FILE = "file"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "View"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String VIEW = "view"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Open"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String OPEN = "open"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Exit"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String EXIT = "exit"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Save"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SAVE = "save"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Copy"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String COPY = "copy"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Restart Program"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String RESTART_PROGRAM = "restart_program"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for indicating non-applicable field
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NON_APPLICABLE = "non_applicable"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Downloading"
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DOWNLOADING = "downloading"; //$NON-NLS-1$
 	
-	//FRAME
-	
 	/**
 	 * Language variable for title of the "Process Running" error message.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PROCESS_RUNNING = "process_running"; //$NON-NLS-1$
 	
 	/**
 	 * Language variables for message of the "Process Running" error message.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String[] PROCESS_RUNNING_MESSAGES = {"cancel_process_message1", "cancel_process_message2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
@@ -170,141 +127,101 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for settings button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SETTINGS = "settings"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Apply" button in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String APPLY = "apply"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Language" label in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LANGUAGE = "language"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "DMF Directories" label in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DMF_DIRECTORIES = "dmf_directories"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Theme" label in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String THEME = "theme"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Font" label in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FONT = "font"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Preview" label in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PREVIEW = "preview"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Bold" check box label in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FONT_BOLD = "font_bold"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Anti-Aliasing" check box label in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FONT_AA = "font_aa"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the font "Size" label in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FONT_SIZE = "font_size"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the text used for the font preview in the settings GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FONT_PREVIEW = "font_preview"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the text used to show that no directory is selected in the settings bar.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NO_DIRECTORY = "no_directory"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the text used to show that DMF Directories have been properly loaded
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DIRECTORIES_LOADED = "directories_loaded"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of the dialog that shows that no DMF directories have been specified.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NO_DIRECTORIES_TITLE = "no_directories_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variables for the messages of the dialog that shows that no DMF directories have been specified.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String[] NO_DIRECTORIES_MESSAGES = {"no_directories_message_1", "no_directories_message_2"}; //$NON-NLS-1$ //$NON-NLS-2$
 	
 	/**
 	 * Language variable for the title of the progress dialog for loading DMFs
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOADING_DMFS_TITLE = "loading_dmfs_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the DMF loading progress dialog when searching for folders containing DMFs
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GETTING_FOLDERS = "getting_folders"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the DMF loading progress dialog when loading DMFs
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOADING_DMFS = "loading_dmfs"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the DMF loading progress dialog when loading a DMF index file
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOADING_INDEX = "loading_index"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the DMF loading progress dialog when saving a DMF index file
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SAVING_INDEX = "saving_index"; //$NON-NLS-1$
 	
@@ -312,57 +229,41 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for the "Back" button for mode GUIs.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String MODE_BACK = "mode_back"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Start" button for mode GUIs.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String MODE_START = "mode_start"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Download" mode button.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DOWNLOAD_MODE = "download_mode"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Manage" mode button.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String MANAGE_MODE = "manage_mode"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "View" mode button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String VIEW_MODE = "view_mode"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "DMF Sequencing" mode button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SEQUENCE_MODE = "sequence_mode"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Find Errors" mode button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ERROR_MODE = "error_mode"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Reformat" mode button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String REFORMAT_MODE = "reformat_mode"; //$NON-NLS-1$
 	
@@ -370,93 +271,67 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for the "DeviantArt" mode button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DEVIANTART_MODE = "deviantart"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the progress info dialog title when loading data from DeviantArt.com
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DEVIANTART_PROGRESS_TITLE = "deviantart_progress_title"; //$NON-NLS-1$
 	
 	
 	/**
 	 * Language variable for the "Fur Affinity" mode button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FUR_AFFINITY_MODE = "fur_affinity"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the progress info dialog title when loading data from FurAffinity.net
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FUR_AFFINITY_PROGRESS_TITLE = "fur_affinity_progress_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Inkbunny" mode button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String INKBUNNY_MODE = "inkbunny"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the progress info dialog title when loading data from Inkbunny.net
-	 * 
-	 * @since 2.0
 	 */
 	public static final String INKBUNNY_PROGRESS_TITLE = "inkbunny_progress_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Transfur" mode button
-	 * 
-	 * @since 2.0
 	 */
 	public static final String TRANSFUR_MODE = "transfur"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Page:" in the progress info dialog when indicating the program is loading web data from a certain page
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PAGE = "page"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for indicating the program is getting page URLs in the progress info dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GETTING_PAGE_URLS = "getting_page_urls"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for indicating the program is getting gallery pages in the progress info dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GETTING_GALLERY_PAGES = "getting_gallery_pages"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for indicating the program is getting scrap pages in the progress info dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GETTING_SCRAP_PAGES = "getting_scrap_pages"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for indicating the program is getting journal pages in the progress info dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GETTING_JOURNAL_PAGES = "getting_journal_pages"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for indicating the program is loading a page in the progress info dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOADING_PAGE = "loading_page"; //$NON-NLS-1$
 	
@@ -464,85 +339,61 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for the file chooser dialog title when opening a file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String OPEN_TITLE = "open_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the file chooser dialog title when saving a file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SAVE_TITLE = "save_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Roots" label in the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ROOTS = "roots"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Parent" button in the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PARENT = "parent"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "New Directory" button in the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NEW_DIRECTORY = "new_directory"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "File Name:" label in the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FILE_NAME = "file_name"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "File Type:" label in the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FILE_TYPE = "file_type"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for showing that only directories can be opened in the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DIRECTORIES_ONLY = "directories_only"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for showing that the user can save to any file type in the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ALL_FILES = "all_files"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for showing all files of any of the listed extensions in the file chooser dialog
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ALL_ALLOWED_EXTENSIONS = "all_allowed_extensions"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of dialog showing user that a given file already exists.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FILE_EXISTS = "file_exists"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the messages of dialog showing user that a given file already exists.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String[] FILE_EXISTS_MESSAGES = {"file_exists_message_1", "file_exists_message_2"}; //$NON-NLS-1$ //$NON-NLS-2$
 	
@@ -550,274 +401,197 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for the "Actions" label from the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ACTIONS = "actions"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Artists" label from the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ARTISTS = "artists"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Check New Pages" button from the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CHECK_NEW = "check_new"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Check All Pages" button from the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CHECK_ALL = "check_all"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Download Single" button from the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DOWNLOAD_SINGLE = "download_single"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Save Journals" check box from the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SAVE_JOURNALS = "save_journals"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Add Artist" title for adding artists in the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ADD_ARTIST = "add_artist"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "All Artists" item in the artist list of the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ALL_ARTISTS = "all_artists"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Name of Artist" message for adding artists in the artist hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String[] NAME_OF_ARTIST = {"name_of_artist"}; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Are you sure?" title for dialogs.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SURE_TITLE = "sure_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variables for message shown when removing artists in the Artist Hosting GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String[] DELETE_ARTIST_MESSAGES = {"delete_artist_message_1", "delete_artist_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
 	/**
 	 * Language variables for message shown if the user has a potentially incorrect folder selected.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String[] WRONG_FOLDER_MESSAGES = {"wrong_folder_message_1", "wrong_folder_message_2", "wrong_folder_message_3"};  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 	
 	/**
 	 * Language variable for the dialog in the artist hosting GUI for showing that no artists are selected.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NO_ARTISTS = "no_artists"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of dialog prompting user to enter a page URL
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ENTER_URL_TITLE = "enter_url_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the message of dialog prompting user to enter a page URL
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ENTER_URL_MESSAGE = "enter_url_message"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Username" label in the login GUI.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String USERNAME = "username"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Password" label in the login GUI.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PASSWORD = "password"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Login" button in the login GUI.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOGIN = "login"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Captcha" label in the login GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CAPTCHA = "captcha"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Refresh Captcha" button in the login GUI
-	 * 
-	 * @since 2.0
+
 	 */
 	public static final String REFRESH_CAPTCHA = "refresh_captcha"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of the progress dialog when loading image captcha
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOAD_CAPTCHA_TITLE = "load_captcha_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the process label for the dialog when loading image captcha
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOAD_CAPTCHA = "load_captcha"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for title of the "Attempt Login" progress dialog.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ATTEMPT_LOGIN = "attempt_login"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "login failed" message if attempted login fails.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOGIN_FAILED = "login_failed"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Canceling" label when canceling a process
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CANCELING = "canceling"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Running" label default when a process is running
-	 * 
-	 * @since 2.0
 	 */
 	public static final String RUNNING = "running"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for dialogs showing that no directory is selected
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NO_DIRECTORY_DIALOG = "no_directory_dialog"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for title of dialog asking whether to add directory to DMF directories list
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ADD_DIRECTORY_TITLE = "add_directory_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variables for messages of dialog asking whether to add directory to DMF directories list
-	 * 
-	 * @since 2.0
 	 */
 	public static final String[] ADD_DIRECTORY_MESSAGES = {"add_directory_message_1", "add_directory_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
 	/**
 	 * Language variable for a dialog message asking whether to continue.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CONTINUE_MESSAGE = "continue_message"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Downloaded" message
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DOWNLOADED = "downloaded"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Finished" message
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FINISHED = "finished"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "Download Failed" message
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DOWNLOAD_FAILED = "download_failed"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for showing a given file has already been downloaded
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ALREADY_DOWNLOADED = "already_downloaded"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for showing a given URL is invalid
-	 * 
-	 * @since 2.0
 	 */
 	public static final String INVALID_URL = "invalid_url"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "AM" in clock time formatting
-	 * 
-	 * @since 2.0
 	 */
 	public static final String AM = "am"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for "PM" in clock time formatting
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PM = "pm"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the symbol to use when indicating seconds in a clock time
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SECONDS_SUFFIX = "seconds_suffix"; //$NON-NLS-1$
 	
 	/**
 	 * Language variables for months of the year
-	 * 
-	 * @since 2.0
 	 */
 	public static final String[] MONTHS = {"january", "february", "march",  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 										   "april", "may", "june", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -826,45 +600,31 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for the title of the login GUI when logging into DeviantArt.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DEVIANTART_LOGIN = "deviantart_login"; //$NON-NLS-1$
 	
-	
-	
 	/**
 	 * Language variable for the "Choose DeviantArt Folder" menu item in the DeviantArt GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CHOOSE_DEVIANTART_FOLDER = "choose_deviantart_folder"; //$NON-NLS-1$
 
 	/**
 	 * Language variable for the title of the login GUI when logging into Fur Affinity.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FUR_AFFINITY_LOGIN = "fur_affinity_login"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Choose Fur Affinity Folder" menu item in the Fur Affinity GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CHOOSE_FUR_AFFINITY_FOLDER = "choose_fur_affinity_folder"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of the login GUI when logging into Inkbunny.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String INKBUNNY_LOGIN = "inkbunny_login"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Choose Inkbunny Folder" menu item in the Fur Affinity GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CHOOSE_INKBUNNY_FOLDER = "choose_inkbunny_folder"; //$NON-NLS-1$
 	
@@ -872,484 +632,346 @@ public class DefaultLanguage
 	
 	/**
 	 * Language variable for the title of the view browser GUI.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String VIEWER_TITLE = "viewer_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "previous" button in the viewer GUI.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PREVIOUS = "previous"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "next" button in the viewer GUI.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NEXT = "next"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for showing an offset value in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String OFFSET = "offset"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Reload DMFs" menu item in the viewer GUI
-	 *
-	 * @since 2.0
 	 */
 	public static final String RELOAD_DMFS = "reload_dmfs"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Reload DMFs Without Indexes" menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String RELOAD_WITHOUT_INDEXES = "reload_without_indexes"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Use Thumbnails" menu item in the viewer GUI.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String USE_THUMBNAILS = "use_thumbnails"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Sort" menu in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SORT = "sort"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the radio button menu item in the viewer GUI for sorting by time.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SORT_TIME = "sort_time"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the radio button menu item in the viewer GUI for sorting alpha-numerically.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SORT_ALPHA = "sort_alpha"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the radio button menu item in the viewer GUI for sorting by rating.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SORT_RATING = "sort_rating"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the check box menu item in the viewer GUI for grouping artists when sorting.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GROUP_ARTISTS = "group_artists"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the check box menu item in the viewer GUI for grouping sequences when sorting.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GROUP_SEQUENCES = "group_sequences"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the check box menu item in the viewer GUI for grouping sections when sorting.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for viewer GUI's preview loading process title
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOADING_PREVIEWS_TITLE = "loading_previews_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for viewer GUI's preview loading process label
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOADING_PREVIEWS = "loading_previews"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the view GUI's DMF sorting process title
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SORTING_DMFS_TITLE = "sorting_dmfs_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the view GUI's DMF sorting process label
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SORTING_DMFS = "sorting_dmfs"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the web tags label in the viewer GUI's DMF info pane
-	 * 
-	 * @since 2.0
 	 */
 	public static final String WEB_TAGS = "web_tags"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the user tags label in the viewer GUI's DMF info pane
-	 * 
-	 * @since 2.0
 	 */
 	public static final String USER_TAGS = "user_tags"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the date label in the viewer GUI's DMF info pane
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DATE = "date"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the time label in the viewer GUI's DMF info pane
-	 * 
-	 * @since 2.0
 	 */
 	public static final String TIME = "time"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the page URL link in the viewer GUI's DMF info pane
-	 * 
-	 * @since 2.0
 	 */
 	public static final String PAGE_URL = "page_url"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the direct URL link in the viewer GUI's DMF info pane
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DIRECT_URL = "direct_url"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the secondary URL link in the viewer GUI's DMF info pane
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SECONDARY_URL = "secondary_url"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the links in the viewer GUI's DMF info pane
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LINK = "link"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the scale menu in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SCALE = "scale"; //$NON-NLS-1$
 
 	/**
 	 * Language variable used for the "Full Scale" scaling menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SCALE_FULL = "scale_full"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "2-D Fit" scaling menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SCALE_2D_FIT = "scale_2d_fit"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "2-D Stretch" scaling menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SCALE_2D_STRETCH = "scale_2d_stretch"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "1-D Fit" scaling menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SCALE_1D_FIT = "scale_1d_fit"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "1-D Stretch" scaling menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SCALE_1D_STRETCH = "scale_1d_stretch"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "Direct Scale" scaling menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SCALE_DIRECT = "scale_direct"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the title of dialog prompting the user to enter a direct scale value
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DIRECT_SCALE_TITLE = "direct_scale_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the message of dialog prompting the user to enter a direct scale value
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DIRECT_SCALE_MESSAGE = "direct_scale_message"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the details menu in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DETAILS = "details"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "No Details" detail menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String NO_DETAILS = "no_details"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "Top Details" detail menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String TOP_DETAILS = "top_details"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "Bottom Details" detail menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String BOTTOM_DETAILS = "bottom_details"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "Left Details" detail menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LEFT_DETAILS = "left_details"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for the "Right Details" detail menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String RIGHT_DETAILS = "right_details"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Fullscreen" menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String FULLSCREEN = "fullscreen"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Open Media File" menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String OPEN_MEDIA_FILE = "open_media_file"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Open Secondary File" menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String OPEN_SECONDARY_FILE = "open_secondary_file"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Open DMF" menu item in the viewer GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String OPEN_DMF = "open_dmf"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for progress dialog title when loading a media file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOADING_MEDIA_TITLE = "loading_media_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used for progress dialog message when loading a media file.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String LOADING_MEDIA_MESSAGE = "loading_media_message"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable used to show the title of the dialog for showing hyperlink info.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String HYPERLINK_TITLE = "hyperlink_title"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button used to show available sequence branches.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String BRANCHES = "branches"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for button to start DMF reformatting process
-	 * 
-	 * @since 2.0
 	 */
 	public static final String REFORMAT_DMFS = "reformat_dmfs"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to start file renaming process
-	 * 
-	 * @since 2.0
 	 */
 	public static final String RENAME_FILES = "rename_files"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to start sequence data deleting process
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DELETE_SEQUENCES = "delete_sequeces"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to start HTML reformatting process
-	 * 
-	 * @since 2.0
 	 */
 	public static final String REFORMAT_HTMLS = "reformat htmls"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for message shown to check if user wishes to reformat DMFs
-	 * 
-	 * @since 2.0
 	 */
 	public static final String REFORMAT_MESSAGE = "reformat_message"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for message shown to check if user wishes to rename files
-	 * 
-	 * @since 2.0
 	 */
 	public static final String RENAME_MESSAGE = "rename_message"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the message shown to check if user wishes to delete sequence data.
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DELETE_SEQUENCES_MESSAGE = "delete_sequences_message"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for button to search for missing media in the error finding GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String MISSING_MEDIA = "missing_media"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for button to search for unlinked files in the error finding GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String UNLINKED_FILES = "unlinked_files"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for button to search for DMFs with identical IDs in the error finding GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String IDENTICAL_IDS = "identical_ids"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to skip entries in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SKIP = "skip"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to add name data to above entries in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ABOVE = "above"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to add name data to below entries in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String BELOW = "below"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to add name data to a single entry in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SINGLE = "single"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to add name data to all entries in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String ALL = "all"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the section name label in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SECTION_NAME = "section_name"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to search for DMFs in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String SEARCH = "search"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to clear all entries in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String CLEAR = "clear"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to move entries upward in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String UP = "up"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to move entries downward in the sequencing GUI
-	 * 
-	 * @since 2.0
 	 */
 	public static final String DOWN = "down"; //$NON-NLS-1$
 	
@@ -1358,7 +980,6 @@ public class DefaultLanguage
 	 * 
 	 * @param languageDirectory Directory to save the default language file within.
 	 * @return Name of the language, should be "English (USA)"
-	 * @since 2.0
 	 */
 	public static String getDefaultLanguage(File languageDirectory)
 	{

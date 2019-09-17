@@ -11,175 +11,126 @@ import drakovek.hoarder.file.ExtensionFilter;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DmfDirectory implements Serializable
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 7765584630775373828L;
 
 	/**
 	 * Directory from which DMF info for the object is loaded
-	 * 
-	 * @since 2.0
 	 */
 	private File directory;
 	
 	/**
 	 * ArrayList containing DMF Files from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<File> dmfFiles;
 	
 	/**
 	 * ArrayList containing IDs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> ids;
 	
 	/**
 	 * ArrayList containing Titles from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> titles;
 	
 	/**
 	 * ArrayList containing Artists from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> artists;
 
 	/**
 	 * ArrayList containing Times from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Long> times;
 	
 	/**
 	 * ArrayList containing Web Tags from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> webTags;
 	
 	/**
 	 * ArrayList containing Descriptions from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> descriptions;
 	
 	/**
 	 * ArrayList containing Page URLs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> pageURLs;
 	
 	/**
 	 * ArrayList containing Media URLs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> mediaURLs;
 	
 	/**
 	 * ArrayList containing Secondary Media URLs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> secondaryURLs;
 	
 	/**
 	 * ArrayList containing Media Files from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<File> mediaFiles;
 	
 	/**
 	 * ArrayList containing Secondary Media Files from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<File> secondaryFiles;
 	
 	/**
 	 * ArrayList containing Last IDs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> lastIDs;
 	
 	/**
 	 * ArrayList containing Next IDs from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> nextIDs;
 	
 	/**
 	 * ArrayList containing "firstInSection" booleans from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Boolean> isFirst;
 	
 	/**
 	 * ArrayList containing "lastInSection" booleans from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Boolean> isLast;
 	
 	/**
 	 * ArrayList containing Sequence Titles from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> sequenceTitles;
 	
 	/**
 	 * ArrayList containing Section Titles from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String> sectionTitles;
 	
 	/**
 	 * ArrayList containing Branch Titles from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> branchTitles;
 	
 	/**
 	 * ArrayList containing Ratings from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<Integer> ratings;
 	
 	/**
 	 * ArrayList containing User Tags from the DMF class
-	 * 
-	 * @since 2.0
 	 */
 	private ArrayList<String[]> userTags;
 	
 	/**
 	 * Initializes the DmfDirectory class to start with no DMF information.
-	 * 
-	 * @since 2.0
 	 */
 	public DmfDirectory()
 	{
@@ -191,7 +142,6 @@ public class DmfDirectory implements Serializable
 	 * Initializes the DmfDirectory to contain the information for a given directory.
 	 * 
 	 * @param dmfFolder Directory from which to search for DMFs
-	 * @since 2.0
 	 */
 	public DmfDirectory(final File dmfFolder)
 	{
@@ -201,8 +151,6 @@ public class DmfDirectory implements Serializable
 	
 	/**
 	 * Clears all the DMF information from the object.
-	 * 
-	 * @since 2.0
 	 */
 	private void clearDMFs()
 	{
@@ -245,7 +193,6 @@ public class DmfDirectory implements Serializable
 	 * Loads the information from all the DMFs in a given directory.
 	 * 
 	 * @param dmfFolder Directory from which to search for DMFs
-	 * @since 2.0
 	 */
 	public void loadDMFs(final File dmfFolder)
 	{
@@ -271,7 +218,6 @@ public class DmfDirectory implements Serializable
 	 * Adds the information from a single DMF to the object's list of DMF information
 	 * 
 	 * @param dmfFile DMF File
-	 * @since 2.0
 	 */
 	private void addDMF(final File dmfFile)
 	{
@@ -284,7 +230,6 @@ public class DmfDirectory implements Serializable
 	 * Adds the information from a single DMF to the object's list of DMF information
 	 * 
 	 * @param dmf Given DMF
-	 * @since 2.0
 	 */
 	public void addDMF(DMF dmf)
 	{
@@ -347,7 +292,6 @@ public class DmfDirectory implements Serializable
 	 * 
 	 * @param intendedDirectory Directory the current object should represent
 	 * @return Whether the object is valid
-	 * @since 2.0
 	 */
 	public boolean isValid(final File intendedDirectory)
 	{
@@ -396,7 +340,6 @@ public class DmfDirectory implements Serializable
 	 * Updates the current DMF info to reflect any changes in the DMFs of the loaded directory.
 	 * 
 	 * @param lastModified Time and date the index file for this directory was last modified
-	 * @since 2.0
 	 */
 	public void updateDirectory(final long lastModified)
 	{
@@ -506,7 +449,6 @@ public class DmfDirectory implements Serializable
 	 * Returns the currently loaded DMF directory
 	 * 
 	 * @return DMF Directory
-	 * @since 2.0
 	 */
 	public File getDirectory()
 	{
@@ -518,7 +460,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of DMF Files
 	 * 
 	 * @return DMF Files
-	 * @since 2.0
 	 */
 	public ArrayList<File> getDmfFiles()
 	{
@@ -530,7 +471,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of DMF IDs
 	 * 
 	 * @return DMF IDs
-	 * @since 2.0
 	 */
 	public ArrayList<String> getIDs()
 	{
@@ -542,7 +482,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of titles
 	 * 
 	 * @return Titles
-	 * @since 2.0
 	 */
 	public ArrayList<String> getTitles()
 	{
@@ -554,7 +493,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of Artist String Arrays
 	 * 
 	 * @return Artists
-	 * @since 2.0
 	 */
 	public ArrayList<String[]> getArtists()
 	{
@@ -566,7 +504,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of times of publishing for the currently loaded DMFs
 	 * 
 	 * @return Publishing Times
-	 * @since 2.0
 	 */
 	public ArrayList<Long> getTimes()
 	{
@@ -578,7 +515,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of web tag String arrays.
 	 * 
 	 * @return Web Tags
-	 * @since 2.0
 	 */
 	public ArrayList<String[]> getWebTags()
 	{
@@ -590,7 +526,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of DMF descriptions.
 	 * 
 	 * @return Descriptions
-	 * @since 2.0
 	 */
 	public ArrayList<String> getDescriptions()
 	{
@@ -602,7 +537,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of page URLs
 	 * 
 	 * @return Page URLs
-	 * @since 2.0
 	 */
 	public ArrayList<String> getPageURLs()
 	{
@@ -614,7 +548,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of media URLs
 	 * 
 	 * @return Media URLs
-	 * @since 2.0
 	 */
 	public ArrayList<String> getMediaURLs()
 	{
@@ -626,7 +559,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of secondary media URLs.
 	 * 
 	 * @return Secondary URLs
-	 * @since 2.0
 	 */
 	public ArrayList<String> getSecondaryURLs()
 	{
@@ -638,7 +570,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of media files.
 	 * 
 	 * @return Media Files
-	 * @since 2.0
 	 */
 	public ArrayList<File> getMediaFiles()
 	{
@@ -650,7 +581,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of secondary media files.
 	 * 
 	 * @return Secondary Files
-	 * @since 2.0
 	 */
 	public ArrayList<File> getSecondaryFiles()
 	{
@@ -662,7 +592,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of String arrays containing previous IDs of a DMF sequence.
 	 * 
 	 * @return Last IDs
-	 * @since 2.0
 	 */
 	public ArrayList<String[]> getLastIDs()
 	{
@@ -674,7 +603,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of String arrays containing next IDs of a DMF sequence.
 	 * 
 	 * @return Next IDs
-	 * @since 2.0
 	 */
 	public ArrayList<String[]> getNextIDs()
 	{
@@ -686,7 +614,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of booleans indicating whether the given DMF is the first of a section.
 	 * 
 	 * @return Whether DMFs are the first in a section.
-	 * @since 2.0
 	 */
 	public ArrayList<Boolean> getIsFirst()
 	{
@@ -698,7 +625,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of booleans indicating whether the given DMF is the last of a section.
 	 * 
 	 * @return Whether DMFs are the last in a section.
-	 * @since 2.0
 	 */
 	public ArrayList<Boolean> getIsLast()
 	{
@@ -710,7 +636,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of sequence titles.
 	 * 
 	 * @return Sequence Titles
-	 * @since 2.0
 	 */
 	public ArrayList<String> getSequenceTitles()
 	{
@@ -722,7 +647,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of section titles.
 	 * 
 	 * @return Section Titles
-	 * @since 2.0
 	 */
 	public ArrayList<String> getSectionTitles()
 	{
@@ -734,7 +658,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of branch title String arrays.
 	 * 
 	 * @return Branch Titles
-	 * @since 2.0
 	 */
 	public ArrayList<String[]> getBranchTitles()
 	{
@@ -746,7 +669,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of DMF ratings.
 	 * 
 	 * @return Ratings
-	 * @since 2.0
 	 */
 	public ArrayList<Integer> getRatings()
 	{
@@ -758,7 +680,6 @@ public class DmfDirectory implements Serializable
 	 * Returns ArrayList of user tags.
 	 * 
 	 * @return User Tags
-	 * @since 2.0
 	 */
 	public ArrayList<String[]> getUserTags()
 	{

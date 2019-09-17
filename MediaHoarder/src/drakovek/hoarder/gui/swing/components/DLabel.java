@@ -11,21 +11,16 @@ import drakovek.hoarder.gui.BaseGUI;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DLabel extends JLabel
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = -6159974118944918348L;
 	
 	/**
 	 * BaseGUI linked to the DLabel to get Swing information.
-	 * 
-	 * @since 2.0
 	 */
 	private BaseGUI baseGUI;
 	
@@ -56,8 +51,6 @@ public class DLabel extends JLabel
 	
 	/**
 	 * Sets the label's font to large.
-	 * 
-	 * @since 2.0
 	 */
 	public void setFontLarge()
 	{
@@ -70,7 +63,6 @@ public class DLabel extends JLabel
 	 * 
 	 * @param id Language ID
 	 * @param useMnemonic Whether to use the mnemonic for the label.
-	 * @since 2.0
 	 */
 	public void setTextID(final String id, final boolean useMnemonic)
 	{

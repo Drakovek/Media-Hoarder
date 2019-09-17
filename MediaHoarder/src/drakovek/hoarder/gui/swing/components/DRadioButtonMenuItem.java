@@ -10,14 +10,11 @@ import drakovek.hoarder.gui.swing.listeners.DCheckBoxListener;
  * 
  * @author Drakovek
  * @version 2.0
- * @since 2.0
  */
 public class DRadioButtonMenuItem extends JRadioButtonMenuItem
 {
 	/**
 	 * SerialVersionUID
-	 * 
-	 * @since 2.0
 	 */
 	private static final long serialVersionUID = 8547747358488635526L;
 
@@ -27,7 +24,6 @@ public class DRadioButtonMenuItem extends JRadioButtonMenuItem
 	 * @param baseGUI Linked BaseGUI
 	 * @param selected Whether the radio button should start selected
 	 * @param id Action/Language ID for the object
-	 * @since 2.0
 	 */
 	public DRadioButtonMenuItem(BaseGUI baseGUI, final boolean selected, final String id)
 	{
