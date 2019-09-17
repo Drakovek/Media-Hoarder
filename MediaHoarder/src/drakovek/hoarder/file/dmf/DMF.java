@@ -209,6 +209,11 @@ public class DMF
 	private static final String RATING = "rating"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for the DMF's view count
+	 */
+	private static final String VIEWS = "views"; //$NON-NLS-1$
+	
+	/**
 	 * INI variable for the DMF's user tags
 	 */
 	private static final String USER_TAGS = "user_tags"; //$NON-NLS-1$
@@ -321,6 +326,11 @@ public class DMF
 	private int rating;
 	
 	/**
+	 * Number of times the DMF has been viewed
+	 */
+	private int views;
+	
+	/**
 	 * Tags for the DMF given by the user
 	 */
 	private String[] userTags;
@@ -380,6 +390,7 @@ public class DMF
 		sectionTitle = null;
 		branchTitles = null;
 		rating = 0;
+		views = 0;
 		userTags = null;
 		
 	}//METHOD
@@ -497,6 +508,7 @@ public class DMF
 				
 				setBranchTitles(ParseINI.getStringListValue(null, BRANCH_TITLES, contents, null));
 				setRating(ParseINI.getIntValue(null, RATING, contents, 0));
+				setViews(ParseINI.getIntValue(null, VIEWS, contents, 0));
 				
 				setUserTags(ParseINI.getStringListValue(null, USER_TAGS, contents, null));
 				if(getUserTags() == null)
@@ -652,6 +664,12 @@ public class DMF
 			if(getRating() > 0)
 			{
 				user.add(ParseINI.getAssignmentString(RATING, getRating()));
+				
+			}//IF
+			
+			if(getViews() > 0)
+			{
+				user.add(ParseINI.getAssignmentString(VIEWS, getViews()));
 				
 			}//IF
 			
@@ -1626,6 +1644,28 @@ public class DMF
 	public int getRating()
 	{
 		return rating;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DMF's view count.
+	 * 
+	 * @param views Number of Views
+	 */
+	public void setViews(final int views)
+	{
+		this.views = views;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF's view count.
+	 * 
+	 * @return Number of Views
+	 */
+	public int getViews()
+	{
+		return views;
 		
 	}//METHOD
 	

@@ -214,7 +214,7 @@ public class SequencingGUI extends FrameGUI implements DWorker
 		fullPanel.add(listPanel, fullCST);
 		
 		//CREATE MENU BAR
-		mediaViewer = new MediaViewer(this, searchButton);
+		mediaViewer = new MediaViewer(this, searchButton, false);
 		JMenuBar menubar = new JMenuBar();
 		menubar.add(mediaViewer.getScaleMenu());
 		menubar.add(mediaViewer.getDetailMenu());

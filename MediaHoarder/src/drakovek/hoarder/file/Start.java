@@ -9,7 +9,6 @@ import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 import drakovek.hoarder.gui.settings.SettingsGUI;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
-import drakovek.hoarder.processing.BooleanSearch;
 
 /**
  * Main class for starting the Media Hoarder Program

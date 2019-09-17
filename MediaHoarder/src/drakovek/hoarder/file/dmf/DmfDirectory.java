@@ -125,6 +125,11 @@ public class DmfDirectory implements Serializable
 	private ArrayList<Integer> ratings;
 	
 	/**
+	 * ArrayList containing Views from the DMF class
+	 */
+	private ArrayList<Integer> views;
+	
+	/**
 	 * ArrayList containing User Tags from the DMF class
 	 */
 	private ArrayList<String[]> userTags;
@@ -185,6 +190,7 @@ public class DmfDirectory implements Serializable
 		sectionTitles = new ArrayList<>();
 		branchTitles = new ArrayList<>();
 		ratings = new ArrayList<>();
+		views = new ArrayList<>();
 		userTags = new ArrayList<>();
 		
 	}//METHOD
@@ -275,10 +281,22 @@ public class DmfDirectory implements Serializable
 			if(dmf.getRating() == 0)
 			{
 				ratings.add(null);
+				
 			}//IF
 			else
 			{
 				ratings.add(Integer.valueOf(dmf.getRating()));
+				
+			}//ELSE
+			
+			if(dmf.getViews() == 0)
+			{
+				views.add(null);
+				
+			}//IF
+			else
+			{
+				views.add(Integer.valueOf(dmf.getViews()));
 				
 			}//ELSE
 			userTags.add(dmf.getUserTags());
@@ -326,6 +344,7 @@ public class DmfDirectory implements Serializable
 		   size != getSectionTitles().size() ||
 		   size != getBranchTitles().size() ||
 		   size != getRatings().size() ||
+		   size != getViews().size() ||
 		   size != getUserTags().size() ))
 		{
 			valid = false;
@@ -378,6 +397,7 @@ public class DmfDirectory implements Serializable
 				sectionTitles.remove(i);
 				branchTitles.remove(i);
 				ratings.remove(i);
+				views.remove(i);
 				userTags.remove(i);
 				i--;
 				
@@ -417,6 +437,7 @@ public class DmfDirectory implements Serializable
 				sectionTitles.set(i, dmf.getSectionTitle());
 				branchTitles.set(i, dmf.getBranchTitles());
 				ratings.set(i, Integer.valueOf(dmf.getRating()));
+				views.set(i, Integer.valueOf(dmf.getViews()));
 				userTags.set(i, dmf.getUserTags());
 				
 				dmf = null;
@@ -673,6 +694,17 @@ public class DmfDirectory implements Serializable
 	public ArrayList<Integer> getRatings()
 	{
 		return ratings;
+		
+	}//METHOD
+	
+	/**
+	 * Returns ArrayList of DMF view counts.
+	 * 
+	 * @return Number of Views
+	 */
+	public ArrayList<Integer> getViews()
+	{
+		return views;
 		
 	}//METHOD
 	

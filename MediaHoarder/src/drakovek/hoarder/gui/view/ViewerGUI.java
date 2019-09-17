@@ -59,8 +59,9 @@ public class ViewerGUI extends FrameGUI
 	 * @param dmfHandler Program's DmfHandler
 	 * @param ownerGUI ViewBrowserGUI Parent
 	 * @param dmfIndex Index of DMF to show when GUI opens
+	 * @param updateViews Whether the program should attempt to add a view to the currently shown media after viewing
 	 */
-	public ViewerGUI(DSettings settings, DmfHandler dmfHandler, ViewBrowserGUI ownerGUI, final int dmfIndex)
+	public ViewerGUI(DSettings settings, DmfHandler dmfHandler, ViewBrowserGUI ownerGUI, final int dmfIndex, final boolean updateViews)
 	{
 		super(settings, dmfHandler, DefaultLanguage.VIEWER_TITLE);
 		this.ownerGUI = ownerGUI;
@@ -77,7 +78,7 @@ public class ViewerGUI extends FrameGUI
 		bottomPanel.add(nextButton);
 		
 		//CREATE MENU BAR
-		mediaViewer = new MediaViewer(this, nextButton);
+		mediaViewer = new MediaViewer(this, nextButton, updateViews);
 		JMenuBar menubar = new JMenuBar();
 		menubar.add(mediaViewer.getScaleMenu());
 		menubar.add(mediaViewer.getDetailMenu());
@@ -183,6 +184,7 @@ public class ViewerGUI extends FrameGUI
 		switch(id)
 		{
 			case DCloseListener.FRAME_CLOSE_EVENT:
+				mediaViewer.incrementViews();
 				dispose();
 				ownerGUI.getFrame().setAllowExit(true);
 				ownerGUI.setOffset(dmfIndex);

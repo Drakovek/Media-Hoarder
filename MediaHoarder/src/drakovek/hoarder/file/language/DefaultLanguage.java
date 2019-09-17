@@ -681,9 +681,14 @@ public class DefaultLanguage
 	public static final String SORT_ALPHA = "sort_alpha"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the radio button menu item in the viewer GUI for sorting by rating.
+	 * Language variable for the radio button menu item in the viewer GUI for sorting by rating
 	 */
 	public static final String SORT_RATING = "sort_rating"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the radio button menu item in the viewer GUI for sorting by views
+	 */
+	public static final String SORT_VIEWS = "sort_views"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the check box menu item in the viewer GUI for grouping artists when sorting.
@@ -719,6 +724,16 @@ public class DefaultLanguage
 	 * Language variable for the view GUI's DMF sorting process label
 	 */
 	public static final String SORTING_DMFS = "sorting_dmfs"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "views" label in the viewer GUI's DMF info pane
+	 */
+	public static final String VIEWS = "views"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "rating" label in the viewer GUI's DMF info pane
+	 */
+	public static final String RATING = "rating"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the web tags label in the viewer GUI's DMF info pane
@@ -1187,6 +1202,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(SORT_TIME, "Sort by ^Time Published")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORT_ALPHA, "Sort A^lphabetically")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORT_RATING, "Sort by ^Rating")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SORT_VIEWS, "Sort by ^View Count")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(GROUP_ARTISTS, "Group ^Artists")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(GROUP_SEQUENCES, "Group Se^quences")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(GROUP_SECTIONS, "Group ^Sections")); //$NON-NLS-1$
@@ -1199,6 +1215,8 @@ public class DefaultLanguage
 		languageFile.add(new String());
 		languageFile.add("[VIEWER]"); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(BRANCHES, "^Branches")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(VIEWS, "Views:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RATING, "Rating:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(WEB_TAGS, "Web Tags:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(USER_TAGS, "User Tags:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DATE, "Date:")); //$NON-NLS-1$

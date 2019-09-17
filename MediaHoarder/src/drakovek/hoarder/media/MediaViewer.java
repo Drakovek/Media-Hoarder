@@ -71,6 +71,16 @@ public class MediaViewer extends BaseGUI implements DWorker
 	private int dmfIndex;
 	
 	/**
+	 * Whether the program should attempt to add a view to the currently shown media after viewing
+	 */
+	private boolean updateViews;
+	
+	/**
+	 * Time in milliseconds when the currently shown media was first made visible. Used to determine how long the current media has been open.
+	 */
+	private long startTime;
+	
+	/**
 	 * String containing HTML/CSS formatted DMF details of the currently shown DMF
 	 */
 	private String detailString;
@@ -165,11 +175,14 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 * 
 	 * @param ownerGUI Parent GUI for the media viewer panel
 	 * @param colorReference JComponent from which to get color information for CSS
+	 * @param updateViews Whether the program should attempt to add a view to the currently shown media after viewing
 	 */
-	public MediaViewer(FrameGUI ownerGUI, JComponent colorReference)
+	public MediaViewer(FrameGUI ownerGUI, JComponent colorReference, final boolean updateViews)
 	{
 		super(ownerGUI.getSettings());
 		this.ownerGUI = ownerGUI;
+		this.updateViews = updateViews;
+		this.startTime = 0L;
 		
 		viewerPanel = new JPanel();
 		viewerPanel.setLayout(new GridLayout(1,1));
@@ -382,6 +395,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 	 */
 	public void setMedia(final int dmfIndex)
 	{
+		incrementViews();
 		this.dmfIndex = dmfIndex;
 		ownerGUI.getFrame().setProcessRunning(true);
 		progressDialog.setCancelled(false);
@@ -471,6 +485,20 @@ public class MediaViewer extends BaseGUI implements DWorker
 		
 		//SET TAGS
 		htmlText.append("</div><br><hr><br><div class=\"drakovek_info\"><b>"); //$NON-NLS-1$
+		htmlText.append(getSettings().getLanguageText(DefaultLanguage.VIEWS));
+		htmlText.append("&nbsp;</b>"); //$NON-NLS-1$
+		htmlText.append(ownerGUI.getDmfHandler().getViews(dmfIndex));
+		
+		if(ownerGUI.getDmfHandler().getRating(dmfIndex) > 0)
+		{
+			htmlText.append("&nbsp;&nbsp;&nbsp;&nbsp;<b>"); //$NON-NLS-1$
+			htmlText.append(getSettings().getLanguageText(DefaultLanguage.RATING));
+			htmlText.append("&nbsp;</b>"); //$NON-NLS-1$
+			htmlText.append(StringMethods.extendCharacter('★', ownerGUI.getDmfHandler().getRating(dmfIndex)));
+			
+		}//IF
+		
+		htmlText.append("<br><br><b>"); //$NON-NLS-1$
 		htmlText.append(getSettings().getLanguageText(DefaultLanguage.WEB_TAGS));
 		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getWebTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE))));
@@ -579,6 +607,26 @@ public class MediaViewer extends BaseGUI implements DWorker
 		catch(Exception e){}
 		
 	}//METHOD
+	
+	/**
+	 * Attempts to add a view to the currently shown DMF.
+	 */
+	public void incrementViews()
+	{
+		if(updateViews && startTime != 0L)
+		{
+			long elapsed = System.currentTimeMillis() - startTime;
+			if(elapsed > 5000L)
+			{
+				DMF dmf = new DMF(ownerGUI.getDmfHandler().getDmfFile(dmfIndex));
+				dmf.setViews(dmf.getViews() + 1);
+				dmf.writeDMF();
+				
+			}//IF
+			
+		}//IF
+		
+	}//METHOD
 
 	@Override
 	public void event(String id, int value)
@@ -666,6 +714,8 @@ public class MediaViewer extends BaseGUI implements DWorker
 			detailScroll.resetTopLeft();
 			
 		}//IF
+		
+		startTime = System.currentTimeMillis();
 		
 		ownerGUI.getFrame().setProcessRunning(false);
 		progressDialog.closeProgressDialog();

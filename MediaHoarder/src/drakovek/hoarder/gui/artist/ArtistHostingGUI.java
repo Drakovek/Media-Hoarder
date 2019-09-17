@@ -557,7 +557,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			catch(Exception e)
 			{
 				pid.setCancelled(true);
-				pid.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
+				pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOAD_FAILED), true);
 				pid.appendLog(e.getMessage(), false);
 				e.printStackTrace();
 				
@@ -654,7 +654,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 				catch(Exception e)
 				{
 					pid.setCancelled(true);
-					pid.appendLog(DefaultLanguage.DOWNLOAD_FAILED, true);
+					pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOAD_FAILED), true);
 					pid.appendLog(e.getMessage(), false);
 					e.printStackTrace();
 				
@@ -663,14 +663,14 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			}//IF
 			else
 			{
-				pid.appendLog(DefaultLanguage.ALREADY_DOWNLOADED, true);
+				pid.appendLog(getSettings().getLanguageText(DefaultLanguage.ALREADY_DOWNLOADED), true);
 				
 			}//ELSE
 			
 		}//IF
 		else
 		{
-			pid.appendLog(DefaultLanguage.INVALID_URL, true);
+			pid.appendLog(getSettings().getLanguageText(DefaultLanguage.INVALID_URL), true);
 			
 		}//ELSE
 		

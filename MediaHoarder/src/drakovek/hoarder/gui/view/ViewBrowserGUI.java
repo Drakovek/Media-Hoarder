@@ -178,12 +178,15 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		DRadioButtonMenuItem alphaSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_ALPHA, DefaultLanguage.SORT_ALPHA);
 		DRadioButtonMenuItem timeSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_TIME, DefaultLanguage.SORT_TIME);
 		DRadioButtonMenuItem ratingSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_RATING, DefaultLanguage.SORT_RATING);
+		DRadioButtonMenuItem viewSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_VIEWS, DefaultLanguage.SORT_VIEWS);
 		sortGroup.add(alphaSort);
 		sortGroup.add(timeSort);
 		sortGroup.add(ratingSort);
+		sortGroup.add(viewSort);
 		sortMenu.add(alphaSort);
 		sortMenu.add(timeSort);
 		sortMenu.add(ratingSort);
+		sortMenu.add(viewSort);
 		sortMenu.addSeparator();
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupArtists(), DefaultLanguage.GROUP_ARTISTS));
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSequences(), DefaultLanguage.GROUP_SEQUENCES));
@@ -709,7 +712,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		switch(id)
 		{
 			case PreviewButton.PREVIEW_EVENT:
-				new ViewerGUI(getSettings(), getDmfHandler(), this, offset + value);
+				new ViewerGUI(getSettings(), getDmfHandler(), this, offset + value, true);
 				break;
 			case DefaultLanguage.NEXT:
 				nextPage();
@@ -736,6 +739,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				break;
 			case DefaultLanguage.SORT_RATING:
 				sortRadioPressed(DmfHandler.SORT_RATING, BooleanInt.getBoolean(value));
+				break;
+			case DefaultLanguage.SORT_VIEWS:
+				sortRadioPressed(DmfHandler.SORT_VIEWS, BooleanInt.getBoolean(value));
 				break;
 			case DefaultLanguage.GROUP_ARTISTS:
 				getSettings().setGroupArtists(BooleanInt.getBoolean(value));

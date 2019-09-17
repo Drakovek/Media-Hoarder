@@ -118,6 +118,11 @@ public class DmfDatabase
 	private ArrayList<Integer> ratings;
 	
 	/**
+	 * ArrayList containing Views from the DMF class
+	 */
+	private ArrayList<Integer> views;
+	
+	/**
 	 * ArrayList containing User Tags from the DMF class
 	 */
 	private ArrayList<String[]> userTags;
@@ -167,6 +172,7 @@ public class DmfDatabase
 		sectionTitles = new ArrayList<>();
 		branchTitles = new ArrayList<>();
 		ratings = new ArrayList<>();
+		views = new ArrayList<>();
 		userTags = new ArrayList<>();
 		
 	}//METHOD
@@ -341,6 +347,7 @@ public class DmfDatabase
 		sectionTitles.addAll(dmfDirectory.getSectionTitles());
 		branchTitles.addAll(dmfDirectory.getBranchTitles());
 		ratings.addAll(dmfDirectory.getRatings());
+		views.addAll(dmfDirectory.getViews());
 		userTags.addAll(dmfDirectory.getUserTags());
 		
 	}//METHOD
@@ -630,6 +637,18 @@ public class DmfDatabase
 			ratings.set(index, Integer.valueOf(dmf.getRating()));
 			
 		}//ELSE
+		
+		if(dmf.getViews() == 0)
+		{
+			views.set(index, null);
+			
+		}//IF
+		else
+		{
+			views.set(index, Integer.valueOf(dmf.getViews()));
+			
+		}//ELSE
+		
 		userTags.set(index, dmf.getUserTags());
 		
 	}//METHOD
@@ -689,6 +708,18 @@ public class DmfDatabase
 			ratings.add(Integer.valueOf(dmf.getRating()));
 			
 		}//ELSE
+		
+		if(dmf.getViews() == 0)
+		{
+			views.add(null);
+			
+		}//IF
+		else
+		{
+			views.add(Integer.valueOf(dmf.getViews()));
+			
+		}//ELSE
+		
 		userTags.add(dmf.getUserTags());
 		
 	}//METHOD
@@ -1105,6 +1136,26 @@ public class DmfDatabase
 		if(rating != null)
 		{
 			return rating.intValue();
+			
+		}//IF
+		
+		return 0;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the view count from the DMF at a given index.
+	 * 
+	 * @param index Index
+	 * @return Number of Views
+	 */
+	public int getViews(final int index)
+	{
+		Integer viewCount = views.get(index);
+	
+		if(viewCount != null)
+		{
+			return viewCount.intValue();
 			
 		}//IF
 		

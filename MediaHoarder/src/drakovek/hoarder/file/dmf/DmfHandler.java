@@ -31,6 +31,11 @@ public class DmfHandler
 	public static final int SORT_RATING = 2;
 	
 	/**
+	 * Int value indicating to sort DMFs by view count
+	 */
+	public static final int SORT_VIEWS = 3;
+	
+	/**
 	 * ArrayList full of indexes referencing DMFs loaded in DmfDatabase, sorted in a given order.
 	 */
 	private ArrayList<Integer> sorted;
@@ -298,7 +303,23 @@ public class DmfHandler
 		
 		}//IF
 		
-		if(result == 0 && (sortType == SORT_TIME || sortType == SORT_RATING))
+		if(result == 0 && sortType == SORT_VIEWS)
+		{
+			if(database.getViews(dmfA) > database.getViews(dmfB))
+			{
+				result = -1;
+				
+			}//IF
+			else if(database.getViews(dmfA) < database.getViews(dmfB))
+			{
+				result = 1;
+				
+			}//ELSE IF
+			
+			
+		}//IF
+		
+		if(result == 0 && (sortType != SORT_ALPHA))
 		{
 			if(database.getTime(dmfA) > database.getTime(dmfB))
 			{
@@ -608,6 +629,18 @@ public class DmfHandler
 	public int getRating(final int index)
 	{
 		return database.getRating(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the view count from the DMF at a given index.
+	 * 
+	 * @param index Index
+	 * @return Number of Views
+	 */
+	public int getViews(final int index)
+	{
+		return database.getViews(filtered.get(index).intValue());
 		
 	}//METHOD
 	
