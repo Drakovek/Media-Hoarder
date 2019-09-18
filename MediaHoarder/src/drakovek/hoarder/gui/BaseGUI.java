@@ -349,7 +349,7 @@ public abstract class BaseGUI implements DEvent
 			
 		}//IF
 		
-		return settings.getLanguageText(DefaultLanguage.TITLE_VALUE) + " - " + settings.getLanguageText(subtitleID); //$NON-NLS-1$
+		return settings.getLanguageText(subtitleID) + " - " + settings.getLanguageText(DefaultLanguage.TITLE_VALUE); //$NON-NLS-1$
 		
 	}//METHOD
 	

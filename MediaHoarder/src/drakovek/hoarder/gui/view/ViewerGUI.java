@@ -6,8 +6,6 @@ import java.awt.GridLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.dmf.DmfHandler;
 import drakovek.hoarder.file.language.DefaultLanguage;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -61,9 +59,9 @@ public class ViewerGUI extends FrameGUI
 	 * @param dmfIndex Index of DMF to show when GUI opens
 	 * @param updateViews Whether the program should attempt to add a view to the currently shown media after viewing
 	 */
-	public ViewerGUI(DSettings settings, DmfHandler dmfHandler, ViewBrowserGUI ownerGUI, final int dmfIndex, final boolean updateViews)
+	public ViewerGUI(ViewBrowserGUI ownerGUI, final int dmfIndex, final boolean updateViews)
 	{
-		super(settings, dmfHandler, DefaultLanguage.VIEWER_TITLE);
+		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), DefaultLanguage.VIEWER_TITLE);
 		this.ownerGUI = ownerGUI;
 		this.dmfIndex = dmfIndex;
 		

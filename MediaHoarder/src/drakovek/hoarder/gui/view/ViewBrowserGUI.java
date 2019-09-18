@@ -100,6 +100,11 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	private DMenu sortMenu;
 	
 	/**
+	 * Filter Menu for the GUI
+	 */
+	private DMenu filterMenu;
+	
+	/**
 	 * Button to show DMF media prior to the current page
 	 */
 	private DButton previousButton;
@@ -192,6 +197,11 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSequences(), DefaultLanguage.GROUP_SEQUENCES));
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSections(), DefaultLanguage.GROUP_SECTIONS));
 		menubar.add(sortMenu);
+		
+		//FILTER MENU ITEMS
+		filterMenu = new DMenu(this, DefaultLanguage.FILTER);
+		filterMenu.add(new DMenuItem(this, DefaultLanguage.FILTER_MEDIA));
+		menubar.add(filterMenu);
 		
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
@@ -641,6 +651,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		fileMenu.setEnabled(true);
 		viewMenu.setEnabled(true);
 		sortMenu.setEnabled(true);
+		filterMenu.setEnabled(true);
 		
 		int size = getDmfHandler().getSize();
 		for(int i = 0; i < previewButtons.length; i++)
@@ -665,6 +676,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		fileMenu.setEnabled(false);
 		viewMenu.setEnabled(false);
 		sortMenu.setEnabled(false);
+		filterMenu.setEnabled(false);
 		
 		for(int i = 0; i < previewButtons.length; i++)
 		{
@@ -712,7 +724,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		switch(id)
 		{
 			case PreviewButton.PREVIEW_EVENT:
-				new ViewerGUI(getSettings(), getDmfHandler(), this, offset + value, true);
+				new ViewerGUI(this, offset + value, true);
 				break;
 			case DefaultLanguage.NEXT:
 				nextPage();
@@ -754,6 +766,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			case DefaultLanguage.GROUP_SECTIONS:
 				getSettings().setGroupSections(BooleanInt.getBoolean(value));
 				if(!getSettings().getGroupSequences()) sort();
+				break;
+			case DefaultLanguage.FILTER_MEDIA:
+				new FilterGUI(this);
 				break;
 			case DefaultLanguage.RELOAD_DMFS:
 				loadDirectory(true);

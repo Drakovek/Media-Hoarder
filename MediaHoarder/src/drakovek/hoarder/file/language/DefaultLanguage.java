@@ -99,6 +99,11 @@ public class DefaultLanguage
 	public static final String COPY = "copy"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for "Reset"
+	 */
+	public static final String RESET = "reset"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for "Restart Program"
 	 */
 	public static final String RESTART_PROGRAM = "restart_program"; //$NON-NLS-1$
@@ -706,6 +711,16 @@ public class DefaultLanguage
 	public static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Filter" menu in the viewer GUI
+	 */
+	public static final String FILTER = "filter"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Filter Media" menu item in the viewer GUI
+	 */
+	public static final String FILTER_MEDIA = "filter_media"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for viewer GUI's preview loading process title
 	 */
 	public static final String LOADING_PREVIEWS_TITLE = "loading_previews_title"; //$NON-NLS-1$
@@ -941,6 +956,21 @@ public class DefaultLanguage
 	public static final String IDENTICAL_IDS = "identical_ids"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Title:" label in the filter GUI
+	 */
+	public static final String TITLE = "title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Description" label in the filter GUI
+	 */
+	public static final String DESCRIPTION = "description"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Case Sensitive" check box in the filter GUI
+	 */
+	public static final String CASE_SENSITIVE = "case_sensitive"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the button to skip entries in the sequencing GUI
 	 */
 	public static final String SKIP = "skip"; //$NON-NLS-1$
@@ -1018,6 +1048,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(NO, "^No")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SAVE, "^Save")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(COPY, "Cop^y")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(RESET, "^Reset")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RESTART_PROGRAM, "^Restart Program")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(NON_APPLICABLE, "N/A")); //$NON-NLS-1$
 
@@ -1206,6 +1237,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(GROUP_ARTISTS, "Group ^Artists")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(GROUP_SEQUENCES, "Group Se^quences")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(GROUP_SECTIONS, "Group ^Sections")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILTER, "^Filter")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILTER_MEDIA, "Filter ^Media")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS_TITLE, "Loading Previews")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS, "Loading Previews:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS_TITLE, "Sorting DMFs")); //$NON-NLS-1$
@@ -1217,8 +1250,6 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(BRANCHES, "^Branches")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(VIEWS, "Views:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RATING, "Rating:")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(WEB_TAGS, "Web Tags:")); //$NON-NLS-1$
-		languageFile.add(ParseINI.getAssignmentString(USER_TAGS, "User Tags:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DATE, "Date:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TIME, "Time:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(PAGE_URL, "Page URL:")); //$NON-NLS-1$
@@ -1267,6 +1298,16 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(MISSING_MEDIA, "Find Missing ^Media")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(UNLINKED_FILES, "Find ^Unlinked Files")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(IDENTICAL_IDS, "Find ^Identical IDs")); //$NON-NLS-1$
+		
+		//FILTER
+		languageFile.add(new String());
+		languageFile.add("[FILTER]"); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(WEB_TAGS, "^Web Tags:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(USER_TAGS, "^User Tags:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(TITLE, "^Title:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(DESCRIPTION, "^Description:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(CASE_SENSITIVE, "Case ^Sensitive")); //$NON-NLS-1$
+		
 		
 		//SEQUENCING
 		languageFile.add(new String());
