@@ -19,6 +19,7 @@ import drakovek.hoarder.gui.swing.components.DCheckBox;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
+import drakovek.hoarder.processing.BooleanInt;
 
 /**
  * Methods for GUI that gets user input as to what media to filter out.
@@ -29,9 +30,14 @@ import drakovek.hoarder.gui.swing.listeners.DCloseListener;
 public class FilterGUI extends FrameGUI
 {
 	/**
+	 * Whether the case sensitive check box is checked
+	 */
+	private boolean caseSensitive;
+	
+	/**
 	 * Frame GUI parent of the Filter GUI
 	 */
-	private FrameGUI ownerGUI;
+	private ViewBrowserGUI ownerGUI;
 	
 	/**
 	 * DTextField for the user tag filter
@@ -58,12 +64,19 @@ public class FilterGUI extends FrameGUI
 	 * 
 	 * @param ownerGUI Frame GUI parent of the Filter GUI
 	 */
-	public FilterGUI(FrameGUI ownerGUI)
+	public FilterGUI(ViewBrowserGUI ownerGUI)
 	{
 		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), DefaultLanguage.FILTER);
 		this.ownerGUI = ownerGUI;
-		
 		this.ownerGUI.getFrame().setAllowExit(false);
+		
+		//SET INITIAL VALUES
+		caseSensitive = getDmfHandler().getFilterCaseSensitive();
+		userTagText = new DTextField(this, DefaultLanguage.USER_TAGS);
+		webTagText = new DTextField(this, DefaultLanguage.WEB_TAGS);
+		titleText = new DTextField(this, DefaultLanguage.TITLE);
+		titleText.setText(getDmfHandler().getTitleFilter());
+		descriptionText = new DTextField(this, DefaultLanguage.DESCRIPTION);
 		
 		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
@@ -75,7 +88,7 @@ public class FilterGUI extends FrameGUI
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
-		bottomPanel.add(new DCheckBox(this, true, DefaultLanguage.CASE_SENSITIVE), BorderLayout.WEST);
+		bottomPanel.add(new DCheckBox(this, caseSensitive, DefaultLanguage.CASE_SENSITIVE), BorderLayout.WEST);
 		bottomPanel.add(getHorizontalSpace(), BorderLayout.CENTER);
 		bottomPanel.add(buttonPanel, BorderLayout.EAST);
 		
@@ -85,11 +98,6 @@ public class FilterGUI extends FrameGUI
 		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.WEB_TAGS));
 		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.TITLE));
 		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.DESCRIPTION));
-		
-		userTagText = new DTextField(this, DefaultLanguage.USER_TAGS);
-		webTagText = new DTextField(this, DefaultLanguage.WEB_TAGS);
-		titleText = new DTextField(this, DefaultLanguage.TITLE);
-		descriptionText = new DTextField(this, DefaultLanguage.DESCRIPTION);
 		
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(4, 1, 0, getSettings().getSpaceSize()));
@@ -168,6 +176,28 @@ public class FilterGUI extends FrameGUI
 		
 	}//METHOD
 	
+	/**
+	 * Adds filter strings to the DMF Handler
+	 */
+	private void addFilters()
+	{
+		getDmfHandler().setFilterCaseSensitive(caseSensitive);
+		getDmfHandler().setTitleFilter(titleText.getText());
+		
+	}//METHOD
+	
+	/**
+	 * Resets the value of all the filter Strings.
+	 */
+	private void resetFilters()
+	{
+		webTagText.setText(new String());
+		userTagText.setText(new String());
+		titleText.setText(new String());
+		descriptionText.setText(new String());
+		
+	}//METHOD
+	
 	@Override
 	public void enableAll(){}
 
@@ -179,6 +209,17 @@ public class FilterGUI extends FrameGUI
 	{
 		switch(id)
 		{
+			case DefaultLanguage.CASE_SENSITIVE:
+				caseSensitive = BooleanInt.getBoolean(value);
+				break;
+			case DefaultLanguage.OK:
+				addFilters();
+				dispose();
+				ownerGUI.filter();
+				break;
+			case DefaultLanguage.RESET:
+				resetFilters();
+				break;
 			case DefaultLanguage.CANCEL:
 			case DCloseListener.FRAME_CLOSE_EVENT:
 				ownerGUI.getFrame().setAllowExit(true);

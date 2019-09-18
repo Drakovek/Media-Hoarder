@@ -70,6 +70,7 @@ public class Start
 	public static void startGUI(DSettings settings, DmfHandler dmfHandler)
 	{
 		settings.writeSettings();
+		dmfHandler.resetFilterStrings();
 		
 		//SET LOOK AND FEEL
         try

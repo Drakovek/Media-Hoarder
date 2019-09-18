@@ -717,6 +717,21 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		(new DSwingWorker(this, DefaultLanguage.SORT)).execute();
 		
 	}//METHOD
+	
+	/**
+	 * Starts the DMF filtering process.
+	 */
+	public void filter()
+	{
+		getFrame().setProcessRunning(true);
+		progressDialog.setCancelled(false);
+		progressDialog.startProgressDialog(getFrame(), DefaultLanguage.FILTERING_DMFS_TITLE);
+		progressDialog.setProcessLabel(DefaultLanguage.FILTERING_DMFS);
+		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+		progressDialog.setProgressBar(true, false, 0, 0);
+		(new DSwingWorker(this, DefaultLanguage.FILTER)).execute();
+		
+	}//METHOD
 
 	@Override
 	public void event(String id, int value)
@@ -792,7 +807,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		switch(id)
 		{
 			case DefaultLanguage.LOADING_DMFS:
-				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
+				getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
 				break;
 			case DefaultLanguage.RELOAD_WITHOUT_INDEXES:
 				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, false, getSettings().getUseIndexes(), false);
@@ -801,7 +816,10 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				updatePreview();
 				break;
 			case DefaultLanguage.SORT:
-				this.getDmfHandler().sort(getSettings().getSortType(), getSettings().getGroupArtists(), getSettings().getGroupSequences(), getSettings().getGroupSections());
+				getDmfHandler().sort(getSettings().getSortType(), getSettings().getGroupArtists(), getSettings().getGroupSequences(), getSettings().getGroupSections());
+				break;
+			case DefaultLanguage.FILTER:
+				getDmfHandler().filterDMFs();
 				break;
 				
 		}//SWITCH
@@ -823,6 +841,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				sort();
 				break;
 			case DefaultLanguage.SORT:
+				filter();
+				break;
+			case DefaultLanguage.FILTER:
 				offset = 0;
 				resetValues();
 				launchPreviewUpdate();

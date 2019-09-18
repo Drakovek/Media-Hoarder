@@ -159,7 +159,7 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	public void openLoginDialog(DFrame owner)
 	{
 		owner.setAllowExit(false);
-		dialog = new DDialog(owner, getLoginPanel(), titleID, true, getSettings().getFontSize() * getSettings().getFrameWidth(), 0);
+		dialog = new DDialog(owner, getLoginPanel(), getSettings().getLanguageText(titleID), true, getSettings().getFontSize() * getSettings().getFrameWidth(), 0);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 		owner.setAllowExit(true);

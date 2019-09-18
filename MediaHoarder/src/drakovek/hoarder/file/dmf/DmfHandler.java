@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
+import drakovek.hoarder.processing.BooleanSearch;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.processing.sort.AlphaNumSort;
 
@@ -36,6 +37,16 @@ public class DmfHandler
 	public static final int SORT_VIEWS = 3;
 	
 	/**
+	 * Whether to treat filter strings as case sensitive
+	 */
+	private boolean filterCaseSensitive;
+	
+	/**
+	 * Filter string for DMF titles
+	 */
+	private String titleFilter;
+	
+	/**
 	 * ArrayList full of indexes referencing DMFs loaded in DmfDatabase, sorted in a given order.
 	 */
 	private ArrayList<Integer> sorted;
@@ -61,6 +72,7 @@ public class DmfHandler
 	public DmfHandler()
 	{
 		clearDMFs();
+		resetFilterStrings();
 		
 	}//CONSTRUCTOR
 	
@@ -342,6 +354,33 @@ public class DmfHandler
 		
 		return result;
 	
+	}//METHOD
+	
+	/**
+	 * Filters the currently loaded DMFs based on the current filter strings.
+	 */
+	public void filterDMFs()
+	{
+		resetFiltered();
+		BooleanSearch booleanSearch = new BooleanSearch();
+		
+		//FILTER TITLES
+		if(getTitleFilter().length() > 0)
+		{
+			booleanSearch.createSearchLogic(getTitleFilter());
+			for(int i = 0; i < getSize(); i++)
+			{
+				if(!booleanSearch.searchText(getTitle(i), getFilterCaseSensitive(), false))
+				{
+					filtered.remove(i);
+					i--;
+				
+				}//IF
+			
+			}//FOR
+			
+		}//IF
+		
 	}//METHOD
 	
 	/**
@@ -653,6 +692,70 @@ public class DmfHandler
 	public String[] getUserTags(final int index)
 	{
 		return database.getUserTags(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Resets all the filter strings.
+	 */
+	public void resetFilterStrings()
+	{
+		setFilterCaseSensitive(false);
+		setTitleFilter(null);
+		resetFiltered();
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether filter strings are treated as case sensitive.
+	 * 
+	 * @return Case Sensitive
+	 */
+	public boolean getFilterCaseSensitive()
+	{
+		return filterCaseSensitive;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether filter strings are treated as case sensitive.
+	 * 
+	 * @param filterCaseSensitive Case Sensitive
+	 */
+	public void setFilterCaseSensitive(final boolean filterCaseSensitive)
+	{
+		this.filterCaseSensitive = filterCaseSensitive;
+		
+	}//METHOD
+	
+	/**
+	 * Returns the title filter string.
+	 * 
+	 * @return Title Filter String
+	 */
+	public String getTitleFilter()
+	{
+		return titleFilter;
+				
+	}//METHOD
+	
+	/**
+	 * Sets the title filter string.
+	 * 
+	 * @param titleFilter Title Filter String
+	 */
+	public void setTitleFilter(final String titleFilter)
+	{
+		if(titleFilter != null)
+		{
+			this.titleFilter = titleFilter;
+			
+		}//IF
+		else
+		{
+			this.titleFilter = new String();
+			
+		}//IF
 		
 	}//METHOD
 	

@@ -741,6 +741,16 @@ public class DefaultLanguage
 	public static final String SORTING_DMFS = "sorting_dmfs"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the view GUI's DMF filtering process title
+	 */
+	public static final String FILTERING_DMFS_TITLE = "filtering_dmfs_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the view GUI's DMF filtering process label
+	 */
+	public static final String FILTERING_DMFS = "filtering_dmfs"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "views" label in the viewer GUI's DMF info pane
 	 */
 	public static final String VIEWS = "views"; //$NON-NLS-1$
@@ -1243,6 +1253,8 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS, "Loading Previews:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS_TITLE, "Sorting DMFs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORTING_DMFS, "Sorting DMFs:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILTERING_DMFS_TITLE, "Filtering DMFs")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(FILTERING_DMFS, "Filtering DMFs:")); //$NON-NLS-1$
 		
 		//VIEWER
 		languageFile.add(new String());
