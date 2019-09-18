@@ -96,10 +96,11 @@ public class AlphaNumSort
             sectionB = getSection(bString, bNum).toLowerCase();
             bNum = bNum + sectionB.length();
 
-            if(isNumber(sectionA.charAt(0)) && isNumber(sectionB.charAt(0)))
+            if(isNumber(sectionA) && isNumber(sectionB))
             {
-                double aValue = Double.parseDouble(sectionA);
+            	double aValue = Double.parseDouble(sectionA);
                 double bValue = Double.parseDouble(sectionB);
+            	
                 if(aValue > bValue)
                 {
                     compareValue = 1;
@@ -202,6 +203,26 @@ public class AlphaNumSort
     private static boolean isNumber(final char inputChar)
     {
     	return (inputChar > 47 && inputChar < 58);
+    	
+    }//METHOD
+    
+    /**
+     * Determines if a given string is valid as a double value.
+     * 
+     * @param inputString Given String
+     * @return Whether String is a number
+     */
+    private static boolean isNumber(final String inputString)
+    {
+    	try
+    	{
+    		Double.parseDouble(inputString);
+    		return true;
+    		
+    	}//TRY
+    	catch(Exception e){}
+    	
+    	return false;
     	
     }//METHOD
     

@@ -29,7 +29,11 @@ public class FileSort
 		ArrayList<File> fileList = new ArrayList<>();
 		for(int i = 0; i < inputFiles.length; i++)
 		{
-			fileList.add(inputFiles[i]);
+			if(inputFiles[i] != null)
+			{
+				fileList.add(inputFiles[i]);
+				
+			}//IF
 		
 		}//FOR
 		

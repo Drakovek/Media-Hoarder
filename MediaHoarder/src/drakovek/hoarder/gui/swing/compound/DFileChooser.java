@@ -432,7 +432,8 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 				fileList.setListData(files);
 				setDirectoryLabel(currentDirectory);
 				setNameText(currentDirectory);
-			}
+				
+			}//IF
 			else if(!isOpening || directory.exists())
 			{
 				selectedFile = directory;
