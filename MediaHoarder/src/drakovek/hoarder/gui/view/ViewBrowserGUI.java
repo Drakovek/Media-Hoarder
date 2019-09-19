@@ -175,6 +175,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		//VIEW MENU ITEMS
 		viewMenu = new DMenu(this, DefaultLanguage.VIEW);
 		viewMenu.add(new DCheckBoxMenuItem(this, settings.getUseThumbnails(), DefaultLanguage.USE_THUMBNAILS));
+		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowArtists(), DefaultLanguage.SHOW_ARTISTS));
+		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowViews(), DefaultLanguage.SHOW_VIEWS));
+		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowRatings(), DefaultLanguage.SHOW_RATINGS));
 		menubar.add(viewMenu);
 		
 		//SORT MENU ITEMS
@@ -483,11 +486,40 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				if((offset + i) < getDmfHandler().getSize())
 				{
 					previewValues[i] = offset + i;
-					previewLabels[i].setText("<html>" +  //$NON-NLS-1$
-											StringMethods.addHtmlEscapes(getDmfHandler().getTitle(offset + i)) + 
-											"<br/><i>" + //$NON-NLS-1$
-											StringMethods.addHtmlEscapes(StringMethods.arrayToString(getDmfHandler().getArtists(offset + i))) +
-											"</i></html>"); //$NON-NLS-1$
+					
+					StringBuilder html = new StringBuilder();
+					html.append("<html>"); //$NON-NLS-1$
+					html.append(StringMethods.addHtmlEscapes(getDmfHandler().getTitle(offset + i)));
+					
+					if(getSettings().getShowArtists())
+					{
+						html.append("<br><i>"); //$NON-NLS-1$
+						html.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(getDmfHandler().getArtists(offset + i))));
+						html.append("</i>"); //$NON-NLS-1$
+						
+					}//IF
+					
+					if(getSettings().getShowViews())
+					{
+						html.append("<br><b>"); //$NON-NLS-1$
+						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.VIEWS)));
+						html.append("</b>&nbsp;"); //$NON-NLS-1$
+						html.append(Integer.toString(getDmfHandler().getViews(offset + i)));
+						
+					}//IF
+					
+					if(getSettings().getShowRatings() && (getDmfHandler().getRating(offset + i) > 0))
+					{
+						html.append("<br><b>"); //$NON-NLS-1$
+						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.RATING)));
+						html.append("</b>&nbsp;"); //$NON-NLS-1$
+						html.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', getDmfHandler().getRating(offset + i))));
+						
+					}//IF
+					
+					html.append("</html>"); //$NON-NLS-1$
+					
+					previewLabels[i].setText(html.toString());
 					
 					previewButtons[i].setImage(getDmfHandler().getMediaFile(offset + i), getDmfHandler().getSecondaryFile(offset + i),  progressDialog.isCancelled() || !getSettings().getUseThumbnails());
 					
@@ -757,6 +789,21 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				break;
 			case DefaultLanguage.USE_THUMBNAILS:
 				getSettings().setUseThumbnails(BooleanInt.getBoolean(value));
+				resetValues();
+				launchPreviewUpdate();
+				break;
+			case DefaultLanguage.SHOW_ARTISTS:
+				getSettings().setShowArtists(BooleanInt.getBoolean(value));
+				resetValues();
+				launchPreviewUpdate();
+				break;
+			case DefaultLanguage.SHOW_RATINGS:
+				getSettings().setShowRatings(BooleanInt.getBoolean(value));
+				resetValues();
+				launchPreviewUpdate();
+				break;
+			case DefaultLanguage.SHOW_VIEWS:
+				getSettings().setShowViews(BooleanInt.getBoolean(value));
 				resetValues();
 				launchPreviewUpdate();
 				break;

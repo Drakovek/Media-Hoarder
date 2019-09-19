@@ -171,6 +171,21 @@ public class DSettings
 	private static final String REVERSE_ORDER = "reverse_order"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for whether to show artists for the previews in the viewer GUI
+	 */
+	private static final String SHOW_ARTISTS = "show_artists"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether to show ratings for the previews in the viewer GUI
+	 */
+	private static final String SHOW_RATINGS = "show_ratings"; //$NON-NLS-1$
+	
+	/**
+	 * INI variable for whether to show view counts for the previews in the viewer GUI
+	 */
+	private static final String SHOW_VIEWS = "show_views"; //$NON-NLS-1$
+	
+	/**
 	 * Program's data folder located in the main program directory.
 	 */
 	private File dataFolder;
@@ -303,6 +318,21 @@ public class DSettings
 	private boolean useThumbnails;
 	
 	/**
+	 * Whether to show artists for the previews in the viewer GUI
+	 */
+	private boolean showArtists;
+	
+	/**
+	 * Whether to show ratings for the previews in the viewer GUI
+	 */
+	private boolean showRatings;
+	
+	/**
+	 * Whether to show view counts for the previews in the viewer GUI
+	 */
+	private boolean showViews;
+	
+	/**
 	 * Default sort type for the program.
 	 */
 	private int sortType;
@@ -404,11 +434,15 @@ public class DSettings
 		scaleAmount = 1.0;
 		detailLocation = 0;
 		useThumbnails = true;
+		showArtists = true;
+		showRatings = false;
+		showViews = false;
 		sortType = 0;
 		groupArtists = false;
 		groupSequences = false;
 		groupSections = false;
 		reverseOrder = false;
+		
 		
 	}//METHOD
 	
@@ -459,6 +493,9 @@ public class DSettings
 			scaleAmount = ParseINI.getDoubleValue(null, SCALE_AMOUNT, settingsInfo, scaleAmount);
 			detailLocation = ParseINI.getIntValue(null, DETAIL_LOCATION, settingsInfo, detailLocation);
 			useThumbnails = ParseINI.getBooleanValue(null, USE_THUMBNAILS, settingsInfo, useThumbnails);
+			showArtists = ParseINI.getBooleanValue(null, SHOW_ARTISTS, settingsInfo, showArtists);
+			showRatings = ParseINI.getBooleanValue(null, SHOW_RATINGS, settingsInfo, showRatings);
+			showViews = ParseINI.getBooleanValue(null, SHOW_VIEWS, settingsInfo, showViews);
 			sortType = ParseINI.getIntValue(null, SORT_TYPE, settingsInfo, sortType);
 			groupArtists = ParseINI.getBooleanValue(null, GROUP_ARTISTS, settingsInfo, groupArtists);
 			groupSequences = ParseINI.getBooleanValue(null, GROUP_SEQUENCES, settingsInfo, groupSequences);
@@ -527,6 +564,9 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(SCALE_AMOUNT, scaleAmount));
 		settingsInfo.add(ParseINI.getAssignmentString(DETAIL_LOCATION, detailLocation));
 		settingsInfo.add(ParseINI.getAssignmentString(USE_THUMBNAILS, useThumbnails));
+		settingsInfo.add(ParseINI.getAssignmentString(SHOW_ARTISTS, showArtists));
+		settingsInfo.add(ParseINI.getAssignmentString(SHOW_RATINGS, showRatings));
+		settingsInfo.add(ParseINI.getAssignmentString(SHOW_VIEWS, showViews));
 		settingsInfo.add(ParseINI.getAssignmentString(SORT_TYPE, sortType));
 		settingsInfo.add(ParseINI.getAssignmentString(GROUP_ARTISTS, groupArtists));
 		settingsInfo.add(ParseINI.getAssignmentString(GROUP_SEQUENCES, groupSequences));
@@ -1183,6 +1223,72 @@ public class DSettings
 	public boolean getReverseOrder()
 	{
 		return reverseOrder;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to show artists.
+	 * 
+	 * @param showArtists Whether to show artists
+	 */
+	public void setShowArtists(final boolean showArtists)
+	{
+		this.showArtists = showArtists;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether to show artists.
+	 * 
+	 * @return Whether to show artists
+	 */
+	public boolean getShowArtists()
+	{
+		return showArtists;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to show ratings.
+	 * 
+	 * @param showRatings Whether to show ratings
+	 */
+	public void setShowRatings(final boolean showRatings)
+	{
+		this.showRatings = showRatings;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether to show ratings
+	 * 
+	 * @return Whether to show ratings
+	 */
+	public boolean getShowRatings()
+	{
+		return showRatings;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to show views.
+	 * 
+	 * @param showViews Whether to show views
+	 */
+	public void setShowViews(final boolean showViews)
+	{
+		this.showViews = showViews;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether to show views.
+	 * 
+	 * @return Whether to show views
+	 */
+	public boolean getShowViews()
+	{
+		return showViews;
 		
 	}//METHOD
 	

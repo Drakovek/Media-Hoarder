@@ -485,25 +485,25 @@ public class MediaViewer extends BaseGUI implements DWorker
 		
 		//SET TAGS
 		htmlText.append("</div><br><hr><br><div class=\"drakovek_info\"><b>"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.VIEWS));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.VIEWS)));
 		htmlText.append("&nbsp;</b>"); //$NON-NLS-1$
-		htmlText.append(ownerGUI.getDmfHandler().getViews(dmfIndex));
+		htmlText.append(Integer.toString(ownerGUI.getDmfHandler().getViews(dmfIndex)));
 		
 		if(ownerGUI.getDmfHandler().getRating(dmfIndex) > 0)
 		{
 			htmlText.append("&nbsp;&nbsp;&nbsp;&nbsp;<b>"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.RATING));
+			htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.RATING)));
 			htmlText.append("&nbsp;</b>"); //$NON-NLS-1$
-			htmlText.append(StringMethods.extendCharacter('★', ownerGUI.getDmfHandler().getRating(dmfIndex)));
+			htmlText.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', ownerGUI.getDmfHandler().getRating(dmfIndex))));
 			
 		}//IF
 		
 		htmlText.append("<br><br><b>"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.WEB_TAGS));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.WEB_TAGS)));
 		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getWebTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE))));
 		htmlText.append("<br><br><b>"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.USER_TAGS));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.USER_TAGS)));
 		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getUserTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE))));
 		
@@ -511,23 +511,23 @@ public class MediaViewer extends BaseGUI implements DWorker
 		htmlText.append("</div><br><div class=\""); //$NON-NLS-1$
 		htmlText.append(DEditorPane.SMALL_TEXT_CLASS);
 		htmlText.append("\"><table><tr><td><b>"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.PAGE_URL));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.PAGE_URL)));
 		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
 		htmlText.append(ownerGUI.getDmfHandler().getPageURL(dmfIndex));
 		htmlText.append("\">"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.LINK));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.LINK)));
 		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DATE));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.DATE)));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
 		htmlText.append(TimeMethods.getDateString(getSettings(), TimeMethods.DATE_LONG, ownerGUI.getDmfHandler().getTime(dmfIndex)));
 		htmlText.append("</td></tr><tr><td><b>"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.DIRECT_URL));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.DIRECT_URL)));
 		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
 		htmlText.append(ownerGUI.getDmfHandler().getMediaURL(dmfIndex));
 		htmlText.append("\">"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.LINK));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.LINK)));
 		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$
-		htmlText.append(getSettings().getLanguageText(DefaultLanguage.TIME));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.TIME)));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
 		htmlText.append(TimeMethods.getTimeString(getSettings(), ownerGUI.getDmfHandler().getTime(dmfIndex)));
 		htmlText.append("</td></tr>"); //$NON-NLS-1$

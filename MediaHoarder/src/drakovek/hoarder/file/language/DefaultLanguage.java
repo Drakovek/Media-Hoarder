@@ -671,6 +671,21 @@ public class DefaultLanguage
 	public static final String USE_THUMBNAILS = "use_thumbnails"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Show Artists" menu item in the viewer GUI.
+	 */
+	public static final String SHOW_ARTISTS = "show_artists"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Show Ratings" menu item in the viewer GUI.
+	 */
+	public static final String SHOW_RATINGS = "show_ratings"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Show View Counts" menu item in the viewer GUI.
+	 */
+	public static final String SHOW_VIEWS = "show_views"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Sort" menu in the viewer GUI
 	 */
 	public static final String SORT = "sort"; //$NON-NLS-1$
@@ -1249,6 +1264,9 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(RELOAD_DMFS, "^Reload DMFs")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(RELOAD_WITHOUT_INDEXES, "Reload DMFs ^Without Indexes")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(USE_THUMBNAILS, "^Use Thumbnails")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SHOW_ARTISTS, "Show ^Artists")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SHOW_RATINGS, "Show ^Ratings")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(SHOW_VIEWS, "Show ^View Counts")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORT, "^Sort")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORT_TIME, "Sort by ^Time Published")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(SORT_ALPHA, "Sort A^lphabetically")); //$NON-NLS-1$
