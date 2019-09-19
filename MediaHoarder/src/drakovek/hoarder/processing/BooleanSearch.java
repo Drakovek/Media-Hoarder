@@ -140,12 +140,35 @@ public class BooleanSearch
 	 */
 	public boolean searchText(final String text, final boolean caseSensitive, final boolean exactMatch)
 	{
+		String[] textArray = {text};
+		return searchText(textArray, caseSensitive, exactMatch);
+		
+	}//METHOD
+	
+	/**
+	 * Conducts a boolean search on given text with the currently set logic.
+	 * 
+	 * @param text Text to search
+	 * @param caseSensitive Whether the search should be case sensitive
+	 * @param exactMatch Whether the text should be an exact match with search logic strings (If false, text only has to contain search strings)
+	 * @return Whether the given text matches the search logic
+	 */
+	public boolean searchText(final String[] text, final boolean caseSensitive, final boolean exactMatch)
+	{
 		if(caseSensitive)
 		{
 			return searchText(searchLogic, text, caseSensitive, exactMatch);
-		}
 		
-		return searchText(searchLogic, text.toLowerCase(), caseSensitive, exactMatch);
+		}//IF
+		
+		String[] lowerText = new String[text.length];
+		for(int i = 0; i < lowerText.length; i++)
+		{
+			lowerText[i] = text[i].toLowerCase();
+			
+		}//FOR
+		
+		return searchText(searchLogic, lowerText, caseSensitive, exactMatch);
 	
 	}//METHOD
 	
@@ -158,7 +181,7 @@ public class BooleanSearch
 	 * @param exactMatch Whether the text should be an exact match with search logic strings (If false, text only has to contain search strings)
 	 * @return Whether the given text matches the search logic
 	 */
-	private boolean searchText(final Object[] logic, final String text, final boolean caseSensitive, final boolean exactMatch)
+	private boolean searchText(final Object[] logic, final String[] text, final boolean caseSensitive, final boolean exactMatch)
 	{
 		boolean arg1;
 		boolean arg2;
@@ -223,13 +246,13 @@ public class BooleanSearch
 	/**
 	 * Checks if given search text is equal to or within a given main text.
 	 * 
-	 * @param mainText Main text to search within
+	 * @param mainTextArray Main text to search within
 	 * @param searchText Text to search for
 	 * @param caseSensitive Whether search should be case sensitive
 	 * @param exactMatch Whether the search text should be an exact match with main text (If false, main text only has to contain search string)
 	 * @return Whether the search text is included in the main text
 	 */
-	private static boolean checkTextIncluded(final String mainText, final String searchText, final boolean caseSensitive, final boolean exactMatch)
+	private static boolean checkTextIncluded(final String[] mainTextArray, final String searchText, final boolean caseSensitive, final boolean exactMatch)
 	{	
 		if(searchText == null)
 		{
@@ -249,13 +272,27 @@ public class BooleanSearch
 			
 		}//ELSE
 		
-		if(exactMatch)
+		for(int i = 0; i < mainTextArray.length; i++)
 		{
-			return mainText.equals(thisSearchText);
+			if(exactMatch )
+			{
+				if(mainTextArray[i].equals(thisSearchText))
+				{
+					return true;
+					
+				}//IF
+				
+			}//IF
+			else if(mainTextArray[i].contains(thisSearchText))
+			{
+				return true;
+				
+			}//IF
 			
-		}//IF
+			
+		}//FOR
 		
-		return mainText.contains(thisSearchText);
+		return false;
 		
 	}//IF
 	

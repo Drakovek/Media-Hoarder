@@ -47,6 +47,26 @@ public class DmfHandler
 	private String titleFilter;
 	
 	/**
+	 * Filter string for DMF descriptions
+	 */
+	private String descriptionFilter;
+	
+	/**
+	 * Filter string for DMF web tags
+	 */
+	private String webTagFilter;
+	
+	/**
+	 * Filter string for DMF user tags
+	 */
+	private String userTagFilter;
+	
+	/**
+	 * Filter string for DMF artists
+	 */
+	private String artistFilter;
+	
+	/**
 	 * ArrayList full of indexes referencing DMFs loaded in DmfDatabase, sorted in a given order.
 	 */
 	private ArrayList<Integer> sorted;
@@ -362,11 +382,22 @@ public class DmfHandler
 	public void filterDMFs()
 	{
 		resetFiltered();
-		BooleanSearch booleanSearch = new BooleanSearch();
+		filterTitles();
+		filterDescriptions();
+		filterWebTags();
+		filterUserTags();
+		filterArtists();
 		
-		//FILTER TITLES
+	}//METHOD
+	
+	/**
+	 * Filters loaded DMFs based on title.
+	 */
+	private void filterTitles()
+	{
 		if(getTitleFilter().length() > 0)
 		{
+			BooleanSearch booleanSearch = new BooleanSearch();
 			booleanSearch.createSearchLogic(getTitleFilter());
 			for(int i = 0; i < getSize(); i++)
 			{
@@ -381,7 +412,103 @@ public class DmfHandler
 			
 		}//IF
 		
-	}//METHOD
+	}//IF
+	
+	/**
+	 * Filters loaded DMFs based on description.
+	 */
+	private void filterDescriptions()
+	{
+		if(getDescriptionFilter().length() > 0)
+		{
+			BooleanSearch booleanSearch = new BooleanSearch();
+			booleanSearch.createSearchLogic(getDescriptionFilter());
+			for(int i = 0; i < getSize(); i++)
+			{
+				if(!booleanSearch.searchText(getDescription(i), getFilterCaseSensitive(), false))
+				{
+					filtered.remove(i);
+					i--;
+				
+				}//IF
+			
+			}//FOR
+			
+		}//IF
+		
+	}//IF
+	
+	/**
+	 * Filters loaded DMFs based on web tags.
+	 */
+	private void filterWebTags()
+	{
+		if(getWebTagFilter().length() > 0)
+		{
+			BooleanSearch booleanSearch = new BooleanSearch();
+			booleanSearch.createSearchLogic(getWebTagFilter());
+			for(int i = 0; i < getSize(); i++)
+			{
+				if(!booleanSearch.searchText(getWebTags(i), getFilterCaseSensitive(), true))
+				{
+					filtered.remove(i);
+					i--;
+				
+				}//IF
+			
+			}//FOR
+			
+		}//IF
+		
+	}//IF
+	
+	/**
+	 * Filters loaded DMFs based on user tags.
+	 */
+	private void filterUserTags()
+	{
+		if(getUserTagFilter().length() > 0)
+		{
+			BooleanSearch booleanSearch = new BooleanSearch();
+			booleanSearch.createSearchLogic(getUserTagFilter());
+			for(int i = 0; i < getSize(); i++)
+			{
+				if(!booleanSearch.searchText(getUserTags(i), getFilterCaseSensitive(), true))
+				{
+					filtered.remove(i);
+					i--;
+				
+				}//IF
+			
+			}//FOR
+			
+		}//IF
+		
+	}//IF
+	
+	/**
+	 * Filters loaded DMFs based on artist(s).
+	 */
+	private void filterArtists()
+	{
+		if(getArtistFilter().length() > 0)
+		{
+			BooleanSearch booleanSearch = new BooleanSearch();
+			booleanSearch.createSearchLogic(getArtistFilter());
+			for(int i = 0; i < getSize(); i++)
+			{
+				if(!booleanSearch.searchText(getArtists(i), getFilterCaseSensitive(), true))
+				{
+					filtered.remove(i);
+					i--;
+				
+				}//IF
+			
+			}//FOR
+			
+		}//IF
+		
+	}//IF
 	
 	/**
 	 * Returns the number of DMFs loaded.
@@ -702,6 +829,10 @@ public class DmfHandler
 	{
 		setFilterCaseSensitive(false);
 		setTitleFilter(null);
+		setDescriptionFilter(null);
+		setWebTagFilter(null);
+		setUserTagFilter(null);
+		setArtistFilter(null);
 		resetFiltered();
 		
 	}//METHOD
@@ -756,6 +887,130 @@ public class DmfHandler
 			this.titleFilter = new String();
 			
 		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Returns the description filter string.
+	 * 
+	 * @return Description Filter
+	 */
+	public String getDescriptionFilter()
+	{
+		return descriptionFilter;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the description filter string.
+	 * 
+	 * @param descriptionFilter Description Filter
+	 */
+	public void setDescriptionFilter(final String descriptionFilter)
+	{
+		if(descriptionFilter == null)
+		{
+			this.descriptionFilter = new String();
+			
+		}//IF
+		else
+		{
+			this.descriptionFilter = descriptionFilter;
+			
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Returns the web tag filter string.
+	 * 
+	 * @return Web Tag Filter
+	 */
+	public String getWebTagFilter()
+	{
+		return webTagFilter;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the web tag filter string.
+	 * 
+	 * @param webTagFilter Web Tag Filter
+	 */
+	public void setWebTagFilter(final String webTagFilter)
+	{
+		if(webTagFilter == null)
+		{
+			this.webTagFilter = new String();
+			
+		}//IF
+		else
+		{
+			this.webTagFilter = webTagFilter;
+			
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Returns the user tag filter string.
+	 * 
+	 * @return User Tag Filter
+	 */
+	public String getUserTagFilter()
+	{
+		return userTagFilter;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the User Tag Filter String.
+	 * 
+	 * @param userTagFilter User Tag Filter
+	 */
+	public void setUserTagFilter(final String userTagFilter)
+	{
+		if(userTagFilter == null)
+		{
+			this.userTagFilter = new String();
+			
+		}//IF
+		else
+		{
+			this.userTagFilter = userTagFilter;
+			
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Returns the artist filter string.
+	 * 
+	 * @return Artist Filter
+	 */
+	public String getArtistFilter()
+	{
+		return artistFilter;
+		
+	}//METHOD
+	
+	/**
+	 * Sets the artist filter string.
+	 * 
+	 * @param artistFilter Artist Filter
+	 */
+	public void setArtistFilter(final String artistFilter)
+	{
+		if(artistFilter == null)
+		{
+			this.artistFilter = new String();
+			
+		}//IF
+		else
+		{
+			this.artistFilter = artistFilter;
+			
+		}//ELSE
 		
 	}//METHOD
 	

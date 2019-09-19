@@ -621,6 +621,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 				DMF dmf = new DMF(ownerGUI.getDmfHandler().getDmfFile(dmfIndex));
 				dmf.setViews(dmf.getViews() + 1);
 				dmf.writeDMF();
+				ownerGUI.getDmfHandler().setDMF(dmf, dmfIndex);
 				
 			}//IF
 			

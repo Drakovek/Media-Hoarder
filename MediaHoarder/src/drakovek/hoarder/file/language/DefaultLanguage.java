@@ -976,6 +976,11 @@ public class DefaultLanguage
 	public static final String DESCRIPTION = "description"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Artists" label in the filter GUI
+	 */
+	public static final String ARTISTS_FILTER = "artists_filter"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Case Sensitive" check box in the filter GUI
 	 */
 	public static final String CASE_SENSITIVE = "case_sensitive"; //$NON-NLS-1$
@@ -1318,6 +1323,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(USER_TAGS, "^User Tags:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(TITLE, "^Title:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(DESCRIPTION, "^Description:")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(ARTISTS_FILTER, "^Artists:")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(CASE_SENSITIVE, "Case ^Sensitive")); //$NON-NLS-1$
 		
 		

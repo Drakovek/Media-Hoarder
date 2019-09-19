@@ -60,6 +60,26 @@ public class FilterGUI extends FrameGUI
 	private DTextField descriptionText;
 	
 	/**
+	 * DTextField for the artist filter
+	 */
+	private DTextField artistText;
+	
+	/**
+	 * DButton for reseting the filter text fields
+	 */
+	private DButton resetButton;
+	
+	/**
+	 * DButton for canceling the filtering operation
+	 */
+	private DButton cancelButton;
+	
+	/**
+	 * DButton for finalizing filter options and starting the filteing process
+	 */
+	private DButton okButton;
+	
+	/**
 	 * Initializes the FilterGUI class by creating the main GUI.
 	 * 
 	 * @param ownerGUI Frame GUI parent of the Filter GUI
@@ -73,18 +93,25 @@ public class FilterGUI extends FrameGUI
 		//SET INITIAL VALUES
 		caseSensitive = getDmfHandler().getFilterCaseSensitive();
 		userTagText = new DTextField(this, DefaultLanguage.USER_TAGS);
+		userTagText.setText(getDmfHandler().getUserTagFilter());
 		webTagText = new DTextField(this, DefaultLanguage.WEB_TAGS);
+		webTagText.setText(getDmfHandler().getWebTagFilter());
 		titleText = new DTextField(this, DefaultLanguage.TITLE);
 		titleText.setText(getDmfHandler().getTitleFilter());
 		descriptionText = new DTextField(this, DefaultLanguage.DESCRIPTION);
+		descriptionText.setText(getDmfHandler().getDescriptionFilter());
+		artistText = new DTextField(this, DefaultLanguage.ARTISTS_FILTER);
+		artistText.setText(getDmfHandler().getArtistFilter());
 		
 		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 3, getSettings().getSpaceSize(), 0));
-		DButton resetButton = new DButton(this, DefaultLanguage.RESET);
+		resetButton = new DButton(this, DefaultLanguage.RESET);
+		cancelButton = new DButton(this, DefaultLanguage.CANCEL);
+		okButton = new DButton(this, DefaultLanguage.OK);
 		buttonPanel.add(resetButton);
-		buttonPanel.add(new DButton(this, DefaultLanguage.CANCEL));
-		buttonPanel.add(new DButton(this, DefaultLanguage.OK));
+		buttonPanel.add(cancelButton);
+		buttonPanel.add(okButton);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
@@ -98,13 +125,15 @@ public class FilterGUI extends FrameGUI
 		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.WEB_TAGS));
 		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.TITLE));
 		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.DESCRIPTION));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.ARTISTS_FILTER));
 		
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new GridLayout(4, 1, 0, getSettings().getSpaceSize()));
+		centerPanel.setLayout(new GridLayout(5, 1, 0, getSettings().getSpaceSize()));
 		centerPanel.add(getTextPanel(userTagText, DefaultLanguage.USER_TAGS, largestWidth));
 		centerPanel.add(getTextPanel(webTagText, DefaultLanguage.WEB_TAGS, largestWidth));
 		centerPanel.add(getTextPanel(titleText, DefaultLanguage.TITLE, largestWidth));
 		centerPanel.add(getTextPanel(descriptionText, DefaultLanguage.DESCRIPTION, largestWidth));
+		centerPanel.add(getTextPanel(artistText, DefaultLanguage.ARTISTS_FILTER, largestWidth));
 				
 		//FINALIZE FRAME
 		DLabel title = new DLabel(this, null, DefaultLanguage.FILTER);
@@ -183,6 +212,10 @@ public class FilterGUI extends FrameGUI
 	{
 		getDmfHandler().setFilterCaseSensitive(caseSensitive);
 		getDmfHandler().setTitleFilter(titleText.getText());
+		getDmfHandler().setDescriptionFilter(descriptionText.getText());
+		getDmfHandler().setArtistFilter(artistText.getText());
+		getDmfHandler().setUserTagFilter(userTagText.getText());
+		getDmfHandler().setWebTagFilter(webTagText.getText());
 		
 	}//METHOD
 	
@@ -195,27 +228,56 @@ public class FilterGUI extends FrameGUI
 		userTagText.setText(new String());
 		titleText.setText(new String());
 		descriptionText.setText(new String());
+		artistText.setText(new String());
 		
 	}//METHOD
 	
 	@Override
-	public void enableAll(){}
+	public void enableAll()
+	{
+		titleText.setEnabled(true);
+		descriptionText.setEnabled(true);
+		artistText.setEnabled(true);
+		userTagText.setEnabled(true);
+		webTagText.setEnabled(true);
+		resetButton.setEnabled(true);
+		okButton.setEnabled(true);
+		cancelButton.setEnabled(true);
+		
+	}//METHOD
 
 	@Override
-	public void disableAll() {}
+	public void disableAll()
+	{
+		titleText.setEnabled(false);
+		descriptionText.setEnabled(false);
+		artistText.setEnabled(false);
+		userTagText.setEnabled(false);
+		webTagText.setEnabled(false);
+		resetButton.setEnabled(false);
+		okButton.setEnabled(false);
+		cancelButton.setEnabled(false);
+		
+	}//METHOD
 
 	@Override
 	public void event(String id, int value)
 	{
 		switch(id)
 		{
+			case DefaultLanguage.TITLE:
+			case DefaultLanguage.DESCRIPTION:
+			case DefaultLanguage.USER_TAGS:
+			case DefaultLanguage.WEB_TAGS:
+			case DefaultLanguage.ARTISTS_FILTER:
+			case DefaultLanguage.OK:
+				getFrame().setAllowExit(false);
+				addFilters();
+				ownerGUI.filter();
+				dispose();
+				break;
 			case DefaultLanguage.CASE_SENSITIVE:
 				caseSensitive = BooleanInt.getBoolean(value);
-				break;
-			case DefaultLanguage.OK:
-				addFilters();
-				dispose();
-				ownerGUI.filter();
 				break;
 			case DefaultLanguage.RESET:
 				resetFilters();

@@ -183,9 +183,9 @@ public class ViewerGUI extends FrameGUI
 		{
 			case DCloseListener.FRAME_CLOSE_EVENT:
 				mediaViewer.incrementViews();
-				dispose();
 				ownerGUI.getFrame().setAllowExit(true);
 				ownerGUI.setOffset(dmfIndex);
+				dispose();
 				break;
 			case DefaultLanguage.PREVIOUS:
 				dmfIndex--;
