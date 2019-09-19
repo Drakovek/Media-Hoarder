@@ -75,7 +75,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	private void loadDMFs()
 	{
 		getParentGUI().getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
-		getParentGUI().getDmfHandler().sort(DmfHandler.SORT_ALPHA, true, false, false);
+		getParentGUI().getDmfHandler().sort(DmfHandler.SORT_ALPHA, true, false, false, false);
 		
 	}//METHOD
 	

@@ -196,6 +196,8 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupArtists(), DefaultLanguage.GROUP_ARTISTS));
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSequences(), DefaultLanguage.GROUP_SEQUENCES));
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSections(), DefaultLanguage.GROUP_SECTIONS));
+		sortMenu.addSeparator();
+		sortMenu.add(new DCheckBoxMenuItem(this, settings.getReverseOrder(), DefaultLanguage.REVERSE_ORDER));
 		menubar.add(sortMenu);
 		
 		//FILTER MENU ITEMS
@@ -782,6 +784,10 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				getSettings().setGroupSections(BooleanInt.getBoolean(value));
 				if(!getSettings().getGroupSequences()) sort();
 				break;
+			case DefaultLanguage.REVERSE_ORDER:
+				getSettings().setReverseOrder(BooleanInt.getBoolean(value));
+				sort();
+				break;
 			case DefaultLanguage.FILTER_MEDIA:
 				new FilterGUI(this);
 				break;
@@ -816,7 +822,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				updatePreview();
 				break;
 			case DefaultLanguage.SORT:
-				getDmfHandler().sort(getSettings().getSortType(), getSettings().getGroupArtists(), getSettings().getGroupSequences(), getSettings().getGroupSections());
+				getDmfHandler().sort(getSettings().getSortType(), getSettings().getGroupArtists(), getSettings().getGroupSequences(), getSettings().getGroupSections(), getSettings().getReverseOrder());
 				break;
 			case DefaultLanguage.FILTER:
 				getDmfHandler().filterDMFs();

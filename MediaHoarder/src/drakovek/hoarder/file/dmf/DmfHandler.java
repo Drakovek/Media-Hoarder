@@ -175,8 +175,9 @@ public class DmfHandler
 	 * @param groupArtists Whether to group artists
 	 * @param groupSequences Whether to group sequences
 	 * @param groupSections Whether to group sections
+	 * @param reverseOrder Whether to reverse the sorting order
 	 */
-	public void sort(final int sortType, final boolean groupArtists, final boolean groupSequences, final boolean groupSections)
+	public void sort(final int sortType, final boolean groupArtists, final boolean groupSequences, final boolean groupSections, final boolean reverseOrder)
 	{
 		//POPULATE SORTED ARRAYLIST
 		sorted = new ArrayList<>();
@@ -195,6 +196,22 @@ public class DmfHandler
 		
 		//SORT LIST
 		sorted = sortMerge(sorted, sortType, groupArtists);
+		
+		//REVERSE ORDER, IF NECESSARY
+		if(reverseOrder)
+		{
+			ArrayList<Integer> reverseList = new ArrayList<>();
+			for(int i = sorted.size() - 1; i > -1; i--)
+			{
+				reverseList.add(sorted.get(i));
+				
+			}//FOR
+			
+			sorted = new ArrayList<>();
+			sorted.addAll(reverseList);
+			reverseList = null;
+			
+		}//IF
 		
 		//ADD SEQUENCES BACK TO ARRAY, IF NECESSARY
 		if(groupSequences || groupSections)

@@ -166,6 +166,11 @@ public class DSettings
 	private static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
 	
 	/**
+	 * INI variable for whether to reverse the order of sorted DMFs
+	 */
+	private static final String REVERSE_ORDER = "reverse_order"; //$NON-NLS-1$
+	
+	/**
 	 * Program's data folder located in the main program directory.
 	 */
 	private File dataFolder;
@@ -318,6 +323,11 @@ public class DSettings
 	private boolean groupSections;
 	
 	/**
+	 * Whether to reverse the order of sorted DMFs
+	 */
+	private boolean reverseOrder;
+	
+	/**
 	 * Initializes the DSettings Class
 	 */
 	public DSettings()
@@ -398,6 +408,7 @@ public class DSettings
 		groupArtists = false;
 		groupSequences = false;
 		groupSections = false;
+		reverseOrder = false;
 		
 	}//METHOD
 	
@@ -452,6 +463,7 @@ public class DSettings
 			groupArtists = ParseINI.getBooleanValue(null, GROUP_ARTISTS, settingsInfo, groupArtists);
 			groupSequences = ParseINI.getBooleanValue(null, GROUP_SEQUENCES, settingsInfo, groupSequences);
 			groupSections = ParseINI.getBooleanValue(null, GROUP_SECTIONS, settingsInfo, groupSections);
+			reverseOrder = ParseINI.getBooleanValue(null, REVERSE_ORDER, settingsInfo, reverseOrder);
 			
 		}//IF
 		
@@ -519,6 +531,7 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(GROUP_ARTISTS, groupArtists));
 		settingsInfo.add(ParseINI.getAssignmentString(GROUP_SEQUENCES, groupSequences));
 		settingsInfo.add(ParseINI.getAssignmentString(GROUP_SECTIONS, groupSections));
+		settingsInfo.add(ParseINI.getAssignmentString(REVERSE_ORDER, reverseOrder));
 		
 		if(dataFolder != null && dataFolder.isDirectory())
 		{
@@ -1148,6 +1161,28 @@ public class DSettings
 	public boolean getGroupSections()
 	{
 		return groupSections;
+		
+	}//METHOD
+	
+	/**
+	 * Sets whether to reverse DMF sorting order.
+	 * 
+	 * @param reverseOrder Whether to reverse sorting order
+	 */
+	public void setReverseOrder(final boolean reverseOrder)
+	{
+		this.reverseOrder = reverseOrder;
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether to reverse DMF sorting order.
+	 * 
+	 * @return Whether to reverse sorting order
+	 */
+	public boolean getReverseOrder()
+	{
+		return reverseOrder;
 		
 	}//METHOD
 	

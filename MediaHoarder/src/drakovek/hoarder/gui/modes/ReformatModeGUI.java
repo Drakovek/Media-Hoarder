@@ -120,7 +120,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		
 		}//IF
 		
-		getParentGUI().getDmfHandler().sort(DmfHandler.SORT_ALPHA, true, false, false);
+		getParentGUI().getDmfHandler().sort(DmfHandler.SORT_ALPHA, true, false, false, false);
 		
 	}//METHOD
 	

@@ -302,7 +302,7 @@ public class SequencingGUI extends FrameGUI implements DWorker
 		{
 			case DefaultLanguage.LOADING_DMFS:
 				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
-				this.getDmfHandler().sort(DmfHandler.SORT_TIME, true, false, false);
+				this.getDmfHandler().sort(DmfHandler.SORT_TIME, true, false, false, false);
 				break;
 				
 		}//SWITCH

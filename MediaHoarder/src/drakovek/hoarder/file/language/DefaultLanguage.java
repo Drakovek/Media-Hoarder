@@ -711,6 +711,11 @@ public class DefaultLanguage
 	public static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the check box menu item in the viewer GUI for reversing the DMF sorting order
+	 */
+	public static final String REVERSE_ORDER = "reverse_order"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Filter" menu in the viewer GUI
 	 */
 	public static final String FILTER = "filter"; //$NON-NLS-1$
@@ -1252,6 +1257,7 @@ public class DefaultLanguage
 		languageFile.add(ParseINI.getAssignmentString(GROUP_ARTISTS, "Group ^Artists")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(GROUP_SEQUENCES, "Group Se^quences")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(GROUP_SECTIONS, "Group ^Sections")); //$NON-NLS-1$
+		languageFile.add(ParseINI.getAssignmentString(REVERSE_ORDER, "Reverse ^Order")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FILTER, "^Filter")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(FILTER_MEDIA, "Filter ^Media")); //$NON-NLS-1$
 		languageFile.add(ParseINI.getAssignmentString(LOADING_PREVIEWS_TITLE, "Loading Previews")); //$NON-NLS-1$
