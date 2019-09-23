@@ -124,9 +124,14 @@ public class DMF
 	private static final String OLD_PAGE_URL = "pageURL"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for the DMF's original media URL
+	 * DMF INI variable for the direct URL
 	 */
-	private static final String MEDIA_URL = "media_url"; //$NON-NLS-1$
+	private static final String DIRECT_URL = "direct_url"; //$NON-NLS-1$
+	
+	/**
+	 * Old DMF INI variable for the media URL, used for reading second stage old DMFs
+	 */
+	private static final String MEDIA_URL_2 = "media_url"; //$NON-NLS-1$
 	
 	/**
 	 * Old DMF INI variable for the media URL, used for reading old DMFs
@@ -268,7 +273,7 @@ public class DMF
 	/**
 	 * The URL for the direct media download URL that the DMF originates from
 	 */
-	private String mediaURL;
+	private String directURL;
 	
 	/**
 	 * URL for the direct media download URL for the secondary media file
@@ -374,7 +379,7 @@ public class DMF
 		
 		//WEB
 		pageURL = null;
-		mediaURL = null;
+		directURL = null;
 		secondaryURL = null;
 		
 		//FILE
@@ -452,11 +457,18 @@ public class DMF
 				
 				}//IF
 				
-				setMediaURL(ParseINI.getStringValue(null, MEDIA_URL, contents, null));
-				if(getMediaURL() == null)
+				setDirectURL(ParseINI.getStringValue(null, DIRECT_URL, contents, null));
+				if(getDirectURL() == null)
 				{
-					//IF NEW MEDIA URL VARIABLE DOESN'T WORK, USE OLD MEDIA URL VARIABLE
-					setMediaURL(ParseINI.getStringValue(null, OLD_MEDIA_URL, contents, null));
+					//IF NEW DIRECT URL VARIABLE DOESN'T WORK, USE MEDIA URL VARIABLE
+					setDirectURL(ParseINI.getStringValue(null, MEDIA_URL_2, contents, null));
+
+					if(getDirectURL() == null)
+					{
+						//IF NEW MEDIA URL VARIABLE DOESN'T WORK, USE OLD MEDIA URL VARIABLE
+						setDirectURL(ParseINI.getStringValue(null, OLD_MEDIA_URL, contents, null));
+
+					}//IF
 					
 				}//IF
 				
@@ -591,9 +603,9 @@ public class DMF
 				
 			}//IF
 			
-			if(getMediaURL() != null && getMediaURL().length() > 0)
+			if(getDirectURL() != null && getDirectURL().length() > 0)
 			{
-				web.add(ParseINI.getAssignmentString(MEDIA_URL, getMediaURL()));
+				web.add(ParseINI.getAssignmentString(DIRECT_URL, getDirectURL()));
 				
 			}//IF
 			
@@ -1203,24 +1215,24 @@ public class DMF
 	}//METHOD
 	
 	/**
-	 * Sets  the DMF's Media URL
+	 * Sets the direct URL.
 	 * 
-	 * @param mediaURL Media URL
+	 * @param directURL Direct URL
 	 */
-	public void setMediaURL(final String mediaURL)
+	public void setDirectURL(final String directURL)
 	{
-		this.mediaURL = mediaURL;
+		this.directURL = directURL;
 		
 	}//METHOD
 	
 	/**
-	 * Returns the DMF's Media URL
+	 * Returns the direct URL.
 	 * 
-	 * @return Media URL
+	 * @return Direct URL
 	 */
-	public String getMediaURL()
+	public String getDirectURL()
 	{
-		return mediaURL;
+		return directURL;
 		
 	}//METHOD
 	

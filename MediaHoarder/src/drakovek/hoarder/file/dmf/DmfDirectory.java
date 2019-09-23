@@ -14,11 +14,10 @@ import drakovek.hoarder.file.ExtensionFilter;
  */
 public class DmfDirectory implements Serializable
 {
-
 	/**
 	 * SerialVersionUID
 	 */
-	private static final long serialVersionUID = 321526253853307367L;
+	private static final long serialVersionUID = 8218001989275079879L;
 
 	/**
 	 * Directory from which DMF info for the object is loaded
@@ -66,9 +65,9 @@ public class DmfDirectory implements Serializable
 	private ArrayList<String> pageURLs;
 	
 	/**
-	 * ArrayList containing Media URLs from the DMF class
+	 * ArrayList containing Direct URLs from the DMF class
 	 */
-	private ArrayList<String> mediaURLs;
+	private ArrayList<String> directURLs;
 	
 	/**
 	 * ArrayList containing Secondary Media URLs from the DMF class
@@ -175,7 +174,7 @@ public class DmfDirectory implements Serializable
 
 		//WEB
 		pageURLs = new ArrayList<>();
-		mediaURLs = new ArrayList<>();
+		directURLs = new ArrayList<>();
 		secondaryURLs = new ArrayList<>();
 		
 		//FILE
@@ -264,7 +263,7 @@ public class DmfDirectory implements Serializable
 
 			//WEB
 			pageURLs.add(dmf.getPageURL());
-			mediaURLs.add(dmf.getMediaURL());
+			directURLs.add(dmf.getDirectURL());
 			secondaryURLs.add(dmf.getSecondaryURL());
 			
 			//FILE
@@ -333,7 +332,7 @@ public class DmfDirectory implements Serializable
 		   size != getWebTags().size() ||
 		   size != getDescriptions().size() ||
 		   size != getPageURLs().size() ||
-		   size != getMediaURLs().size() ||
+		   size != getDirectURLs().size() ||
 		   size != getSecondaryURLs().size() ||
 		   size != getMediaFiles().size() ||
 		   size != getSecondaryFiles().size() ||
@@ -382,7 +381,7 @@ public class DmfDirectory implements Serializable
 
 				//WEB
 				pageURLs.remove(i);
-				mediaURLs.remove(i);
+				directURLs.remove(i);
 				secondaryURLs.remove(i);
 				
 				//FILE
@@ -422,7 +421,7 @@ public class DmfDirectory implements Serializable
 
 				//WEB
 				pageURLs.set(i, dmf.getPageURL());
-				mediaURLs.set(i, dmf.getMediaURL());
+				directURLs.set(i, dmf.getDirectURL());
 				secondaryURLs.set(i, dmf.getSecondaryURL());
 				
 				//FILE
@@ -567,13 +566,13 @@ public class DmfDirectory implements Serializable
 	}//METHOD
 	
 	/**
-	 * Returns ArrayList of media URLs
+	 * Returns ArrayList of direct URLs
 	 * 
 	 * @return Media URLs
 	 */
-	public ArrayList<String> getMediaURLs()
+	public ArrayList<String> getDirectURLs()
 	{
-		return mediaURLs;
+		return directURLs;
 		
 	}//METHOD
 	

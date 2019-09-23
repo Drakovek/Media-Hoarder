@@ -548,19 +548,19 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			String mediaURL = "https:" + Downloader.getAttribute(mediaURLs.get(i)); //$NON-NLS-1$
 			if(mediaURL.contains("/art/")) //$NON-NLS-1$
 			{
-				dmf.setMediaURL(mediaURL);
+				dmf.setDirectURL(mediaURL);
 				break;
 				
 			}//IF
 			
 		}//FOR
-		if(dmf.getMediaURL() == null)
+		if(dmf.getDirectURL() == null)
 		{
 			throw new Exception("Retrieving Media URL Failed"); //$NON-NLS-1$
 			
 		}//IF
 		
-		String mainExtension = ExtensionMethods.getExtension(dmf.getMediaURL());
+		String mainExtension = ExtensionMethods.getExtension(dmf.getDirectURL());
 		
 		//GET SECONDARY MEDIA URL
 		List<DomAttr> secondaryURL = getDownloader().getPage().getByXPath("//img[@id='submissionImg']/@data-fullview-src"); //$NON-NLS-1$
@@ -586,7 +586,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		//DOWNLOAD FILES
 		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + mainExtension);
 		dmf.setMediaFile(mediaFile);
-		getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
+		getDownloader().downloadFile(dmf.getDirectURL(), mediaFile);
 		
 		if(dmf.getSecondaryURL() != null)
 		{
@@ -668,7 +668,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		
 		//SET URLS
 		dmf.setPageURL(pageURL);
-		dmf.setMediaURL(pageURL);
+		dmf.setDirectURL(pageURL);
 		
 		//DOWNLOAD DMF
 		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ".html"); //$NON-NLS-1$

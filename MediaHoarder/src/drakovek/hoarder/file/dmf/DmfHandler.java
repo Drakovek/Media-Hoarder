@@ -672,14 +672,14 @@ public class DmfHandler
 	}//METHOD
 	
 	/**
-	 * Gets the media URL from the DMF at a given index.
+	 * Gets the direct URL from the DMF at a given index.
 	 * 
 	 * @param index Index
 	 * @return Media URL
 	 */
-	public String getMediaURL(final int index)
+	public String getDirectURL(final int index)
 	{
-		return database.getMediaURL(filtered.get(index).intValue());
+		return database.getDirectURL(filtered.get(index).intValue());
 		
 	}//METHOD
 	

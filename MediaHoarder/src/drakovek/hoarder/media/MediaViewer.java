@@ -525,7 +525,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 		htmlText.append("</td></tr><tr><td><b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.DIRECT_URL_LABEL)));
 		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
-		htmlText.append(ownerGUI.getDmfHandler().getMediaURL(dmfIndex));
+		htmlText.append(ownerGUI.getDmfHandler().getDirectURL(dmfIndex));
 		htmlText.append("\">"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.LINK)));
 		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$

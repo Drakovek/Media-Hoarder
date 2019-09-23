@@ -59,9 +59,9 @@ public class DmfDatabase
 	private ArrayList<String> pageURLs;
 	
 	/**
-	 * ArrayList containing Media URLs from the DMF class
+	 * ArrayList containing Direct URLs from the DMF class
 	 */
-	private ArrayList<String> mediaURLs;
+	private ArrayList<String> directURLs;
 	
 	/**
 	 * ArrayList containing Secondary Media URLs from the DMF class
@@ -157,7 +157,7 @@ public class DmfDatabase
 
 		//WEB
 		pageURLs = new ArrayList<>();
-		mediaURLs = new ArrayList<>();
+		directURLs = new ArrayList<>();
 		secondaryURLs = new ArrayList<>();
 		
 		//FILE
@@ -332,7 +332,7 @@ public class DmfDatabase
 
 		//WEB
 		pageURLs.addAll(dmfDirectory.getPageURLs());
-		mediaURLs.addAll(dmfDirectory.getMediaURLs());
+		directURLs.addAll(dmfDirectory.getDirectURLs());
 		secondaryURLs.addAll(dmfDirectory.getSecondaryURLs());
 		
 		//FILE
@@ -613,7 +613,7 @@ public class DmfDatabase
 
 		//WEB
 		pageURLs.set(index, dmf.getPageURL());
-		mediaURLs.set(index, dmf.getMediaURL());
+		directURLs.set(index, dmf.getDirectURL());
 		secondaryURLs.set(index, dmf.getSecondaryURL());
 		
 		//FILE
@@ -684,7 +684,7 @@ public class DmfDatabase
 
 		//WEB
 		pageURLs.add(dmf.getPageURL());
-		mediaURLs.add(dmf.getMediaURL());
+		directURLs.add(dmf.getDirectURL());
 		secondaryURLs.add(dmf.getSecondaryURL());
 		
 		//FILE
@@ -913,18 +913,18 @@ public class DmfDatabase
 	}//METHOD
 	
 	/**
-	 * Gets the media URL from the DMF at a given index.
+	 * Gets the direct URL from the DMF at a given index.
 	 * 
 	 * @param index Index
 	 * @return Media URL
 	 */
-	public String getMediaURL(final int index)
+	public String getDirectURL(final int index)
 	{
-		String mediaURL = mediaURLs.get(index);
+		String directURL = directURLs.get(index);
 		
-		if(mediaURL != null)
+		if(directURL != null)
 		{
-			return mediaURL;
+			return directURL;
 			
 		}//IF
 		

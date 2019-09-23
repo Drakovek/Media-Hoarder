@@ -624,13 +624,13 @@ public class InkBunnyGUI extends ArtistHostingGUI
 			dmf.setWebTags(tags);
 			dmf.setDescription(description);
 			dmf.setPageURL(pageURLs.get(i));
-			dmf.setMediaURL(mediaURL);
+			dmf.setDirectURL(mediaURL);
 			dmf.setSecondaryURL(secondaryURL);
 			
 			//DOWNLOAD FILE
-			File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ExtensionMethods.getExtension(dmf.getMediaURL()));
+			File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ExtensionMethods.getExtension(dmf.getDirectURL()));
 			dmf.setMediaFile(mediaFile);
-			getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
+			getDownloader().downloadFile(dmf.getDirectURL(), mediaFile);
 			
 			if(dmf.getSecondaryURL() != null)
 			{
@@ -723,7 +723,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		
 		//SET URLS
 		dmf.setPageURL(URL);
-		dmf.setMediaURL(URL);
+		dmf.setDirectURL(URL);
 		
 		//DOWNLOAD DMF
 		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ".html"); //$NON-NLS-1$

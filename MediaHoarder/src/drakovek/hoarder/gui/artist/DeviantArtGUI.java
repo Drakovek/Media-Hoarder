@@ -501,7 +501,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		
 		//SET MEDIA PAGE
 		dmf.setPageURL(URL);
-		dmf.setMediaURL(URL);
+		dmf.setDirectURL(URL);
 		
 		//GET JOURNAL CONTENT
 		ArrayList<String> contents = new ArrayList<>();
@@ -679,15 +679,15 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		List<DomAttr> normalImage = getDownloader().getPage().getByXPath("//img[@class='dev-content-normal ']/@src"); //$NON-NLS-1$
 		if(normalImage.size() > 0)
 		{
-			dmf.setMediaURL(Downloader.getAttribute(normalImage.get(0)));
-			extension = ExtensionMethods.getExtension(dmf.getMediaURL());
+			dmf.setDirectURL(Downloader.getAttribute(normalImage.get(0)));
+			extension = ExtensionMethods.getExtension(dmf.getDirectURL());
 			
 		}//IF
 		List<DomAttr> fullImage = getDownloader().getPage().getByXPath("//img[@class='dev-content-full ']/@src"); //$NON-NLS-1$
 		if(normalImage.size() > 0)
 		{
-			dmf.setMediaURL(Downloader.getAttribute(fullImage.get(0)));
-			extension = ExtensionMethods.getExtension(dmf.getMediaURL());
+			dmf.setDirectURL(Downloader.getAttribute(fullImage.get(0)));
+			extension = ExtensionMethods.getExtension(dmf.getDirectURL());
 			
 		}//IF
 		
@@ -699,7 +699,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			extension = '.' + extension.substring(0, extension.indexOf(' ')).toLowerCase();
 			
 			List<DomAttr> downloadButton = getDownloader().getPage().getByXPath("//a[@class='dev-page-button dev-page-button-with-text dev-page-download']/@href"); //$NON-NLS-1$
-			dmf.setMediaURL(Downloader.getAttribute(downloadButton.get(0)));
+			dmf.setDirectURL(Downloader.getAttribute(downloadButton.get(0)));
 			
 		}//IF
 		
@@ -709,15 +709,15 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		{
 			setPage(Downloader.getAttribute(flash.get(0)));
 			flash = getDownloader().getPage().getByXPath("//embed[@id='sandboxembed']/@src"); //$NON-NLS-1$
-			dmf.setMediaURL(Downloader.getAttribute(flash.get(0)));
+			dmf.setDirectURL(Downloader.getAttribute(flash.get(0)));
 		
 		}//IF
 		
 		//GET TEXT
-		if(dmf.getMediaURL() == null || dmf.getMediaURL().length() == 0)
+		if(dmf.getDirectURL() == null || dmf.getDirectURL().length() == 0)
 		{
 			extension = ".html"; //$NON-NLS-1$
-			dmf.setMediaURL(null);
+			dmf.setDirectURL(null);
 			List<DomElement> textElement = getDownloader().getPage().getByXPath("//div[@class='dev-view-deviation']//div[@class='text']"); //$NON-NLS-1$
 			text = Downloader.getElement(textElement.get(0));
 			if(text.contains("<script")) //$NON-NLS-1$
@@ -738,9 +738,9 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		//DOWNLOAD FILES
 		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + extension);
 		dmf.setMediaFile(mediaFile);
-		if(dmf.getMediaURL() != null)
+		if(dmf.getDirectURL() != null)
 		{
-			getDownloader().downloadFile(dmf.getMediaURL(), mediaFile);
+			getDownloader().downloadFile(dmf.getDirectURL(), mediaFile);
 			
 		}//IF
 		else
