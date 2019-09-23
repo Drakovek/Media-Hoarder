@@ -8,7 +8,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.swing.components.DCheckBox;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
@@ -78,9 +78,9 @@ public class FontSettings extends SettingsModeGUI
 		size = getSettings().getFontSize();
 		font = getSettings().getFontName();
 		
-		fontList = new DList(this, false, DefaultLanguage.FONT);
+		fontList = new DList(this, false, SettingsValues.FONT);
 		previewText = new DTextArea(this);
-		previewText.setText(getSettings().getLanguageText(DefaultLanguage.FONT_PREVIEW));
+		previewText.setText(getSettings().getLanguageText(SettingsValues.FONT_PREVIEW));
 		
 		fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		fontList.setListData(fonts);
@@ -104,7 +104,7 @@ public class FontSettings extends SettingsModeGUI
 		}//IF
 		
 		//CREATE TEXT OPTIONS PANEL
-		sizeText = new DTextField(this, DefaultLanguage.FONT_SIZE);
+		sizeText = new DTextField(this, SettingsValues.FONT_SIZE);
 		sizeText.setText(Integer.toString(size));
 		JPanel sizePanel = new JPanel();
 		sizePanel.setLayout(new GridBagLayout());
@@ -113,7 +113,7 @@ public class FontSettings extends SettingsModeGUI
 		sizeCST.gridwidth = 1;	sizeCST.gridheight = 3;
 		sizeCST.weightx = 0;	sizeCST.weighty = 1;
 		sizeCST.fill = GridBagConstraints.BOTH;
-		sizePanel.add(new DLabel(this, sizeText, DefaultLanguage.FONT_SIZE), sizeCST);
+		sizePanel.add(new DLabel(this, sizeText, SettingsValues.FONT_SIZE), sizeCST);
 		sizeCST.gridx = 1;
 		sizePanel.add(getHorizontalSpace(), sizeCST);
 		sizeCST.gridx = 2;		sizeCST.weightx = 1;
@@ -121,13 +121,13 @@ public class FontSettings extends SettingsModeGUI
 		
 		JPanel topTextPanel = new JPanel();
 		topTextPanel.setLayout(new GridLayout(1, 2, getSettings().getSpaceSize(), 0));
-		topTextPanel.add(new DCheckBox(this, bold, DefaultLanguage.FONT_BOLD));
+		topTextPanel.add(new DCheckBox(this, bold, SettingsValues.FONT_BOLD));
 		topTextPanel.add(sizePanel);
 		
 		JPanel textPanel = new JPanel();
 		textPanel.setLayout(new GridLayout(2, 1));
 		textPanel.add(topTextPanel);
-		textPanel.add(new DCheckBox(this, aa, DefaultLanguage.FONT_AA));
+		textPanel.add(new DCheckBox(this, aa, SettingsValues.FONT_AA));
 		
 		//CREATE CENTER PANEL
 		DScrollPane fontScroll = new DScrollPane(getSettings(), ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, fontList);
@@ -145,7 +145,7 @@ public class FontSettings extends SettingsModeGUI
 		fontCST.gridwidth = 3;	fontCST.gridheight = 1;
 		fontCST.weightx = 1;	fontCST.weighty = 0;
 		fontCST.fill = GridBagConstraints.BOTH;
-		getPanel().add(new DLabel(this, fontList, DefaultLanguage.FONT), fontCST);
+		getPanel().add(new DLabel(this, fontList, SettingsValues.FONT), fontCST);
 		fontCST.gridy = 2;
 		getPanel().add(textPanel, fontCST);
 		fontCST.gridy = 1;		fontCST.weighty = 1;
@@ -225,16 +225,16 @@ public class FontSettings extends SettingsModeGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.FONT:
+			case SettingsValues.FONT:
 				updateFont();
 				break;
-			case DefaultLanguage.FONT_AA:
+			case SettingsValues.FONT_AA:
 				aa = BooleanInt.getBoolean(value);
 				break;
-			case DefaultLanguage.FONT_SIZE:
+			case SettingsValues.FONT_SIZE:
 				updateSize();
 				break;
-			case DefaultLanguage.FONT_BOLD:
+			case SettingsValues.FONT_BOLD:
 				bold = BooleanInt.getBoolean(value);
 				updatePreview();
 				break;

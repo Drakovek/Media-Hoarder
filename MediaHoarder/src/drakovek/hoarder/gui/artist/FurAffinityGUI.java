@@ -15,7 +15,8 @@ import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ArtistValues;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.web.Downloader;
@@ -63,7 +64,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	 */
 	public FurAffinityGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, dmfHandler, new LoginGUI(settings, DefaultLanguage.FUR_AFFINITY_LOGIN, true), DefaultLanguage.FUR_AFFINITY_MODE, DefaultLanguage.CHOOSE_FUR_AFFINITY_FOLDER);
+		super(settings, dmfHandler, new LoginGUI(settings, ArtistValues.FUR_AFFINITY_LOGIN, true), ModeValues.FUR_AFFINITY_MODE, ArtistValues.CHOOSE_FUR_AFFINITY_FOLDER);
 		idStrings = new ArrayList<>();
 		
 	}//CONSTRUCTOR
@@ -226,7 +227,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			//LOADS GALLERY PAGE
 			hasLink = false;
 			size = pages.size();
-			progressDialog.setDetailLabel(getSettings().getLanguageText(DefaultLanguage.PAGE) + ' ' + pageNum, false);
+			progressDialog.setDetailLabel(getSettings().getLanguageText(ArtistValues.PAGE) + ' ' + pageNum, false);
 			setPage(baseURL + pageNum + "/?perpage=72"); //$NON-NLS-1$
 			if(isLoggedIn())
 			{
@@ -283,7 +284,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			//LOADS GALLERY PAGE
 			hasLink = false;
 			size = pages.size();
-			progressDialog.setDetailLabel(getSettings().getLanguageText(DefaultLanguage.PAGE) + ' ' + pageNum, false);
+			progressDialog.setDetailLabel(getSettings().getLanguageText(ArtistValues.PAGE) + ' ' + pageNum, false);
 			setPage(baseURL + pageNum);
 			if(isLoggedIn())
 			{
@@ -780,7 +781,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	@Override
 	protected String getTitle()
 	{
-		return getSettings().getLanguageText(DefaultLanguage.FUR_AFFINITY_PROGRESS_TITLE);
+		return '[' + getSettings().getLanguageText(ModeValues.FUR_AFFINITY_MODE) + ']';
 		
 	}//METHOD
 

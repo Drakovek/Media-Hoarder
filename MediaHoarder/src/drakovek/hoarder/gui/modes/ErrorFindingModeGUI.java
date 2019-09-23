@@ -7,7 +7,9 @@ import drakovek.hoarder.file.ExclusionFilter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfDatabase;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.ManagingValues;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
@@ -48,10 +50,10 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 		progressDialog = new DProgressDialog(getSettings());
 		progressInfoDialog = new DProgressInfoDialog(getSettings());
 		
-		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODE_START, DefaultLanguage.MANAGE_MODE};
-		String[] modeIDs = {DefaultLanguage.MISSING_MEDIA,
-							DefaultLanguage.UNLINKED_FILES,
-							DefaultLanguage.IDENTICAL_IDS};
+		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START, ModeValues.MANAGE_MODE};
+		String[] modeIDs = {ManagingValues.MISSING_MEDIA,
+							ManagingValues.UNLINKED_FILES,
+							ManagingValues.IDENTICAL_IDS};
 		
 		setContentPanel(backIDs, modeIDs);
 		
@@ -64,8 +66,8 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	{
 		progressDialog.setCancelled(false);
 		getParentGUI().getFrame().setProcessRunning(true);
-		progressDialog.startProgressDialog(getParentGUI().getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
-		(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
+		progressDialog.startProgressDialog(getParentGUI().getFrame(),  DmfLanguageValues.LOADING_DMFS_TITLE);
+		(new DSwingWorker(this,  DmfLanguageValues.LOADING_DMFS)).execute();
 		
 	}//METHOD
 	
@@ -116,7 +118,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	private void findMissingMedia()
 	{
 		int size = getParentGUI().getDmfHandler().getSize();
-		progressInfoDialog.setProcessLabel(DefaultLanguage.MISSING_MEDIA);
+		progressInfoDialog.setProcessLabel(ManagingValues.MISSING_MEDIA);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
@@ -159,8 +161,8 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	{
 		String[] extension = {DMF.DMF_EXTENSION};
 		ExclusionFilter filter = new ExclusionFilter(extension, false);
-		progressInfoDialog.setProcessLabel(DefaultLanguage.MISSING_MEDIA);
-		progressInfoDialog.setDetailLabel(DefaultLanguage.GETTING_FOLDERS, true);
+		progressInfoDialog.setProcessLabel(ManagingValues.MISSING_MEDIA);
+		progressInfoDialog.setDetailLabel(DmfLanguageValues.GETTING_FOLDERS, true);
 		progressInfoDialog.setProgressBar(true, false, 0, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		ArrayList<File> dmfFolders = DmfDatabase.getDmfFolders(getSettings().getDmfDirectories());
@@ -189,7 +191,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	private void findIdenticalIDs()
 	{
 		int size = getParentGUI().getDmfHandler().getSize();
-		progressInfoDialog.setProcessLabel(DefaultLanguage.IDENTICAL_IDS);
+		progressInfoDialog.setProcessLabel(ManagingValues.IDENTICAL_IDS);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
@@ -235,11 +237,11 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.MODE_BACK:
-			case DefaultLanguage.MANAGE_MODE:
+			case ModeValues.MODE_BACK:
+			case ModeValues.MANAGE_MODE:
 				setContentPanel(new ManageModeGUI(getParentGUI()));
 				break;
-			case DefaultLanguage.MODE_START:
+			case ModeValues.MODE_START:
 				setContentPanel(new ModesGUI(getParentGUI()));
 				break;
 			default:
@@ -256,16 +258,16 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case  DmfLanguageValues.LOADING_DMFS:
 				loadDMFs();
 				break;
-			case DefaultLanguage.UNLINKED_FILES:
+			case ManagingValues.UNLINKED_FILES:
 				findUnlinkedFiles();
 				break;
-			case DefaultLanguage.IDENTICAL_IDS:
+			case ManagingValues.IDENTICAL_IDS:
 				findIdenticalIDs();
 				break;
-			case DefaultLanguage.MISSING_MEDIA:
+			case ManagingValues.MISSING_MEDIA:
 				findMissingMedia();
 				break;
 			
@@ -278,7 +280,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case DmfLanguageValues.LOADING_DMFS:
 				loadDmfsFinished();
 				break;
 			default:

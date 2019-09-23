@@ -10,7 +10,7 @@ import javax.swing.WindowConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DDialog;
 import drakovek.hoarder.gui.swing.components.DFrame;
@@ -101,7 +101,7 @@ public class DProgressInfoDialog extends DProgressDialog
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
-		bottomPanel.add(new DButton(this, DefaultLanguage.CANCEL), BorderLayout.EAST);
+		bottomPanel.add(new DButton(this, CommonValues.CANCEL), BorderLayout.EAST);
 		
 		//CREATE FULL PANEL
 		JPanel fullPanel = new JPanel();
@@ -114,8 +114,8 @@ public class DProgressInfoDialog extends DProgressDialog
 		//CREATE FINAL BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 2, getSettings().getSpaceSize(), 0));
-		buttonPanel.add(new DButton(this, DefaultLanguage.CLOSE));
-		buttonPanel.add(new DButton(this, DefaultLanguage.SAVE));
+		buttonPanel.add(new DButton(this, CommonValues.CLOSE));
+		buttonPanel.add(new DButton(this, CommonValues.SAVE));
 		JPanel finalBottomPanel = new JPanel();
 		finalBottomPanel.setLayout(new BorderLayout());
 		finalBottomPanel.add(buttonPanel, BorderLayout.EAST);
@@ -235,16 +235,16 @@ public class DProgressInfoDialog extends DProgressDialog
 	{
 		switch(id)
 		{
-			case DefaultLanguage.CANCEL:
+			case CommonValues.CANCEL:
 				setCancelled(true);
-				setDetailLabel(DefaultLanguage.CANCELING, true);
+				setDetailLabel(CommonValues.CANCELING, true);
 				setProgressBar(true, false, 0, 0);
-				appendLog(DefaultLanguage.CANCELING, true);
+				appendLog(CommonValues.CANCELING, true);
 				break;
-			case DefaultLanguage.CLOSE:
+			case CommonValues.CLOSE:
 				finalDialog.dispose();
 				break;
-			case DefaultLanguage.SAVE:
+			case CommonValues.SAVE:
 				saveLog();
 				break;
 			

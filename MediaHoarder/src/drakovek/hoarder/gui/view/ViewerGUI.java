@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ViewerValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
@@ -61,16 +61,16 @@ public class ViewerGUI extends FrameGUI
 	 */
 	public ViewerGUI(ViewBrowserGUI ownerGUI, final int dmfIndex, final boolean updateViews)
 	{
-		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), DefaultLanguage.VIEWER_TITLE);
+		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), ViewerValues.VIEWER_TITLE);
 		this.ownerGUI = ownerGUI;
 		this.dmfIndex = dmfIndex;
 		
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 3, getSettings().getSpaceSize(), 0));
-		previousButton = new DButton(this, DefaultLanguage.PREVIOUS);
-		nextButton = new DButton(this, DefaultLanguage.NEXT);
-		branchButton = new DButton(this, DefaultLanguage.BRANCHES);
+		previousButton = new DButton(this, ViewerValues.PREVIOUS);
+		nextButton = new DButton(this, ViewerValues.NEXT);
+		branchButton = new DButton(this, ViewerValues.BRANCHES);
 		bottomPanel.add(previousButton);
 		bottomPanel.add(branchButton);
 		bottomPanel.add(nextButton);
@@ -187,11 +187,11 @@ public class ViewerGUI extends FrameGUI
 				ownerGUI.setOffset(dmfIndex);
 				dispose();
 				break;
-			case DefaultLanguage.PREVIOUS:
+			case ViewerValues.PREVIOUS:
 				dmfIndex--;
 				updateMedia();
 				break;
-			case DefaultLanguage.NEXT:
+			case ViewerValues.NEXT:
 				dmfIndex++;
 				updateMedia();
 				break;

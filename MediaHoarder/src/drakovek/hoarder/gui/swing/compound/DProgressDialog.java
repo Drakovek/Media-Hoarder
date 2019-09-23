@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DDialog;
@@ -67,8 +67,8 @@ public class DProgressDialog extends BaseGUI
 		detailLabel = new DLabel(this, null, new String());
 		progressBar = new DProgressBar(this);
 		
-		this.setProcessLabel(DefaultLanguage.RUNNING);
-		this.setDetailLabel(DefaultLanguage.RUNNING, true);
+		this.setProcessLabel(CommonValues.RUNNING);
+		this.setDetailLabel(CommonValues.RUNNING, true);
 		this.setProgressBar(false, true, 2, 1);
 		
 		initializePanel();
@@ -92,7 +92,7 @@ public class DProgressDialog extends BaseGUI
 		JPanel fullPanel = new JPanel();
 		fullPanel.setLayout(new BorderLayout());
 		fullPanel.add(this.getSpacedPanel(centerPanel), BorderLayout.CENTER);
-		fullPanel.add(getSpacedPanel(new DButton(this, DefaultLanguage.CANCEL), 0, 0, false, true, true, true), BorderLayout.SOUTH);
+		fullPanel.add(getSpacedPanel(new DButton(this, CommonValues.CANCEL), 0, 0, false, true, true, true), BorderLayout.SOUTH);
 		this.setProgressPanel(fullPanel);
 		
 	}//METHOD
@@ -298,9 +298,9 @@ public class DProgressDialog extends BaseGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.CANCEL:
+			case CommonValues.CANCEL:
 				setCancelled(true);
-				setDetailLabel(DefaultLanguage.CANCELING, true);
+				setDetailLabel(CommonValues.CANCELING, true);
 				setProgressBar(true, false, 0, 0);
 			
 		}//SWITCH

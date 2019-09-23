@@ -19,7 +19,9 @@ import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ArtistValues;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -194,14 +196,14 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 		//MENUS
 		JMenuBar menubar = new JMenuBar();
-		DMenu fileMenu = new DMenu(this, DefaultLanguage.FILE);
+		DMenu fileMenu = new DMenu(this, CommonValues.FILE);
 		menubar.add(fileMenu);
-		DMenuItem openItem = new DMenuItem(this, DefaultLanguage.OPEN);
+		DMenuItem openItem = new DMenuItem(this, CommonValues.OPEN);
 		openItem.setTextID(openID);
 		fileMenu.add(openItem);
 		fileMenu.addSeparator();
-		fileMenu.add(new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM));
-		fileMenu.add(new DMenuItem(this, DefaultLanguage.EXIT));
+		fileMenu.add(new DMenuItem(this, CommonValues.RESTART_PROGRAM));
+		fileMenu.add(new DMenuItem(this, CommonValues.EXIT));
 		
 		//TITLE PANEL
 		DLabel titleLabel = new DLabel(this, null, subtitleID);
@@ -222,17 +224,17 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		//CREATE CENTER PANEL
 		JPanel actionPanel = new JPanel();
 		actionPanel.setLayout(new GridLayout(3, 1, 0, settings.getSpaceSize()));
-		newButton = new DButton(this, DefaultLanguage.CHECK_NEW);
+		newButton = new DButton(this, ArtistValues.CHECK_NEW);
 		newButton.setFontLarge();
-		allButton = new DButton(this, DefaultLanguage.CHECK_ALL);
+		allButton = new DButton(this, ArtistValues.CHECK_ALL);
 		allButton.setFontLarge();
-		singleButton = new DButton(this, DefaultLanguage.DOWNLOAD_SINGLE);
+		singleButton = new DButton(this, ArtistValues.DOWNLOAD_SINGLE);
 		singleButton.setFontLarge();
 		actionPanel.add(newButton);
 		actionPanel.add(allButton);
 		actionPanel.add(singleButton);
 		
-		artistList = new DList(this, true, DefaultLanguage.ARTISTS);
+		artistList = new DList(this, true, ArtistValues.ARTISTS);
 		DScrollPane artistScroll = new DScrollPane(settings, artistList);
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
@@ -242,21 +244,21 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		//LABEL PANEL
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		labelPanel.add(new DLabel(this, null, DefaultLanguage.ACTIONS));
-		labelPanel.add(new DLabel(this, artistList, DefaultLanguage.ARTISTS));
+		labelPanel.add(new DLabel(this, null, ArtistValues.ACTIONS));
+		labelPanel.add(new DLabel(this, artistList, ArtistValues.ARTISTS));
 		
 		//ADD PANEL
 		JPanel addPanel = new JPanel();
 		addPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		addButton = new DButton(this, DefaultLanguage.ADD);
-		removeButton = new DButton(this, DefaultLanguage.REMOVE);
+		addButton = new DButton(this, CommonValues.ADD);
+		removeButton = new DButton(this, CommonValues.REMOVE);
 		addPanel.add(addButton);
 		addPanel.add(removeButton);
 		
 		//BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		journalCheck = new DCheckBox(this, settings.getSaveJournals(), DefaultLanguage.SAVE_JOURNALS);
+		journalCheck = new DCheckBox(this, settings.getSaveJournals(), ArtistValues.SAVE_JOURNALS);
 		bottomPanel.add(journalCheck);
 		bottomPanel.add(addPanel);
 		
@@ -385,7 +387,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void updateArtistList()
 	{
 		ArrayList<String> currentArtists = new ArrayList<>();
-		currentArtists.add(getSettings().getLanguageText(DefaultLanguage.ALL_ARTISTS));
+		currentArtists.add(getSettings().getLanguageText(ArtistValues.ALL_ARTISTS));
 		currentArtists.addAll(artistHandler.getArtists());
 		artistList.setListData(StringMethods.arrayListToArray(currentArtists));
 		
@@ -406,9 +408,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		{
 			ready = false;
 			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-			String[] messageIDs = {DefaultLanguage.NO_DIRECTORY_DIALOG};
-			String[] buttonIDs = {DefaultLanguage.OK};
-			buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.NO_DIRECTORY_DIALOG, messageIDs, buttonIDs);
+			String[] messageIDs = {CommonValues.NO_DIRECTORY_DIALOG};
+			String[] buttonIDs = {CommonValues.OK};
+			buttonDialog.openButtonDialog(getFrame(), CommonValues.NO_DIRECTORY_DIALOG, messageIDs, buttonIDs);
 		
 		}//IF
 		
@@ -420,9 +422,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			{
 				ready = false;
 				DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-				String[] messageIDs = {DefaultLanguage.NO_ARTISTS};
-				String[] buttonIDs = {DefaultLanguage.OK};
-				buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.NO_ARTISTS, messageIDs, buttonIDs);
+				String[] messageIDs = {ArtistValues.NO_ARTISTS};
+				String[] buttonIDs = {CommonValues.OK};
+				buttonDialog.openButtonDialog(getFrame(), ArtistValues.NO_ARTISTS, messageIDs, buttonIDs);
 			
 			}//IF
 			
@@ -447,10 +449,10 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			if(missingFolders)
 			{
 				DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-				String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-				String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.WRONG_FOLDER_MESSAGES, buttonIDs);
+				String[] buttonIDs = {CommonValues.YES, CommonValues.NO};
+				String result = buttonDialog.openButtonDialog(getFrame(), ArtistValues.SURE_TITLE, ArtistValues.WRONG_FOLDER_MESSAGES, buttonIDs);
 			
-				if(result.equals(DefaultLanguage.NO))
+				if(result.equals(CommonValues.NO))
 				{
 					ready = false;
 					
@@ -480,8 +482,8 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		{
 			progressDialog.setCancelled(false);
 			getFrame().setProcessRunning(true);
-			progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
-			(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
+			progressDialog.startProgressDialog(getFrame(), DmfLanguageValues.LOADING_DMFS_TITLE);
+			(new DSwingWorker(this,  DmfLanguageValues.LOADING_DMFS)).execute();
 			
 		}//IF
 		
@@ -498,21 +500,21 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 */
 	protected ArrayList<String> getPages(DProgressInfoDialog pid, final String artist, final boolean checkAll, final boolean checkJournals)
 	{
-		pid.setProcessLabel(DefaultLanguage.GETTING_PAGE_URLS);
+		pid.setProcessLabel(ArtistValues.GETTING_PAGE_URLS);
 		pid.setDetailLabel(artist, false);
 		pid.setProgressBar(true, false, 0, 0);
 		pid.appendLog(null, false);
 		String urlArtist = getUrlArtist(artist);
 		
 		//GETS PAGES
-		pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_GALLERY_PAGES), true);
+		pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(ArtistValues.GETTING_GALLERY_PAGES), true);
 		ArrayList<String> pages = getMediaPages(pid, urlArtist, checkAll, false);
-		pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_SCRAP_PAGES), true);
+		pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(ArtistValues.GETTING_SCRAP_PAGES), true);
 		pages.addAll(getMediaPages(pid, urlArtist, checkAll, true));
 		
 		if(checkJournals)
 		{
-			pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(DefaultLanguage.GETTING_JOURNAL_PAGES), true);
+			pid.appendLog(artist + DProgressInfoDialog.SPACER + getSettings().getLanguageText(ArtistValues.GETTING_JOURNAL_PAGES), true);
 			pages.addAll(getJournalPages(pid, urlArtist, checkAll));
 			
 		}//IF
@@ -533,23 +535,23 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		File artistFolder = DReader.getDirectory(getDirectory(), DWriter.getFileFriendlyName(artist));
 		for(int i = pages.size() - 1; !pid.isCancelled() && i > -1; i--)
 		{
-			pid.setProcessLabel(DefaultLanguage.LOADING_PAGE);
+			pid.setProcessLabel(ArtistValues.LOADING_PAGE);
 			pid.setDetailLabel(pages.get(i), false);
 			pid.setProgressBar(false, true, pages.size(), pages.size() - (i + 1));
-			pid.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pages.get(i), true);
+			pid.appendLog(getSettings().getLanguageText(ArtistValues.LOADING_PAGE) + ' ' + pages.get(i), true);
 			
 			try
 			{
 				if(pages.get(i).contains(getGalleryUrlFragment()))
 				{
 					String title = downloadMediaPage(artistFolder, pages.get(i));
-					pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+					pid.appendLog(getSettings().getLanguageText(CommonValues.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
 					
 				}//IF
 				else
 				{
 					String title = downloadJournalPage(artistFolder, pages.get(i));
-					pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+					pid.appendLog(getSettings().getLanguageText(CommonValues.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
 						
 				}//ELSE
 				
@@ -557,7 +559,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			catch(Exception e)
 			{
 				pid.setCancelled(true);
-				pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOAD_FAILED), true);
+				pid.appendLog(getSettings().getLanguageText(CommonValues.DOWNLOAD_FAILED), true);
 				pid.appendLog(e.getMessage(), false);
 				e.printStackTrace();
 				
@@ -580,9 +582,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		{
 			ready = false;
 			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-			String[] messageIDs = {DefaultLanguage.NO_DIRECTORY_DIALOG};
-			String[] buttonIDs = {DefaultLanguage.OK};
-			buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.NO_DIRECTORY_DIALOG, messageIDs, buttonIDs);
+			String[] messageIDs = {CommonValues.NO_DIRECTORY_DIALOG};
+			String[] buttonIDs = {CommonValues.OK};
+			buttonDialog.openButtonDialog(getFrame(), CommonValues.NO_DIRECTORY_DIALOG, messageIDs, buttonIDs);
 		
 		}//IF
 		
@@ -604,14 +606,14 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		{
 			//GET PAGE URL
 			DTextDialog textDialog = new DTextDialog(getSettings());
-			String[] messageIDs = {DefaultLanguage.ENTER_URL_MESSAGE};
-			pageURL = textDialog.openTextDialog(getFrame(), DefaultLanguage.ENTER_URL_TITLE, messageIDs, null);
+			String[] messageIDs = {ArtistValues.ENTER_URL_MESSAGE};
+			pageURL = textDialog.openTextDialog(getFrame(), ArtistValues.ENTER_URL_TITLE, messageIDs, null);
 			
 			//START LOADING DMFS
 			progressDialog.setCancelled(false);
 			getFrame().setProcessRunning(true);
-			progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
-			(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
+			progressDialog.startProgressDialog(getFrame(),  DmfLanguageValues.LOADING_DMFS_TITLE);
+			(new DSwingWorker(this, DmfLanguageValues.LOADING_DMFS)).execute();
 			
 		}//IF
 		
@@ -626,10 +628,10 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 */
 	protected void downloadSinglePage(DProgressInfoDialog pid, final String URL, final File baseDirectory)
 	{
-		pid.setProcessLabel(DefaultLanguage.LOADING_PAGE);
+		pid.setProcessLabel(ArtistValues.LOADING_PAGE);
 		pid.setDetailLabel(pageURL, false);
 		pid.setProgressBar(true, false, 0, 0);
-		pid.appendLog(getSettings().getLanguageText(DefaultLanguage.LOADING_PAGE) + ' ' + pageURL, true);
+		pid.appendLog(getSettings().getLanguageText(ArtistValues.LOADING_PAGE) + ' ' + pageURL, true);
 		
 		if(pageURL != null && pageURL.contains(getMainURL()))
 		{
@@ -640,13 +642,13 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 					if(pageURL.contains(getGalleryUrlFragment()))
 					{
 						String title = downloadMediaPage(baseDirectory, pageURL);
-						pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+						pid.appendLog(getSettings().getLanguageText(CommonValues.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
 					
 					}//IF
 					else
 					{
 						String title = downloadJournalPage(baseDirectory, pageURL);
-						pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
+						pid.appendLog(getSettings().getLanguageText(CommonValues.DOWNLOADED) + DProgressInfoDialog.SPACER + title , true);
 						
 					}//ELSE
 				
@@ -654,7 +656,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 				catch(Exception e)
 				{
 					pid.setCancelled(true);
-					pid.appendLog(getSettings().getLanguageText(DefaultLanguage.DOWNLOAD_FAILED), true);
+					pid.appendLog(getSettings().getLanguageText(CommonValues.DOWNLOAD_FAILED), true);
 					pid.appendLog(e.getMessage(), false);
 					e.printStackTrace();
 				
@@ -663,14 +665,14 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			}//IF
 			else
 			{
-				pid.appendLog(getSettings().getLanguageText(DefaultLanguage.ALREADY_DOWNLOADED), true);
+				pid.appendLog(getSettings().getLanguageText(CommonValues.ALREADY_DOWNLOADED), true);
 				
 			}//ELSE
 			
 		}//IF
 		else
 		{
-			pid.appendLog(getSettings().getLanguageText(DefaultLanguage.INVALID_URL), true);
+			pid.appendLog(getSettings().getLanguageText(CommonValues.INVALID_URL), true);
 			
 		}//ELSE
 		
@@ -736,7 +738,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void addArtist()
 	{
 		DTextDialog textDialog = new DTextDialog(getSettings());
-		String artist = textDialog.openTextDialog(getFrame(), DefaultLanguage.ADD_ARTIST, DefaultLanguage.NAME_OF_ARTIST, null);
+		String artist = textDialog.openTextDialog(getFrame(), ArtistValues.ADD_ARTIST, ArtistValues.NAME_OF_ARTIST, null);
 		
 		if(artist != null)
 		{
@@ -757,9 +759,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		if(selected.length > 0)
 		{
 			DButtonDialog buttonDialog = new DButtonDialog(getSettings());;
-			String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-			String result = buttonDialog.openButtonDialog(getFrame(), DefaultLanguage.SURE_TITLE, DefaultLanguage.DELETE_ARTIST_MESSAGES, buttonIDs);
-			if(result != null && result.equals(DefaultLanguage.YES))
+			String[] buttonIDs = {CommonValues.YES, CommonValues.NO};
+			String result = buttonDialog.openButtonDialog(getFrame(), ArtistValues.SURE_TITLE, ArtistValues.DELETE_ARTIST_MESSAGES, buttonIDs);
+			if(result != null && result.equals(CommonValues.YES))
 			{
 				artistHandler.deleteArtists(selected);
 				updateArtistList();
@@ -782,16 +784,16 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			{
 				progressInfoDialog.setCancelled(false);
 				getFrame().setProcessRunning(true);
-				progressInfoDialog.startProgressDialog(getFrame(), this.getTitle(DefaultLanguage.DOWNLOADING));
-				(new DSwingWorker(this, DefaultLanguage.CHECK_ALL)).execute();
+				progressInfoDialog.startProgressDialog(getFrame(), this.getTitle(CommonValues.DOWNLOADING));
+				(new DSwingWorker(this, ArtistValues.CHECK_ALL)).execute();
 				
 			}//IF
 			else
 			{
 				progressInfoDialog.setCancelled(false);
 				getFrame().setProcessRunning(true);
-				progressInfoDialog.startProgressDialog(getFrame(), this.getTitle(DefaultLanguage.DOWNLOADING));
-				(new DSwingWorker(this, DefaultLanguage.DOWNLOAD_SINGLE)).execute();
+				progressInfoDialog.startProgressDialog(getFrame(), this.getTitle(CommonValues.DOWNLOADING));
+				(new DSwingWorker(this, ArtistValues.DOWNLOAD_SINGLE)).execute();
 				
 			}//ELSE
 			
@@ -810,7 +812,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			downloadPages(progressInfoDialog, artists.get(i), getPages(progressInfoDialog, artists.get(i), checkAllPages, getSettings().getSaveJournals()));
 			
 		}//FOR
-		progressInfoDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.FINISHED), true);
+		progressInfoDialog.appendLog(getSettings().getLanguageText(CommonValues.FINISHED), true);
 		
 	}//METHOD
 	
@@ -821,7 +823,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	{
 		progressInfoDialog.appendLog(getTitle(), false);
 		downloadSinglePage(progressInfoDialog, pageURL, getDirectory());
-		progressInfoDialog.appendLog(getSettings().getLanguageText(DefaultLanguage.FINISHED), true);
+		progressInfoDialog.appendLog(getSettings().getLanguageText(CommonValues.FINISHED), true);
 		
 	}//METHOD
 	
@@ -842,7 +844,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void infoProcessFinished()
 	{
 		progressInfoDialog.setCancelled(false);
-		progressInfoDialog.showFinalLog(getFrame(), getTitle(DefaultLanguage.DOWNLOADING), getDirectory());
+		progressInfoDialog.showFinalLog(getFrame(), getTitle(CommonValues.DOWNLOADING), getDirectory());
 		getFrame().setProcessRunning(false);
 		
 	}//METHOD
@@ -880,30 +882,32 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	{
 		switch(id)
 		{
-			case DefaultLanguage.OPEN:
+			case CommonValues.OPEN:
 				selectDirectory();
 				break;
-			case DefaultLanguage.ADD:
+			case CommonValues.ADD:
 				addArtist();
 				break;
-			case DefaultLanguage.REMOVE:
+			case CommonValues.REMOVE:
 				removeArtists();
 				break;
-			case DefaultLanguage.RESTART_PROGRAM:
+			case CommonValues.RESTART_PROGRAM:
 				Start.startGUI(getSettings(), getDmfHandler());
-			case DefaultLanguage.EXIT:
 				dispose();
 				break;
-			case DefaultLanguage.CHECK_NEW:
+			case CommonValues.EXIT:
+				dispose();
+				break;
+			case ArtistValues.CHECK_NEW:
 				checkPages(false);
 				break;
-			case DefaultLanguage.CHECK_ALL:
+			case ArtistValues.CHECK_ALL:
 				checkPages(true);
 				break;
-			case DefaultLanguage.DOWNLOAD_SINGLE:
+			case ArtistValues.DOWNLOAD_SINGLE:
 				downloadSingle();
 				break;
-			case DefaultLanguage.SAVE_JOURNALS:
+			case ArtistValues.SAVE_JOURNALS:
 				getSettings().setSaveJournals(BooleanInt.getBoolean(value));
 				break;
 			
@@ -929,13 +933,13 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case  DmfLanguageValues.LOADING_DMFS:
 				loadDMFs();
 				break;
-			case DefaultLanguage.DOWNLOAD_SINGLE:
+			case ArtistValues.DOWNLOAD_SINGLE:
 				downloadSingleMedia();
 				break;
-			case DefaultLanguage.CHECK_ALL:
+			case ArtistValues.CHECK_ALL:
 				downloadArtistMedia();
 				break;
 			
@@ -948,12 +952,12 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case  DmfLanguageValues.LOADING_DMFS:
 				processFinished();
 				startDownload();
 				break;
-			case DefaultLanguage.CHECK_ALL:
-			case DefaultLanguage.DOWNLOAD_SINGLE:
+			case ArtistValues.CHECK_ALL:
+			case ArtistValues.DOWNLOAD_SINGLE:
 				infoProcessFinished();
 				break;
 				

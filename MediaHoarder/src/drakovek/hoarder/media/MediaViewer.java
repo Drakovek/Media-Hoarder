@@ -12,7 +12,9 @@ import javax.swing.JSplitPane;
 
 import drakovek.hoarder.file.FileOpener;
 import drakovek.hoarder.file.dmf.DMF;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.ViewerValues;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DEditorPane;
@@ -191,15 +193,15 @@ public class MediaViewer extends BaseGUI implements DWorker
 		hyperlinkDialog = new DHyperlinkDialog(getSettings());
 		
 		//CREATE SCALE MENU
-		scaleMenu = new DMenu(this, DefaultLanguage.SCALE);
+		scaleMenu = new DMenu(this, ViewerValues.SCALE);
 		ButtonGroup scaleGroup = new ButtonGroup();
-		DRadioButtonMenuItem scaleFull = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_FULL, DefaultLanguage.SCALE_FULL);
-		DRadioButtonMenuItem scale2dFit = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_2D_FIT, DefaultLanguage.SCALE_2D_FIT);
-		DRadioButtonMenuItem scale2dStretch = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_2D_STRETCH, DefaultLanguage.SCALE_2D_STRETCH);
-		DRadioButtonMenuItem scale1dFit = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_1D_FIT, DefaultLanguage.SCALE_1D_FIT);
-		DRadioButtonMenuItem scale1dStretch = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_1D_STRETCH, DefaultLanguage.SCALE_1D_STRETCH);
-		DRadioButtonMenuItem scaleDirect = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_DIRECT, DefaultLanguage.SCALE_DIRECT);
-		scaleDirect.addActionListener(new DActionListener(this, DefaultLanguage.SCALE));
+		DRadioButtonMenuItem scaleFull = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_FULL, ViewerValues.SCALE_FULL);
+		DRadioButtonMenuItem scale2dFit = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_2D_FIT, ViewerValues.SCALE_2D_FIT);
+		DRadioButtonMenuItem scale2dStretch = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_2D_STRETCH, ViewerValues.SCALE_2D_STRETCH);
+		DRadioButtonMenuItem scale1dFit = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_1D_FIT, ViewerValues.SCALE_1D_FIT);
+		DRadioButtonMenuItem scale1dStretch = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_1D_STRETCH, ViewerValues.SCALE_1D_STRETCH);
+		DRadioButtonMenuItem scaleDirect = new DRadioButtonMenuItem(this, getSettings().getScaleType() == ImageHandler.SCALE_DIRECT, ViewerValues.SCALE_DIRECT);
+		scaleDirect.addActionListener(new DActionListener(this, ViewerValues.SCALE));
 		scaleGroup.add(scaleFull);
 		scaleGroup.add(scale2dFit);
 		scaleGroup.add(scale2dStretch);
@@ -214,13 +216,13 @@ public class MediaViewer extends BaseGUI implements DWorker
 		scaleMenu.add(scaleDirect);
 				
 		//CREATE INFO MENU
-		detailMenu = new DMenu(this, DefaultLanguage.DETAILS);
+		detailMenu = new DMenu(this, ViewerValues.DETAILS);
 		ButtonGroup detailGroup = new ButtonGroup();
-		DRadioButtonMenuItem infoNone = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.NO_DETAILS, DefaultLanguage.NO_DETAILS);
-		DRadioButtonMenuItem infoTop = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.TOP_DETAILS, DefaultLanguage.TOP_DETAILS);
-		DRadioButtonMenuItem infoBottom = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.BOTTOM_DETAILS, DefaultLanguage.BOTTOM_DETAILS);
-		DRadioButtonMenuItem infoLeft = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.LEFT_DETAILS, DefaultLanguage.LEFT_DETAILS);
-		DRadioButtonMenuItem infoRight = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.RIGHT_DETAILS, DefaultLanguage.RIGHT_DETAILS);
+		DRadioButtonMenuItem infoNone = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.NO_DETAILS, ViewerValues.NO_DETAILS);
+		DRadioButtonMenuItem infoTop = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.TOP_DETAILS, ViewerValues.TOP_DETAILS);
+		DRadioButtonMenuItem infoBottom = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.BOTTOM_DETAILS, ViewerValues.BOTTOM_DETAILS);
+		DRadioButtonMenuItem infoLeft = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.LEFT_DETAILS, ViewerValues.LEFT_DETAILS);
+		DRadioButtonMenuItem infoRight = new DRadioButtonMenuItem(this, getSettings().getDetailLocation() == MediaViewer.RIGHT_DETAILS, ViewerValues.RIGHT_DETAILS);
 		detailGroup.add(infoNone);
 		detailGroup.add(infoTop);
 		detailGroup.add(infoBottom);
@@ -233,12 +235,12 @@ public class MediaViewer extends BaseGUI implements DWorker
 		detailMenu.add(infoRight);
 		
 		//CREATE VIEW MENU
-		viewMenu = new DMenu(this, DefaultLanguage.VIEW);
-		viewMenu.add(new DMenuItem(this, DefaultLanguage.FULLSCREEN));
+		viewMenu = new DMenu(this, CommonValues.VIEW);
+		viewMenu.add(new DMenuItem(this, ViewerValues.FULLSCREEN));
 		viewMenu.addSeparator();
-		viewMenu.add(new DMenuItem(this, DefaultLanguage.OPEN_MEDIA_FILE));
-		viewMenu.add(new DMenuItem(this, DefaultLanguage.OPEN_SECONDARY_FILE));
-		viewMenu.add(new DMenuItem(this, DefaultLanguage.OPEN_DMF));
+		viewMenu.add(new DMenuItem(this, ViewerValues.OPEN_MEDIA_FILE));
+		viewMenu.add(new DMenuItem(this, ViewerValues.OPEN_SECONDARY_FILE));
+		viewMenu.add(new DMenuItem(this, ViewerValues.OPEN_DMF));
 
 		//CREATE MEDIA CONTAINER PANEL
 		mediaPanel = new MediaPanel(this, colorReference);
@@ -399,13 +401,13 @@ public class MediaViewer extends BaseGUI implements DWorker
 		this.dmfIndex = dmfIndex;
 		ownerGUI.getFrame().setProcessRunning(true);
 		progressDialog.setCancelled(false);
-		progressDialog.startProgressDialog(ownerGUI.getFrame(), DefaultLanguage.LOADING_MEDIA_TITLE);
-		progressDialog.setProcessLabel(DefaultLanguage.LOADING_MEDIA_MESSAGE);
-		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+		progressDialog.startProgressDialog(ownerGUI.getFrame(), ViewerValues.LOADING_MEDIA_TITLE);
+		progressDialog.setProcessLabel(ViewerValues.LOADING_MEDIA_MESSAGE);
+		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
 		mediaPanel.setPanelType(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
 		viewerPanel.revalidate();
-		(new DSwingWorker(this, DefaultLanguage.LOADING_MEDIA_MESSAGE)).execute();
+		(new DSwingWorker(this, ViewerValues.LOADING_MEDIA_MESSAGE)).execute();
 		
 	}//METHOD
 	
@@ -418,9 +420,9 @@ public class MediaViewer extends BaseGUI implements DWorker
 		{
 			ownerGUI.getFrame().setProcessRunning(false);
 			progressDialog.setCancelled(false);
-			progressDialog.startProgressDialog(ownerGUI.getFrame(), DefaultLanguage.LOADING_MEDIA_TITLE);
-			progressDialog.setProcessLabel(DefaultLanguage.LOADING_MEDIA_MESSAGE);
-			progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+			progressDialog.startProgressDialog(ownerGUI.getFrame(), ViewerValues.LOADING_MEDIA_TITLE);
+			progressDialog.setProcessLabel(ViewerValues.LOADING_MEDIA_MESSAGE);
+			progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 			progressDialog.setProgressBar(true, false, 0, 0);
 			(new DSwingWorker(this, new String())).execute();
 		
@@ -485,49 +487,49 @@ public class MediaViewer extends BaseGUI implements DWorker
 		
 		//SET TAGS
 		htmlText.append("</div><br><hr><br><div class=\"drakovek_info\"><b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.VIEWS)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.VIEWS)));
 		htmlText.append("&nbsp;</b>"); //$NON-NLS-1$
 		htmlText.append(Integer.toString(ownerGUI.getDmfHandler().getViews(dmfIndex)));
 		
 		if(ownerGUI.getDmfHandler().getRating(dmfIndex) > 0)
 		{
 			htmlText.append("&nbsp;&nbsp;&nbsp;&nbsp;<b>"); //$NON-NLS-1$
-			htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.RATING)));
+			htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.RATING)));
 			htmlText.append("&nbsp;</b>"); //$NON-NLS-1$
 			htmlText.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', ownerGUI.getDmfHandler().getRating(dmfIndex))));
 			
 		}//IF
 		
 		htmlText.append("<br><br><b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.WEB_TAGS)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.WEB_TAG_LABEL)));
 		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getWebTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE))));
+		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getWebTags(dmfIndex), true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE))));
 		htmlText.append("<br><br><b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.USER_TAGS)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.USER_TAG_LABEL)));
 		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getUserTags(dmfIndex), true, getSettings().getLanguageText(DefaultLanguage.NON_APPLICABLE))));
+		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getUserTags(dmfIndex), true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE))));
 		
 		//SET INFO TABLE
 		htmlText.append("</div><br><div class=\""); //$NON-NLS-1$
 		htmlText.append(DEditorPane.SMALL_TEXT_CLASS);
 		htmlText.append("\"><table><tr><td><b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.PAGE_URL)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.PAGE_URL_LABEL)));
 		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
 		htmlText.append(ownerGUI.getDmfHandler().getPageURL(dmfIndex));
 		htmlText.append("\">"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.LINK)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.LINK)));
 		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.DATE)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.DATE)));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
 		htmlText.append(TimeMethods.getDateString(getSettings(), TimeMethods.DATE_LONG, ownerGUI.getDmfHandler().getTime(dmfIndex)));
 		htmlText.append("</td></tr><tr><td><b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.DIRECT_URL)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.DIRECT_URL_LABEL)));
 		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
 		htmlText.append(ownerGUI.getDmfHandler().getMediaURL(dmfIndex));
 		htmlText.append("\">"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.LINK)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.LINK)));
 		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.TIME)));
+		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.TIME)));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
 		htmlText.append(TimeMethods.getTimeString(getSettings(), ownerGUI.getDmfHandler().getTime(dmfIndex)));
 		htmlText.append("</td></tr>"); //$NON-NLS-1$
@@ -535,11 +537,11 @@ public class MediaViewer extends BaseGUI implements DWorker
 		if(ownerGUI.getDmfHandler().getSecondaryURL(dmfIndex).length() > 0)
 		{
 			htmlText.append("<tr><td><b>"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.SECONDARY_URL));
+			htmlText.append(getSettings().getLanguageText(DmfLanguageValues.SECONDARY_URL_LABEL));
 			htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
 			htmlText.append(ownerGUI.getDmfHandler().getSecondaryURL(dmfIndex));
 			htmlText.append("\">"); //$NON-NLS-1$
-			htmlText.append(getSettings().getLanguageText(DefaultLanguage.LINK));
+			htmlText.append(getSettings().getLanguageText(ViewerValues.LINK));
 			htmlText.append("</a></tr></td>"); //$NON-NLS-1$
 			
 		}//IF
@@ -592,10 +594,10 @@ public class MediaViewer extends BaseGUI implements DWorker
 		getSettings().setScaleType(ImageHandler.SCALE_DIRECT);
 		
 		DTextDialog textDialog = new DTextDialog(getSettings());
-		String[] messageIDs = {DefaultLanguage.DIRECT_SCALE_MESSAGE};
+		String[] messageIDs = {ViewerValues.DIRECT_SCALE_MESSAGE};
 		try
 		{
-			double result = Double.parseDouble(textDialog.openTextDialog(ownerGUI.getFrame(), DefaultLanguage.DIRECT_SCALE_TITLE, messageIDs, Double.toString(getSettings().getScaleAmount())));
+			double result = Double.parseDouble(textDialog.openTextDialog(ownerGUI.getFrame(), ViewerValues.DIRECT_SCALE_TITLE, messageIDs, Double.toString(getSettings().getScaleAmount())));
 			if(result < (double)10)
 			{
 				getSettings().setScaleAmount(result);
@@ -637,48 +639,48 @@ public class MediaViewer extends BaseGUI implements DWorker
 			case DResizeListener.RESIZE:
 				updateMedia();
 				break;
-			case DefaultLanguage.NO_DETAILS:
+			case ViewerValues.NO_DETAILS:
 				updateDetailLocation(MediaViewer.NO_DETAILS, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.TOP_DETAILS:
+			case ViewerValues.TOP_DETAILS:
 				updateDetailLocation(MediaViewer.TOP_DETAILS, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.BOTTOM_DETAILS:
+			case ViewerValues.BOTTOM_DETAILS:
 				updateDetailLocation(MediaViewer.BOTTOM_DETAILS, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.LEFT_DETAILS:
+			case ViewerValues.LEFT_DETAILS:
 				updateDetailLocation(MediaViewer.LEFT_DETAILS, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.RIGHT_DETAILS:
+			case ViewerValues.RIGHT_DETAILS:
 				updateDetailLocation(MediaViewer.RIGHT_DETAILS, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.SCALE_FULL:
+			case ViewerValues.SCALE_FULL:
 				changeScaleType(ImageHandler.SCALE_FULL, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.SCALE_1D_FIT:
+			case ViewerValues.SCALE_1D_FIT:
 				changeScaleType(ImageHandler.SCALE_1D_FIT, BooleanInt.getBoolean(value));
 				break;	
-			case DefaultLanguage.SCALE_1D_STRETCH:
+			case ViewerValues.SCALE_1D_STRETCH:
 				changeScaleType(ImageHandler.SCALE_1D_STRETCH, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.SCALE_2D_FIT:
+			case ViewerValues.SCALE_2D_FIT:
 				changeScaleType(ImageHandler.SCALE_2D_STRETCH, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.SCALE_2D_STRETCH:
+			case ViewerValues.SCALE_2D_STRETCH:
 				changeScaleType(ImageHandler.SCALE_2D_STRETCH, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.SCALE:
+			case ViewerValues.SCALE:
 				setScaleDirect();
 				break;
-			case DefaultLanguage.FULLSCREEN:
+			case ViewerValues.FULLSCREEN:
 				break;
-			case DefaultLanguage.OPEN_MEDIA_FILE:
+			case ViewerValues.OPEN_MEDIA_FILE:
 				FileOpener.openFile(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
 				break;
-			case DefaultLanguage.OPEN_SECONDARY_FILE:
+			case ViewerValues.OPEN_SECONDARY_FILE:
 				FileOpener.openFile(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex));
 				break;
-			case DefaultLanguage.OPEN_DMF:
+			case ViewerValues.OPEN_DMF:
 				FileOpener.openFile(ownerGUI.getDmfHandler().getDmfFile(dmfIndex));
 				break;
 			default:
@@ -694,7 +696,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_MEDIA_MESSAGE:
+			case ViewerValues.LOADING_MEDIA_MESSAGE:
 				setDetails(dmfIndex);
 				mediaPanel.setMedia(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
 				break;
@@ -709,7 +711,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 	@Override
 	public void done(String id)
 	{
-		if(id.equals(DefaultLanguage.LOADING_MEDIA_MESSAGE) && getSettings().getDetailLocation() != NO_DETAILS)
+		if(id.equals(ViewerValues.LOADING_MEDIA_MESSAGE) && getSettings().getDetailLocation() != NO_DETAILS)
 		{
 			detailText.setTextHTML(detailString);
 			detailScroll.resetTopLeft();

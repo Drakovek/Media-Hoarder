@@ -13,7 +13,10 @@ import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.EditingValues;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -127,16 +130,16 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	 */
 	public SequencingGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, dmfHandler, DefaultLanguage.SEQUENCE_MODE);
+		super(settings, dmfHandler, ModeValues.SEQUENCE_MODE);
 		progressDialog = new DProgressDialog(settings);
 		
 		//CREATE UPDATE PANEL
 		JPanel updatePanel = new JPanel();
 		updatePanel.setLayout(new GridLayout(1, 4, settings.getSpaceSize(), 0));
-		aboveButton = new DButton(this, DefaultLanguage.ABOVE);
-		belowButton = new DButton(this, DefaultLanguage.BELOW);
-		singleButton = new DButton(this, DefaultLanguage.SINGLE);
-		allButton = new DButton(this, DefaultLanguage.ALL);
+		aboveButton = new DButton(this, EditingValues.ABOVE);
+		belowButton = new DButton(this, EditingValues.BELOW);
+		singleButton = new DButton(this, EditingValues.SINGLE);
+		allButton = new DButton(this, EditingValues.ALL);
 		updatePanel.add(aboveButton);
 		updatePanel.add(belowButton);
 		updatePanel.add(singleButton);
@@ -145,13 +148,13 @@ public class SequencingGUI extends FrameGUI implements DWorker
 		//CREATE SAVE PANEL
 		JPanel savePanel = new JPanel();
 		savePanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		skipButton = new DButton(this, DefaultLanguage.SKIP);
-		saveButton = new DButton(this, DefaultLanguage.SAVE);
+		skipButton = new DButton(this, EditingValues.SKIP);
+		saveButton = new DButton(this, CommonValues.SAVE);
 		savePanel.add(skipButton);
 		savePanel.add(saveButton);
 		
 		//CREATE NAME PANEL
-		nameText = new DTextField(this, DefaultLanguage.SECTION_NAME);
+		nameText = new DTextField(this, EditingValues.SECTION_NAME);
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new GridBagLayout());
 		GridBagConstraints nameCST = new GridBagConstraints();
@@ -159,7 +162,7 @@ public class SequencingGUI extends FrameGUI implements DWorker
 		nameCST.gridwidth = 1;	nameCST.gridheight = 1;
 		nameCST.weightx = 0;	nameCST.weighty = 0;
 		nameCST.fill = GridBagConstraints.BOTH;
-		namePanel.add(new DLabel(this, nameText, DefaultLanguage.SECTION_NAME), nameCST);
+		namePanel.add(new DLabel(this, nameText, EditingValues.SECTION_NAME), nameCST);
 		nameCST.gridx = 1;
 		namePanel.add(getHorizontalSpace(), nameCST);
 		nameCST.gridx = 2;		nameCST.weightx = 1;
@@ -173,9 +176,9 @@ public class SequencingGUI extends FrameGUI implements DWorker
 		//CREATE SEARCH PANEL
 		JPanel searchPanel = new JPanel();
 		searchPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
-		searchButton = new DButton(this, DefaultLanguage.SEARCH);
-		removeButton = new DButton(this, DefaultLanguage.REMOVE);
-		clearButton = new DButton(this, DefaultLanguage.CLEAR);
+		searchButton = new DButton(this, EditingValues.SEARCH);
+		removeButton = new DButton(this, CommonValues.REMOVE);
+		clearButton = new DButton(this, EditingValues.CLEAR);
 		searchPanel.add(searchButton);
 		searchPanel.add(removeButton);
 		searchPanel.add(clearButton);
@@ -184,8 +187,8 @@ public class SequencingGUI extends FrameGUI implements DWorker
 		indexText = new DTextField(this, new String());
 		JPanel movementPanel = new JPanel();
 		movementPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
-		upButton = new DButton(this, DefaultLanguage.UP);
-		downButton = new DButton(this, DefaultLanguage.DOWN);
+		upButton = new DButton(this, EditingValues.UP);
+		downButton = new DButton(this, EditingValues.DOWN);
 		movementPanel.add(upButton);
 		movementPanel.add(indexText);
 		movementPanel.add(downButton);
@@ -242,8 +245,8 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	{
 		getFrame().setProcessRunning(true);
 		progressDialog.setCancelled(false);
-		progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
-		(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
+		progressDialog.startProgressDialog(getFrame(),  DmfLanguageValues.LOADING_DMFS_TITLE);
+		(new DSwingWorker(this,  DmfLanguageValues.LOADING_DMFS)).execute();
 		
 	}//METHOD
 	
@@ -300,7 +303,7 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case DmfLanguageValues.LOADING_DMFS:
 				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
 				this.getDmfHandler().sort(DmfHandler.SORT_TIME, true, false, false, false);
 				break;
@@ -318,7 +321,7 @@ public class SequencingGUI extends FrameGUI implements DWorker
 		
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case DmfLanguageValues.LOADING_DMFS:
 				settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
 				break;
 				

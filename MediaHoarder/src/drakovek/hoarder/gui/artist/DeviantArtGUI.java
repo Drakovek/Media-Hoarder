@@ -19,7 +19,8 @@ import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ArtistValues;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.processing.StringMethods;
@@ -67,7 +68,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 */
 	public DeviantArtGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, dmfHandler, new LoginGUI(settings, DefaultLanguage.DEVIANTART_LOGIN, false), DefaultLanguage.DEVIANTART_MODE, DefaultLanguage.CHOOSE_DEVIANTART_FOLDER);
+		super(settings, dmfHandler, new LoginGUI(settings, ArtistValues.DEVIANTART_LOGIN, false), ModeValues.DEVIANTART_MODE, ArtistValues.CHOOSE_DEVIANTART_FOLDER);
 		idStrings = new ArrayList<>();
 		getDownloader().setTimeout(1000);
 		
@@ -90,7 +91,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	@Override
 	protected String getTitle()
 	{
-		return getSettings().getLanguageText(DefaultLanguage.DEVIANTART_PROGRESS_TITLE);
+		return '[' + getSettings().getLanguageText(ModeValues.DEVIANTART_MODE) + ']';
 		
 	}//METHOD
 	
@@ -257,7 +258,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		{
 			hasLink = false;
 			size = pages.size();
-			progressDialog.setDetailLabel(getSettings().getLanguageText(DefaultLanguage.PAGE) + ' ' + pageNum, false);
+			progressDialog.setDetailLabel(getSettings().getLanguageText(ArtistValues.PAGE) + ' ' + pageNum, false);
 			setPage(baseURL + Integer.toString(pageNum * 12));
 			if(isLoggedIn())
 			{
@@ -313,7 +314,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		{
 			hasLink = false;
 			size = pages.size();
-			progressDialog.setDetailLabel(getSettings().getLanguageText(DefaultLanguage.PAGE) + ' ' + pageNum, false);
+			progressDialog.setDetailLabel(getSettings().getLanguageText(ArtistValues.PAGE) + ' ' + pageNum, false);
 			setPage(baseURL + Integer.toString(pageNum * 12));
 			if(isLoggedIn())
 			{

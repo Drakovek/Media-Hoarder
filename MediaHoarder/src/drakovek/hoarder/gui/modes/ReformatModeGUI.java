@@ -7,7 +7,11 @@ import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ArtistValues;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.ManagingValues;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
@@ -52,11 +56,11 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		progressDialog = new DProgressDialog(getSettings());
 		progressInfoDialog = new DProgressInfoDialog(getSettings());
 		
-		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODE_START, DefaultLanguage.MANAGE_MODE};
-		String[] modeIDs = {DefaultLanguage.REFORMAT_DMFS,
-							DefaultLanguage.RENAME_FILES,
-							DefaultLanguage.DELETE_SEQUENCES,
-							DefaultLanguage.REFORMAT_HTMLS};
+		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START, ModeValues.MANAGE_MODE};
+		String[] modeIDs = {ManagingValues.REFORMAT_DMFS,
+							ManagingValues.RENAME_FILES,
+							ManagingValues.DELETE_SEQUENCES,
+							ManagingValues.REFORMAT_HTMLS};
 		
 		setContentPanel(backIDs, modeIDs);
 		
@@ -71,20 +75,20 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		String[] messageIDs = new String[2];
 		switch(mode)
 		{
-			case DefaultLanguage.REFORMAT_DMFS:
+			case ManagingValues.REFORMAT_DMFS:
 				run = false;
-				messageIDs[0] = DefaultLanguage.REFORMAT_MESSAGE;
-				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
+				messageIDs[0] = ManagingValues.REFORMAT_MESSAGE;
+				messageIDs[1] = CommonValues.CONTINUE_MESSAGE;
 				break;
-			case DefaultLanguage.RENAME_FILES:
+			case ManagingValues.RENAME_FILES:
 				run = false;
-				messageIDs[0] = DefaultLanguage.RENAME_MESSAGE;
-				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
+				messageIDs[0] = ManagingValues.RENAME_MESSAGE;
+				messageIDs[1] = CommonValues.CONTINUE_MESSAGE;
 				break;
-			case DefaultLanguage.DELETE_SEQUENCES:
+			case ManagingValues.DELETE_SEQUENCES:
 				run = false;
-				messageIDs[0] = DefaultLanguage.DELETE_SEQUENCES_MESSAGE;
-				messageIDs[1] = DefaultLanguage.CONTINUE_MESSAGE;
+				messageIDs[0] = ManagingValues.DELETE_SEQUENCES_MESSAGE;
+				messageIDs[1] = CommonValues.CONTINUE_MESSAGE;
 				break;
 				
 		}//METHOD
@@ -92,9 +96,9 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		if(!run)
 		{
 			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-			String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-			String response = buttonDialog.openButtonDialog(getParentGUI().getFrame(), DefaultLanguage.SURE_TITLE, messageIDs, buttonIDs);
-			run = response.equals(DefaultLanguage.YES);
+			String[] buttonIDs = {CommonValues.YES, CommonValues.NO};
+			String response = buttonDialog.openButtonDialog(getParentGUI().getFrame(), ArtistValues.SURE_TITLE, messageIDs, buttonIDs);
+			run = response.equals(CommonValues.YES);
 			
 		}//METHOD
 		
@@ -102,8 +106,8 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		{
 			progressDialog.setCancelled(false);
 			getParentGUI().getFrame().setProcessRunning(true);
-			progressDialog.startProgressDialog(getParentGUI().getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
-			(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
+			progressDialog.startProgressDialog(getParentGUI().getFrame(), DmfLanguageValues.LOADING_DMFS_TITLE);
+			(new DSwingWorker(this, DmfLanguageValues.LOADING_DMFS)).execute();
 			
 		}//IF
 		
@@ -150,7 +154,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	private void reformatDMFs()
 	{
 		int size = getParentGUI().getDmfHandler().getSize();
-		progressInfoDialog.setProcessLabel(DefaultLanguage.REFORMAT_DMFS);
+		progressInfoDialog.setProcessLabel(ManagingValues.REFORMAT_DMFS);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
@@ -181,7 +185,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	private void reformatHTMLs()
 	{
 		int size = getParentGUI().getDmfHandler().getSize();
-		progressInfoDialog.setProcessLabel(DefaultLanguage.REFORMAT_HTMLS);
+		progressInfoDialog.setProcessLabel(ManagingValues.REFORMAT_HTMLS);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
@@ -225,7 +229,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	private void deleteSequences()
 	{
 		int size = getParentGUI().getDmfHandler().getSize();
-		progressInfoDialog.setProcessLabel(DefaultLanguage.DELETE_SEQUENCES);
+		progressInfoDialog.setProcessLabel(ManagingValues.DELETE_SEQUENCES);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
@@ -261,7 +265,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	private void renameFiles()
 	{	
 		int size = getParentGUI().getDmfHandler().getSize();
-		progressInfoDialog.setProcessLabel(DefaultLanguage.RENAME_FILES);
+		progressInfoDialog.setProcessLabel(ManagingValues.RENAME_FILES);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
@@ -303,11 +307,11 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.MODE_BACK:
-			case DefaultLanguage.MANAGE_MODE:
+			case ModeValues.MODE_BACK:
+			case ModeValues.MANAGE_MODE:
 				setContentPanel(new ManageModeGUI(getParentGUI()));
 				break;
-			case DefaultLanguage.MODE_START:
+			case ModeValues.MODE_START:
 				setContentPanel(new ModesGUI(getParentGUI()));
 				break;
 			default:
@@ -324,19 +328,19 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case DmfLanguageValues.LOADING_DMFS:
 				loadDMFs();
 				break;
-			case DefaultLanguage.REFORMAT_DMFS:
+			case ManagingValues.REFORMAT_DMFS:
 				reformatDMFs();
 				break;
-			case DefaultLanguage.RENAME_FILES:
+			case ManagingValues.RENAME_FILES:
 				renameFiles();
 				break;
-			case DefaultLanguage.DELETE_SEQUENCES:
+			case ManagingValues.DELETE_SEQUENCES:
 				deleteSequences();
 				break;
-			case DefaultLanguage.REFORMAT_HTMLS:
+			case ManagingValues.REFORMAT_HTMLS:
 				reformatHTMLs();
 				break;
 			
@@ -349,7 +353,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case DmfLanguageValues.LOADING_DMFS:
 				loadDmfsFinished();
 				break;
 			default:

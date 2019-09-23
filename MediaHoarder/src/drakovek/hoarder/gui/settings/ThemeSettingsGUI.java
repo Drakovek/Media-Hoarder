@@ -7,7 +7,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
@@ -62,7 +62,7 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 		}//FOR
 		
 		//CREATE THEME GUI
-		themeList = new DList(this, false, DefaultLanguage.THEME);
+		themeList = new DList(this, false, SettingsValues.THEME);
 		themeList.setListData(themeStrings);
 		if(selected != -1)
 		{
@@ -78,7 +78,7 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 		panelCST.gridwidth = 3;		panelCST.gridheight = 1;
 		panelCST.weightx = 1;		panelCST.weighty = 0;
 		panelCST.fill = GridBagConstraints.BOTH;
-		getPanel().add(new DLabel(this, themeList, DefaultLanguage.THEME), panelCST);
+		getPanel().add(new DLabel(this, themeList, SettingsValues.THEME), panelCST);
 		panelCST.gridy = 1;
 		getPanel().add(getVerticalSpace(), panelCST);
 		panelCST.gridy = 2;			panelCST.weighty = 1;
@@ -115,7 +115,7 @@ public class ThemeSettingsGUI extends SettingsModeGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.THEME:
+			case SettingsValues.THEME:
 				setThemeSelected();
 				break;
 			

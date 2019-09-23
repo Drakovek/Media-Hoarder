@@ -11,7 +11,8 @@ import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.FileOpener;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.ViewerValues;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DDialog;
@@ -58,9 +59,9 @@ public class DHyperlinkDialog extends BaseGUI
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
-		bottomPanel.add(new DButton(this, DefaultLanguage.COPY));
-		bottomPanel.add(new DButton(this, DefaultLanguage.OPEN));
-		bottomPanel.add(new DButton(this, DefaultLanguage.CLOSE));
+		bottomPanel.add(new DButton(this, CommonValues.COPY));
+		bottomPanel.add(new DButton(this, CommonValues.OPEN));
+		bottomPanel.add(new DButton(this, CommonValues.CLOSE));
 		
 		//CREATE CENTER PANEL
 		text = new DLabel(this, null, new String());
@@ -84,7 +85,7 @@ public class DHyperlinkDialog extends BaseGUI
 		this.currentURL = url;
 		text.setText(url);
 		owner.setAllowExit(false);
-		dialog = new DDialog(owner, panel, getSettings().getLanguageText(DefaultLanguage.HYPERLINK_TITLE), true, 0, 0);
+		dialog = new DDialog(owner, panel, getSettings().getLanguageText(ViewerValues.HYPERLINK_TITLE), true, 0, 0);
 		dialog.setVisible(true);
 		owner.setAllowExit(true);
 		
@@ -129,13 +130,13 @@ public class DHyperlinkDialog extends BaseGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.COPY:
+			case CommonValues.COPY:
 				copyURL();
 				break;
-			case DefaultLanguage.OPEN:
+			case CommonValues.OPEN:
 				openURL();
 				break;
-			case DefaultLanguage.CLOSE:
+			case CommonValues.CLOSE:
 				dialog.dispose();
 				break;
 				

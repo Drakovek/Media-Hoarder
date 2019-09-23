@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.ScreenDimensions;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
@@ -191,9 +191,9 @@ public class DFrame extends JFrame
 			}//IF
 			else if(isProcessRunning())
 			{
-				String[] buttonIDs = {DefaultLanguage.OK};
+				String[] buttonIDs = {CommonValues.OK};
 				DButtonDialog buttonDialog = new DButtonDialog(settings);
-				buttonDialog.openButtonDialog(this, DefaultLanguage.PROCESS_RUNNING, DefaultLanguage.PROCESS_RUNNING_MESSAGES, buttonIDs);
+				buttonDialog.openButtonDialog(this, CommonValues.PROCESS_RUNNING, CommonValues.PROCESS_RUNNING_MESSAGES, buttonIDs);
 	            
 			}//ELSE
 			

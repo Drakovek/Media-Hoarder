@@ -1,6 +1,6 @@
 package drakovek.hoarder.gui.modes;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.artist.DeviantArtGUI;
 import drakovek.hoarder.gui.artist.FurAffinityGUI;
@@ -22,11 +22,11 @@ public class DownloadModeGUI extends ModeBaseGUI
 	public DownloadModeGUI(FrameGUI frameGUI)
 	{
 		super(frameGUI);
-		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODE_START};
-		String[] modeIDs = {DefaultLanguage.DEVIANTART_MODE,
-							DefaultLanguage.FUR_AFFINITY_MODE,
-							DefaultLanguage.INKBUNNY_MODE,
-							DefaultLanguage.TRANSFUR_MODE};
+		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START};
+		String[] modeIDs = {ModeValues.DEVIANTART_MODE,
+							ModeValues.FUR_AFFINITY_MODE,
+							ModeValues.INKBUNNY_MODE,
+							ModeValues.TRANSFUR_MODE};
 		
 		setContentPanel(backIDs, modeIDs);
 		
@@ -37,22 +37,22 @@ public class DownloadModeGUI extends ModeBaseGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.DEVIANTART_MODE:
+			case ModeValues.DEVIANTART_MODE:
 				new DeviantArtGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
-			case DefaultLanguage.FUR_AFFINITY_MODE:
+			case ModeValues.FUR_AFFINITY_MODE:
 				new FurAffinityGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
-			case DefaultLanguage.INKBUNNY_MODE:
+			case ModeValues.INKBUNNY_MODE:
 				new InkBunnyGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
-			case DefaultLanguage.TRANSFUR_MODE:
+			case ModeValues.TRANSFUR_MODE:
 				break;
-			case DefaultLanguage.MODE_BACK:
-			case DefaultLanguage.MODE_START:
+			case ModeValues.MODE_BACK:
+			case ModeValues.MODE_START:
 				setContentPanel(new ModesGUI(getParentGUI()));
 				break;
 			

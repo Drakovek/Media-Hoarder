@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DDialog;
@@ -87,7 +87,7 @@ public class DTextDialog extends BaseGUI
 			
 		}//FOR
 		
-		textField = new DTextField(this, DefaultLanguage.OK);
+		textField = new DTextField(this, CommonValues.OK);
 		
 		if(fieldText != null)
 		{
@@ -100,8 +100,8 @@ public class DTextDialog extends BaseGUI
 		//CREATE BUTTON PANEL
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 2, getSettings().getSpaceSize(), 0));
-		buttonPanel.add(new DButton(this, DefaultLanguage.CANCEL));
-		buttonPanel.add(new DButton(this, DefaultLanguage.OK));
+		buttonPanel.add(new DButton(this, CommonValues.CANCEL));
+		buttonPanel.add(new DButton(this, CommonValues.OK));
 		
 		//CREATE DIALOG PANEL
 		JPanel dialogPanel = new JPanel();
@@ -117,9 +117,9 @@ public class DTextDialog extends BaseGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.OK:
+			case CommonValues.OK:
 				returnString = textField.getText();
-			case DefaultLanguage.CANCEL:
+			case CommonValues.CANCEL:
 				dialog.dispose();
 				break;
 			

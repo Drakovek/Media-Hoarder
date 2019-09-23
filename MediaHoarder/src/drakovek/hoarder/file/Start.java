@@ -5,7 +5,8 @@ import javax.swing.UIManager;
 import org.apache.commons.logging.LogFactory;
 
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
 import drakovek.hoarder.gui.settings.SettingsGUI;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
@@ -95,10 +96,10 @@ public class Start
         	//ASKS USER TO ADD DMF DIRECTORIES IF NONE ARE SPECIFIED
         	SettingsGUI settingsGUI = new SettingsGUI(settings, dmfHandler, null);
         	settingsGUI.getFrame().setAllowExit(false);
-        	settingsGUI.setSettingMode(DefaultLanguage.DMF_DIRECTORIES);
+        	settingsGUI.setSettingMode(SettingsValues.DMF_DIRECTORIES);
         	DButtonDialog buttonDialog = new DButtonDialog(settings);
-        	String[] buttonIDs = {DefaultLanguage.OK};
-        	buttonDialog.openButtonDialog(settingsGUI.getFrame(), DefaultLanguage.NO_DIRECTORIES_TITLE, DefaultLanguage.NO_DIRECTORIES_MESSAGES, buttonIDs);
+        	String[] buttonIDs = {CommonValues.OK};
+        	buttonDialog.openButtonDialog(settingsGUI.getFrame(), SettingsValues.NO_DIRECTORIES_TITLE, SettingsValues.NO_DIRECTORIES_MESSAGES, buttonIDs);
         	settingsGUI.getFrame().setAllowExit(true);
         	
         }//ELSE

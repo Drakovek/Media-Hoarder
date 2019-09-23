@@ -14,10 +14,11 @@ import drakovek.hoarder.file.ExtensionFilter;
  */
 public class DmfDirectory implements Serializable
 {
+
 	/**
 	 * SerialVersionUID
 	 */
-	private static final long serialVersionUID = 7765584630775373828L;
+	private static final long serialVersionUID = 321526253853307367L;
 
 	/**
 	 * Directory from which DMF info for the object is loaded

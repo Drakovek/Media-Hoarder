@@ -14,7 +14,8 @@ import javax.swing.SwingConstants;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DLabel;
@@ -34,7 +35,7 @@ public class SettingsGUI extends FrameGUI
 	/**
 	 * List of action/language IDs for the possible settings modes the user can choose.
 	 */
-	private static final String[] SETTINGS_EVENTS = {DefaultLanguage.LANGUAGE, DefaultLanguage.DMF_DIRECTORIES, DefaultLanguage.THEME, DefaultLanguage.FONT};
+	private static final String[] SETTINGS_EVENTS = {SettingsValues.LANGUAGE, SettingsValues.DMF_DIRECTORIES, SettingsValues.THEME, SettingsValues.FONT};
 	
 	/**
 	 * FrameGUI that opened the settings GUI
@@ -80,7 +81,7 @@ public class SettingsGUI extends FrameGUI
 	 */
 	public SettingsGUI(DSettings settings, DmfHandler dmfHandler, FrameGUI ownerGUI)
 	{
-		super(settings, dmfHandler, DefaultLanguage.SETTINGS);
+		super(settings, dmfHandler, SettingsValues.SETTINGS);
 		this.ownerGUI = ownerGUI;
 		if(ownerGUI != null)
 		{
@@ -96,10 +97,10 @@ public class SettingsGUI extends FrameGUI
 		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
-		buttonPanel.add(new DButton(this, DefaultLanguage.CLOSE));
-		applyButton = new DButton(this, DefaultLanguage.APPLY);
+		buttonPanel.add(new DButton(this, CommonValues.CLOSE));
+		applyButton = new DButton(this, SettingsValues.APPLY);
 		buttonPanel.add(applyButton);
-		saveButton = new DButton(this, DefaultLanguage.SAVE);
+		saveButton = new DButton(this, CommonValues.SAVE);
 		buttonPanel.add(saveButton);
 		
 		JPanel bottomPanel = new JPanel();
@@ -126,7 +127,7 @@ public class SettingsGUI extends FrameGUI
 		
 		}//FOR
 		
-		settingsList = new DList(this, false, DefaultLanguage.SETTINGS);
+		settingsList = new DList(this, false, SettingsValues.SETTINGS);
 		settingsList.setListData(listData);
 		DScrollPane settingsScroll = new DScrollPane(settings, settingsList);
 		
@@ -156,7 +157,7 @@ public class SettingsGUI extends FrameGUI
 		centerPanel.add(contentPanel, centerCST);
 		
 		//CREATE TOP PANEL
-		DLabel settingsLabel = new DLabel(this, settingsList, DefaultLanguage.SETTINGS);
+		DLabel settingsLabel = new DLabel(this, settingsList, SettingsValues.SETTINGS);
 		settingsLabel.setFontLarge();
 		JPanel topPanel = getVerticalStack(settingsLabel, new JSeparator(SwingConstants.HORIZONTAL));
 		
@@ -242,16 +243,16 @@ public class SettingsGUI extends FrameGUI
 		{
 			switch(SETTINGS_EVENTS[selected])
 			{
-				case DefaultLanguage.LANGUAGE:
+				case SettingsValues.LANGUAGE:
 					modeGUI = new LanguageSettingsGUI(this);
 					break;
-				case DefaultLanguage.DMF_DIRECTORIES:
+				case SettingsValues.DMF_DIRECTORIES:
 					modeGUI = new DirectorySettingsGUI(this);
 					break;
-				case DefaultLanguage.THEME:
+				case SettingsValues.THEME:
 					modeGUI = new ThemeSettingsGUI(this);
 					break;
-				case DefaultLanguage.FONT:
+				case SettingsValues.FONT:
 					modeGUI = new FontSettings(this);
 					break;
 				
@@ -309,16 +310,16 @@ public class SettingsGUI extends FrameGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.SETTINGS:
+			case SettingsValues.SETTINGS:
 				settingSelected();
 				break;
-			case DefaultLanguage.APPLY:
+			case SettingsValues.APPLY:
 				apply();
 				break;
-			case DefaultLanguage.SAVE:
+			case CommonValues.SAVE:
 				apply();
 			case DCloseListener.FRAME_CLOSE_EVENT:
-			case DefaultLanguage.CLOSE:
+			case CommonValues.CLOSE:
 				finish();
 				break;
 		

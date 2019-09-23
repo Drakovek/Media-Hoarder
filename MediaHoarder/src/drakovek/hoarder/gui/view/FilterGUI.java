@@ -12,7 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.ViewerValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DCheckBox;
@@ -86,57 +88,57 @@ public class FilterGUI extends FrameGUI
 	 */
 	public FilterGUI(ViewBrowserGUI ownerGUI)
 	{
-		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), DefaultLanguage.FILTER);
+		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), ViewerValues.FILTER);
 		this.ownerGUI = ownerGUI;
 		this.ownerGUI.getFrame().setAllowExit(false);
 		
 		//SET INITIAL VALUES
 		caseSensitive = getDmfHandler().getFilterCaseSensitive();
-		userTagText = new DTextField(this, DefaultLanguage.USER_TAGS);
+		userTagText = new DTextField(this, DmfLanguageValues.USER_TAG_LABEL);
 		userTagText.setText(getDmfHandler().getUserTagFilter());
-		webTagText = new DTextField(this, DefaultLanguage.WEB_TAGS);
+		webTagText = new DTextField(this, DmfLanguageValues.WEB_TAG_LABEL);
 		webTagText.setText(getDmfHandler().getWebTagFilter());
-		titleText = new DTextField(this, DefaultLanguage.TITLE);
+		titleText = new DTextField(this, DmfLanguageValues.TITLE_LABEL);
 		titleText.setText(getDmfHandler().getTitleFilter());
-		descriptionText = new DTextField(this, DefaultLanguage.DESCRIPTION);
+		descriptionText = new DTextField(this, DmfLanguageValues.DESCRIPTION_LABEL);
 		descriptionText.setText(getDmfHandler().getDescriptionFilter());
-		artistText = new DTextField(this, DefaultLanguage.ARTISTS_FILTER);
+		artistText = new DTextField(this, DmfLanguageValues.ARTISTS_LABEL);
 		artistText.setText(getDmfHandler().getArtistFilter());
 		
 		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 3, getSettings().getSpaceSize(), 0));
-		resetButton = new DButton(this, DefaultLanguage.RESET);
-		cancelButton = new DButton(this, DefaultLanguage.CANCEL);
-		okButton = new DButton(this, DefaultLanguage.OK);
+		resetButton = new DButton(this, CommonValues.RESET);
+		cancelButton = new DButton(this, CommonValues.CANCEL);
+		okButton = new DButton(this, CommonValues.OK);
 		buttonPanel.add(resetButton);
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(okButton);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
-		bottomPanel.add(new DCheckBox(this, caseSensitive, DefaultLanguage.CASE_SENSITIVE), BorderLayout.WEST);
+		bottomPanel.add(new DCheckBox(this, caseSensitive, CommonValues.CASE_SENSITIVE), BorderLayout.WEST);
 		bottomPanel.add(getHorizontalSpace(), BorderLayout.CENTER);
 		bottomPanel.add(buttonPanel, BorderLayout.EAST);
 		
 		//CREATE CENTER PANEL
 		int largestWidth = 0;
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.USER_TAGS));
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.WEB_TAGS));
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.TITLE));
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.DESCRIPTION));
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DefaultLanguage.ARTISTS_FILTER));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.USER_TAG_LABEL));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.WEB_TAG_LABEL));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.TITLE_LABEL));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.DESCRIPTION_LABEL));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.ARTISTS_LABEL));
 		
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(5, 1, 0, getSettings().getSpaceSize()));
-		centerPanel.add(getTextPanel(userTagText, DefaultLanguage.USER_TAGS, largestWidth));
-		centerPanel.add(getTextPanel(webTagText, DefaultLanguage.WEB_TAGS, largestWidth));
-		centerPanel.add(getTextPanel(titleText, DefaultLanguage.TITLE, largestWidth));
-		centerPanel.add(getTextPanel(descriptionText, DefaultLanguage.DESCRIPTION, largestWidth));
-		centerPanel.add(getTextPanel(artistText, DefaultLanguage.ARTISTS_FILTER, largestWidth));
+		centerPanel.add(getTextPanel(userTagText, DmfLanguageValues.USER_TAG_LABEL, largestWidth));
+		centerPanel.add(getTextPanel(webTagText, DmfLanguageValues.WEB_TAG_LABEL, largestWidth));
+		centerPanel.add(getTextPanel(titleText, DmfLanguageValues.TITLE_LABEL, largestWidth));
+		centerPanel.add(getTextPanel(descriptionText, DmfLanguageValues.DESCRIPTION_LABEL, largestWidth));
+		centerPanel.add(getTextPanel(artistText, DmfLanguageValues.ARTISTS_LABEL, largestWidth));
 				
 		//FINALIZE FRAME
-		DLabel title = new DLabel(this, null, DefaultLanguage.FILTER);
+		DLabel title = new DLabel(this, null, ViewerValues.FILTER);
 		title.setFontLarge();
 		getFrame().getContentPane().add(getSpacedPanel(getVerticalStack(title, new JSeparator(SwingConstants.HORIZONTAL)), 1, 0, true, true, true, true), BorderLayout.NORTH);
 		getFrame().getContentPane().add(getSpacedPanel(centerPanel, 1, 1, false, false, true, true), BorderLayout.CENTER);
@@ -265,24 +267,24 @@ public class FilterGUI extends FrameGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.TITLE:
-			case DefaultLanguage.DESCRIPTION:
-			case DefaultLanguage.USER_TAGS:
-			case DefaultLanguage.WEB_TAGS:
-			case DefaultLanguage.ARTISTS_FILTER:
-			case DefaultLanguage.OK:
+			case DmfLanguageValues.TITLE_LABEL:
+			case DmfLanguageValues.DESCRIPTION_LABEL:
+			case DmfLanguageValues.USER_TAG_LABEL:
+			case DmfLanguageValues.WEB_TAG_LABEL:
+			case DmfLanguageValues.ARTISTS_LABEL:
+			case CommonValues.OK:
 				getFrame().setAllowExit(false);
 				addFilters();
 				ownerGUI.filter();
 				dispose();
 				break;
-			case DefaultLanguage.CASE_SENSITIVE:
+			case CommonValues.CASE_SENSITIVE:
 				caseSensitive = BooleanInt.getBoolean(value);
 				break;
-			case DefaultLanguage.RESET:
+			case CommonValues.RESET:
 				resetFilters();
 				break;
-			case DefaultLanguage.CANCEL:
+			case CommonValues.CANCEL:
 			case DCloseListener.FRAME_CLOSE_EVENT:
 				ownerGUI.getFrame().setAllowExit(true);
 				dispose();

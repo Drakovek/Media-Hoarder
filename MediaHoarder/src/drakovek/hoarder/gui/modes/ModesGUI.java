@@ -1,6 +1,6 @@
 package drakovek.hoarder.gui.modes;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.view.ViewBrowserGUI;
 
@@ -20,8 +20,8 @@ public class ModesGUI extends ModeBaseGUI
 	public ModesGUI(FrameGUI frameGUI)
 	{
 		super(frameGUI);
-		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODE_START};
-		String[] modeIDs = {DefaultLanguage.DOWNLOAD_MODE, DefaultLanguage.MANAGE_MODE, DefaultLanguage.VIEW_MODE};
+		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START};
+		String[] modeIDs = {ModeValues.DOWNLOAD_MODE, ModeValues.MANAGE_MODE, ModeValues.VIEW_MODE};
 		setContentPanel(backIDs, modeIDs);
 		
 	}//CONSTRUCTOR
@@ -31,13 +31,13 @@ public class ModesGUI extends ModeBaseGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.DOWNLOAD_MODE:
+			case ModeValues.DOWNLOAD_MODE:
 				setContentPanel(new DownloadModeGUI(getParentGUI()));
 				break;
-			case DefaultLanguage.MANAGE_MODE:
+			case ModeValues.MANAGE_MODE:
 				setContentPanel(new ManageModeGUI(getParentGUI()));
 				break;
-			case DefaultLanguage.VIEW_MODE:
+			case ModeValues.VIEW_MODE:
 				new ViewBrowserGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;

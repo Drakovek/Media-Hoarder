@@ -11,7 +11,7 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.swing.listeners.DEvent;
 
 /**
@@ -345,11 +345,11 @@ public abstract class BaseGUI implements DEvent
 	{
 		if(subtitleID == null)
 		{
-			return settings.getLanguageText(DefaultLanguage.TITLE_VALUE);
+			return settings.getLanguageText(CommonValues.TITLE_VALUE);
 			
 		}//IF
 		
-		return settings.getLanguageText(subtitleID) + " - " + settings.getLanguageText(DefaultLanguage.TITLE_VALUE); //$NON-NLS-1$
+		return settings.getLanguageText(subtitleID) + " - " + settings.getLanguageText(CommonValues.TITLE_VALUE); //$NON-NLS-1$
 		
 	}//METHOD
 	

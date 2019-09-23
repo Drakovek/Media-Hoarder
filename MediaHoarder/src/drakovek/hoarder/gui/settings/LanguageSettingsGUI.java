@@ -5,7 +5,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.ScrollPaneConstants;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
@@ -59,7 +59,7 @@ public class LanguageSettingsGUI extends SettingsModeGUI
 		}//FOR
 		
 		//CREATE THEME GUI
-		languageList = new DList(this, false, DefaultLanguage.LANGUAGE);
+		languageList = new DList(this, false, SettingsValues.LANGUAGE);
 		languageList.setListData(languages);
 		if(selected != -1)
 		{
@@ -75,7 +75,7 @@ public class LanguageSettingsGUI extends SettingsModeGUI
 		panelCST.gridwidth = 3;		panelCST.gridheight = 1;
 		panelCST.weightx = 1;		panelCST.weighty = 0;
 		panelCST.fill = GridBagConstraints.BOTH;
-		getPanel().add(new DLabel(this, languageList, DefaultLanguage.LANGUAGE), panelCST);
+		getPanel().add(new DLabel(this, languageList, SettingsValues.LANGUAGE), panelCST);
 		panelCST.gridy = 1;
 		getPanel().add(getVerticalSpace(), panelCST);
 		panelCST.gridy = 2;			panelCST.weighty = 1;
@@ -112,7 +112,7 @@ public class LanguageSettingsGUI extends SettingsModeGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LANGUAGE:
+			case SettingsValues.LANGUAGE:
 				setLanguageSelected();
 				break;
 				

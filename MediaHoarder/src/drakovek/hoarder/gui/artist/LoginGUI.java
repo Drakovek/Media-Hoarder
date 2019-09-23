@@ -15,7 +15,8 @@ import javax.swing.WindowConstants;
 
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ArtistValues;
+import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -117,8 +118,8 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 		this.titleID = titleID;
 		this.useCaptcha = useCaptcha;
 		progressDialog = new DProgressDialog(settings);
-		usernameText = new DTextField(this, DefaultLanguage.USERNAME);
-		passwordText = new DPasswordField(this, DefaultLanguage.PASSWORD);
+		usernameText = new DTextField(this, ArtistValues.USERNAME);
+		passwordText = new DPasswordField(this, ArtistValues.PASSWORD);
 		imageScroll = new ImageScrollPane(settings);
 		
 		//GET CAPTCHA FOLDER AND REMOVE OLD IMAGES
@@ -185,8 +186,8 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 		
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(2, 1, 0, getSettings().getSpaceSize()));
-		labelPanel.add(new DLabel(this, usernameText, DefaultLanguage.USERNAME));
-		labelPanel.add(new DLabel(this, passwordText, DefaultLanguage.PASSWORD));
+		labelPanel.add(new DLabel(this, usernameText, ArtistValues.USERNAME));
+		labelPanel.add(new DLabel(this, passwordText, ArtistValues.PASSWORD));
 		
 		//LOGIN PANEL
 		JPanel loginPanel = new JPanel();
@@ -205,19 +206,19 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 		loginPanel.add(textPanel, loginCST);
 		loginCST.gridx = 0;			loginCST.gridy = 2;
 		loginCST.gridwidth = 3;
-		loginButton = new DButton(this, DefaultLanguage.LOGIN);
+		loginButton = new DButton(this, ArtistValues.LOGIN);
 		loginPanel.add(loginButton, loginCST);
 		
 		//CREATE CAPTCHA PANEL
 		JPanel captchaBottomPanel = new JPanel();
-		captchaText = new DTextField(this, DefaultLanguage.CAPTCHA);
+		captchaText = new DTextField(this, ArtistValues.CAPTCHA);
 		captchaBottomPanel.setLayout(new GridBagLayout());
 		GridBagConstraints captchaCST = new GridBagConstraints();
 		captchaCST.gridx = 0;		captchaCST.gridy = 0;
 		captchaCST.gridwidth = 1;	captchaCST.gridheight = 1;
 		captchaCST.weightx = 0;		captchaCST.weighty = 0;
 		captchaCST.fill = GridBagConstraints.BOTH;
-		captchaBottomPanel.add(new DLabel(this, captchaText, DefaultLanguage.CAPTCHA), captchaCST);
+		captchaBottomPanel.add(new DLabel(this, captchaText, ArtistValues.CAPTCHA), captchaCST);
 		captchaCST.gridy = 1;
 		captchaBottomPanel.add(getVerticalSpace(), captchaCST);
 		captchaCST.gridx = 1;		captchaCST.gridy = 0;
@@ -226,7 +227,7 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 		captchaBottomPanel.add(captchaText, captchaCST);
 		captchaCST.gridx = 0;		captchaCST.gridy = 2;
 		captchaCST.gridwidth = 3;
-		captchaButton = new DButton(this, DefaultLanguage.REFRESH_CAPTCHA);
+		captchaButton = new DButton(this, ArtistValues.REFRESH_CAPTCHA);
 		captchaBottomPanel.add(captchaButton, captchaCST);
 		
 		imageScroll.setScale(ImageHandler.SCALE_FULL, 1);
@@ -302,11 +303,11 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	{
 		disableAll();
 		captchaText.setText(new String());
-		progressDialog.startProgressDialog(dialog, DefaultLanguage.LOAD_CAPTCHA_TITLE);
-		progressDialog.setProcessLabel(DefaultLanguage.LOAD_CAPTCHA);
-		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+		progressDialog.startProgressDialog(dialog, ArtistValues.LOAD_CAPTCHA_TITLE);
+		progressDialog.setProcessLabel(ArtistValues.LOAD_CAPTCHA);
+		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
-		(new DSwingWorker(this, DefaultLanguage.CAPTCHA)).execute();
+		(new DSwingWorker(this, ArtistValues.CAPTCHA)).execute();
 		
 	}//METHOD
 	
@@ -338,11 +339,11 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 		if(usernameText.getText().length() > 0 && passwordText.getPassword().length > 0 && (!useCaptcha || captchaText.getText().length() > 0))
 		{
 			disableAll();
-			progressDialog.startProgressDialog(dialog, DefaultLanguage.ATTEMPT_LOGIN);
-			progressDialog.setProcessLabel(DefaultLanguage.LOGIN);
-			progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+			progressDialog.startProgressDialog(dialog, ArtistValues.ATTEMPT_LOGIN);
+			progressDialog.setProcessLabel(ArtistValues.LOGIN);
+			progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 			progressDialog.setProgressBar(true, false, 0, 0);
-			(new DSwingWorker(this, DefaultLanguage.LOGIN)).execute();
+			(new DSwingWorker(this, ArtistValues.LOGIN)).execute();
 		
 		}//IF
 		
@@ -382,9 +383,9 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 		else
 		{
 			DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-			String[] messageIDs = {DefaultLanguage.LOGIN_FAILED};
-			String[] buttonIDs = {DefaultLanguage.OK};
-			buttonDialog.openButtonDialog(this, dialog, DefaultLanguage.LOGIN_FAILED, messageIDs, buttonIDs);
+			String[] messageIDs = {ArtistValues.LOGIN_FAILED};
+			String[] buttonIDs = {CommonValues.OK};
+			buttonDialog.openButtonDialog(this, dialog, ArtistValues.LOGIN_FAILED, messageIDs, buttonIDs);
 			loadCaptcha();
 			
 		}//ELSE
@@ -396,10 +397,10 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	{
 		switch(id)
 		{
-			case DefaultLanguage.REFRESH_CAPTCHA:
+			case ArtistValues.REFRESH_CAPTCHA:
 				loadCaptcha();
 				break;
-			case DefaultLanguage.LOGIN:
+			case ArtistValues.LOGIN:
 				login();
 				break;
 			
@@ -412,10 +413,10 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	{
 		switch(id)
 		{
-			case DefaultLanguage.CAPTCHA:
+			case ArtistValues.CAPTCHA:
 				setCaptchaImage();
 				break;
-			case DefaultLanguage.LOGIN:
+			case ArtistValues.LOGIN:
 				loginWork();
 				break;
 			
@@ -428,12 +429,12 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 	{
 		switch(id)
 		{
-			case DefaultLanguage.CAPTCHA:
+			case ArtistValues.CAPTCHA:
 				enableAll();
 				progressDialog.closeProgressDialog();
 				break;
-			case DefaultLanguage.PASSWORD:
-			case DefaultLanguage.LOGIN:
+			case ArtistValues.PASSWORD:
+			case ArtistValues.LOGIN:
 				loginEnd();
 				break;
 			

@@ -4,7 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import drakovek.hoarder.file.ExtensionFilter;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.processing.sort.FileSort;
@@ -191,22 +192,22 @@ public class DmfDatabase
 	public boolean loadDMFs(final ArrayList<File> dmfDirectories, DProgressDialog progressDialog, final boolean useIndexes, final boolean saveIndexes, final boolean updateIndexes)
 	{
 		clearDMFs();
-		progressDialog.setProcessLabel(DefaultLanguage.GETTING_FOLDERS);
-		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+		progressDialog.setProcessLabel(DmfLanguageValues.GETTING_FOLDERS);
+		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
 		ArrayList<File> dmfFolders = getDmfFolders(dmfDirectories);
 		DmfIndexing indexing = new DmfIndexing();
 		
 		for(int i = 0; !progressDialog.isCancelled() && i < dmfFolders.size(); i++)
 		{
-			progressDialog.setProcessLabel(DefaultLanguage.LOADING_DMFS);
+			progressDialog.setProcessLabel(DmfLanguageValues.LOADING_DMFS);
 			progressDialog.setDetailLabel(dmfFolders.get(i).getName(), false);
 			progressDialog.setProgressBar(false, true, dmfFolders.size(), i);
 			DmfDirectory dmfDirectory = indexing.loadDMFs(dmfFolders.get(i), progressDialog, useIndexes, updateIndexes);
 			
 			if(!progressDialog.isCancelled() && saveIndexes)
 			{
-				progressDialog.setProcessLabel(DefaultLanguage.SAVING_INDEX);
+				progressDialog.setProcessLabel(DmfLanguageValues.SAVING_INDEX);
 				progressDialog.setDetailLabel(dmfFolders.get(i).getName(), false);
 				indexing.saveIndex(dmfDirectory);
 				

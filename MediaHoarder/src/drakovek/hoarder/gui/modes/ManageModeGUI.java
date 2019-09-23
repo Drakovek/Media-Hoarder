@@ -1,6 +1,6 @@
 package drakovek.hoarder.gui.modes;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.editing.SequencingGUI;
 
@@ -20,10 +20,10 @@ public class ManageModeGUI extends ModeBaseGUI
 	public ManageModeGUI(FrameGUI frameGUI)
 	{
 		super(frameGUI);
-		String[] backIDs = {DefaultLanguage.MODE_BACK, DefaultLanguage.MODE_START};
-		String[] modeIDs = {DefaultLanguage.SEQUENCE_MODE,
-							DefaultLanguage.ERROR_MODE,
-							DefaultLanguage.REFORMAT_MODE};
+		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START};
+		String[] modeIDs = {ModeValues.SEQUENCE_MODE,
+							ModeValues.ERROR_MODE,
+							ModeValues.REFORMAT_MODE};
 		
 		setContentPanel(backIDs, modeIDs);
 		
@@ -34,18 +34,18 @@ public class ManageModeGUI extends ModeBaseGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.SEQUENCE_MODE:
+			case ModeValues.SEQUENCE_MODE:
 				new SequencingGUI(getSettings(), getParentGUI().getDmfHandler());
 				getParentGUI().dispose();
 				break;
-			case DefaultLanguage.REFORMAT_MODE:
+			case ModeValues.REFORMAT_MODE:
 				setContentPanel(new ReformatModeGUI(getParentGUI()));
 				break;
-			case DefaultLanguage.ERROR_MODE:
+			case ModeValues.ERROR_MODE:
 				setContentPanel(new ErrorFindingModeGUI(getParentGUI()));
 				break;
-			case DefaultLanguage.MODE_BACK:
-			case DefaultLanguage.MODE_START:
+			case ModeValues.MODE_BACK:
+			case ModeValues.MODE_START:
 				setContentPanel(new ModesGUI(getParentGUI()));
 				break;
 				

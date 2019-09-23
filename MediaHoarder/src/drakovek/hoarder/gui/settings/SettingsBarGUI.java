@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.ComponentDisabler;
@@ -53,7 +53,7 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 		super(ownerGUI.getSettings());
 		this.ownerGUI = ownerGUI;
 		
-		settingsButton = new DButton(this, DefaultLanguage.SETTINGS);
+		settingsButton = new DButton(this, SettingsValues.SETTINGS);
 		label = new DLabel(this, null, new String());
 		
 		JPanel internalPNL = new JPanel();
@@ -103,7 +103,7 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 		}//IF
 		else
 		{
-			label.setText(getSettings().getLanguageText(DefaultLanguage.NO_DIRECTORY));
+			label.setText(getSettings().getLanguageText(SettingsValues.NO_DIRECTORY));
 			
 		}//ELSE
 		
@@ -118,12 +118,12 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	{
 		if(loaded)
 		{
-			label.setText(getSettings().getLanguageText(DefaultLanguage.DIRECTORIES_LOADED));
+			label.setText(getSettings().getLanguageText(SettingsValues.DIRECTORIES_LOADED));
 			
 		}//IF
 		else
 		{
-			label.setText(getSettings().getLanguageText(DefaultLanguage.NO_DIRECTORY));
+			label.setText(getSettings().getLanguageText(SettingsValues.NO_DIRECTORY));
 			
 		}//ELSE
 		

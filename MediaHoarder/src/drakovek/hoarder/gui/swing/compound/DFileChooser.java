@@ -15,7 +15,8 @@ import javax.swing.WindowConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.ExtensionFilter;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.CompoundValues;
 import drakovek.hoarder.gui.BaseGUI;
 import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -42,7 +43,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	/**
 	 * Action ID for when enter is pressed while the file list is in focus
 	 */
-	private static final String LIST_ENTER_ACTION = DefaultLanguage.FILE + DEnterListener.ENTER_PRESSED;
+	private static final String LIST_ENTER_ACTION = CommonValues.FILE + DEnterListener.ENTER_PRESSED;
 	
 	/**
 	 * Ellipsis string
@@ -151,17 +152,17 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		//CREATE TOP PANEL
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		buttonPanel.add(new DButton(this, DefaultLanguage.PARENT));
-		buttonPanel.add(new DButton(this, DefaultLanguage.NEW_DIRECTORY));
+		buttonPanel.add(new DButton(this, CompoundValues.PARENT));
+		buttonPanel.add(new DButton(this, CompoundValues.NEW_DIRECTORY));
 		
-		rootBox = new DComboBox(this, DefaultLanguage.ROOTS);
+		rootBox = new DComboBox(this, CompoundValues.ROOTS);
 		directoryLabel = new DLabel(this, null, new String());
-		JPanel rootPanel = getHorizontalStack(new DLabel(this, rootBox, DefaultLanguage.ROOTS), 0, getHorizontalStack(rootBox, 1, buttonPanel, 0), 1);
+		JPanel rootPanel = getHorizontalStack(new DLabel(this, rootBox, CompoundValues.ROOTS), 0, getHorizontalStack(rootBox, 1, buttonPanel, 0), 1);
 		JPanel topPanel = getVerticalStack(getVerticalStack(rootPanel, new JSeparator(SwingConstants.HORIZONTAL)), directoryLabel);
 		
 		//CREATE NAME PANEL
-		fileNameText = new DTextField(this, DefaultLanguage.FILE_NAME);
-		fileTypeBox = new DComboBox(this, DefaultLanguage.FILE_TYPE);
+		fileNameText = new DTextField(this, CompoundValues.FILE_NAME);
+		fileTypeBox = new DComboBox(this, CompoundValues.FILE_TYPE);
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new GridBagLayout());
 		GridBagConstraints nameCST = new GridBagConstraints();
@@ -169,11 +170,11 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		nameCST.gridwidth = 1;		nameCST.gridheight = 1;
 		nameCST.weightx = 0;		nameCST.weighty = 0;
 		nameCST.fill = GridBagConstraints.BOTH;
-		namePanel.add(new DLabel(this, fileNameText, DefaultLanguage.FILE_NAME), nameCST);
+		namePanel.add(new DLabel(this, fileNameText, CompoundValues.FILE_NAME), nameCST);
 		nameCST.gridy = 1;
 		namePanel.add(getVerticalSpace(), nameCST);
 		nameCST.gridy = 2;
-		namePanel.add(new DLabel(this, fileTypeBox, DefaultLanguage.FILE_TYPE), nameCST);
+		namePanel.add(new DLabel(this, fileTypeBox, CompoundValues.FILE_TYPE), nameCST);
 		nameCST.gridx = 1;
 		namePanel.add(getHorizontalSpace(), nameCST);
 		nameCST.gridx = 2;			nameCST.weightx = 1;
@@ -182,7 +183,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		namePanel.add(fileNameText, nameCST);
 		
 		//CREATE FILE PANEL
-		fileList = new DFileList(this, false, DefaultLanguage.FILE);
+		fileList = new DFileList(this, false, CommonValues.FILE);
 		fileList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		fileList.addMouseListener(new DListClickListener(this, fileList, DListClickListener.LIST_CLICKED));
 		fileScroll = new DScrollPane(settings, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, fileList);
@@ -196,10 +197,10 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		centerPanel.add(getSpacedPanel(namePanel, 1, 0, true, false, true, true), BorderLayout.SOUTH);
 		
 		//CREATE BOTTOM PANEL
-		finishButton = new DButton(this, DefaultLanguage.SAVE);
+		finishButton = new DButton(this, CommonValues.SAVE);
 		JPanel openPanel = new JPanel();
 		openPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
-		openPanel.add(new DButton(this, DefaultLanguage.CANCEL));
+		openPanel.add(new DButton(this, CommonValues.CANCEL));
 		openPanel.add(finishButton);
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
@@ -232,7 +233,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		selectedFile = null;
 		owner.setAllowExit(false);
 		initializeChooser(startDirectory);
-		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
+		dialog = new DDialog(owner, panel ,getTitle(CompoundValues.OPEN_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 		dialog = null;
@@ -256,7 +257,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		returnFile = null;
 		selectedFile = null;
 		initializeChooser(startDirectory);
-		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.OPEN_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
+		dialog = new DDialog(owner, panel ,getTitle(CompoundValues.OPEN_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 		dialog = null;
@@ -280,7 +281,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		selectedFile = null;
 		owner.setAllowExit(false);
 		initializeChooser(startDirectory);
-		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.SAVE_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
+		dialog = new DDialog(owner, panel ,getTitle(CompoundValues.SAVE_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 		dialog = null;
@@ -304,7 +305,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		returnFile = null;
 		selectedFile = null;
 		initializeChooser(startDirectory);
-		dialog = new DDialog(owner, panel ,getTitle(DefaultLanguage.SAVE_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
+		dialog = new DDialog(owner, panel ,getTitle(CompoundValues.SAVE_TITLE), true, getSettings().getFontSize() * 35, getSettings().getFontSize() * 25);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 		dialog = null;
@@ -322,12 +323,12 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		//SET TEXT FOR FINISH BUTTON
 		if(isOpening)
 		{
-			finishButton.setTextID(DefaultLanguage.OPEN);
+			finishButton.setTextID(CommonValues.OPEN);
 			
 		}//IF
 		else
 		{
-			finishButton.setTextID(DefaultLanguage.SAVE);
+			finishButton.setTextID(CommonValues.SAVE);
 			
 		}//ELSE
 		
@@ -361,14 +362,14 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 			String[] fileType = new String[1];
 			if(isOpening)
 			{
-				fileType[0] = getSettings().getLanguageText(DefaultLanguage.DIRECTORIES_ONLY);
+				fileType[0] = getSettings().getLanguageText(CompoundValues.DIRECTORIES_ONLY);
 				filter.setExtensions(null);
 				filter.setAllowAll(false);
 						
 			}//IF
 			else
 			{
-				fileType[0] = getSettings().getLanguageText(DefaultLanguage.ALL_FILES);
+				fileType[0] = getSettings().getLanguageText(CompoundValues.ALL_FILES);
 				filter.setExtensions(null);
 				filter.setAllowAll(true);
 						
@@ -389,7 +390,7 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 		else
 		{
 			String[] fileTypes = new String[extensions.length + 1];
-			fileTypes[0] = getSettings().getLanguageText(DefaultLanguage.ALL_ALLOWED_EXTENSIONS);
+			fileTypes[0] = getSettings().getLanguageText(CompoundValues.ALL_ALLOWED_EXTENSIONS);
 			for(int i = 0; i < extensions.length; i++)
 			{
 				fileTypes[i + 1] = '*' + extensions[i];
@@ -688,8 +689,8 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 			if(file.exists())
 			{
 				DButtonDialog buttonDialog = new DButtonDialog(getSettings());
-				String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-				shouldSave = buttonDialog.openButtonDialog(this, dialog, DefaultLanguage.FILE_EXISTS, DefaultLanguage.FILE_EXISTS_MESSAGES, buttonIDs).equals(DefaultLanguage.YES);
+				String[] buttonIDs = {CommonValues.YES, CommonValues.NO};
+				shouldSave = buttonDialog.openButtonDialog(this, dialog, CompoundValues.FILE_EXISTS, CompoundValues.FILE_EXISTS_MESSAGES, buttonIDs).equals(CommonValues.YES);
 			
 			}//IF
 			
@@ -724,16 +725,16 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 	{
 		switch(id)
 		{
-			case DefaultLanguage.ROOTS:
+			case CompoundValues.ROOTS:
 				rootSelected();
 				break;
-			case DefaultLanguage.FILE_TYPE:
+			case CompoundValues.FILE_TYPE:
 				changeFilter();
 				break;
-			case DefaultLanguage.FILE_NAME:
+			case CompoundValues.FILE_NAME:
 				fileNameEntered();
 				break;
-			case DefaultLanguage.FILE:
+			case CommonValues.FILE:
 				fileSelected();
 				break;
 			case LIST_ENTER_ACTION:
@@ -742,17 +743,17 @@ public class DFileChooser extends BaseGUI implements ComponentDisabler
 			case DListClickListener.LIST_CLICKED:
 				setDirectoryFromIndex(value);
 				break;
-			case DefaultLanguage.PARENT:
+			case CompoundValues.PARENT:
 				setDirectory(currentDirectory.getParentFile());
 				break;
 			case DResizeListener.RESIZE:
 				fileList.fitRowsToSize();
 				setDirectoryLabel(currentDirectory);
 				break;
-			case DefaultLanguage.SAVE:
+			case CommonValues.SAVE:
 				attemptFinish();
 				break;
-			case DefaultLanguage.CANCEL:
+			case CommonValues.CANCEL:
 				dialog.dispose();
 				break;
 				

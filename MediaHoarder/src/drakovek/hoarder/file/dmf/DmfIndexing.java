@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.processing.ParseINI;
 
@@ -113,7 +113,7 @@ public class DmfIndexing
 			
 			if(indexFile.exists())
 			{
-				progressDialog.setProcessLabel(DefaultLanguage.LOADING_INDEX);
+				progressDialog.setProcessLabel(DmfLanguageValues.LOADING_INDEX);
 				fileInputStream = null;
 				objectInputStream = null;
 				

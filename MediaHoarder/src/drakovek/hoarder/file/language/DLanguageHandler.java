@@ -75,7 +75,8 @@ public class DLanguageHandler
 		
 		if(getDefault)
 		{
-			setLanguage(DefaultLanguage.getDefaultLanguage(languageFolder));
+			DefaultLanguage.writeDefaultLanguage(languageFolder);
+			setLanguage(DefaultLanguage.DEFAULT_LANGUAGE);
 			
 		}//ELSE
 		

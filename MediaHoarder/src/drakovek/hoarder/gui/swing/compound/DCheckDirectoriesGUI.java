@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.swing.components.DFrame;
 
 /**
@@ -29,10 +29,10 @@ public class DCheckDirectoriesGUI
 		if(!isDirectoryListed(settings, file))
 		{
 			DButtonDialog buttonDialog = new DButtonDialog(settings);
-			String[] buttonIDs = {DefaultLanguage.YES, DefaultLanguage.NO};
-			String response = buttonDialog.openButtonDialog(frame, DefaultLanguage.ADD_DIRECTORY_TITLE, DefaultLanguage.ADD_DIRECTORY_MESSAGES, buttonIDs);
+			String[] buttonIDs = {CommonValues.YES, CommonValues.NO};
+			String response = buttonDialog.openButtonDialog(frame, CommonValues.ADD_DIRECTORY_TITLE, CommonValues.ADD_DIRECTORY_MESSAGES, buttonIDs);
 			
-			if(response.equals(DefaultLanguage.YES))
+			if(response.equals(CommonValues.YES))
 			{
 				ArrayList<File> dmfDirectories = settings.getDmfDirectories();
 				dmfDirectories.add(file);

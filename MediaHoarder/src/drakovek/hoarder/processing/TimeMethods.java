@@ -3,7 +3,7 @@ package drakovek.hoarder.processing;
 import java.time.LocalDateTime;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
 
 /**
  * Contains methods for getting converting times and dates into strings.
@@ -171,10 +171,10 @@ public class TimeMethods
 		}//IF
 		else
 		{
-			String ampm = settings.getLanguageText(DefaultLanguage.PM);
+			String ampm = settings.getLanguageText(CommonValues.PM);
 			if(hour < 12)
 			{
-				ampm = settings.getLanguageText(DefaultLanguage.AM);
+				ampm = settings.getLanguageText(CommonValues.AM);
 				
 			}//IF
 			
@@ -199,7 +199,7 @@ public class TimeMethods
 			{
 				timeString.append(", "); //$NON-NLS-1$
 				timeString.append(StringMethods.extendNumberString(second, 2));
-				timeString.append(settings.getLanguageText(DefaultLanguage.SECONDS_SUFFIX));
+				timeString.append(settings.getLanguageText(CommonValues.SECONDS_SUFFIX));
 			
 			}//IF
 			
@@ -296,12 +296,12 @@ public class TimeMethods
 			}//SWITCH
 			
 		}//IF
-		else if(month > 0 && month <= DefaultLanguage.MONTHS.length)
+		else if(month > 0 && month <= CommonValues.MONTHS.length)
 		{
 			switch(dateFormat)
 			{
 				case DATE_MDY:
-					dateString.append(settings.getLanguageText(DefaultLanguage.MONTHS[month - 1]));
+					dateString.append(settings.getLanguageText(CommonValues.MONTHS[month - 1]));
 					dateString.append(' ');
 					dateString.append(StringMethods.extendNumberString(day, 2));
 					dateString.append(',');
@@ -311,7 +311,7 @@ public class TimeMethods
 				case DATE_DMY:
 					dateString.append(StringMethods.extendNumberString(day, 2));
 					dateString.append(' ');
-					dateString.append(settings.getLanguageText(DefaultLanguage.MONTHS[month - 1]));
+					dateString.append(settings.getLanguageText(CommonValues.MONTHS[month - 1]));
 					dateString.append(',');
 					dateString.append(' ');
 					dateString.append(StringMethods.extendNumberString(year, 2));
@@ -320,7 +320,7 @@ public class TimeMethods
 					dateString.append(StringMethods.extendNumberString(year, 2));
 					dateString.append(',');
 					dateString.append(' ');
-					dateString.append(settings.getLanguageText(DefaultLanguage.MONTHS[month - 1]));
+					dateString.append(settings.getLanguageText(CommonValues.MONTHS[month - 1]));
 					dateString.append(' ');
 					dateString.append(StringMethods.extendNumberString(day, 2));
 					break;

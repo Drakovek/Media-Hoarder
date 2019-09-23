@@ -17,7 +17,9 @@ import javax.swing.SwingConstants;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.ViewerValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.ScreenDimensions;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
@@ -152,7 +154,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	 */
 	public ViewBrowserGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, dmfHandler, DefaultLanguage.VIEWER_TITLE);
+		super(settings, dmfHandler, ViewerValues.VIEWER_TITLE);
 		progressDialog = new DProgressDialog(settings);
 		previewWidth = 0;
 		previewHeight = 0;
@@ -164,29 +166,29 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		JMenuBar menubar = new JMenuBar();
 		
 		//FILE MENU ITEMS
-		fileMenu = new DMenu(this, DefaultLanguage.FILE);
-		fileMenu.add(new DMenuItem(this, DefaultLanguage.RELOAD_DMFS));
-		fileMenu.add(new DMenuItem(this, DefaultLanguage.RELOAD_WITHOUT_INDEXES));
+		fileMenu = new DMenu(this, CommonValues.FILE);
+		fileMenu.add(new DMenuItem(this, ViewerValues.RELOAD_DMFS));
+		fileMenu.add(new DMenuItem(this, ViewerValues.RELOAD_WITHOUT_INDEXES));
 		fileMenu.addSeparator();
-		fileMenu.add(new DMenuItem(this, DefaultLanguage.RESTART_PROGRAM));
-		fileMenu.add(new DMenuItem(this, DefaultLanguage.EXIT));
+		fileMenu.add(new DMenuItem(this, CommonValues.RESTART_PROGRAM));
+		fileMenu.add(new DMenuItem(this, CommonValues.EXIT));
 		menubar.add(fileMenu);
 		
 		//VIEW MENU ITEMS
-		viewMenu = new DMenu(this, DefaultLanguage.VIEW);
-		viewMenu.add(new DCheckBoxMenuItem(this, settings.getUseThumbnails(), DefaultLanguage.USE_THUMBNAILS));
-		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowArtists(), DefaultLanguage.SHOW_ARTISTS));
-		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowViews(), DefaultLanguage.SHOW_VIEWS));
-		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowRatings(), DefaultLanguage.SHOW_RATINGS));
+		viewMenu = new DMenu(this, CommonValues.VIEW);
+		viewMenu.add(new DCheckBoxMenuItem(this, settings.getUseThumbnails(), ViewerValues.USE_THUMBNAILS));
+		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowArtists(), ViewerValues.SHOW_ARTISTS));
+		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowViews(), ViewerValues.SHOW_VIEWS));
+		viewMenu.add(new DCheckBoxMenuItem(this, settings.getShowRatings(), ViewerValues.SHOW_RATINGS));
 		menubar.add(viewMenu);
 		
 		//SORT MENU ITEMS
-		sortMenu = new DMenu(this, DefaultLanguage.SORT);
+		sortMenu = new DMenu(this, ViewerValues.SORT);
 		ButtonGroup sortGroup = new ButtonGroup();
-		DRadioButtonMenuItem alphaSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_ALPHA, DefaultLanguage.SORT_ALPHA);
-		DRadioButtonMenuItem timeSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_TIME, DefaultLanguage.SORT_TIME);
-		DRadioButtonMenuItem ratingSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_RATING, DefaultLanguage.SORT_RATING);
-		DRadioButtonMenuItem viewSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_VIEWS, DefaultLanguage.SORT_VIEWS);
+		DRadioButtonMenuItem alphaSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_ALPHA, ViewerValues.SORT_ALPHA);
+		DRadioButtonMenuItem timeSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_TIME, ViewerValues.SORT_TIME);
+		DRadioButtonMenuItem ratingSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_RATING, ViewerValues.SORT_RATING);
+		DRadioButtonMenuItem viewSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_VIEWS, ViewerValues.SORT_VIEWS);
 		sortGroup.add(alphaSort);
 		sortGroup.add(timeSort);
 		sortGroup.add(ratingSort);
@@ -196,23 +198,23 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		sortMenu.add(ratingSort);
 		sortMenu.add(viewSort);
 		sortMenu.addSeparator();
-		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupArtists(), DefaultLanguage.GROUP_ARTISTS));
-		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSequences(), DefaultLanguage.GROUP_SEQUENCES));
-		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSections(), DefaultLanguage.GROUP_SECTIONS));
+		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupArtists(), ViewerValues.GROUP_ARTISTS));
+		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSequences(), ViewerValues.GROUP_SEQUENCES));
+		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSections(), ViewerValues.GROUP_SECTIONS));
 		sortMenu.addSeparator();
-		sortMenu.add(new DCheckBoxMenuItem(this, settings.getReverseOrder(), DefaultLanguage.REVERSE_ORDER));
+		sortMenu.add(new DCheckBoxMenuItem(this, settings.getReverseOrder(), ViewerValues.REVERSE_ORDER));
 		menubar.add(sortMenu);
 		
 		//FILTER MENU ITEMS
-		filterMenu = new DMenu(this, DefaultLanguage.FILTER);
-		filterMenu.add(new DMenuItem(this, DefaultLanguage.FILTER_MEDIA));
+		filterMenu = new DMenu(this, ViewerValues.FILTER);
+		filterMenu.add(new DMenuItem(this, ViewerValues.FILTER_MEDIA));
 		menubar.add(filterMenu);
 		
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
-		previousButton = new DButton(this, DefaultLanguage.PREVIOUS);
-		nextButton = new DButton(this, DefaultLanguage.NEXT);
+		previousButton = new DButton(this, ViewerValues.PREVIOUS);
+		nextButton = new DButton(this, ViewerValues.NEXT);
 		bottomPanel.add(previousButton);
 		bottomPanel.add(pageText);
 		bottomPanel.add(nextButton);
@@ -388,16 +390,16 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		{
 			getFrame().setProcessRunning(true);
 			progressDialog.setCancelled(false);
-			progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_DMFS_TITLE);
+			progressDialog.startProgressDialog(getFrame(), DmfLanguageValues.LOADING_DMFS_TITLE);
 			
 			if(useIndexSettings)
 			{
-				(new DSwingWorker(this, DefaultLanguage.LOADING_DMFS)).execute();
+				(new DSwingWorker(this, DmfLanguageValues.LOADING_DMFS)).execute();
 				
 			}//IF
 			else
 			{
-				(new DSwingWorker(this, DefaultLanguage.RELOAD_WITHOUT_INDEXES)).execute();
+				(new DSwingWorker(this, ViewerValues.RELOAD_WITHOUT_INDEXES)).execute();
 				
 			}//ELSE
 			
@@ -432,7 +434,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			
 			if(offset % total != 0)
 			{
-				text = text + getSettings().getLanguageText(DefaultLanguage.OFFSET) + (offset - ((int)Math.floor((double)offset / (double)total) * total));
+				text = text + getSettings().getLanguageText(ViewerValues.OFFSET) + (offset - ((int)Math.floor((double)offset / (double)total) * total));
 			
 			}//IF
 			
@@ -454,10 +456,10 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			{
 				getFrame().setProcessRunning(true);
 				progressDialog.setCancelled(false);
-				progressDialog.startProgressDialog(getFrame(), DefaultLanguage.LOADING_PREVIEWS_TITLE);
-				progressDialog.setProcessLabel(DefaultLanguage.LOADING_PREVIEWS);
-				progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
-				(new DSwingWorker(this, DefaultLanguage.LOADING_PREVIEWS)).execute();
+				progressDialog.startProgressDialog(getFrame(), ViewerValues.LOADING_PREVIEWS_TITLE);
+				progressDialog.setProcessLabel(ViewerValues.LOADING_PREVIEWS);
+				progressDialog.setDetailLabel(CommonValues.RUNNING, true);
+				(new DSwingWorker(this, ViewerValues.LOADING_PREVIEWS)).execute();
 			
 			}//IF
 			else
@@ -502,7 +504,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 					if(getSettings().getShowViews())
 					{
 						html.append("<br><b>"); //$NON-NLS-1$
-						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.VIEWS)));
+						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.VIEWS)));
 						html.append("</b>&nbsp;"); //$NON-NLS-1$
 						html.append(Integer.toString(getDmfHandler().getViews(offset + i)));
 						
@@ -511,7 +513,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 					if(getSettings().getShowRatings() && (getDmfHandler().getRating(offset + i) > 0))
 					{
 						html.append("<br><b>"); //$NON-NLS-1$
-						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DefaultLanguage.RATING)));
+						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.RATING)));
 						html.append("</b>&nbsp;"); //$NON-NLS-1$
 						html.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', getDmfHandler().getRating(offset + i))));
 						
@@ -744,11 +746,11 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	{
 		getFrame().setProcessRunning(true);
 		progressDialog.setCancelled(false);
-		progressDialog.startProgressDialog(getFrame(), DefaultLanguage.SORTING_DMFS_TITLE);
-		progressDialog.setProcessLabel(DefaultLanguage.SORTING_DMFS);
-		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+		progressDialog.startProgressDialog(getFrame(), ViewerValues.SORTING_DMFS_TITLE);
+		progressDialog.setProcessLabel(ViewerValues.SORTING_DMFS);
+		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
-		(new DSwingWorker(this, DefaultLanguage.SORT)).execute();
+		(new DSwingWorker(this, ViewerValues.SORT)).execute();
 		
 	}//METHOD
 	
@@ -759,11 +761,11 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	{
 		getFrame().setProcessRunning(true);
 		progressDialog.setCancelled(false);
-		progressDialog.startProgressDialog(getFrame(), DefaultLanguage.FILTERING_DMFS_TITLE);
-		progressDialog.setProcessLabel(DefaultLanguage.FILTERING_DMFS);
-		progressDialog.setDetailLabel(DefaultLanguage.RUNNING, true);
+		progressDialog.startProgressDialog(getFrame(), ViewerValues.FILTERING_DMFS_TITLE);
+		progressDialog.setProcessLabel(ViewerValues.FILTERING_DMFS);
+		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
-		(new DSwingWorker(this, DefaultLanguage.FILTER)).execute();
+		(new DSwingWorker(this, ViewerValues.FILTER)).execute();
 		
 	}//METHOD
 
@@ -775,10 +777,10 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			case PreviewButton.PREVIEW_EVENT:
 				new ViewerGUI(this, offset + value, true);
 				break;
-			case DefaultLanguage.NEXT:
+			case ViewerValues.NEXT:
 				nextPage();
 				break;
-			case DefaultLanguage.PREVIOUS:
+			case ViewerValues.PREVIOUS:
 				previousPage();
 				break;
 			case PAGE_ACTION:
@@ -787,66 +789,68 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			case DResizeListener.RESIZE:
 				previewResized();
 				break;
-			case DefaultLanguage.USE_THUMBNAILS:
+			case ViewerValues.USE_THUMBNAILS:
 				getSettings().setUseThumbnails(BooleanInt.getBoolean(value));
 				resetValues();
 				launchPreviewUpdate();
 				break;
-			case DefaultLanguage.SHOW_ARTISTS:
+			case ViewerValues.SHOW_ARTISTS:
 				getSettings().setShowArtists(BooleanInt.getBoolean(value));
 				resetValues();
 				launchPreviewUpdate();
 				break;
-			case DefaultLanguage.SHOW_RATINGS:
+			case ViewerValues.SHOW_RATINGS:
 				getSettings().setShowRatings(BooleanInt.getBoolean(value));
 				resetValues();
 				launchPreviewUpdate();
 				break;
-			case DefaultLanguage.SHOW_VIEWS:
+			case ViewerValues.SHOW_VIEWS:
 				getSettings().setShowViews(BooleanInt.getBoolean(value));
 				resetValues();
 				launchPreviewUpdate();
 				break;
-			case DefaultLanguage.SORT_ALPHA:
+			case ViewerValues.SORT_ALPHA:
 				sortRadioPressed(DmfHandler.SORT_ALPHA, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.SORT_TIME:
+			case ViewerValues.SORT_TIME:
 				sortRadioPressed(DmfHandler.SORT_TIME, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.SORT_RATING:
+			case ViewerValues.SORT_RATING:
 				sortRadioPressed(DmfHandler.SORT_RATING, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.SORT_VIEWS:
+			case ViewerValues.SORT_VIEWS:
 				sortRadioPressed(DmfHandler.SORT_VIEWS, BooleanInt.getBoolean(value));
 				break;
-			case DefaultLanguage.GROUP_ARTISTS:
+			case ViewerValues.GROUP_ARTISTS:
 				getSettings().setGroupArtists(BooleanInt.getBoolean(value));
 				sort();
 				break;
-			case DefaultLanguage.GROUP_SEQUENCES:
+			case ViewerValues.GROUP_SEQUENCES:
 				getSettings().setGroupSequences(BooleanInt.getBoolean(value));
 				sort();
 				break;
-			case DefaultLanguage.GROUP_SECTIONS:
+			case ViewerValues.GROUP_SECTIONS:
 				getSettings().setGroupSections(BooleanInt.getBoolean(value));
 				if(!getSettings().getGroupSequences()) sort();
 				break;
-			case DefaultLanguage.REVERSE_ORDER:
+			case ViewerValues.REVERSE_ORDER:
 				getSettings().setReverseOrder(BooleanInt.getBoolean(value));
 				sort();
 				break;
-			case DefaultLanguage.FILTER_MEDIA:
+			case ViewerValues.FILTER_MEDIA:
 				new FilterGUI(this);
 				break;
-			case DefaultLanguage.RELOAD_DMFS:
+			case ViewerValues.RELOAD_DMFS:
 				loadDirectory(true);
 				break;
-			case DefaultLanguage.RELOAD_WITHOUT_INDEXES:
+			case ViewerValues.RELOAD_WITHOUT_INDEXES:
 				loadDirectory(false);
 				break;
-			case DefaultLanguage.RESTART_PROGRAM:
+			case CommonValues.RESTART_PROGRAM:
 				Start.startGUI(getSettings(), getDmfHandler());
-			case DefaultLanguage.EXIT:
+				dispose();
+				break;
+			case CommonValues.EXIT:
 				dispose();
 				break;
 			
@@ -859,19 +863,19 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DefaultLanguage.LOADING_DMFS:
+			case DmfLanguageValues.LOADING_DMFS:
 				getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
 				break;
-			case DefaultLanguage.RELOAD_WITHOUT_INDEXES:
+			case ViewerValues.RELOAD_WITHOUT_INDEXES:
 				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, false, getSettings().getUseIndexes(), false);
 				break;
-			case DefaultLanguage.LOADING_PREVIEWS:
+			case ViewerValues.LOADING_PREVIEWS:
 				updatePreview();
 				break;
-			case DefaultLanguage.SORT:
+			case ViewerValues.SORT:
 				getDmfHandler().sort(getSettings().getSortType(), getSettings().getGroupArtists(), getSettings().getGroupSequences(), getSettings().getGroupSections(), getSettings().getReverseOrder());
 				break;
-			case DefaultLanguage.FILTER:
+			case ViewerValues.FILTER:
 				getDmfHandler().filterDMFs();
 				break;
 				
@@ -888,15 +892,15 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		
 		switch(id)
 		{
-			case DefaultLanguage.RELOAD_WITHOUT_INDEXES:
-			case DefaultLanguage.LOADING_DMFS:
+			case ViewerValues.RELOAD_WITHOUT_INDEXES:
+			case DmfLanguageValues.LOADING_DMFS:
 				settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
 				sort();
 				break;
-			case DefaultLanguage.SORT:
+			case ViewerValues.SORT:
 				filter();
 				break;
-			case DefaultLanguage.FILTER:
+			case ViewerValues.FILTER:
 				offset = 0;
 				resetValues();
 				launchPreviewUpdate();

@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
@@ -53,16 +54,16 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new GridLayout(1, 2, getSettings().getSpaceSize(), 0));
-		bottomPanel.add(new DButton(this, DefaultLanguage.ADD));
-		bottomPanel.add(new DButton(this, DefaultLanguage.REMOVE));
+		bottomPanel.add(new DButton(this, CommonValues.ADD));
+		bottomPanel.add(new DButton(this, CommonValues.REMOVE));
 		
-		directoryList = new DList(this, true, DefaultLanguage.DMF_DIRECTORIES);
+		directoryList = new DList(this, true, SettingsValues.DMF_DIRECTORIES);
 		setDirectoryList();
 		DScrollPane directoryScroll = new DScrollPane(getSettings(), ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, directoryList);
 		
 		//FINALIZE PANEL
 		getPanel().setLayout(new BorderLayout());
-		getPanel().add(new DLabel(this, directoryList, DefaultLanguage.DMF_DIRECTORIES), BorderLayout.NORTH);
+		getPanel().add(new DLabel(this, directoryList, SettingsValues.DMF_DIRECTORIES), BorderLayout.NORTH);
 		getPanel().add(this.getSpacedPanel(directoryScroll, 1, 1, true, true, false, false));
 		getPanel().add(bottomPanel, BorderLayout.SOUTH);
 		
@@ -198,10 +199,10 @@ public class DirectorySettingsGUI extends SettingsModeGUI
 	{
 		switch(id)
 		{
-			case DefaultLanguage.ADD:
+			case CommonValues.ADD:
 				addDirectory();
 				break;
-			case DefaultLanguage.REMOVE:
+			case CommonValues.REMOVE:
 				removeDirectories();
 				break;
 				

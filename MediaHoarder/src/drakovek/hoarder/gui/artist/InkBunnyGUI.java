@@ -15,7 +15,8 @@ import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.language.DefaultLanguage;
+import drakovek.hoarder.file.language.ArtistValues;
+import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.web.Downloader;
@@ -63,7 +64,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	 */
 	public InkBunnyGUI(DSettings settings, DmfHandler dmfHandler)
 	{
-		super(settings, dmfHandler, new LoginGUI(settings, DefaultLanguage.INKBUNNY_LOGIN, false), DefaultLanguage.INKBUNNY_MODE, DefaultLanguage.CHOOSE_INKBUNNY_FOLDER);
+		super(settings, dmfHandler, new LoginGUI(settings, ArtistValues.INKBUNNY_LOGIN, false), ModeValues.INKBUNNY_MODE, ArtistValues.CHOOSE_INKBUNNY_FOLDER);
 		idStrings = new ArrayList<>();
 		getDownloader().setTimeout(1000);
 		
@@ -86,7 +87,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	@Override
 	protected String getTitle()
 	{
-		return getSettings().getLanguageText(DefaultLanguage.INKBUNNY_PROGRESS_TITLE);
+		return '[' + getSettings().getLanguageText(ModeValues.INKBUNNY_MODE) + ']';
 		
 	}//METHOD
 	
@@ -241,7 +242,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		{
 			size = pages.size();
 			allPagesSize = allPages.size();
-			progressDialog.setDetailLabel(getSettings().getLanguageText(DefaultLanguage.PAGE) + ' ' + pageNum, false);
+			progressDialog.setDetailLabel(getSettings().getLanguageText(ArtistValues.PAGE) + ' ' + pageNum, false);
 			setPage(baseURL + Integer.toString(pageNum) + '/');
 			if(isLoggedIn())
 			{
@@ -297,7 +298,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		{
 			size = pages.size();
 			allPagesSize = allPages.size();
-			progressDialog.setDetailLabel(getSettings().getLanguageText(DefaultLanguage.PAGE) + ' ' + pageNum, false);
+			progressDialog.setDetailLabel(getSettings().getLanguageText(ArtistValues.PAGE) + ' ' + pageNum, false);
 			setPage(baseURL + Integer.toString(pageNum) + '/');
 			if(isLoggedIn())
 			{
