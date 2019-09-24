@@ -393,19 +393,26 @@ public class MediaViewer extends BaseGUI implements DWorker
 	/**
 	 * Sets what media file should be shown.
 	 * 
-	 * @param dmfIndex Index of the DMF from which to get details
+	 * @param index Index of the DMF from which to get details
+	 * @param isFilteredIndex Whether the given index is a filtered index. If false, index is a direct index.
 	 */
-	public void setMedia(final int dmfIndex)
+	public void setMedia(final int index, final boolean isFilteredIndex)
 	{
+		dmfIndex = index;
+		if(isFilteredIndex)
+		{
+			dmfIndex = ownerGUI.getDmfHandler().getDirectIndex(index);
+			
+		}//IF
+		
 		incrementViews();
-		this.dmfIndex = dmfIndex;
 		ownerGUI.getFrame().setProcessRunning(true);
 		progressDialog.setCancelled(false);
 		progressDialog.startProgressDialog(ownerGUI.getFrame(), ViewerValues.LOADING_MEDIA_TITLE);
 		progressDialog.setProcessLabel(ViewerValues.LOADING_MEDIA_MESSAGE);
 		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 		progressDialog.setProgressBar(true, false, 0, 0);
-		mediaPanel.setPanelType(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
+		mediaPanel.setPanelType(ownerGUI.getDmfHandler().getMediaFileDirect(dmfIndex));
 		viewerPanel.revalidate();
 		(new DSwingWorker(this, ViewerValues.LOADING_MEDIA_MESSAGE)).execute();
 		
@@ -418,7 +425,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 	{
 		if(!ownerGUI.getFrame().isProcessRunning())
 		{
-			ownerGUI.getFrame().setProcessRunning(false);
+			ownerGUI.getFrame().setProcessRunning(true);
 			progressDialog.setCancelled(false);
 			progressDialog.startProgressDialog(ownerGUI.getFrame(), ViewerValues.LOADING_MEDIA_TITLE);
 			progressDialog.setProcessLabel(ViewerValues.LOADING_MEDIA_MESSAGE);
@@ -432,11 +439,10 @@ public class MediaViewer extends BaseGUI implements DWorker
 	
 	/**
 	 * Sets the details editor pane to show the information from a DMF at a given index.
-	 * 
-	 * @param dmfIndex DMF Index
 	 */
-	private void setDetails(final int dmfIndex)
+	private void setDetails()
 	{
+		
 		//SET STYLE
 		StringBuilder htmlText = new StringBuilder();
 		
@@ -444,22 +450,22 @@ public class MediaViewer extends BaseGUI implements DWorker
 		htmlText.append("<div class=\"drakovek_title_block\"><span class=\""); //$NON-NLS-1$
 		htmlText.append(DEditorPane.LARGE_TEXT_CLASS);
 		htmlText.append("\"<b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getTitle(dmfIndex)));
+		htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getTitleDirect(dmfIndex)));
 		htmlText.append("</b></span><br><i>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getArtists(dmfIndex), true, new String())));
+		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getArtistsDirect(dmfIndex), true, new String())));
 		htmlText.append("</i>"); //$NON-NLS-1$
 		
-		if(ownerGUI.getDmfHandler().getSequenceTitle(dmfIndex).length() > 0)
+		if(ownerGUI.getDmfHandler().getSequenceTitleDirect(dmfIndex).length() > 0)
 		{
 			htmlText.append("<br><span class=\""); //$NON-NLS-1$
 			htmlText.append(DEditorPane.SMALL_TEXT_CLASS);
 			htmlText.append("\">"); //$NON-NLS-1$
-			htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getSequenceTitle(dmfIndex)));
+			htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getSequenceTitleDirect(dmfIndex)));
 			
-			if(ownerGUI.getDmfHandler().getSectionTitle(dmfIndex).length() > 0 && !ownerGUI.getDmfHandler().getSectionTitle(dmfIndex).equals(DMF.EMPTY_SECTION))
+			if(ownerGUI.getDmfHandler().getSectionTitleDirect(dmfIndex).length() > 0 && !ownerGUI.getDmfHandler().getSectionTitleDirect(dmfIndex).equals(DMF.EMPTY_SECTION))
 			{
 				htmlText.append(" - "); //$NON-NLS-1$
-				htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getSectionTitle(dmfIndex)));
+				htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getSectionTitleDirect(dmfIndex)));
 				
 			}//IF
 			
@@ -470,44 +476,44 @@ public class MediaViewer extends BaseGUI implements DWorker
 		//SET DESCRIPTION
 		htmlText.append("</div><br><hr><br>"); //$NON-NLS-1$
 		
-		if(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex) != null && fileTypeHandler.isImageFile(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex)))
+		if(ownerGUI.getDmfHandler().getSecondaryFileDirect(dmfIndex) != null && fileTypeHandler.isImageFile(ownerGUI.getDmfHandler().getSecondaryFileDirect(dmfIndex)))
 		{
 			htmlText.append("<div style=\"text-align:center;\">"); //$NON-NLS-1$
 			htmlText.append("<img src=\"file://"); //$NON-NLS-1$
-			htmlText.append(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex).getAbsolutePath().replaceAll("\\\\", "\\/")); //$NON-NLS-1$ //$NON-NLS-2$
+			htmlText.append(ownerGUI.getDmfHandler().getSecondaryFileDirect(dmfIndex).getAbsolutePath().replaceAll("\\\\", "\\/")); //$NON-NLS-1$ //$NON-NLS-2$
 			htmlText.append("\" alt=\""); //$NON-NLS-1$
-			htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getTitle(dmfIndex)));
+			htmlText.append(StringMethods.addHtmlEscapes(ownerGUI.getDmfHandler().getTitleDirect(dmfIndex)));
 			htmlText.append("\"></div><br>"); //$NON-NLS-1$
 			
 		}//IF
 		
 		htmlText.append("<div class=\"drakovek_description\">"); //$NON-NLS-1$
 		
-		htmlText.append(ownerGUI.getDmfHandler().getDescription(dmfIndex));
+		htmlText.append(ownerGUI.getDmfHandler().getDescriptionDirect(dmfIndex));
 		
 		//SET TAGS
 		htmlText.append("</div><br><hr><br><div class=\"drakovek_info\"><b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.VIEWS)));
 		htmlText.append("&nbsp;</b>"); //$NON-NLS-1$
-		htmlText.append(Integer.toString(ownerGUI.getDmfHandler().getViews(dmfIndex)));
+		htmlText.append(Integer.toString(ownerGUI.getDmfHandler().getViewsDirect(dmfIndex)));
 		
-		if(ownerGUI.getDmfHandler().getRating(dmfIndex) > 0)
+		if(ownerGUI.getDmfHandler().getRatingDirect(dmfIndex) > 0)
 		{
 			htmlText.append("&nbsp;&nbsp;&nbsp;&nbsp;<b>"); //$NON-NLS-1$
 			htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.RATING)));
 			htmlText.append("&nbsp;</b>"); //$NON-NLS-1$
-			htmlText.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', ownerGUI.getDmfHandler().getRating(dmfIndex))));
+			htmlText.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', ownerGUI.getDmfHandler().getRatingDirect(dmfIndex))));
 			
 		}//IF
 		
 		htmlText.append("<br><br><b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.WEB_TAG_LABEL)));
 		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getWebTags(dmfIndex), true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE))));
+		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getWebTagsDirect(dmfIndex), true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE))));
 		htmlText.append("<br><br><b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.USER_TAG_LABEL)));
 		htmlText.append("&nbsp; </b>"); //$NON-NLS-1$
-		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getUserTags(dmfIndex), true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE))));
+		htmlText.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(ownerGUI.getDmfHandler().getUserTagsDirect(dmfIndex), true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE))));
 		
 		//SET INFO TABLE
 		htmlText.append("</div><br><div class=\""); //$NON-NLS-1$
@@ -515,31 +521,31 @@ public class MediaViewer extends BaseGUI implements DWorker
 		htmlText.append("\"><table><tr><td><b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.PAGE_URL_LABEL)));
 		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
-		htmlText.append(ownerGUI.getDmfHandler().getPageURL(dmfIndex));
+		htmlText.append(ownerGUI.getDmfHandler().getPageUrlDirect(dmfIndex));
 		htmlText.append("\">"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.LINK)));
 		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.DATE)));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
-		htmlText.append(TimeMethods.getDateString(getSettings(), TimeMethods.DATE_LONG, ownerGUI.getDmfHandler().getTime(dmfIndex)));
+		htmlText.append(TimeMethods.getDateString(getSettings(), TimeMethods.DATE_LONG, ownerGUI.getDmfHandler().getTimeDirect(dmfIndex)));
 		htmlText.append("</td></tr><tr><td><b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(DmfLanguageValues.DIRECT_URL_LABEL)));
 		htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
-		htmlText.append(ownerGUI.getDmfHandler().getDirectURL(dmfIndex));
+		htmlText.append(ownerGUI.getDmfHandler().getDirectUrlDirect(dmfIndex));
 		htmlText.append("\">"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.LINK)));
 		htmlText.append("</a></td><td><b>"); //$NON-NLS-1$
 		htmlText.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.TIME)));
 		htmlText.append("</b>&nbsp; "); //$NON-NLS-1$
-		htmlText.append(TimeMethods.getTimeString(getSettings(), ownerGUI.getDmfHandler().getTime(dmfIndex)));
+		htmlText.append(TimeMethods.getTimeString(getSettings(), ownerGUI.getDmfHandler().getTimeDirect(dmfIndex)));
 		htmlText.append("</td></tr>"); //$NON-NLS-1$
 		
-		if(ownerGUI.getDmfHandler().getSecondaryURL(dmfIndex).length() > 0)
+		if(ownerGUI.getDmfHandler().getSecondaryUrlDirect(dmfIndex).length() > 0)
 		{
 			htmlText.append("<tr><td><b>"); //$NON-NLS-1$
 			htmlText.append(getSettings().getLanguageText(DmfLanguageValues.SECONDARY_URL_LABEL));
 			htmlText.append("</b>&nbsp; <a href=\""); //$NON-NLS-1$
-			htmlText.append(ownerGUI.getDmfHandler().getSecondaryURL(dmfIndex));
+			htmlText.append(ownerGUI.getDmfHandler().getSecondaryUrlDirect(dmfIndex));
 			htmlText.append("\">"); //$NON-NLS-1$
 			htmlText.append(getSettings().getLanguageText(ViewerValues.LINK));
 			htmlText.append("</a></tr></td>"); //$NON-NLS-1$
@@ -611,7 +617,7 @@ public class MediaViewer extends BaseGUI implements DWorker
 	}//METHOD
 	
 	/**
-	 * Attempts to add a view to the currently shown DMF.
+	 * Attempts to increment the view count on the currently shown DMF.
 	 */
 	public void incrementViews()
 	{
@@ -620,10 +626,10 @@ public class MediaViewer extends BaseGUI implements DWorker
 			long elapsed = System.currentTimeMillis() - startTime;
 			if(elapsed > 5000L)
 			{
-				DMF dmf = new DMF(ownerGUI.getDmfHandler().getDmfFile(dmfIndex));
+				DMF dmf = new DMF(ownerGUI.getDmfHandler().getDmfFileDirect(dmfIndex));
 				dmf.setViews(dmf.getViews() + 1);
 				dmf.writeDMF();
-				ownerGUI.getDmfHandler().setDMF(dmf, dmfIndex);
+				ownerGUI.getDmfHandler().setDmfDirect(dmf, dmfIndex);
 				
 			}//IF
 			
@@ -675,13 +681,13 @@ public class MediaViewer extends BaseGUI implements DWorker
 			case ViewerValues.FULLSCREEN:
 				break;
 			case ViewerValues.OPEN_MEDIA_FILE:
-				FileOpener.openFile(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
+				FileOpener.openFile(ownerGUI.getDmfHandler().getMediaFileDirect(dmfIndex));
 				break;
 			case ViewerValues.OPEN_SECONDARY_FILE:
-				FileOpener.openFile(ownerGUI.getDmfHandler().getSecondaryFile(dmfIndex));
+				FileOpener.openFile(ownerGUI.getDmfHandler().getSecondaryFileDirect(dmfIndex));
 				break;
 			case ViewerValues.OPEN_DMF:
-				FileOpener.openFile(ownerGUI.getDmfHandler().getDmfFile(dmfIndex));
+				FileOpener.openFile(ownerGUI.getDmfHandler().getDmfFileDirect(dmfIndex));
 				break;
 			default:
 				hyperlinkDialog.openDialog(ownerGUI.getFrame(), id);
@@ -697,8 +703,8 @@ public class MediaViewer extends BaseGUI implements DWorker
 		switch(id)
 		{
 			case ViewerValues.LOADING_MEDIA_MESSAGE:
-				setDetails(dmfIndex);
-				mediaPanel.setMedia(ownerGUI.getDmfHandler().getMediaFile(dmfIndex));
+				setDetails();
+				mediaPanel.setMedia(ownerGUI.getDmfHandler().getMediaFileDirect(dmfIndex));
 				break;
 			default:
 				mediaPanel.updateMedia();

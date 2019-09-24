@@ -122,11 +122,11 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	protected void getIdStrings()
 	{
 		idStrings = new ArrayList<>();
-		int size = getDmfHandler().getSize();
+		int size = getDmfHandler().getDirectSize();
 		int prefixLength = ID_PREFIX.length();
 		for(int i = 0; i < size; i ++)
 		{
-			String id = getDmfHandler().getID(i);
+			String id = getDmfHandler().getIdDirect(i);
 			if(id.length() > prefixLength && id.startsWith(ID_PREFIX))
 			{
 				id = id.substring(prefixLength);
@@ -741,7 +741,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())
 		{
-			getDmfHandler().getDatabase().addDMF(dmf);
+			getDmfHandler().addDMF(dmf);
 							
 		}//IF
 		else

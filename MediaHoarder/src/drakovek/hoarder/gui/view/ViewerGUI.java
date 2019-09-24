@@ -110,7 +110,7 @@ public class ViewerGUI extends FrameGUI
 		getFrame().setLocationRelativeTo(ownerGUI.getFrame());
 		getFrame().setVisible(true);
 		
-		mediaViewer.setMedia(dmfIndex);
+		mediaViewer.setMedia(dmfIndex, true);
 		
 	}//CONSTRUCTOR
 	
@@ -124,14 +124,14 @@ public class ViewerGUI extends FrameGUI
 			dmfIndex = 0;
 			
 		}//IF
-		else if(dmfIndex >= getDmfHandler().getSize())
+		else if(dmfIndex >= getDmfHandler().getFilteredSize())
 		{
-			dmfIndex = getDmfHandler().getSize() - 1;
+			dmfIndex = getDmfHandler().getFilteredSize() - 1;
 			
 		}//ELSE IF
 		else
 		{
-			mediaViewer.setMedia(dmfIndex);
+			mediaViewer.setMedia(dmfIndex, true);
 		
 		}//ELSE
 		
@@ -146,13 +146,13 @@ public class ViewerGUI extends FrameGUI
 		
 		}//IF
 		
-		if(dmfIndex < (getDmfHandler().getSize() - 1))
+		if(dmfIndex < (getDmfHandler().getFilteredSize() - 1))
 		{
 			nextButton.setEnabled(true);
 		
 		}//IF
 		
-		if(getDmfHandler().getNextIDs(dmfIndex).length > 1)
+		if(getDmfHandler().getNextIDsFiltered(dmfIndex).length > 1)
 		{
 			branchButton.setEnabled(true);
 			

@@ -117,7 +117,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	 */
 	private void findMissingMedia()
 	{
-		int size = getParentGUI().getDmfHandler().getSize();
+		int size = getParentGUI().getDmfHandler().getDirectSize();
 		progressInfoDialog.setProcessLabel(ManagingValues.MISSING_MEDIA);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
@@ -125,7 +125,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 		
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
+			String artistCheck = getParentGUI().getDmfHandler().getArtistsDirect(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
 			{
 				artist = artistCheck;
@@ -134,17 +134,17 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 				
 			}//IF
 			
-			if(!getParentGUI().getDmfHandler().getMediaFile(i).exists())
+			if(!getParentGUI().getDmfHandler().getMediaFileDirect(i).exists())
 			{
-				progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFile(i).getAbsolutePath(), false);
+				progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFileDirect(i).getAbsolutePath(), false);
 				
 			}//IF
 			else
 			{
-				File secondary = getParentGUI().getDmfHandler().getSecondaryFile(i);
+				File secondary = getParentGUI().getDmfHandler().getSecondaryFileDirect(i);
 				if(secondary != null && !secondary.exists())
 				{
-					progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFile(i).getAbsolutePath(), false);
+					progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFileDirect(i).getAbsolutePath(), false);
 					
 				}//IF
 				
@@ -190,7 +190,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	 */
 	private void findIdenticalIDs()
 	{
-		int size = getParentGUI().getDmfHandler().getSize();
+		int size = getParentGUI().getDmfHandler().getDirectSize();
 		progressInfoDialog.setProcessLabel(ManagingValues.IDENTICAL_IDS);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
@@ -199,7 +199,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 		
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtists(i)[0];
+			String artistCheck = getParentGUI().getDmfHandler().getArtistsDirect(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
 			{
 				artist = artistCheck;
@@ -208,20 +208,20 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 				
 			}//IF
 			
-			String id = getParentGUI().getDmfHandler().getID(i);
+			String id = getParentGUI().getDmfHandler().getIdDirect(i);
 			boolean hasID = false;
 			for(int k = i + 1; k < size; k++)
 			{
-				if(!identical.contains(Integer.valueOf(k)) && getParentGUI().getDmfHandler().getID(k).equals(id))
+				if(!identical.contains(Integer.valueOf(k)) && getParentGUI().getDmfHandler().getIdDirect(k).equals(id))
 				{
 					identical.add(Integer.valueOf(k));
 					if(!hasID)
 					{
 						progressInfoDialog.appendLog(null, false);
-						progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFile(i).getAbsolutePath(), false);
+						progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFileDirect(i).getAbsolutePath(), false);
 					
 					}//IF
-					progressInfoDialog.appendLog(Character.toString('\t') + getParentGUI().getDmfHandler().getDmfFile(k).getAbsolutePath(), false);
+					progressInfoDialog.appendLog(Character.toString('\t') + getParentGUI().getDmfHandler().getDmfFileDirect(k).getAbsolutePath(), false);
 					hasID = true;
 					
 				}//IF

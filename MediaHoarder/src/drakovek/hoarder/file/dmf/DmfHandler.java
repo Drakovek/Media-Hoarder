@@ -162,7 +162,7 @@ public class DmfHandler
 		int size = sorted.size();
 		for(int i = 0; i < size; i++)
 		{
-			filtered.add(sorted.get(i));
+			filtered.add(Integer.valueOf(i));
 			
 		}//FOR
 		
@@ -416,9 +416,9 @@ public class DmfHandler
 		{
 			BooleanSearch booleanSearch = new BooleanSearch();
 			booleanSearch.createSearchLogic(getTitleFilter());
-			for(int i = 0; i < getSize(); i++)
+			for(int i = 0; i < getFilteredSize(); i++)
 			{
-				if(!booleanSearch.searchText(getTitle(i), getFilterCaseSensitive(), false))
+				if(!booleanSearch.searchText(getTitleFiltered(i), getFilterCaseSensitive(), false))
 				{
 					filtered.remove(i);
 					i--;
@@ -440,9 +440,9 @@ public class DmfHandler
 		{
 			BooleanSearch booleanSearch = new BooleanSearch();
 			booleanSearch.createSearchLogic(getDescriptionFilter());
-			for(int i = 0; i < getSize(); i++)
+			for(int i = 0; i < getFilteredSize(); i++)
 			{
-				if(!booleanSearch.searchText(getDescription(i), getFilterCaseSensitive(), false))
+				if(!booleanSearch.searchText(getDescriptionFiltered(i), getFilterCaseSensitive(), false))
 				{
 					filtered.remove(i);
 					i--;
@@ -464,9 +464,9 @@ public class DmfHandler
 		{
 			BooleanSearch booleanSearch = new BooleanSearch();
 			booleanSearch.createSearchLogic(getWebTagFilter());
-			for(int i = 0; i < getSize(); i++)
+			for(int i = 0; i < getFilteredSize(); i++)
 			{
-				if(!booleanSearch.searchText(getWebTags(i), getFilterCaseSensitive(), true))
+				if(!booleanSearch.searchText(getWebTagsFiltered(i), getFilterCaseSensitive(), true))
 				{
 					filtered.remove(i);
 					i--;
@@ -488,9 +488,9 @@ public class DmfHandler
 		{
 			BooleanSearch booleanSearch = new BooleanSearch();
 			booleanSearch.createSearchLogic(getUserTagFilter());
-			for(int i = 0; i < getSize(); i++)
+			for(int i = 0; i < getFilteredSize(); i++)
 			{
-				if(!booleanSearch.searchText(getUserTags(i), getFilterCaseSensitive(), true))
+				if(!booleanSearch.searchText(getUserTagsFiltered(i), getFilterCaseSensitive(), true))
 				{
 					filtered.remove(i);
 					i--;
@@ -512,9 +512,9 @@ public class DmfHandler
 		{
 			BooleanSearch booleanSearch = new BooleanSearch();
 			booleanSearch.createSearchLogic(getArtistFilter());
-			for(int i = 0; i < getSize(); i++)
+			for(int i = 0; i < getFilteredSize(); i++)
 			{
-				if(!booleanSearch.searchText(getArtists(i), getFilterCaseSensitive(), true))
+				if(!booleanSearch.searchText(getArtistsFiltered(i), getFilterCaseSensitive(), true))
 				{
 					filtered.remove(i);
 					i--;
@@ -528,20 +528,31 @@ public class DmfHandler
 	}//IF
 	
 	/**
-	 * Returns the number of DMFs loaded.
+	 * Returns the number of DMFs loaded in the filtered list.
 	 * 
-	 * @return Number of DMFs loaded
+	 * @return Number of DMFs loaded in the filtered list.
 	 */
-	public int getSize()
+	public int getFilteredSize()
 	{
 		return filtered.size();
 		
 	}//METHOD
 	
 	/**
-	 * Returns the DMF Database linked to the handler.
+	 * Returns the total number of DMFs loaded
 	 * 
-	 * @return DmfDatabase
+	 * @return Number of DMFs loaded
+	 */
+	public int getDirectSize()
+	{
+		return sorted.size();
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF Database this handler is reading from
+	 * 
+	 * @return DMF Database
 	 */
 	public DmfDatabase getDatabase()
 	{
@@ -550,14 +561,38 @@ public class DmfHandler
 	}//METHOD
 	
 	/**
-	 * Replaces the DMF at a given index with a given DMF.
+	 * Returns the direct index from a given filtered index value.
 	 * 
-	 * @param dmf Given DMF
-	 * @param index Given Index
+	 * @param filteredIndex Filtered list index value
+	 * @return Direct index value
 	 */
-	public void setDMF(DMF dmf, final int index)
+	public int getDirectIndex(final int filteredIndex)
 	{
-		database.setDMF(dmf, filtered.get(index).intValue());
+		return filtered.get(filteredIndex).intValue();
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DMF at a given index in the filtered list.
+	 * 
+	 * @param dmf DMF with which to replace listed DMF
+	 * @param index Filtered list index value
+	 */
+	public void setDmfFiltered(DMF dmf, final int index)
+	{
+		database.setDMF(dmf, sorted.get(filtered.get(index).intValue()).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Sets the DMF at a given direct index.
+	 * 
+	 * @param dmf DMF with which to replace listed DMF
+	 * @param index Filtered list index value
+	 */
+	public void setDmfDirect(DMF dmf, final int index)
+	{
+		database.setDMF(dmf, sorted.get(index).intValue());
 		
 	}//METHOD
 	
@@ -576,266 +611,530 @@ public class DmfHandler
 	}//METHOD
 	
 	/**
-	 * Gets the DMF File from the DMF at a given index.
+	 * Returns the DMF File at a given index in a filtered list.
 	 * 
-	 * @param index Index
+	 * @param index Filtered List Index
 	 * @return DMF File
 	 */
-	public File getDmfFile(final int index)
+	public File getDmfFileFiltered(final int index)
 	{
-		return database.getDmfFile(filtered.get(index).intValue());
+		return getDmfFileDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the ID from the DMF at a given index.
+	 * Returns the DMF File at a given direct index.
 	 * 
-	 * @param index Index
-	 * @return ID
+	 * @param index Direct Index
+	 * @return DMF File
 	 */
-	public String getID(final int index)
+	public File getDmfFileDirect(final int index)
 	{
-		return database.getID(filtered.get(index).intValue());
+		return database.getDmfFile(sorted.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the Title from the DMF at a given index.
+	 * Returns the DMF ID at a given index in a filtered list.
 	 * 
-	 * @param index Index
-	 * @return Title
+	 * @param index Filtered List Index
+	 * @return DMF ID
 	 */
-	public String getTitle(final int index)
+	public String getIdFiltered(final int index)
 	{
-		return database.getTitle(filtered.get(index).intValue());
+		return getIdDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the Artists from the DMF at a given index.
+	 * Returns the DMF ID at a given direct index.
 	 * 
-	 * @param index Index
-	 * @return Artists
+	 * @param index Direct Index
+	 * @return DMF ID
 	 */
-	public String[] getArtists(final int index)
+	public String getIdDirect(final int index)
 	{
-		return database.getArtists(filtered.get(index).intValue());
+		return database.getID(sorted.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the time from the DMF at a given index.
+	 * Returns the DMF title at a given index in a filtered list.
 	 * 
-	 * @param index Index
-	 * @return Time
+	 * @param index Filtered List Index
+	 * @return DMF Title
 	 */
-	public long getTime(final int index)
+	public String getTitleFiltered(final int index)
 	{
-		return database.getTime(filtered.get(index).intValue());
+		return getTitleDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the web tags from the DMF at a given index.
+	 * Returns the DMF title at a given direct index in a filtered list.
 	 * 
-	 * @param index Index
+	 * @param index Direct Index
+	 * @return DMF Title
+	 */
+	public String getTitleDirect(final int index)
+	{
+		return database.getTitle(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF artists at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
+	 * @return DMF Artists
+	 */
+	public String[] getArtistsFiltered(final int index)
+	{
+		return getArtistsDirect(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF artists at a given direct index.
+	 * 
+	 * @param index Filtered List Index
+	 * @return DMF Artists
+	 */
+	public String[] getArtistsDirect(final int index)
+	{
+		return database.getArtists(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the time the DMF at a given index in a filtered list was published.
+	 * 
+	 * @param index Filtered List Index
+	 * @return Time of Publication
+	 */
+	public long getTimeFiltered(final int index)
+	{
+		return getTimeDirect(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the time the DMF at a given direct index was published.
+	 * 
+	 * @param index Direct Index
+	 * @return Time of Publication
+	 */
+	public long getTimeDirect(final int index)
+	{
+		return database.getTime(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the web tags at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Web Tags
 	 */
-	public String[] getWebTags(final int index)
+	public String[] getWebTagsFiltered(final int index)
 	{
-		return database.getWebTags(filtered.get(index).intValue());
+		return getWebTagsDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the description from the DMF at a given index.
+	 * Returns the web tags at a given direct index in a filtered list.
 	 * 
-	 * @param index Index
-	 * @return Description
+	 * @param index Direct Index
+	 * @return Web Tags
 	 */
-	public String getDescription(final int index)
+	public String[] getWebTagsDirect(final int index)
 	{
-		return database.getDescription(filtered.get(index).intValue());
+		return database.getWebTags(sorted.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the page URL from the DMF at a given index.
+	 * Returns the DMF description at a given index in a filtered list.
 	 * 
-	 * @param index Index
+	 * @param index Filtered List Index
+	 * @return DMF Description
+	 */
+	public String getDescriptionFiltered(final int index)
+	{
+		return getDescriptionDirect(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF description at a given direct index.
+	 * 
+	 * @param index Direct Index
+	 * @return DMF Description
+	 */
+	public String getDescriptionDirect(final int index)
+	{
+		return database.getDescription(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the page URL at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Page URL
 	 */
-	public String getPageURL(final int index)
+	public String getPageUrlFiltered(final int index)
 	{
-		return database.getPageURL(filtered.get(index).intValue());
+		return getPageUrlDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the direct URL from the DMF at a given index.
+	 * Returns the page URL at a given direct index.
 	 * 
-	 * @param index Index
-	 * @return Media URL
+	 * @param index Direct Index
+	 * @return Page URL
 	 */
-	public String getDirectURL(final int index)
+	public String getPageUrlDirect(final int index)
 	{
-		return database.getDirectURL(filtered.get(index).intValue());
+		return database.getPageURL(sorted.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Returns the secondary media URL from the DMF at a given index.
+	 * Returns the direct URL at a given index in a filtered list.
 	 * 
-	 * @param index Index
+	 * @param index Filtered List Index
+	 * @return Direct URL
+	 */
+	public String getDirectUrlFiltered(final int index)
+	{
+		return getDirectUrlDirect(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the direct URL at a given direct index.
+	 * 
+	 * @param index Direct Index
+	 * @return Direct URL
+	 */
+	public String getDirectUrlDirect(final int index)
+	{
+		return database.getDirectURL(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the secondary URL at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Secondary URL
 	 */
-	public String getSecondaryURL(final int index)
+	public String getSecondaryUrlFiltered(final int index)
 	{
-		return database.getSecondaryURL(filtered.get(index).intValue());
+		return getSecondaryUrlDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the media file from the DMF at a given index.
+	 * Returns the secondary URL at a given direct index.
 	 * 
-	 * @param index Index
+	 * @param index Direct Index
+	 * @return Secondary URL
+	 */
+	public String getSecondaryUrlDirect(final int index)
+	{
+		return database.getSecondaryURL(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the media file at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Media File
 	 */
-	public File getMediaFile(final int index)
+	public File getMediaFileFiltered(final int index)
 	{
-		return database.getMediaFile(filtered.get(index).intValue());
+		return getMediaFileDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Returns the secondary media file from the DMF at a given index.
+	 * Returns the media file at a given direct index.
 	 * 
-	 * @param index Index
-	 * @return Secondary Media File
+	 * @param index Direct Index
+	 * @return Media File
 	 */
-	public File getSecondaryFile(final int index)
+	public File getMediaFileDirect(final int index)
 	{
-		return database.getSecondaryFile(filtered.get(index).intValue());
+		return database.getMediaFile(sorted.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the previous IDs from the DMF at a given index.
+	 * Returns the secondary file at a given index in a filtered list.
 	 * 
-	 * @param index Index
+	 * @param index Filtered List Index
+	 * @return Secondary File
+	 */
+	public File getSecondaryFileFiltered(final int index)
+	{
+		return getSecondaryFileDirect(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the secondary file at a given direct index.
+	 * 
+	 * @param index Direct Index
+	 * @return Secondary File
+	 */
+	public File getSecondaryFileDirect(final int index)
+	{
+		return database.getSecondaryFile(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the last IDs at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Last IDs
 	 */
-	public String[] getLastIDs(final int index)
+	public String[] getLastIDsFiltered(final int index)
 	{
-		return database.getLastIDs(filtered.get(index).intValue());
+		return getLastIDsDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the next IDs from the DMF at a given index.
+	 * Returns the last IDs at a given direct index.
 	 * 
-	 * @param index Index
+	 * @param index Direct Index
+	 * @return Last IDs
+	 */
+	public String[] getLastIDsDirect(final int index)
+	{
+		return database.getLastIDs(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the next IDs at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Next IDs
 	 */
-	public String[] getNextIDs(final int index)
+	public String[] getNextIDsFiltered(final int index)
 	{
-		return database.getNextIDs(filtered.get(index).intValue());
+		return getNextIDsDirect(filtered.get(index).intValue());
 	
 	}//METHOD
 	
 	/**
-	 * Gets the "isFirstInSection" variable from the DMF at a given index.
+	 * Returns the next IDs at a given direct index.
 	 * 
-	 * @param index Index
+	 * @param index Direct Index
+	 * @return Next IDs
+	 */
+	public String[] getNextIDsDirect(final int index)
+	{
+		return database.getNextIDs(sorted.get(index).intValue());
+	
+	}//METHOD
+	
+	/**
+	 * Returns whether the DMF at a given index in a filtered list is the first in a section.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Whether DMF is first in section
 	 */
-	public boolean getIsFirst(final int index)
+	public boolean getIsFirstFiltered(final int index)
 	{
-		return database.getIsFirst(filtered.get(index).intValue());
+		return getIsFirstDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the "isLastInSection" variable from the DMF at a given index.
+	 * Returns whether the DMF at a given direct index is the first in a section.
 	 * 
-	 * @param index Index
+	 * @param index Direct Index
+	 * @return Whether DMF is first in section
+	 */
+	public boolean getIsFirstDirect(final int index)
+	{
+		return database.getIsFirst(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether the DMF at a given index in a filtered list is the last in a section.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Whether DMF is last in section
 	 */
-	public boolean getIsLast(final int index)
+	public boolean getIsLastFiltered(final int index)
 	{
-		return database.getIsLast(filtered.get(index).intValue());
+		return getIsLastDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the sequence title from the DMF at a given index.
+	 * Returns whether the DMF at a given direct index is the last in a section.
 	 * 
-	 * @param index Index
-	 * @return Sequence Title
+	 * @param index Direct Index
+	 * @return Whether DMF is last in section
 	 */
-	public String getSequenceTitle(final int index)
+	public boolean getIsLastDirect(final int index)
 	{
-		return database.getSequenceTitle(filtered.get(index).intValue());
+		return database.getIsLast(sorted.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the section title from the DMF at a given index.
+	 * Returns the DMF sequence title at a given index in a filtered list.
 	 * 
-	 * @param index Index
-	 * @return Section Title
+	 * @param index Filtered List Index
+	 * @return DMF Sequence Title
 	 */
-	public String getSectionTitle(final int index)
+	public String getSequenceTitleFiltered(final int index)
 	{
-		return database.getSectionTitle(filtered.get(index).intValue());
+		return getSequenceTitleDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the branch titles from the DMF at a given index.
+	 * Returns the DMF sequence title at a given direct index.
 	 * 
-	 * @param index Index
+	 * @param index Direct Index
+	 * @return DMF Sequence Title
+	 */
+	public String getSequenceTitleDirect(final int index)
+	{
+		return database.getSequenceTitle(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF section title at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
+	 * @return DMF Section Title
+	 */
+	public String getSectionTitleFiltered(final int index)
+	{
+		return getSectionTitleDirect(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF section title at a given direct index.
+	 * 
+	 * @param index Direct Index
+	 * @return DMF Section Title
+	 */
+	public String getSectionTitleDirect(final int index)
+	{
+		return database.getSectionTitle(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the branch titles at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
 	 * @return Branch Titles
 	 */
-	public String[] getBranchTitles(final int index)
+	public String[] getBranchTitlesFiltered(final int index)
 	{
-		return database.getBranchTitles(filtered.get(index).intValue());
+		return getBranchTitlesDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the rating from the DMF at a given index.
+	 * Returns the branch titles at a given index in a filtered list.
 	 * 
-	 * @param index Index
-	 * @return Rating
+	 * @param index Filtered List Index
+	 * @return Branch Titles
 	 */
-	public int getRating(final int index)
+	public String[] getBranchTitlesDirect(final int index)
 	{
-		return database.getRating(filtered.get(index).intValue());
+		return database.getBranchTitles(sorted.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Returns the view count from the DMF at a given index.
+	 * Returns the DMF rating at a given index in a filtered list.
 	 * 
-	 * @param index Index
-	 * @return Number of Views
+	 * @param index Filtered List Index
+	 * @return DMF Rating
 	 */
-	public int getViews(final int index)
+	public int getRatingFiltered(final int index)
 	{
-		return database.getViews(filtered.get(index).intValue());
+		return getRatingDirect(filtered.get(index).intValue());
 		
 	}//METHOD
 	
 	/**
-	 * Gets the user tags from the DMF at a given index.
+	 * Returns the DMF rating at a given direct index.
 	 * 
-	 * @param index Index
+	 * @param index Direct Index
+	 * @return DMF Rating
+	 */
+	public int getRatingDirect(final int index)
+	{
+		return database.getRating(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF view count at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
+	 * @return DMF View Count
+	 */
+	public int getViewsFiltered(final int index)
+	{
+		return getViewsDirect(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF view count at a given direct index.
+	 * 
+	 * @param index Direct Index
+	 * @return DMF View Count
+	 */
+	public int getViewsDirect(final int index)
+	{
+		return database.getViews(sorted.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the user tags at a given index in a filtered list.
+	 * 
+	 * @param index Filtered List Index
 	 * @return User Tags
 	 */
-	public String[] getUserTags(final int index)
+	public String[] getUserTagsFiltered(final int index)
 	{
-		return database.getUserTags(filtered.get(index).intValue());
+		return getUserTagsDirect(filtered.get(index).intValue());
+		
+	}//METHOD
+	
+	/**
+	 * Returns the user tags at a given direct index.
+	 * 
+	 * @param index Direct Index
+	 * @return User Tags
+	 */
+	public String[] getUserTagsDirect(final int index)
+	{
+		return database.getUserTags(sorted.get(index).intValue());
 		
 	}//METHOD
 	

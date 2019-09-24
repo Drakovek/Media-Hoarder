@@ -430,7 +430,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		{
 			disableAll();
 			int total = previewWidth * previewHeight;
-			String text = ((offset / total) + 1) + Character.toString('/') + (int)Math.ceil((double)getDmfHandler().getSize() / (double)total);
+			String text = ((offset / total) + 1) + Character.toString('/') + (int)Math.ceil((double)getDmfHandler().getFilteredSize() / (double)total);
 			
 			if(offset % total != 0)
 			{
@@ -485,18 +485,18 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			progressDialog.setProgressBar(false, true, total, i);
 			if(previewValues[i] != (offset + i))
 			{
-				if((offset + i) < getDmfHandler().getSize())
+				if((offset + i) < getDmfHandler().getFilteredSize())
 				{
 					previewValues[i] = offset + i;
 					
 					StringBuilder html = new StringBuilder();
 					html.append("<html>"); //$NON-NLS-1$
-					html.append(StringMethods.addHtmlEscapes(getDmfHandler().getTitle(offset + i)));
+					html.append(StringMethods.addHtmlEscapes(getDmfHandler().getTitleFiltered(offset + i)));
 					
 					if(getSettings().getShowArtists())
 					{
 						html.append("<br><i>"); //$NON-NLS-1$
-						html.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(getDmfHandler().getArtists(offset + i))));
+						html.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(getDmfHandler().getArtistsFiltered(offset + i))));
 						html.append("</i>"); //$NON-NLS-1$
 						
 					}//IF
@@ -506,16 +506,16 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 						html.append("<br><b>"); //$NON-NLS-1$
 						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.VIEWS)));
 						html.append("</b>&nbsp;"); //$NON-NLS-1$
-						html.append(Integer.toString(getDmfHandler().getViews(offset + i)));
+						html.append(Integer.toString(getDmfHandler().getViewsFiltered(offset + i)));
 						
 					}//IF
 					
-					if(getSettings().getShowRatings() && (getDmfHandler().getRating(offset + i) > 0))
+					if(getSettings().getShowRatings() && (getDmfHandler().getRatingFiltered(offset + i) > 0))
 					{
 						html.append("<br><b>"); //$NON-NLS-1$
 						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.RATING)));
 						html.append("</b>&nbsp;"); //$NON-NLS-1$
-						html.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', getDmfHandler().getRating(offset + i))));
+						html.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', getDmfHandler().getRatingFiltered(offset + i))));
 						
 					}//IF
 					
@@ -523,7 +523,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 					
 					previewLabels[i].setText(html.toString());
 					
-					previewButtons[i].setImage(getDmfHandler().getMediaFile(offset + i), getDmfHandler().getSecondaryFile(offset + i),  progressDialog.isCancelled() || !getSettings().getUseThumbnails());
+					previewButtons[i].setImage(getDmfHandler().getMediaFileFiltered(offset + i), getDmfHandler().getSecondaryFileFiltered(offset + i),  progressDialog.isCancelled() || !getSettings().getUseThumbnails());
 					
 					if(progressDialog.isCancelled())
 					{
@@ -576,7 +576,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			
 		}//ELSE
 		
-		if(newOffset < getDmfHandler().getSize())
+		if(newOffset < getDmfHandler().getFilteredSize())
 		{
 			offset = newOffset;
 			launchPreviewUpdate();
@@ -632,9 +632,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			}//IF
 			
 			int total = previewWidth * previewHeight;
-			if(page > ((int)Math.ceil((double)getDmfHandler().getSize() / (double)total) - 1))
+			if(page > ((int)Math.ceil((double)getDmfHandler().getFilteredSize() / (double)total) - 1))
 			{
-				page = (int)Math.ceil((double)getDmfHandler().getSize() / (double)total) - 1;
+				page = (int)Math.ceil((double)getDmfHandler().getFilteredSize() / (double)total) - 1;
 				
 			}//IF
 			
@@ -647,10 +647,10 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			//GET TITLE IF NOT NUMBER
 			if(text.length() > 0)
 			{
-				int size = getDmfHandler().getSize();
+				int size = getDmfHandler().getFilteredSize();
 				for(int i = 0; i < size; i++)
 				{
-					if(getDmfHandler().getTitle(i).toLowerCase().contains(text))
+					if(getDmfHandler().getTitleFiltered(i).toLowerCase().contains(text))
 					{
 						offset = i;
 						break;
@@ -676,7 +676,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			
 		}//IF
 		
-		if((offset + (previewWidth * previewHeight)) < getDmfHandler().getSize())
+		if((offset + (previewWidth * previewHeight)) < getDmfHandler().getFilteredSize())
 		{
 			nextButton.setEnabled(true);
 			
@@ -689,7 +689,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		sortMenu.setEnabled(true);
 		filterMenu.setEnabled(true);
 		
-		int size = getDmfHandler().getSize();
+		int size = getDmfHandler().getFilteredSize();
 		for(int i = 0; i < previewButtons.length; i++)
 		{
 			if((offset + i) < size)
