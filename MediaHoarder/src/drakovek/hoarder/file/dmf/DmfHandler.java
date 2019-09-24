@@ -113,7 +113,7 @@ public class DmfHandler
 	 * 
 	 * @param dmfDirectories Directories with DMFs to load
 	 * @param dmfFolder Input Folder
-	 * @param progressDialog DProgress dialog to show progress of loading DMFx
+	 * @param progressDialog DProgress dialog to show progress of loading DMF
 	 * @param useIndexes Whether to use index files to load DmfDirectory object
 	 * @param saveIndexes Whether to save DmfDirectories as index files
 	 * @param updateIndexes Whether to update index files to reflect changes in DMFs

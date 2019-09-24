@@ -555,7 +555,7 @@ public class DMF
 	 */
 	public boolean writeDMF(final boolean checkFileType)
 	{
-		if(isValid())
+		if(isValidWrite())
 		{
 			ArrayList<String> contents = new ArrayList<>();
 			contents.add(DMF_HEADER);
@@ -758,9 +758,9 @@ public class DMF
 	/**
 	 * Checks if the current state of the DMF object can be written to make a valid DMF. Must have a valid name for a file, and a non-empty ID and media file.
 	 *
-	 * @return Whether the current DMF is valid
+	 * @return Whether the current DMF is valid to write
 	 */
-	public boolean isValid()
+	public boolean isValidWrite()
 	{
 		boolean valid = true;
 		
@@ -787,6 +787,25 @@ public class DMF
 	}//METHOD
 	
 	/**
+	 * Checks whether the current DMF file is valid to read.
+	 * 
+	 * @return Whether the current DMF file is valid to read
+	 */
+	public boolean isValidRead()
+	{
+		boolean valid = true;
+		
+		if(dmfFile == null || dmfFile.isDirectory() || !dmfFile.getName().endsWith(DMF_EXTENSION))
+		{
+			valid = false;
+			
+		}//IF
+		
+		return valid;
+		
+	}//METHOD
+	
+	/**
 	 * Renames the DMF and its linked media.
 	 * 
 	 * @param filename Main Filename Body
@@ -795,7 +814,7 @@ public class DMF
 	 */
 	public void rename(final String filename, final String mediaExtension, final String secondaryExtension)
 	{
-		if(isValid())
+		if(isValidWrite())
 		{
 			File currentFolder = getDmfFile().getParentFile();
 			String extension = mediaExtension;

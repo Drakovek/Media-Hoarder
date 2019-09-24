@@ -210,9 +210,9 @@ public class DmfDirectory implements Serializable
 			String[] extension = {DMF.DMF_EXTENSION};
 			File[] dmfs = dmfFolder.listFiles(new ExtensionFilter(extension, false));
 			
-			for(File dmf: dmfs)
+			for(int i = 0; i < dmfs.length; i++)
 			{
-				addDMF(dmf);
+				addDMF(dmfs[i]);
 				
 			}//FOR
 			
@@ -239,7 +239,7 @@ public class DmfDirectory implements Serializable
 	 */
 	public void addDMF(DMF dmf)
 	{
-		if(dmf.isValid())
+		if(dmf.isValidRead())
 		{
 			//DMF
 			dmfFiles.add(dmf.getDmfFile());
@@ -364,7 +364,7 @@ public class DmfDirectory implements Serializable
 	{
 		for(int i = 0; i < dmfFiles.size(); i++)
 		{
-			if(dmfFiles.get(i) == null || !dmfFiles.get(i).exists() || !mediaFiles.get(i).exists() || (secondaryFiles.get(i) != null && !secondaryFiles.get(i).exists()))
+			if(dmfFiles.get(i) == null || !dmfFiles.get(i).exists() || mediaFiles.get(i) == null || !mediaFiles.get(i).exists() || (secondaryFiles.get(i) != null && !secondaryFiles.get(i).exists()))
 			{
 				//REMOVE DMFS THAT NO LONGER EXIST
 				
@@ -449,11 +449,11 @@ public class DmfDirectory implements Serializable
 		//ADDS NEW DMFS
 		String[] extension = {DMF.DMF_EXTENSION};
 		File[] allDmfFiles = getDirectory().listFiles(new ExtensionFilter(extension, false));
-		for(File dmfFile: allDmfFiles)
+		for(int i = 0; i < allDmfFiles.length; i++)
 		{
-			if(!dmfFiles.contains(dmfFile))
+			if(!dmfFiles.contains(allDmfFiles[i]))
 			{
-				DMF dmf = new DMF(dmfFile);
+				DMF dmf = new DMF(allDmfFiles[i]);
 				if(!ids.contains(dmf.getID()))
 				{
 					addDMF(dmf);

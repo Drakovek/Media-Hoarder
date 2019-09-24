@@ -7,11 +7,12 @@ import drakovek.hoarder.file.ExclusionFilter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfDatabase;
 import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dmf.DmfLoader;
+import drakovek.hoarder.file.dmf.DmfLoadingMethods;
 import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.file.language.ManagingValues;
 import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
-import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.DWorker;
@@ -22,17 +23,12 @@ import drakovek.hoarder.work.DWorker;
  * @author Drakovek
  * @version 2.0
  */
-public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
+public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingMethods
 {
 	/**
 	 * String containing ID for the current reformat process mode
 	 */
 	private String mode;
-	
-	/**
-	 * Progress Dialog for showing progress in loading DMFs
-	 */
-	private DProgressDialog progressDialog;
 	
 	/**
 	 * Progress Info Dialog for showing progress in reformatting processes
@@ -47,7 +43,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	public ErrorFindingModeGUI(FrameGUI frameGUI)
 	{
 		super(frameGUI);
-		progressDialog = new DProgressDialog(getSettings());
 		progressInfoDialog = new DProgressInfoDialog(getSettings());
 		
 		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START, ModeValues.MANAGE_MODE};
@@ -58,38 +53,12 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 		setContentPanel(backIDs, modeIDs);
 		
 	}//CONSTRUCTOR
-
-	/**
-	 * Starts reformatting process by asking if the user wants to continue and loading DMFs.
-	 */
-	private void startProcess()
-	{
-		progressDialog.setCancelled(false);
-		getParentGUI().getFrame().setProcessRunning(true);
-		progressDialog.startProgressDialog(getParentGUI().getFrame(),  DmfLanguageValues.LOADING_DMFS_TITLE);
-		(new DSwingWorker(this,  DmfLanguageValues.LOADING_DMFS)).execute();
-		
-	}//METHOD
 	
 	/**
-	 * Loads DMFs from the given DMF directories.
+	 * Starts the process of checking for errors, after DMFs have been loaded.
 	 */
-	private void loadDMFs()
+	private void startChecking()
 	{
-		getParentGUI().getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
-		getParentGUI().getDmfHandler().sort(DmfHandler.SORT_ALPHA, true, false, false, false);
-		
-	}//METHOD
-	
-	/**
-	 * Deals with DMF loading being finished, closing the progress dialog and allowing input.
-	 */
-	private void loadDmfsFinished()
-	{
-		progressDialog.setCancelled(false);
-		progressDialog.closeProgressDialog();
-		getParentGUI().getFrame().setProcessRunning(false);
-		
 		if(getParentGUI().getDmfHandler().isLoaded())
 		{
 			progressInfoDialog.setCancelled(false);
@@ -134,7 +103,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 				
 			}//IF
 			
-			if(!getParentGUI().getDmfHandler().getMediaFileDirect(i).exists())
+			if(getParentGUI().getDmfHandler().getMediaFileDirect(i) == null || !getParentGUI().getDmfHandler().getMediaFileDirect(i).exists())
 			{
 				progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFileDirect(i).getAbsolutePath(), false);
 				
@@ -246,7 +215,8 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 				break;
 			default:
 				mode = id;
-				startProcess();
+				DmfLoader loader = new DmfLoader(this, getParentGUI());
+				loader.loadDMFs(getParentGUI().getSettings().getUseIndexes(), getParentGUI().getSettings().getUseIndexes(), true);
 				break;
 				
 		}//SWITCH
@@ -258,9 +228,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case  DmfLanguageValues.LOADING_DMFS:
-				loadDMFs();
-				break;
 			case ManagingValues.UNLINKED_FILES:
 				findUnlinkedFiles();
 				break;
@@ -280,9 +247,6 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DmfLanguageValues.LOADING_DMFS:
-				loadDmfsFinished();
-				break;
 			default:
 				infoProcessFinished();
 				break;
@@ -290,5 +254,23 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker
 		}//SWITCH
 		
 	}//METHOD
+
+	@Override
+	public void loadingDMFsDone()
+	{
+		DmfLoader loader = new DmfLoader(this, getParentGUI());
+		loader.sortDMFs(DmfHandler.SORT_ALPHA, true, false, false, false);
+		
+	}//METHOD
+
+	@Override
+	public void sortingDMFsDone()
+	{
+		startChecking();
+		
+	}//METHOD
+
+	@Override
+	public void filteringDMFsDone() {}
 	
 }//CLASS
