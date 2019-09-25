@@ -369,14 +369,9 @@ public class DmfDatabase
 		{
 			if(!tree.get(i).contains(Character.toString('(')) && !tree.get(i).contains(Character.toString('*')))
 			{
-				int currentIndex = getIdIndex(tree.get(i).replaceAll(Character.toString('>'), new String()));
-				
-				if(currentIndex != -1)
-				{
-					sequenceList.add(Integer.valueOf(currentIndex));
-					
-				}//IF
-				
+				int currentIndex = Integer.parseInt(tree.get(i).replaceAll(Character.toString('>'), new String()));
+				sequenceList.add(Integer.valueOf(currentIndex));
+
 			}//IF
 			
 		}//FOR
@@ -454,7 +449,7 @@ public class DmfDatabase
 		tree.addAll(currentTree);
 		
 		isContained = false;
-		ID = Character.toString('>') + getID(index);
+		ID = Character.toString('>') + index;
 		for(int i = 0; i < tree.size(); i++)
 		{
 			if(tree.get(i).endsWith(ID))
@@ -468,12 +463,12 @@ public class DmfDatabase
 		
 		if(isContained)
 		{
-			tree.add(StringMethods.extendCharacter('>', level) + getID(index) + Character.toString('*'));
+			tree.add(StringMethods.extendCharacter('>', level) + index + Character.toString('*'));
 
 		}//IF
 		else
 		{
-			tree.add(StringMethods.extendCharacter('>', level) + getID(index));
+			tree.add(StringMethods.extendCharacter('>', level) + index);
 			int currentIndex = index;
 			
 			while(true)
@@ -495,7 +490,7 @@ public class DmfDatabase
 					}//IF
 					
 					isContained = false;
-					ID = Character.toString('>') + getID(nextIndex);
+					ID = Character.toString('>') + nextIndex;
 					for(int i = 0; i < tree.size(); i++)
 					{
 						if(tree.get(i).endsWith(ID))
@@ -509,12 +504,12 @@ public class DmfDatabase
 					
 					if(isContained)
 					{
-						tree.add(StringMethods.extendCharacter('>', level) + getID(nextIndex) + Character.toString('*'));
+						tree.add(StringMethods.extendCharacter('>', level) + nextIndex + Character.toString('*'));
 						break;
 					
 					}//IF
 
-					tree.add(StringMethods.extendCharacter('>', level) + getID(nextIndex));
+					tree.add(StringMethods.extendCharacter('>', level) + nextIndex);
 					currentIndex = nextIndex;
 					
 					

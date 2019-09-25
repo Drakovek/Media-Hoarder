@@ -549,7 +549,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 				{
 					previewValues[i] = -1;
 					previewLabels[i].setText(new String());
-					previewButtons[i].setImage(null, null, false);
+					previewButtons[i].noImage();
 					
 				}//ELSE
 				

@@ -82,6 +82,17 @@ public class PreviewButton extends JButton
 		
 	}//METHOD
 	
+	/**
+	 * Sets the preview button to blank, with no image.
+	 */
+	public void noImage()
+	{
+		image = null;
+		
+		repaint();
+		
+	}//METHOD
+	
 	@Override
 	protected void paintComponent(Graphics g)
 	{
