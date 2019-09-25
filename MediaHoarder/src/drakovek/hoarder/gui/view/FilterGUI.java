@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import drakovek.hoarder.file.dmf.DmfLoader;
 import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.file.language.ViewerValues;
@@ -37,9 +38,14 @@ public class FilterGUI extends FrameGUI
 	private boolean caseSensitive;
 	
 	/**
+	 * DMF loader used to filter DMFs
+	 */
+	private DmfLoader loader;
+	
+	/**
 	 * Frame GUI parent of the Filter GUI
 	 */
-	private ViewBrowserGUI ownerGUI;
+	private FrameGUI ownerGUI;
 	
 	/**
 	 * DTextField for the user tag filter
@@ -85,10 +91,12 @@ public class FilterGUI extends FrameGUI
 	 * Initializes the FilterGUI class by creating the main GUI.
 	 * 
 	 * @param ownerGUI Frame GUI parent of the Filter GUI
+	 * @param loader DMF loader used to filter DMFs
 	 */
-	public FilterGUI(ViewBrowserGUI ownerGUI)
+	public FilterGUI(FrameGUI ownerGUI, DmfLoader loader)
 	{
 		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), ViewerValues.FILTER);
+		this.loader = loader;
 		this.ownerGUI = ownerGUI;
 		this.ownerGUI.getFrame().setAllowExit(false);
 		
@@ -275,7 +283,7 @@ public class FilterGUI extends FrameGUI
 			case CommonValues.OK:
 				getFrame().setAllowExit(false);
 				addFilters();
-				ownerGUI.filter();
+				loader.filterDMFs();
 				dispose();
 				break;
 			case CommonValues.CASE_SENSITIVE:

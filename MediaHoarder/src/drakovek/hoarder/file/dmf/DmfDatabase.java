@@ -822,13 +822,14 @@ public class DmfDatabase
 	{
 		String[] artistArray = artists.get(index);
 		
-		if(artistArray != null)
+		if(artistArray == null || artistArray.length == 0)
 		{
-			return artistArray;
+			artistArray = new String[1];
+			artistArray[0] = new String();
 			
 		}//IF
-		
-		return new String[0];
+
+		return artistArray;
 		
 	}//METHOD
 	

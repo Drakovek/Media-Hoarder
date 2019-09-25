@@ -13,8 +13,9 @@ import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dmf.DmfLoader;
+import drakovek.hoarder.file.dmf.DmfLoadingMethods;
 import drakovek.hoarder.file.language.CommonValues;
-import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.file.language.EditingValues;
 import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
@@ -24,10 +25,7 @@ import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.components.DTextField;
-import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.media.MediaViewer;
-import drakovek.hoarder.work.DSwingWorker;
-import drakovek.hoarder.work.DWorker;
 
 /**
  * 
@@ -35,12 +33,12 @@ import drakovek.hoarder.work.DWorker;
  * @author Drakovek
  * @version 2.0
  */
-public class SequencingGUI extends FrameGUI implements DWorker
-{
+public class SequencingGUI extends FrameGUI implements DmfLoadingMethods
+{	
 	/**
-	 * Main progress dialog for the class
+	 * DMF loader for loading DMFs
 	 */
-	private DProgressDialog progressDialog;
+	private DmfLoader loader;
 	
 	/**
 	 * Main settings bar for the sequencing GUI
@@ -131,7 +129,7 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	public SequencingGUI(DSettings settings, DmfHandler dmfHandler)
 	{
 		super(settings, dmfHandler, ModeValues.SEQUENCE_MODE);
-		progressDialog = new DProgressDialog(settings);
+		loader = new DmfLoader(this, this);
 		
 		//CREATE UPDATE PANEL
 		JPanel updatePanel = new JPanel();
@@ -234,21 +232,9 @@ public class SequencingGUI extends FrameGUI implements DWorker
 		getFrame().setVisible(true);
 		
 		settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
-		loadDirectories();
+		loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
 		
 	}//CONSTRUCTOR
-	
-	/**
-	 * Starts process of loading all DMFs from the default DMF directories.
-	 */
-	private void loadDirectories()
-	{
-		getFrame().setProcessRunning(true);
-		progressDialog.setCancelled(false);
-		progressDialog.startProgressDialog(getFrame(),  DmfLanguageValues.LOADING_DMFS_TITLE);
-		(new DSwingWorker(this,  DmfLanguageValues.LOADING_DMFS)).execute();
-		
-	}//METHOD
 	
 	@Override
 	public void enableAll()
@@ -299,34 +285,20 @@ public class SequencingGUI extends FrameGUI implements DWorker
 	}//METHOD
 
 	@Override
-	public void run(String id)
+	public void loadingDMFsDone()
 	{
-		switch(id)
-		{
-			case DmfLanguageValues.LOADING_DMFS:
-				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
-				this.getDmfHandler().sort(DmfHandler.SORT_TIME, true, false, false, false);
-				break;
-				
-		}//SWITCH
+		loader.sortDMFs(DmfHandler.SORT_TIME, true, true, true, true);
+	
+	}//METHOD
+
+	@Override
+	public void sortingDMFsDone()
+	{
+		settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
 		
 	}//METHOD
 
 	@Override
-	public void done(String id)
-	{
-		progressDialog.setCancelled(false);
-		progressDialog.closeProgressDialog();
-		getFrame().setProcessRunning(false);
-		
-		switch(id)
-		{
-			case DmfLanguageValues.LOADING_DMFS:
-				settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
-				break;
-				
-		}//SWITCH
-		
-	}//METHOD
+	public void filteringDMFsDone() {}
 
 }//CLASS

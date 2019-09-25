@@ -20,7 +20,7 @@ public class ExtensionMethods
 	{
 		if(file == null)
 		{
-			return null;
+			return new String();
 			
 		}//IF
 		

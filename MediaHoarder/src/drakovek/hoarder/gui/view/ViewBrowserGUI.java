@@ -17,6 +17,8 @@ import javax.swing.SwingConstants;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dmf.DmfLoader;
+import drakovek.hoarder.file.dmf.DmfLoadingMethods;
 import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.file.language.ViewerValues;
@@ -44,12 +46,17 @@ import drakovek.hoarder.work.DWorker;
  * @author Drakovek
  * @version 2.0
  */
-public class ViewBrowserGUI extends FrameGUI implements DWorker
+public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMethods
 {
 	/**
 	 * Action for when pageText event occurs.
 	 */
 	private static final String PAGE_ACTION = "page"; //$NON-NLS-1$
+	
+	/**
+	 * DMF loader for loading, sorting, and filtering DMFs
+	 */
+	private DmfLoader loader;
 	
 	/**
 	 * Main settings bar for the class.
@@ -155,6 +162,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	public ViewBrowserGUI(DSettings settings, DmfHandler dmfHandler)
 	{
 		super(settings, dmfHandler, ViewerValues.VIEWER_TITLE);
+		loader = new DmfLoader(this, this);
 		progressDialog = new DProgressDialog(settings);
 		previewWidth = 0;
 		previewHeight = 0;
@@ -394,16 +402,21 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 			
 			if(useIndexSettings)
 			{
-				(new DSwingWorker(this, DmfLanguageValues.LOADING_DMFS)).execute();
+				loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
 				
 			}//IF
 			else
 			{
-				(new DSwingWorker(this, ViewerValues.RELOAD_WITHOUT_INDEXES)).execute();
+				loader.loadDMFs(false, getSettings().getUseIndexes(), false);
 				
 			}//ELSE
 			
 		}//IF
+		else
+		{
+			loadingDMFsDone();
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -733,39 +746,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		if(isSelected)
 		{
 			getSettings().setSortType(sortType);
-			sort();
+			loader.sortDMFsDefault();
 			
 		}//IF
-		
-	}//METHOD
-	
-	/**
-	 * Starts the DMF sorting process.
-	 */
-	private void sort()
-	{
-		getFrame().setProcessRunning(true);
-		progressDialog.setCancelled(false);
-		progressDialog.startProgressDialog(getFrame(), ViewerValues.SORTING_DMFS_TITLE);
-		progressDialog.setProcessLabel(ViewerValues.SORTING_DMFS);
-		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
-		progressDialog.setProgressBar(true, false, 0, 0);
-		(new DSwingWorker(this, ViewerValues.SORT)).execute();
-		
-	}//METHOD
-	
-	/**
-	 * Starts the DMF filtering process.
-	 */
-	public void filter()
-	{
-		getFrame().setProcessRunning(true);
-		progressDialog.setCancelled(false);
-		progressDialog.startProgressDialog(getFrame(), ViewerValues.FILTERING_DMFS_TITLE);
-		progressDialog.setProcessLabel(ViewerValues.FILTERING_DMFS);
-		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
-		progressDialog.setProgressBar(true, false, 0, 0);
-		(new DSwingWorker(this, ViewerValues.FILTER)).execute();
 		
 	}//METHOD
 
@@ -823,22 +806,23 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 				break;
 			case ViewerValues.GROUP_ARTISTS:
 				getSettings().setGroupArtists(BooleanInt.getBoolean(value));
-				sort();
+				loader.sortDMFsDefault();
 				break;
 			case ViewerValues.GROUP_SEQUENCES:
 				getSettings().setGroupSequences(BooleanInt.getBoolean(value));
-				sort();
+				loader.sortDMFsDefault();
 				break;
 			case ViewerValues.GROUP_SECTIONS:
 				getSettings().setGroupSections(BooleanInt.getBoolean(value));
-				if(!getSettings().getGroupSequences()) sort();
+				if(!getSettings().getGroupSequences())
+					loader.sortDMFsDefault();
 				break;
 			case ViewerValues.REVERSE_ORDER:
 				getSettings().setReverseOrder(BooleanInt.getBoolean(value));
-				sort();
+				loader.sortDMFsDefault();
 				break;
 			case ViewerValues.FILTER_MEDIA:
-				new FilterGUI(this);
+				new FilterGUI(this, loader);
 				break;
 			case ViewerValues.RELOAD_DMFS:
 				loadDirectory(true);
@@ -863,20 +847,8 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DmfLanguageValues.LOADING_DMFS:
-				getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
-				break;
-			case ViewerValues.RELOAD_WITHOUT_INDEXES:
-				this.getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, false, getSettings().getUseIndexes(), false);
-				break;
 			case ViewerValues.LOADING_PREVIEWS:
 				updatePreview();
-				break;
-			case ViewerValues.SORT:
-				getDmfHandler().sort(getSettings().getSortType(), getSettings().getGroupArtists(), getSettings().getGroupSequences(), getSettings().getGroupSections(), getSettings().getReverseOrder());
-				break;
-			case ViewerValues.FILTER:
-				getDmfHandler().filterDMFs();
 				break;
 				
 		}//SWITCH
@@ -890,23 +862,29 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker
 		progressDialog.closeProgressDialog();
 		getFrame().setProcessRunning(false);
 		
-		switch(id)
-		{
-			case ViewerValues.RELOAD_WITHOUT_INDEXES:
-			case DmfLanguageValues.LOADING_DMFS:
-				settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
-				sort();
-				break;
-			case ViewerValues.SORT:
-				filter();
-				break;
-			case ViewerValues.FILTER:
-				offset = 0;
-				resetValues();
-				launchPreviewUpdate();
-				break;
-				
-		}//SWITCH
+	}//METHOD
+
+	@Override
+	public void loadingDMFsDone()
+	{
+		settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
+		loader.sortDMFsDefault();
+		
+	}//METHOD
+
+	@Override
+	public void sortingDMFsDone()
+	{
+		loader.filterDMFs();
+		
+	}//METHOD
+
+	@Override
+	public void filteringDMFsDone()
+	{
+		offset = 0;
+		resetValues();
+		launchPreviewUpdate();
 		
 	}//METHOD
 	

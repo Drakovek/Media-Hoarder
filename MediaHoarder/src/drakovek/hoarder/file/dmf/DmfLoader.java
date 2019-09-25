@@ -116,6 +116,15 @@ public class DmfLoader implements DWorker
 	}//METHOD
 	
 	/**
+	 * Sorts DMFs based on the program's current default sorting settings.
+	 */
+	public void sortDMFsDefault()
+	{
+		sortDMFs(parentGUI.getSettings().getSortType(), parentGUI.getSettings().getGroupArtists(), parentGUI.getSettings().getGroupSequences(), parentGUI.getSettings().getGroupSections(), parentGUI.getSettings().getReverseOrder());
+
+	}//METHOD
+	
+	/**
 	 * Starts the process of sorting DMFs while showing progress.
 	 * 
 	 * @param sortType Sort Type
@@ -143,7 +152,22 @@ public class DmfLoader implements DWorker
 	}//METHOD
 	
 	/**
-	 * Loads DMFs from the program's DMF directories
+	 * Starts the process of filtering DMFs while showing progress.
+	 */
+	public void filterDMFs()
+	{
+		parentGUI.getFrame().setProcessRunning(false);
+		progressDialog.setCancelled(false);
+		progressDialog.startProgressDialog(parentGUI.getFrame(), ViewerValues.FILTERING_DMFS_TITLE);
+		progressDialog.setProcessLabel(ViewerValues.FILTERING_DMFS);
+		progressDialog.setDetailLabel(CommonValues.RUNNING, true);
+		progressDialog.setProgressBar(true, false, 0, 0);
+		(new DSwingWorker(this, ViewerValues.FILTER)).execute();
+		
+	}//METHOD
+	
+	/**
+	 * Loads DMFs from the program's DMF directories.
 	 */
 	private void loadDMFsWork()
 	{
@@ -152,11 +176,20 @@ public class DmfLoader implements DWorker
 	}//METHOD
 	
 	/**
-	 * Sorts the loaded DMFs
+	 * Sorts the loaded DMFs.
 	 */
 	private void sortDMFsWork()
 	{
 		parentGUI.getDmfHandler().sort(sortTypeCV, groupArtistsCV, groupSequencesCV, groupSectionsCV, reverseOrderCV);
+		
+	}//METHOD
+	
+	/**
+	 * Filters the loaded DMFs.
+	 */
+	private void filterDMFsWork()
+	{
+		parentGUI.getDmfHandler().filterDMFs();
 		
 	}//METHOD
 
@@ -170,6 +203,9 @@ public class DmfLoader implements DWorker
 				break;
 			case ViewerValues.SORT:
 				sortDMFsWork();
+				break;
+			case ViewerValues.FILTER:
+				filterDMFsWork();
 				break;
 				
 		}//SWITCH
@@ -190,6 +226,9 @@ public class DmfLoader implements DWorker
 				break;
 			case ViewerValues.SORT:
 				loadingMethods.sortingDMFsDone();
+				break;
+			case ViewerValues.FILTER:
+				loadingMethods.filteringDMFsDone();
 				break;
 			
 		}//SWITCH

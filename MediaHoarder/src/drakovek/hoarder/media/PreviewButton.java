@@ -70,16 +70,7 @@ public class PreviewButton extends JButton
 	 */
 	public void setImage(final File mediaFile, final File secondaryFile, final boolean useIcon)
 	{
-		if(mediaFile != null)
-		{
-			image = imageHandler.getPreview(mediaFile, secondaryFile, useIcon);
-			
-		}//IF
-		else
-		{
-			image = null;
-			
-		}//ELSE
+		image = imageHandler.getPreview(mediaFile, secondaryFile, useIcon);
 		
 		if(image != null)
 		{

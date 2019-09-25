@@ -339,8 +339,8 @@ public class LoginGUI extends BaseGUI implements DWorker, ComponentDisabler
 		if(usernameText.getText().length() > 0 && passwordText.getPassword().length > 0 && (!useCaptcha || captchaText.getText().length() > 0))
 		{
 			disableAll();
-			progressDialog.startProgressDialog(dialog, ArtistValues.ATTEMPT_LOGIN);
-			progressDialog.setProcessLabel(ArtistValues.LOGIN);
+			progressDialog.startProgressDialog(dialog, ArtistValues.LOGIN);
+			progressDialog.setProcessLabel(ArtistValues.ATTEMPT_LOGIN);
 			progressDialog.setDetailLabel(CommonValues.RUNNING, true);
 			progressDialog.setProgressBar(true, false, 0, 0);
 			(new DSwingWorker(this, ArtistValues.LOGIN)).execute();

@@ -19,9 +19,10 @@ import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.Start;
 import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dmf.DmfLoader;
+import drakovek.hoarder.file.dmf.DmfLoadingMethods;
 import drakovek.hoarder.file.language.ArtistValues;
 import drakovek.hoarder.file.language.CommonValues;
-import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -34,7 +35,6 @@ import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.compound.DCheckDirectoriesGUI;
 import drakovek.hoarder.gui.swing.compound.DFileChooser;
-import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.gui.swing.compound.DTextDialog;
 import drakovek.hoarder.processing.BooleanInt;
@@ -50,7 +50,7 @@ import drakovek.hoarder.work.DWorker;
  * @author Drakovek
  * @version 2.0
  */
-public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods, DWorker
+public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods, DWorker, DmfLoadingMethods
 {	
 	/**
 	 * Suffix used at the end of a DMF ID to indicate the DMF is referring to a journal rather than a media file.
@@ -96,6 +96,11 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Whether to check all gallery pages or just the latest gallery pages
 	 */
 	private boolean checkAllPages;
+	
+	/**
+	 * DmfLoader for loading DMFs to check against
+	 */
+	private DmfLoader loader;
 	
 	/**
 	 * Settings Bar for the GUI
@@ -158,11 +163,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private DList artistList;
 	
 	/**
-	 * Main progress dialog for the class
-	 */
-	private DProgressDialog progressDialog;
-	
-	/**
 	 * Progress dialog used for showing log information
 	 */
 	private DProgressInfoDialog progressInfoDialog;
@@ -184,10 +184,10 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	public ArtistHostingGUI(DSettings settings, DmfHandler dmfHandler, LoginGUI loginGUI, final String subtitleID, final String openID)
 	{
 		super(settings, dmfHandler, subtitleID);
+		loader = new DmfLoader(this, this);
 		fileChooser = new DFileChooser(settings);
 		artistHandler = new ArtistHandler(settings, subtitleID);
 		downloader = new Downloader(this);
-		progressDialog = new DProgressDialog(settings);
 		progressInfoDialog = new DProgressInfoDialog(settings);
 		this.loginGUI = loginGUI;
 		this.loginGUI.setLoginMethods(this);
@@ -480,10 +480,16 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 		if(ready)
 		{
-			progressDialog.setCancelled(false);
-			getFrame().setProcessRunning(true);
-			progressDialog.startProgressDialog(getFrame(), DmfLanguageValues.LOADING_DMFS_TITLE);
-			(new DSwingWorker(this,  DmfLanguageValues.LOADING_DMFS)).execute();
+			if(!getDmfHandler().isLoaded())
+			{
+				loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
+				
+			}//METHOD
+			else
+			{
+				loadingDMFsDone();
+				
+			}//ELSE
 			
 		}//IF
 		
@@ -609,11 +615,16 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			String[] messageIDs = {ArtistValues.ENTER_URL_MESSAGE};
 			pageURL = textDialog.openTextDialog(getFrame(), ArtistValues.ENTER_URL_TITLE, messageIDs, null);
 			
-			//START LOADING DMFS
-			progressDialog.setCancelled(false);
-			getFrame().setProcessRunning(true);
-			progressDialog.startProgressDialog(getFrame(),  DmfLanguageValues.LOADING_DMFS_TITLE);
-			(new DSwingWorker(this, DmfLanguageValues.LOADING_DMFS)).execute();
+			if(!getDmfHandler().isLoaded())
+			{
+				loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
+				
+			}//METHOD
+			else
+			{
+				loadingDMFsDone();
+				
+			}//ELSE
 			
 		}//IF
 		
@@ -676,21 +687,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			
 		}//ELSE
 		
-		
-	}//METHOD
-	
-	/**
-	 * Loads DMFs from the given DMF directories if they are not already loaded.
-	 */
-	private void loadDMFs()
-	{
-		if(!getDmfHandler().isLoaded())
-		{
-			getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
-		
-		}//IF
-		
-		getIdStrings();
 		
 	}//METHOD
 	
@@ -807,6 +803,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void downloadArtistMedia()
 	{
 		progressInfoDialog.appendLog(getTitle(), false);
+		getIdStrings();
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < artists.size(); i++)
 		{
 			downloadPages(progressInfoDialog, artists.get(i), getPages(progressInfoDialog, artists.get(i), checkAllPages, getSettings().getSaveJournals()));
@@ -822,19 +819,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private void downloadSingleMedia()
 	{
 		progressInfoDialog.appendLog(getTitle(), false);
+		getIdStrings();
 		downloadSinglePage(progressInfoDialog, pageURL, getDirectory());
 		progressInfoDialog.appendLog(getSettings().getLanguageText(CommonValues.FINISHED), true);
-		
-	}//METHOD
-	
-	/**
-	 * Deals with a process being finished, closing the progress dialog and allowing input.
-	 */
-	private void processFinished()
-	{
-		progressDialog.setCancelled(false);
-		progressDialog.closeProgressDialog();
-		getFrame().setProcessRunning(false);
 		
 	}//METHOD
 	
@@ -933,9 +920,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	{
 		switch(id)
 		{
-			case  DmfLanguageValues.LOADING_DMFS:
-				loadDMFs();
-				break;
 			case ArtistValues.DOWNLOAD_SINGLE:
 				downloadSingleMedia();
 				break;
@@ -952,10 +936,6 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	{
 		switch(id)
 		{
-			case  DmfLanguageValues.LOADING_DMFS:
-				processFinished();
-				startDownload();
-				break;
 			case ArtistValues.CHECK_ALL:
 			case ArtistValues.DOWNLOAD_SINGLE:
 				infoProcessFinished();
@@ -964,5 +944,18 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		}//SWITCH
 		
 	}//METHOD
+	
+	@Override
+	public void loadingDMFsDone()
+	{
+		startDownload();
+		
+	}//METHOD
+	
+	@Override
+	public void sortingDMFsDone(){}
+	
+	@Override
+	public void filteringDMFsDone(){}
 	
 }//CLASS

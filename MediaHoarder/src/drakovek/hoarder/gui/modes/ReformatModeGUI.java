@@ -7,14 +7,14 @@ import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.dmf.DMF;
 import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dmf.DmfLoader;
+import drakovek.hoarder.file.dmf.DmfLoadingMethods;
 import drakovek.hoarder.file.language.ArtistValues;
 import drakovek.hoarder.file.language.CommonValues;
-import drakovek.hoarder.file.language.DmfLanguageValues;
 import drakovek.hoarder.file.language.ManagingValues;
 import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
-import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
 import drakovek.hoarder.processing.ExtensionMethods;
 import drakovek.hoarder.processing.StringMethods;
@@ -27,18 +27,13 @@ import drakovek.hoarder.work.DWorker;
  * @author Drakovek
  * @version 2.0
  */
-public class ReformatModeGUI extends ModeBaseGUI implements DWorker
+public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingMethods
 {
 	
 	/**
 	 * String containing ID for the current reformat process mode
 	 */
 	private String mode;
-	
-	/**
-	 * Progress Dialog for showing progress in loading DMFs
-	 */
-	private DProgressDialog progressDialog;
 	
 	/**
 	 * Progress Info Dialog for showing progress in reformatting processes
@@ -53,7 +48,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	public ReformatModeGUI(FrameGUI frameGUI)
 	{
 		super(frameGUI);
-		progressDialog = new DProgressDialog(getSettings());
 		progressInfoDialog = new DProgressInfoDialog(getSettings());
 		
 		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START, ModeValues.MANAGE_MODE};
@@ -104,45 +98,18 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 		
 		if(run)
 		{
-			progressDialog.setCancelled(false);
-			getParentGUI().getFrame().setProcessRunning(true);
-			progressDialog.startProgressDialog(getParentGUI().getFrame(), DmfLanguageValues.LOADING_DMFS_TITLE);
-			(new DSwingWorker(this, DmfLanguageValues.LOADING_DMFS)).execute();
 			
-		}//IF
-		
-	}//METHOD
-	
-	/**
-	 * Loads DMFs from the given DMF directories if they are not already loaded.
-	 */
-	private void loadDMFs()
-	{
-		if(!getParentGUI().getDmfHandler().isLoaded())
-		{
-			getParentGUI().getDmfHandler().loadDMFs(getSettings().getDmfDirectories(), progressDialog, getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
-		
-		}//IF
-		
-		getParentGUI().getDmfHandler().sort(DmfHandler.SORT_ALPHA, true, false, false, false);
-		
-	}//METHOD
-	
-	/**
-	 * Deals with DMF loading being finished, closing the progress dialog and allowing input.
-	 */
-	private void loadDmfsFinished()
-	{
-		progressDialog.setCancelled(false);
-		progressDialog.closeProgressDialog();
-		getParentGUI().getFrame().setProcessRunning(false);
-		
-		if(getParentGUI().getDmfHandler().isLoaded())
-		{
-			progressInfoDialog.setCancelled(false);
-			getParentGUI().getFrame().setProcessRunning(true);
-			progressInfoDialog.startProgressDialog(getParentGUI().getFrame(), this.getTitle(mode));
-			(new DSwingWorker(this, mode)).execute();
+			if(!getParentGUI().getDmfHandler().isLoaded())
+			{
+				DmfLoader loader = new DmfLoader(this, getParentGUI());
+				loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
+			
+			}//IF
+			else
+			{
+				loadingDMFsDone();
+				
+			}//ELSE
 			
 		}//IF
 		
@@ -328,9 +295,6 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	{
 		switch(id)
 		{
-			case DmfLanguageValues.LOADING_DMFS:
-				loadDMFs();
-				break;
 			case ManagingValues.REFORMAT_DMFS:
 				reformatDMFs();
 				break;
@@ -351,18 +315,34 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker
 	@Override
 	public void done(String id)
 	{
-		switch(id)
-		{
-			case DmfLanguageValues.LOADING_DMFS:
-				loadDmfsFinished();
-				break;
-			default:
-				infoProcessFinished();
-				break;
-			
-		}//SWITCH
+		infoProcessFinished();
 		
 	}//METHOD
+
+	@Override
+	public void loadingDMFsDone()
+	{
+		DmfLoader loader = new DmfLoader(this, getParentGUI());
+		loader.sortDMFs(DmfHandler.SORT_ALPHA, true, false, false, false);
+		
+	}//METHOD
+
+	@Override
+	public void sortingDMFsDone()
+	{
+		if(getParentGUI().getDmfHandler().isLoaded())
+		{
+			progressInfoDialog.setCancelled(false);
+			getParentGUI().getFrame().setProcessRunning(true);
+			progressInfoDialog.startProgressDialog(getParentGUI().getFrame(), this.getTitle(mode));
+			(new DSwingWorker(this, mode)).execute();
+			
+		}//IF
+		
+	}//METHOD
+
+	@Override
+	public void filteringDMFsDone() {}
 	
 }//CLASS
 
