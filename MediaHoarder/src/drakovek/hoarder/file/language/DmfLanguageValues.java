@@ -102,5 +102,7 @@ public class DmfLanguageValues
 		values.add(ParseINI.getAssignmentString(SECONDARY_URL_LABEL, "Secondary URL:")); //$NON-NLS-1$
 		
 		return values;
+		
 	}//METHOD
-}
+	
+}//CLASS

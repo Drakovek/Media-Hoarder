@@ -83,7 +83,7 @@ public class FilterGUI extends FrameGUI
 	private DButton cancelButton;
 	
 	/**
-	 * DButton for finalizing filter options and starting the filteing process
+	 * DButton for finalizing filter options and starting the filtering process
 	 */
 	private DButton okButton;
 	
@@ -98,7 +98,6 @@ public class FilterGUI extends FrameGUI
 		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), ViewerValues.FILTER);
 		this.loader = loader;
 		this.ownerGUI = ownerGUI;
-		this.ownerGUI.getFrame().setAllowExit(false);
 		
 		//SET INITIAL VALUES
 		caseSensitive = getDmfHandler().getFilterCaseSensitive();
@@ -153,10 +152,20 @@ public class FilterGUI extends FrameGUI
 		getFrame().getContentPane().add(getSpacedPanel(getVerticalStack(new JSeparator(SwingConstants.HORIZONTAL), bottomPanel), 1, 0, true, true, true, true), BorderLayout.SOUTH);
 		getFrame().interceptFrameClose(this);
 		getFrame().packRestricted();
+		
+	}//CLASS
+	
+	/**
+	 * Shows the filter GUI to allow user to start filtering DMFs
+	 */
+	public void showFilterGUI()
+	{
+		this.ownerGUI.getFrame().setAllowExit(false);
+		enableAll();
 		getFrame().setLocationRelativeTo(ownerGUI.getFrame());
 		getFrame().setVisible(true);
 		
-	}//CLASS
+	}//METHOD
 	
 	/**
 	 * Returns a panel with a label and a text field for a specific filter category.
@@ -284,7 +293,7 @@ public class FilterGUI extends FrameGUI
 				getFrame().setAllowExit(false);
 				addFilters();
 				loader.filterDMFs();
-				dispose();
+				getFrame().setVisible(false);
 				break;
 			case CommonValues.CASE_SENSITIVE:
 				caseSensitive = BooleanInt.getBoolean(value);
@@ -295,7 +304,7 @@ public class FilterGUI extends FrameGUI
 			case CommonValues.CANCEL:
 			case DCloseListener.FRAME_CLOSE_EVENT:
 				ownerGUI.getFrame().setAllowExit(true);
-				dispose();
+				getFrame().setVisible(false);
 				break;
 			
 		}//SWITCH

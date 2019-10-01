@@ -98,5 +98,7 @@ public class ModeValues
 		values.add(ParseINI.getAssignmentString(TRANSFUR_MODE, "^Transfur")); //$NON-NLS-1$
 		
 		return values;
+		
 	}//METHOD
+	
 }//CLASS

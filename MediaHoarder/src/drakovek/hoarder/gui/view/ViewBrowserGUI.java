@@ -69,6 +69,11 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	private DProgressDialog progressDialog;
 	
 	/**
+	 * GUI for filtering DMFs
+	 */
+	private FilterGUI filterGUI;
+	
+	/**
 	 * Panel within which to hold image previews and titles of DMF media.
 	 */
 	private JPanel previewPanel;
@@ -163,6 +168,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	{
 		super(settings, dmfHandler, ViewerValues.VIEWER_TITLE);
 		loader = new DmfLoader(this, this);
+		filterGUI = new FilterGUI(this, loader);
 		progressDialog = new DProgressDialog(settings);
 		previewWidth = 0;
 		previewHeight = 0;
@@ -822,7 +828,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 				loader.sortDMFsDefault();
 				break;
 			case ViewerValues.FILTER_MEDIA:
-				new FilterGUI(this, loader);
+				filterGUI.showFilterGUI();
 				break;
 			case ViewerValues.RELOAD_DMFS:
 				loadDirectory(true);
@@ -832,9 +838,11 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 				break;
 			case CommonValues.RESTART_PROGRAM:
 				Start.startGUI(getSettings(), getDmfHandler());
+				filterGUI.dispose();
 				dispose();
 				break;
 			case CommonValues.EXIT:
+				filterGUI.dispose();
 				dispose();
 				break;
 			

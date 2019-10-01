@@ -64,6 +64,22 @@ public class EditingValues
 	public static final String DOWN = "down"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the title of progress dialog showing that the program is searching for DMFs without sequence data
+	 */
+	public static final String FINDING_UNSEQUENCED_TITLE = "finding_unsequenced_title"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the message of progress dialog showing that the program is searching for DMFs without sequence data
+	 */
+	public static final String FINDING_UNSEQUENCED_MESSAGE = "finding_unsequenced_message"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for dialog showing that there are no more DMFs of which to add sequence data
+	 */
+	public static final String SEQUENCING_FINISHED = "sequencing_finished"; //$NON-NLS-1$
+	
+	
+	/**
 	 * Returns an ArrayList of .ini formatted language values.
 	 * 
 	 * @return Language Values
@@ -85,7 +101,11 @@ public class EditingValues
 		values.add(ParseINI.getAssignmentString(CLEAR, "^Clear")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(UP, "^Up")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DOWN, "^Down")); //$NON-NLS-1$
-			
+		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_TITLE, "Finding Unsequenced Files")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_MESSAGE, "Finding files without sequence data")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(SEQUENCING_FINISHED, "Finished Adding Sequence Data")); //$NON-NLS-1$
 		return values;
-	}
-}
+		
+	}//METHOD
+	
+}//CLASS
