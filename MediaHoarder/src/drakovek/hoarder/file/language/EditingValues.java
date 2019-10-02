@@ -39,9 +39,14 @@ public class EditingValues
 	public static final String ALL = "all"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the section name label in the sequencing GUI
+	 * Language variable for the "Section Name" label in the sequencing GUI
 	 */
 	public static final String SECTION_NAME = "section_name"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Branch Name" label in the sequencing GUI
+	 */
+	public static final String BRANCH_NAME = "branch_name"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to search for DMFs in the sequencing GUI
@@ -120,10 +125,11 @@ public class EditingValues
 		values.add(ParseINI.getAssignmentString(BELOW, "^Below")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(SINGLE, "S^ingle")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ALL, "A^ll")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(SECTION_NAME, "^Section Name:")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(SECTION_NAME, "Section ^Name:")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(BRANCH_NAME, "Branch ^Name:")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(SEARCH, "Sea^rch")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(CLEAR, "^Clear")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(ADD_BRANCH, "Add Bra^nch")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_BRANCH, "Add Branc^h")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_SEQUENCE, "Add Se^quence")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(UP, "^Up")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DOWN, "^Down")); //$NON-NLS-1$

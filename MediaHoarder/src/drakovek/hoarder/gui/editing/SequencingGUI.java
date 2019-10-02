@@ -87,6 +87,11 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	private ArrayList<String> sequenceTree;
 	
 	/**
+	 * Label for name text field
+	 */
+	private DLabel nameLabel;
+	
+	/**
 	 * Text field for entering the names of sections and branches
 	 */
 	private DTextField nameText;
@@ -190,12 +195,13 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		updatePanel.setLayout(new GridLayout(1, 4, settings.getSpaceSize(), 0));
 		aboveButton = new DButton(this, EditingValues.ABOVE);
 		belowButton = new DButton(this, EditingValues.BELOW);
-		singleButton = new DButton(this, EditingValues.SINGLE);
 		allButton = new DButton(this, EditingValues.ALL);
+		singleButton = new DButton(this, EditingValues.SINGLE);
 		updatePanel.add(aboveButton);
 		updatePanel.add(belowButton);
-		updatePanel.add(singleButton);
 		updatePanel.add(allButton);
+		updatePanel.add(singleButton);
+		
 
 		//CREATE SAVE PANEL
 		JPanel savePanel = new JPanel();
@@ -206,7 +212,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		savePanel.add(saveButton);
 		
 		//CREATE NAME PANEL
-		nameText = new DTextField(this, EditingValues.SECTION_NAME);
+		nameText = new DTextField(this, EditingValues.SINGLE);
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new GridBagLayout());
 		GridBagConstraints nameCST = new GridBagConstraints();
@@ -214,7 +220,8 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		nameCST.gridwidth = 1;	nameCST.gridheight = 1;
 		nameCST.weightx = 0;	nameCST.weighty = 0;
 		nameCST.fill = GridBagConstraints.BOTH;
-		namePanel.add(new DLabel(this, nameText, EditingValues.SECTION_NAME), nameCST);
+		nameLabel = new DLabel(this, nameText, EditingValues.SECTION_NAME);
+		namePanel.add(nameLabel, nameCST);
 		nameCST.gridx = 1;
 		namePanel.add(getHorizontalSpace(), nameCST);
 		nameCST.gridx = 2;		nameCST.weightx = 1;
@@ -254,7 +261,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		movementPanel.add(downButton);
 		
 		//CREATE LIST PANEL
-		sequenceList = new DList(this, false, new String());
+		sequenceList = new DList(this, false, ModeValues.SEQUENCE_MODE);
 		DScrollPane sequenceScroll = new DScrollPane(settings, sequenceList);
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new BorderLayout());
@@ -598,6 +605,56 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		
 	}//METHOD
 	
+	/**
+	 * Deals with an item in the sequence list being selected.
+	 */
+	private void listSelected()
+	{
+		int selected = sequenceList.getSelectedIndex();
+		
+		if(selected != -1)
+		{
+			if(isTreeValueBranch(sequenceTree.get(selected)))
+			{
+				nameLabel.setTextID(EditingValues.BRANCH_NAME, true);
+				aboveButton.setEnabled(false);
+				belowButton.setEnabled(false);
+				allButton.setEnabled(false);
+				
+			}//IF
+			else
+			{
+				nameLabel.setTextID(EditingValues.SECTION_NAME, true);
+				
+			}//ELSE
+
+			enableAll();
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
+	 * Sets the name of a single value in a sequence tree.
+	 * 
+	 * @param index Index of value of which to set the name
+	 * @param name Name to set tree value
+	 */
+	private void setNameSingle(final int index, final String name)
+	{
+		if(index > -1 && name != null && name.length() > 0)
+		{
+			if(isTreeValueBranch(sequenceTree.get(index)))
+			{
+				int layer = sequenceTree.get(index).lastIndexOf('>') + 1;
+				sequenceTree.set(index, StringMethods.extendCharacter('>', layer) + Character.toString('(') + StringMethods.addHtmlEscapes(name) + Character.toString(')'));
+			
+			}//IF
+			
+		}//IF
+		
+	}//METHOD
+	
 	@Override
 	public void dispose()
 	{
@@ -610,10 +667,17 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	@Override
 	public void enableAll()
 	{
-		aboveButton.setEnabled(true);
-		belowButton.setEnabled(true);
+		int selection = sequenceList.getSelectedIndex();
+		if(selection != -1 && isTreeValueDMF(sequenceTree.get(selection)))
+		{
+			aboveButton.setEnabled(true);
+			belowButton.setEnabled(true);
+			allButton.setEnabled(true);
+			
+		}//IF
+		
 		singleButton.setEnabled(true);
-		allButton.setEnabled(true);
+		
 		skipButton.setEnabled(true);
 		saveButton.setEnabled(true);
 		searchButton.setEnabled(true);
@@ -679,6 +743,13 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			case EditingValues.SKIP:
 				unsequenced.remove(0);
 				loadNewSequence();
+				break;
+			case EditingValues.SINGLE:
+				setNameSingle(sequenceList.getSelectedIndex(), nameText.getText());
+				showTree();
+				break;
+			case ModeValues.SEQUENCE_MODE:
+				listSelected();
 				break;
 			case CommonValues.RESTART_PROGRAM:
 				Start.startGUI(getSettings(), getDmfHandler());
