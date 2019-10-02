@@ -54,6 +54,16 @@ public class EditingValues
 	public static final String CLEAR = "clear"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Add Branch" button in the sequencing GUI
+	 */
+	public static final String ADD_BRANCH = "add_branch"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for the "Add Sequence" button in the sequencing GUI
+	 */
+	public static final String ADD_SEQUENCE = "add_sequence"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the button to move entries upward in the sequencing GUI
 	 */
 	public static final String UP = "up"; //$NON-NLS-1$
@@ -113,6 +123,8 @@ public class EditingValues
 		values.add(ParseINI.getAssignmentString(SECTION_NAME, "^Section Name:")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(SEARCH, "Sea^rch")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(CLEAR, "^Clear")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_BRANCH, "Add Bra^nch")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_SEQUENCE, "Add_Se^quence")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(UP, "^Up")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DOWN, "^Down")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_TITLE, "Finding Unsequenced Files")); //$NON-NLS-1$

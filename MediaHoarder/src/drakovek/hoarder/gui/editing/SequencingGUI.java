@@ -152,6 +152,16 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	private DButton clearButton;
 	
 	/**
+	 * Button for adding branches
+	 */
+	private DButton addBranchButton;
+	
+	/**
+	 * Button for adding an existing sequence
+	 */
+	private DButton addSequenceButton;
+	
+	/**
 	 * Button for moving selected entries upward in the sequence list
 	 */
 	private DButton upButton;
@@ -225,6 +235,14 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		searchPanel.add(removeButton);
 		searchPanel.add(clearButton);
 		
+		//CREATE ADD PANEL
+		JPanel addPanel = new JPanel();
+		addPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
+		addBranchButton = new DButton(this, EditingValues.ADD_BRANCH);
+		addSequenceButton = new DButton(this, EditingValues.ADD_SEQUENCE);
+		addPanel.add(addBranchButton);
+		addPanel.add(addSequenceButton);
+		
 		//CREATE MOVEMENT PANEL
 		indexText = new DTextField(this, new String());
 		JPanel movementPanel = new JPanel();
@@ -240,8 +258,8 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		DScrollPane sequenceScroll = new DScrollPane(settings, sequenceList);
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new BorderLayout());
-		listPanel.add(getSpacedPanel(searchPanel, 1, 0, false, true, false, false), BorderLayout.NORTH);
-		listPanel.add(this.getSpacedPanel(movementPanel, 1, 0, true, true, false, false), BorderLayout.SOUTH);
+		listPanel.add(getSpacedPanel(getVerticalStack(searchPanel, addPanel), 1, 0, false, true, false, false), BorderLayout.NORTH);
+		listPanel.add(getSpacedPanel(movementPanel, 1, 0, true, true, false, false), BorderLayout.SOUTH);
 		listPanel.add(sequenceScroll, BorderLayout.CENTER);
 		
 		//CREATE FULL PANEL
@@ -314,7 +332,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		if(unsequenced.size() > 0)
 		{
 			sequenceTree = new ArrayList<>();
-			sequenceTree.add('>' + Integer.toString(unsequenced.get(0).intValue()));
+			sequenceTree.add(Character.toString('>') + Integer.toString(unsequenced.get(0).intValue()));
 			showTree();
 			
 		}//IF
@@ -360,15 +378,15 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	{
 		int tabs = treeValue.lastIndexOf('>');
 		int start = tabs + 1;
-		String lead = index + ") " + StringMethods.extendCharacter('\t', tabs); //$NON-NLS-1$
+		String lead = "<html>" + index + " | " + StringMethods.extendCharacter('>', tabs) + Character.toString(' '); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		if(treeValue.charAt(start) == '(')
+		if(isTreeValueBranch(treeValue))
 		{
-			return lead + treeValue.substring(start);
+			return lead + "<b>" + treeValue.substring(start) + "</b></html>";  //$NON-NLS-1$//$NON-NLS-2$
 			
 		}//IF
 		
-		return lead + getDmfHandler().getTitleDirect(Integer.parseInt(treeValue.substring(start)));
+		return lead + getDmfHandler().getTitleDirect(Integer.parseInt(treeValue.substring(start))) + "</html>"; //$NON-NLS-1$
 
 	}//METHOD
 	
@@ -380,25 +398,120 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 */
 	private void addSectionToTree(final ArrayList<String> section, final int index)
 	{
+		int insertIndex = index + 1;
 		int layer = 0;
-		if(index > -1)
+		if(index > -1 && index < sequenceTree.size())
 		{
 			layer = sequenceTree.get(index).lastIndexOf('>');
-			if(sequenceTree.get(index).contains(Character.toString('(')))
+			if(isTreeValueBranch(sequenceTree.get(index)))
 			{
 				layer++;
 				
 			}//IF
 			
 		}//IF
+		else
+		{
+			insertIndex = sequenceTree.size();
+			
+		}//ELSE
 		
 		for(int i = (section.size() - 1); i > -1; i--)
 		{
-			sequenceTree.add(index + 1, StringMethods.extendCharacter('>', layer) + section.get(i));
+			sequenceTree.add(insertIndex, StringMethods.extendCharacter('>', layer) + section.get(i));
 			
 		}//FOR
 		
 		showTree();
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether a given sequence tree value is a branch.
+	 * 
+	 * @param treeValue Given sequence tree value
+	 * @return Whether tree value is a branch value
+	 */
+	private static boolean isTreeValueBranch(final String treeValue)
+	{
+		return treeValue.charAt(treeValue.lastIndexOf('>') + 1) == '(';
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether a given sequence tree value is a reference.
+	 * 
+	 * @param treeValue Given sequence tree value
+	 * @return Whether tree value is a reference value
+	 */
+	private static boolean isTreeValueReference(final String treeValue)
+	{
+		return treeValue.charAt(treeValue.length() - 1) == '*';
+		
+	}//METHOD
+	
+	/**
+	 * Returns whether a given sequence tree value is a DMF.
+	 * 
+	 * @param treeValue Given sequence tree value
+	 * @return Whether tree value is a DMF value
+	 */
+	private static boolean isTreeValueDMF(final String treeValue)
+	{
+		return !isTreeValueBranch(treeValue) && !isTreeValueReference(treeValue);
+		
+	}//METHOD
+	
+	/**
+	 * Adds a branch to the currently selected tree value
+	 */
+	private void addBranch()
+	{
+		int selected = sequenceList.getSelectedIndex();
+		if(selected != -1 && isTreeValueDMF(sequenceTree.get(selected)))
+		{
+			ArrayList<String> section = new ArrayList<>();
+			int baseLayer = sequenceTree.get(selected).lastIndexOf('>');
+			int currentLayer = baseLayer;
+			int branchNums = 0;
+			selected++;
+			while(selected < sequenceTree.size() && currentLayer >= baseLayer)
+			{
+				currentLayer = sequenceTree.get(selected).lastIndexOf('>');
+				
+				if(currentLayer < baseLayer)
+				{
+					break;
+					
+				}//METHOD
+				
+				if(currentLayer == baseLayer && isTreeValueBranch(sequenceTree.get(selected)))
+				{
+					branchNums++;
+					
+				}//IF
+				
+				section.add(Character.toString('>') + sequenceTree.get(selected).substring(baseLayer));
+				sequenceTree.remove(selected);
+				
+			}//FOR
+			
+			if(branchNums == 0)
+			{
+				section.add(0, ">(" + Integer.toString(1) + ")");  //$NON-NLS-1$//$NON-NLS-2$
+				section.add(">(" + Integer.toString(2) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				
+			}//ELSE
+			else
+			{
+				section.add(0, ">(" + Integer.toString(branchNums + 1) + ")");  //$NON-NLS-1$//$NON-NLS-2$
+			
+			}//ELSE
+			
+			selected--;
+			addSectionToTree(section, selected);
+			
+		}//IF
 		
 	}//METHOD
 	
@@ -423,6 +536,8 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		searchButton.setEnabled(true);
 		removeButton.setEnabled(true);
 		clearButton.setEnabled(true);
+		addBranchButton.setEnabled(true);
+		addSequenceButton.setEnabled(true);
 		upButton.setEnabled(true);
 		downButton.setEnabled(true);
 		indexText.setEnabled(true);
@@ -447,6 +562,8 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		searchButton.setEnabled(false);
 		removeButton.setEnabled(false);
 		clearButton.setEnabled(false);
+		addBranchButton.setEnabled(false);
+		addSequenceButton.setEnabled(false);
 		upButton.setEnabled(false);
 		downButton.setEnabled(false);
 		indexText.setEnabled(false);
@@ -464,6 +581,9 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	{
 		switch(id)
 		{
+			case EditingValues.ADD_BRANCH:
+				addBranch();
+				break;
 			case EditingValues.SEARCH:
 				filterGUI.showFilterGUI();
 				break;
@@ -522,7 +642,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		int[] selected = searchSelection.openListSeletionDialog(getFrame(), EditingValues.ADD_DMFS, filterList);
 		for(int i = 0; i < selected.length; i++)
 		{
-			section.add('>' + Integer.toString(getDmfHandler().getDirectIndex(selected[i])));
+			section.add(Character.toString('>') + Integer.toString(getDmfHandler().getDirectIndex(selected[i])));
 			
 		}//FOR
 		
