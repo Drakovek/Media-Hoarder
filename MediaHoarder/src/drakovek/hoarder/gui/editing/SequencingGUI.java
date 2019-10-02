@@ -386,8 +386,32 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			
 		}//IF
 		
-		return lead + getDmfHandler().getTitleDirect(Integer.parseInt(treeValue.substring(start))) + "</html>"; //$NON-NLS-1$
-
+		return lead + getDmfHandler().getTitleDirect(getIndexFromTreeValue(treeValue));
+		
+	}//METHOD
+	
+	/**
+	 * Returns the DMF index referenced by a tree value
+	 * 
+	 * @param treeValue Tree value to search for index within
+	 * @return DMF index of the tree value
+	 */
+	private static int getIndexFromTreeValue(final String treeValue)
+	{
+		if(isTreeValueBranch(treeValue))
+		{
+			return -1;
+			
+		}//IF
+		
+		if(isTreeValueReference(treeValue))
+		{
+			return Integer.parseInt(treeValue.substring(treeValue.lastIndexOf('>') + 1), treeValue.length() - 1);
+			
+		}//IF
+		
+		return Integer.parseInt(treeValue.substring(treeValue.lastIndexOf('>') + 1));
+		
 	}//METHOD
 	
 	/**
@@ -515,6 +539,65 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		
 	}//METHOD
 	
+	/**
+	 * Removes the value at a given index from the sequence tree.
+	 * 
+	 * @param index Given index to remove
+	 * @param userRemoved Whether the user is removing the index. If false, removal is automated
+	 */
+	private void removeFromTree(final int index, final boolean userRemoved)
+	{
+		if(index > -1 && index < sequenceTree.size())
+		{
+			if(isTreeValueDMF(sequenceTree.get(index)) && (index + 1) < sequenceTree.size() && isTreeValueBranch(sequenceTree.get(index + 1)))
+			{
+				int layer = sequenceTree.get(index).lastIndexOf('>');
+				sequenceTree.remove(index);
+				while(index < sequenceTree.size() && sequenceTree.get(index).lastIndexOf('>') >= layer)
+				{
+					sequenceTree.remove(index);
+					
+				}//WHILE
+				
+			}//IF
+			else if(isTreeValueBranch(sequenceTree.get(index)))
+			{
+				int layer = sequenceTree.get(index).lastIndexOf('>');
+				sequenceTree.remove(index);
+				while(index < sequenceTree.size() && sequenceTree.get(index).lastIndexOf('>') > layer)
+				{
+					sequenceTree.remove(index);
+					
+				}//WHILE
+				
+			}//ELSE IF
+			else
+			{
+				sequenceTree.remove(index);
+				
+			}//ELSE
+			
+			if(userRemoved)
+			{
+				showTree();
+				if(index < sequenceTree.size())
+				{
+					sequenceList.setSelectedIndex(index);
+					
+				}//IF
+				else
+				{
+					sequenceList.setSelectedIndex(sequenceTree.size() - 1);
+					
+				}//ELSE
+				
+				
+			}//IF
+			
+		}//IF
+		
+	}//METHOD
+	
 	@Override
 	public void dispose()
 	{
@@ -584,6 +667,9 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			case EditingValues.ADD_BRANCH:
 				addBranch();
 				break;
+			case CommonValues.REMOVE:
+				removeFromTree(sequenceList.getSelectedIndex(), true);
+				break;
 			case EditingValues.SEARCH:
 				filterGUI.showFilterGUI();
 				break;
@@ -643,6 +729,33 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		for(int i = 0; i < selected.length; i++)
 		{
 			section.add(Character.toString('>') + Integer.toString(getDmfHandler().getDirectIndex(selected[i])));
+			
+		}//FOR
+		
+		//REMOVE DUPLICATES
+		for(int i = 0; i < section.size(); i++)
+		{
+			int dmfValue = getIndexFromTreeValue(section.get(i));
+			if(dmfValue != -1)
+			{
+				for(int k = 0; k < sequenceTree.size(); k++)
+				{
+					if(getIndexFromTreeValue(sequenceTree.get(k)) == dmfValue)
+					{
+						removeFromTree(k, true);
+						k--;
+						
+						if(k < index)
+						{
+							index--;
+							
+						}//IF
+						
+					}//IF
+				
+				}//FOR
+				
+			}//IF
 			
 		}//FOR
 		

@@ -124,7 +124,7 @@ public class EditingValues
 		values.add(ParseINI.getAssignmentString(SEARCH, "Sea^rch")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(CLEAR, "^Clear")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_BRANCH, "Add Bra^nch")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(ADD_SEQUENCE, "Add_Se^quence")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_SEQUENCE, "Add Se^quence")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(UP, "^Up")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DOWN, "^Down")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_TITLE, "Finding Unsequenced Files")); //$NON-NLS-1$
