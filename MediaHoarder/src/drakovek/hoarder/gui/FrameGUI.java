@@ -33,7 +33,7 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	public FrameGUI(DSettings settings, DmfHandler dmfHandler, final String subtitleID)
 	{
 		super(settings);
-		frame = new DFrame(this, settings, getTitle(subtitleID));
+		frame = new DFrame(this, getTitle(subtitleID));
 		this.dmfHandler = dmfHandler;
 		
 	}//CONSTRUCTOR

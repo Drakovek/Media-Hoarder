@@ -3,8 +3,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.language.CommonValues;
+import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.ScreenDimensions;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
 import drakovek.hoarder.gui.swing.listeners.DCloseListener;
@@ -22,16 +22,11 @@ public class DFrame extends JFrame
 	 * SerialVersionUID
 	 */
 	private static final long serialVersionUID = -7020014407451285996L;
-
-	/**
-	 * Program Settings
-	 */
-	private DSettings settings;
 	
 	/**
-	 * GUI Object implementing ComponentDisabler to be called when processRunning boolean changes.
+	 * Main frame GUI paired with this frame
 	 */
-	private ComponentDisabler disabler;
+	private FrameGUI frameGUI;
 	
 	/**
 	 * Called when user attempts to close the frame, if event has been initialized.
@@ -47,46 +42,18 @@ public class DFrame extends JFrame
 	 * Whether to allow the frame to close
 	 */
 	private boolean allowExit;
-
-	/**
-	 * Initializes the DFrame Class
-	 * 
-	 * @param settings Program Settings
-	 * @param disabler GUI Object implementing ComponentDisabler to call when a process starts/stops running
-	 * @param title Title of the Frame
-	 */
-	public DFrame(DSettings settings, final String title)
-	{
-		super(title);
-		this.settings = settings;
-		disabler = null;
-
-		commonInitialize();
-		
-	}//CONSTRUCTOR
 	
 	/**
 	 * Initializes the DFrame Class
 	 * 
-	 * @param settings Program Settings
-	 * @param disabler GUI Object implementing ComponentDisabler to call when a process starts/stops running
+	 * @param frameGUI FrameGUI paired to the frame
 	 * @param title Title of the Frame
 	 */
-	public DFrame(ComponentDisabler disabler, DSettings settings, final String title)
+	public DFrame(FrameGUI frameGUI, final String title)
 	{
 		super(title);
-		this.settings = settings;
-		this.disabler = disabler;
+		this.frameGUI = frameGUI;
 
-		commonInitialize();
-		
-	}//CONSTRUCTOR
-	
-	/**
-	 * Initializes features of the DFrame shared between all of DFrame's constructors.
-	 */
-	private void commonInitialize()
-	{
 		event = null;
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new DCloseListener(this));
@@ -95,9 +62,8 @@ public class DFrame extends JFrame
 		
 		allowExit = true;
 		processRunning = false;
-	
-	}//METHOD
-	
+		
+	}//CONSTRUCTOR
 	/**
 	 * Sets the minimum size of the frame, ensuring it does not exceed the screen dimensions.
 	 * 
@@ -133,8 +99,8 @@ public class DFrame extends JFrame
 		int newHeight = height;
 		
 		//MAKE SURE DIMENSIONS AREN'T TOO SMALL
-		int minWidth = settings.getFrameWidth() * settings.getFontSize();
-		int minHeight = settings.getFrameHeight() * settings.getFontSize();
+		int minWidth = frameGUI.getSettings().getFrameWidth() * frameGUI.getSettings().getFontSize();
+		int minHeight = frameGUI.getSettings().getFrameHeight() * frameGUI.getSettings().getFontSize();
 		if(newWidth < minWidth)
 		{
 			newWidth = minWidth;
@@ -185,14 +151,14 @@ public class DFrame extends JFrame
 		{
 			if(allowExit)
 			{
-				settings.writeSettings();
-	            this.dispose();
+				frameGUI.getSettings().writeSettings();
+				frameGUI.dispose();
 
 			}//IF
 			else if(isProcessRunning())
 			{
 				String[] buttonIDs = {CommonValues.OK};
-				DButtonDialog buttonDialog = new DButtonDialog(settings);
+				DButtonDialog buttonDialog = new DButtonDialog(frameGUI.getSettings());
 				buttonDialog.openButtonDialog(this, CommonValues.PROCESS_RUNNING, CommonValues.PROCESS_RUNNING_MESSAGES, buttonIDs);
 	            
 			}//ELSE
@@ -238,20 +204,16 @@ public class DFrame extends JFrame
     {
     	this.allowExit = allowExit;
     	
-    	if(disabler != null)
+    	if(allowExit)
     	{
-        	if(allowExit)
-        	{
-        		disabler.enableAll();
-        	
-        	}//IF
-        	else
-        	{
-        		disabler.disableAll();
-        		
-        	}//ELSE
-        	
+    		frameGUI.enableAll();
+    		
     	}//IF
+    	else
+    	{
+    		frameGUI.disableAll();
+    		
+    	}//ELSE
     	
     }//METHOD
     

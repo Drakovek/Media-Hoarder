@@ -687,6 +687,14 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	}//METHOD
 	
 	@Override
+	public void dispose()
+	{
+		filterGUI.dispose();
+		getFrame().dispose();
+		
+	}//METHOD
+	
+	@Override
 	public void enableAll() 
 	{
 		if(offset > 0)
@@ -838,7 +846,6 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 				break;
 			case CommonValues.RESTART_PROGRAM:
 				Start.startGUI(getSettings(), getDmfHandler());
-				filterGUI.dispose();
 				dispose();
 				break;
 			case CommonValues.EXIT:

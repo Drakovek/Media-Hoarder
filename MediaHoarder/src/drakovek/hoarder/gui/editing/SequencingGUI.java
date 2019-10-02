@@ -25,17 +25,21 @@ import drakovek.hoarder.gui.settings.SettingsBarGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
 import drakovek.hoarder.gui.swing.components.DLabel;
 import drakovek.hoarder.gui.swing.components.DList;
+import drakovek.hoarder.gui.swing.components.DMenu;
+import drakovek.hoarder.gui.swing.components.DMenuItem;
 import drakovek.hoarder.gui.swing.components.DScrollPane;
 import drakovek.hoarder.gui.swing.components.DTextField;
 import drakovek.hoarder.gui.swing.compound.DButtonDialog;
+import drakovek.hoarder.gui.swing.compound.DListSelection;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
+import drakovek.hoarder.gui.view.FilterGUI;
 import drakovek.hoarder.media.MediaViewer;
 import drakovek.hoarder.processing.StringMethods;
 import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.DWorker;
 
 /**
- * 
+ * Creates a GUI for adding sequence data to DMFs.
  * 
  * @author Drakovek
  * @version 2.0
@@ -51,6 +55,16 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * Main settings bar for the sequencing GUI
 	 */
 	private SettingsBarGUI settingsBar;
+	
+	/**
+	 * GUI for selecting DMFs that were searched for.
+	 */
+	private DListSelection searchSelection;
+	
+	/**
+	 * GUI for searching 
+	 */
+	private FilterGUI filterGUI;
 	
 	/**
 	 * Main progress bar for showing progress in system processes
@@ -86,6 +100,11 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * List that shows the sequence data
 	 */
 	private DList sequenceList;
+	
+	/**
+	 * Menu that shows file options
+	 */
+	private DMenu fileMenu;
 	
 	/**
 	 * Button for adding name data to above entries
@@ -153,6 +172,8 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		super(settings, dmfHandler, ModeValues.SEQUENCE_MODE);
 		loader = new DmfLoader(this, this);
 		progressDialog = new DProgressDialog(getSettings());
+		filterGUI = new FilterGUI(this, loader);
+		searchSelection = new DListSelection(getSettings());
 		
 		//CREATE UPDATE PANEL
 		JPanel updatePanel = new JPanel();
@@ -240,6 +261,12 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		//CREATE MENU BAR
 		mediaViewer = new MediaViewer(this, searchButton, false);
 		JMenuBar menubar = new JMenuBar();
+		
+		fileMenu = new DMenu(this, CommonValues.FILE);
+		fileMenu.add(new DMenuItem(this, CommonValues.RESTART_PROGRAM));
+		fileMenu.add(new DMenuItem(this, CommonValues.EXIT));
+		menubar.add(fileMenu);
+		
 		menubar.add(mediaViewer.getScaleMenu());
 		menubar.add(mediaViewer.getDetailMenu());
 		menubar.add(mediaViewer.getViewMenu());
@@ -311,9 +338,10 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	private void showTree()
 	{
 		String[] sequenceArray = new String[sequenceTree.size()];
+		int padding = Integer.toString(sequenceTree.size()).length();
 		for(int i = 0; i < sequenceArray.length; i++)
 		{
-			sequenceArray[i] = getStringFromTreeValue(sequenceTree.get(i));
+			sequenceArray[i] = getStringFromTreeValue(sequenceTree.get(i), StringMethods.extendNumberString(i + 1, padding));
 			
 		}//FOR
 		
@@ -325,21 +353,62 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * Returns the String value to show for a given value from a sequence tree
 	 * 
 	 * @param treeValue Given value from a sequence tree
+	 * @param index Index string to place before string
 	 * @return String to Display
 	 */
-	private String getStringFromTreeValue(final String treeValue)
+	private String getStringFromTreeValue(final String treeValue, final String index)
 	{
 		int tabs = treeValue.lastIndexOf('>');
 		int start = tabs + 1;
+		String lead = index + ") " + StringMethods.extendCharacter('\t', tabs); //$NON-NLS-1$
 		
 		if(treeValue.charAt(start) == '(')
 		{
-			return StringMethods.extendCharacter('\t', tabs) + treeValue.substring(start);
+			return lead + treeValue.substring(start);
 			
 		}//IF
 		
-		return StringMethods.extendCharacter('\t', tabs) + getDmfHandler().getTitleDirect(Integer.parseInt(treeValue.substring(start)));
+		return lead + getDmfHandler().getTitleDirect(Integer.parseInt(treeValue.substring(start)));
 
+	}//METHOD
+	
+	/**
+	 * Adds a sequence tree section to the main sequence tree at a given index.
+	 * 
+	 * @param section Sequence tree section
+	 * @param index Index of which to insert the sequence tree section
+	 */
+	private void addSectionToTree(final ArrayList<String> section, final int index)
+	{
+		int layer = 0;
+		if(index > -1)
+		{
+			layer = sequenceTree.get(index).lastIndexOf('>');
+			if(sequenceTree.get(index).contains(Character.toString('(')))
+			{
+				layer++;
+				
+			}//IF
+			
+		}//IF
+		
+		for(int i = (section.size() - 1); i > -1; i--)
+		{
+			sequenceTree.add(index + 1, StringMethods.extendCharacter('>', layer) + section.get(i));
+			
+		}//FOR
+		
+		showTree();
+		
+	}//METHOD
+	
+	@Override
+	public void dispose()
+	{
+		filterGUI.dispose();
+		filterGUI = null;
+		getFrame().dispose();
+		
 	}//METHOD
 	
 	@Override
@@ -359,6 +428,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		indexText.setEnabled(true);
 		nameText.setEnabled(true);
 		
+		fileMenu.setEnabled(true);
 		mediaViewer.getScaleMenu().setEnabled(true);
 		mediaViewer.getDetailMenu().setEnabled(true);
 		mediaViewer.getViewMenu().setEnabled(true);
@@ -382,6 +452,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		indexText.setEnabled(false);
 		nameText.setEnabled(false);
 		
+		fileMenu.setEnabled(false);
 		mediaViewer.getScaleMenu().setEnabled(false);
 		mediaViewer.getDetailMenu().setEnabled(false);
 		mediaViewer.getViewMenu().setEnabled(false);
@@ -393,12 +464,22 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	{
 		switch(id)
 		{
+			case EditingValues.SEARCH:
+				filterGUI.showFilterGUI();
+				break;
 			case EditingValues.CLEAR:
 				loadNewSequence();
 				break;
 			case EditingValues.SKIP:
 				unsequenced.remove(0);
 				loadNewSequence();
+				break;
+			case CommonValues.RESTART_PROGRAM:
+				Start.startGUI(getSettings(), getDmfHandler());
+				dispose();
+				break;
+			case CommonValues.EXIT:
+				dispose();
 				break;
 				
 		}//SWITCH
@@ -408,7 +489,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	@Override
 	public void loadingDMFsDone()
 	{
-		loader.sortDMFs(DmfHandler.SORT_TIME, true, true, true, true);
+		loader.sortDMFs(DmfHandler.SORT_TIME, true, false, false, false);
 	
 	}//METHOD
 
@@ -429,6 +510,24 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	@Override
 	public void filteringDMFsDone()
 	{	
+		int index = sequenceList.getSelectedIndex();
+		String[] filterList = new String[getDmfHandler().getFilteredSize()];
+		for(int i = 0; i < filterList.length; i++)
+		{
+			filterList[i] = "<html><b>" + getDmfHandler().getTitleFiltered(i) + "</b> - <i>" + StringMethods.arrayToString(getDmfHandler().getArtistsFiltered(i), true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE)) + "</i></html>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			
+		}//FOR
+		
+		ArrayList<String> section = new ArrayList<>();
+		int[] selected = searchSelection.openListSeletionDialog(getFrame(), EditingValues.ADD_DMFS, filterList);
+		for(int i = 0; i < selected.length; i++)
+		{
+			section.add('>' + Integer.toString(getDmfHandler().getDirectIndex(selected[i])));
+			
+		}//FOR
+		
+		addSectionToTree(section, index);
+		
 	}//METHOD
 
 	@Override

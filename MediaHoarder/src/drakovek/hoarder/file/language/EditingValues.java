@@ -78,6 +78,20 @@ public class EditingValues
 	 */
 	public static final String SEQUENCING_FINISHED = "sequencing_finished"; //$NON-NLS-1$
 	
+	/**
+	 * Language variable for title of dialog for adding DMFs to a sequence
+	 */
+	public static final String ADD_DMFS = "add_dmfs"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for button to add all shown indexes in a list selection dialog
+	 */
+	public static final String ADD_ALL = "add_all"; //$NON-NLS-1$
+	
+	/**
+	 * Language variable for button to add selected indexes in a list selection dialog
+	 */
+	public static final String ADD_SELECTED = "add_selected"; //$NON-NLS-1$
 	
 	/**
 	 * Returns an ArrayList of .ini formatted language values.
@@ -104,6 +118,9 @@ public class EditingValues
 		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_TITLE, "Finding Unsequenced Files")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_MESSAGE, "Finding files without sequence data")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(SEQUENCING_FINISHED, "Finished Adding Sequence Data")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_DMFS, "Add DMFs")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_ALL, "^Add All")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_SELECTED, "Add ^Selected")); //$NON-NLS-1$
 		return values;
 		
 	}//METHOD
