@@ -59,7 +59,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	/**
 	 * GUI for selecting DMFs that were searched for.
 	 */
-	private DListSelection searchSelection;
+	private DListSelection listSelection;
 	
 	/**
 	 * GUI for searching 
@@ -162,6 +162,11 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	private DButton addBranchButton;
 	
 	/**
+	 * Button for adding copy references for sequences that loop on itself
+	 */
+	private DButton addCopyButton;
+	
+	/**
 	 * Button for adding an existing sequence
 	 */
 	private DButton addSequenceButton;
@@ -188,7 +193,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		loader = new DmfLoader(this, this);
 		progressDialog = new DProgressDialog(getSettings());
 		filterGUI = new FilterGUI(this, loader);
-		searchSelection = new DListSelection(getSettings());
+		listSelection = new DListSelection(getSettings());
 		
 		//CREATE UPDATE PANEL
 		JPanel updatePanel = new JPanel();
@@ -244,10 +249,12 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		
 		//CREATE ADD PANEL
 		JPanel addPanel = new JPanel();
-		addPanel.setLayout(new GridLayout(1, 2, settings.getSpaceSize(), 0));
+		addPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
 		addBranchButton = new DButton(this, EditingValues.ADD_BRANCH);
+		addCopyButton = new DButton(this, EditingValues.ADD_COPY);
 		addSequenceButton = new DButton(this, EditingValues.ADD_SEQUENCE);
 		addPanel.add(addBranchButton);
+		addPanel.add(addCopyButton);
 		addPanel.add(addSequenceButton);
 		
 		//CREATE MOVEMENT PANEL
@@ -393,7 +400,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			
 		}//IF
 		
-		return lead + getDmfHandler().getTitleDirect(getIndexFromTreeValue(treeValue));
+		return lead + StringMethods.addHtmlEscapes(getDmfHandler().getTitleDirect(getIndexFromTreeValue(treeValue)));
 		
 	}//METHOD
 	
@@ -427,10 +434,23 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * @param treeValue Given tree value
 	 * @return Name of the branch
 	 */
-	public static String getBranchNameFromTreeValue(final String treeValue)
+	private static String getBranchNameFromTreeValue(final String treeValue)
 	{
 		return StringMethods.replaceHtmlEscapeCharacters(treeValue.substring(treeValue.indexOf('(') + 1, treeValue.length() - 1));
 		
+	}//METHOD
+	
+	/**
+	 * Creates an HTML string to represent a DMF.
+	 * 
+	 * @param title Title of the DMF
+	 * @param artists Artists for the DMF
+	 * @return HTML String
+	 */
+	private String getDmfHtmlString(final String title, final String[] artists)
+	{
+		return "<html>" + StringMethods.addHtmlEscapes(title) + " - <i>" + StringMethods.addHtmlEscapes(StringMethods.arrayToString(artists, true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE))) + "</i></html>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	
 	}//METHOD
 	
 	/**
@@ -511,11 +531,17 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	private void addBranch()
 	{
 		int selected = sequenceList.getSelectedIndex();
-		if(selected != -1 && isTreeValueDMF(sequenceTree.get(selected)))
+		if(selected != -1 && !isTreeValueReference(sequenceTree.get(selected)))
 		{
-			ArrayList<String> section = new ArrayList<>();
 			int layer = 0;
 			int baseLayer = sequenceTree.get(selected).lastIndexOf('>');
+			if(isTreeValueBranch(sequenceTree.get(selected)))
+			{
+				for(selected--; !isTreeValueDMF(sequenceTree.get(selected)) || sequenceTree.get(selected).lastIndexOf('>') > baseLayer; selected--);
+
+			}//IF
+			
+			ArrayList<String> section = new ArrayList<>();
 			int branchNums = 0;
 			int insertIndex;
 			for(insertIndex = selected + 1; insertIndex < sequenceTree.size(); insertIndex++)
@@ -574,11 +600,12 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 				
 			}//ELSE
 			
+			selected = sequenceList.getSelectedIndex();
 			showTree();
 			sequenceList.setSelectedIndex(selected);
 			
 		}//IF
-		
+			
 	}//METHOD
 	
 	/**
@@ -620,7 +647,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			}//ELSE
 			
 			if(userRemoved)
-			{
+			{		
 				showTree();
 				if(index < sequenceTree.size())
 				{
@@ -632,7 +659,6 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 					sequenceList.setSelectedIndex(sequenceTree.size() - 1);
 					
 				}//ELSE
-				
 				
 			}//IF
 			
@@ -720,6 +746,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		removeButton.setEnabled(true);
 		clearButton.setEnabled(true);
 		addBranchButton.setEnabled(true);
+		addCopyButton.setEnabled(true);
 		addSequenceButton.setEnabled(true);
 		upButton.setEnabled(true);
 		downButton.setEnabled(true);
@@ -746,6 +773,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		removeButton.setEnabled(false);
 		clearButton.setEnabled(false);
 		addBranchButton.setEnabled(false);
+		addCopyButton.setEnabled(false);
 		addSequenceButton.setEnabled(false);
 		upButton.setEnabled(false);
 		downButton.setEnabled(false);
@@ -829,12 +857,12 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		String[] filterList = new String[getDmfHandler().getFilteredSize()];
 		for(int i = 0; i < filterList.length; i++)
 		{
-			filterList[i] = "<html><b>" + getDmfHandler().getTitleFiltered(i) + "</b> - <i>" + StringMethods.arrayToString(getDmfHandler().getArtistsFiltered(i), true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE)) + "</i></html>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			
+			filterList[i] = getDmfHtmlString(getDmfHandler().getTitleFiltered(i), getDmfHandler().getArtistsFiltered(i));
+		
 		}//FOR
 		
 		ArrayList<String> section = new ArrayList<>();
-		int[] selected = searchSelection.openListSeletionDialog(getFrame(), EditingValues.ADD_DMFS, filterList);
+		int[] selected = listSelection.openMultipleSeletionDialog(getFrame(), EditingValues.ADD_DMFS, filterList);
 		for(int i = 0; i < selected.length; i++)
 		{
 			section.add(Character.toString('>') + Integer.toString(getDmfHandler().getDirectIndex(selected[i])));

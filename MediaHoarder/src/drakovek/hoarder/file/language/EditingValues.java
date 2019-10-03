@@ -64,6 +64,11 @@ public class EditingValues
 	public static final String ADD_BRANCH = "add_branch"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the "Add Copy" button in the sequencing GUI
+	 */
+	public static final String ADD_COPY = "add_copy"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for the "Add Sequence" button in the sequencing GUI
 	 */
 	public static final String ADD_SEQUENCE = "add_sequence"; //$NON-NLS-1$
@@ -130,6 +135,7 @@ public class EditingValues
 		values.add(ParseINI.getAssignmentString(SEARCH, "Sea^rch")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(CLEAR, "^Clear")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_BRANCH, "Add Branc^h")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_COPY, "Add Co^py")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_SEQUENCE, "Add Se^quence")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(UP, "^Up")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DOWN, "^Down")); //$NON-NLS-1$

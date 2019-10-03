@@ -30,23 +30,14 @@ public class DList extends JList<String>
 	 * Initializes the DList class.
 	 * 
 	 * @param baseGUI Linked BaseGUI
-	 * @param multipleSelect Whether to allow selecting multiple items in the list.
+	 * @param selectMultiple Whether to allow selecting multiple items in the list.
 	 * @param id Event ID for the list.
 	 */
-	public DList(BaseGUI baseGUI, final boolean multipleSelect, final String id)
+	public DList(BaseGUI baseGUI, final boolean selectMultiple, final String id)
 	{
 		super();
 		
-		if(multipleSelect)
-		{
-			this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		
-		}//IF
-		else
-		{
-			this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		}//ELSE
+		setSelectMultiple(selectMultiple);
 		
 		cellHeight = baseGUI.getSettings().getFontSize() + (baseGUI.getSettings().getSpaceSize() * 2);
 		this.setFixedCellHeight(cellHeight);
@@ -58,6 +49,26 @@ public class DList extends JList<String>
         this.getActionMap().put("enter", new DEnterListener(baseGUI, id)); //$NON-NLS-1$
 		
 	}//CONSTRUCTOR
+	
+	/**
+	 * Sets whether to allow selecting multiple items in the list.
+	 * 
+	 * @param selectMultiple Whether to allow selecting multiple items in the list.
+	 */
+	public void setSelectMultiple(final boolean selectMultiple)
+	{
+		if(selectMultiple)
+		{
+			this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		}//IF
+		else
+		{
+			this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		}//ELSE
+		
+	}//METHOD
 	
 	/**
 	 * Sets the number of visible rows to fit within the size of the list. ONLY WORKS WHEN LIST IS WITHIN A SCROLL PANE.

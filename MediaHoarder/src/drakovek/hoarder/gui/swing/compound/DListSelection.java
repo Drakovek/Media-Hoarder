@@ -71,14 +71,14 @@ public class DListSelection extends BaseGUI
 	}//CONSTURCTOR
 	
 	/**
-	 * Opens the list selection dialog.
+	 * Opens the list selection dialog with ability to select multiple indexes.
 	 * 
 	 * @param owner DFrame owner of the list selection dialog
 	 * @param titleID ID of the selection dialog
 	 * @param array String array to display
 	 * @return Indexes of user selected Strings
 	 */
-	public int[] openListSeletionDialog(DFrame owner, final String titleID, final String[] array)
+	public int[] openMultipleSeletionDialog(DFrame owner, final String titleID, final String[] array)
 	{
 		owner.setAllowExit(false);
 		selected = new int[array.length];
@@ -88,6 +88,31 @@ public class DListSelection extends BaseGUI
 			
 		}//FOR
 		
+		list.setSelectMultiple(true);
+		list.setListData(array);
+    	dialog = new DDialog(owner, panel, getSettings().getLanguageText(titleID), true, 0, 0);
+    	dialog.setVisible(true);
+    	dialog = null;
+    	owner.setAllowExit(true);
+    	
+    	return selected;
+    	
+	}//METHOD
+	
+	/**
+	 * Opens the list selection dialog with only one index being selectable.
+	 * 
+	 * @param owner DFrame owner of the list selection dialog
+	 * @param titleID ID of the selection dialog
+	 * @param array String array to display
+	 * @return Indexes of user selected Strings
+	 */
+	public int[] openSingleSeletionDialog(DFrame owner, final String titleID, final String[] array)
+	{
+		owner.setAllowExit(false);
+		selected = new int[0];
+		
+		list.setSelectMultiple(false);
 		list.setListData(array);
     	dialog = new DDialog(owner, panel, getSettings().getLanguageText(titleID), true, 0, 0);
     	dialog.setVisible(true);
