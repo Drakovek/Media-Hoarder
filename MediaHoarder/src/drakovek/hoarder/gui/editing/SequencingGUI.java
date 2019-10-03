@@ -422,6 +422,18 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	}//METHOD
 	
 	/**
+	 * Returns the name of a branch from a given tree value.
+	 * 
+	 * @param treeValue Given tree value
+	 * @return Name of the branch
+	 */
+	public static String getBranchNameFromTreeValue(final String treeValue)
+	{
+		return StringMethods.replaceHtmlEscapeCharacters(treeValue.substring(treeValue.indexOf('(') + 1, treeValue.length() - 1));
+		
+	}//METHOD
+	
+	/**
 	 * Adds a sequence tree section to the main sequence tree at a given index.
 	 * 
 	 * @param section Sequence tree section
@@ -502,45 +514,68 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		if(selected != -1 && isTreeValueDMF(sequenceTree.get(selected)))
 		{
 			ArrayList<String> section = new ArrayList<>();
+			int layer = 0;
 			int baseLayer = sequenceTree.get(selected).lastIndexOf('>');
-			int currentLayer = baseLayer;
 			int branchNums = 0;
-			selected++;
-			while(selected < sequenceTree.size() && currentLayer >= baseLayer)
+			int insertIndex;
+			for(insertIndex = selected + 1; insertIndex < sequenceTree.size(); insertIndex++)
 			{
-				currentLayer = sequenceTree.get(selected).lastIndexOf('>');
-				
-				if(currentLayer < baseLayer)
+				layer = sequenceTree.get(insertIndex).lastIndexOf('>');
+				if(layer == baseLayer)
+				{
+					if(isTreeValueBranch(sequenceTree.get(insertIndex)))
+					{
+						branchNums++;
+						
+					}//IF
+					else
+					{
+						while(insertIndex < sequenceTree.size())
+						{
+							layer = sequenceTree.get(insertIndex).lastIndexOf('>');
+							if(layer >= baseLayer)
+							{
+								section.add(Character.toString('>') + sequenceTree.get(insertIndex));
+								sequenceTree.remove(insertIndex);
+								
+							}//IF
+							else
+							{
+								break;
+								
+							}//ELSE
+							
+						}//WHILE
+						
+						break;
+						
+					}//ELSE
+					
+				}//IF
+				else if(layer < baseLayer)
 				{
 					break;
 					
-				}//METHOD
-				
-				if(currentLayer == baseLayer && isTreeValueBranch(sequenceTree.get(selected)))
-				{
-					branchNums++;
-					
-				}//IF
-				
-				section.add(Character.toString('>') + sequenceTree.get(selected).substring(baseLayer));
-				sequenceTree.remove(selected);
+				}//ELSE IF
 				
 			}//FOR
 			
 			if(branchNums == 0)
 			{
-				section.add(0, ">(" + Integer.toString(1) + ")");  //$NON-NLS-1$//$NON-NLS-2$
-				section.add(">(" + Integer.toString(2) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				sequenceTree.add(insertIndex, StringMethods.extendCharacter('>', baseLayer + 1) + "(" + Integer.toString(2) + ")");  //$NON-NLS-1$//$NON-NLS-2$
+				sequenceTree.addAll(insertIndex, section);
+				sequenceTree.add(insertIndex, StringMethods.extendCharacter('>', baseLayer + 1) + "(" + Integer.toString(1) + ")");  //$NON-NLS-1$//$NON-NLS-2$
 				
-			}//ELSE
+			}//IF
 			else
 			{
-				section.add(0, ">(" + Integer.toString(branchNums + 1) + ")");  //$NON-NLS-1$//$NON-NLS-2$
-			
+				sequenceTree.addAll(insertIndex, section);
+				sequenceTree.add(insertIndex, StringMethods.extendCharacter('>', baseLayer + 1) + "(" + Integer.toString(branchNums + 1) + ")");  //$NON-NLS-1$//$NON-NLS-2$
+				
 			}//ELSE
 			
-			selected--;
-			addSectionToTree(section, selected);
+			showTree();
+			sequenceList.setSelectedIndex(selected);
 			
 		}//IF
 		
@@ -616,6 +651,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		{
 			if(isTreeValueBranch(sequenceTree.get(selected)))
 			{
+				nameText.setText(getBranchNameFromTreeValue(sequenceTree.get(selected)));
 				nameLabel.setTextID(EditingValues.BRANCH_NAME, true);
 				aboveButton.setEnabled(false);
 				belowButton.setEnabled(false);
@@ -745,8 +781,10 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 				loadNewSequence();
 				break;
 			case EditingValues.SINGLE:
-				setNameSingle(sequenceList.getSelectedIndex(), nameText.getText());
+				int selected = sequenceList.getSelectedIndex();
+				setNameSingle(selected, nameText.getText());
 				showTree();
+				sequenceList.setSelectedIndex(selected);
 				break;
 			case ModeValues.SEQUENCE_MODE:
 				listSelected();
