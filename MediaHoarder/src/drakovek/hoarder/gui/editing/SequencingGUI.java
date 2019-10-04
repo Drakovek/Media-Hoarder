@@ -808,8 +808,8 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	@Override
 	public void enableAll()
 	{
-		int selection = sequenceList.getSelectedIndex();
-		if(selection == -1 || isTreeValueDMF(sequenceTree.get(selection)))
+		int selected = sequenceList.getSelectedIndex();
+		if(selected == -1 || isTreeValueDMF(sequenceTree.get(selected)))
 		{
 			aboveButton.setEnabled(true);
 			belowButton.setEnabled(true);
@@ -817,20 +817,36 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			
 		}//IF
 		
-		if(selection != -1 && unsequenced.get(0).intValue() != getIndexFromTreeValue(sequenceTree.get(selection)))
+		if(selected != -1)
 		{
-			removeButton.setEnabled(true);
+			if(isTreeValueReference(sequenceTree.get(selected)) || unsequenced.get(0).intValue() != getIndexFromTreeValue(sequenceTree.get(selected)))
+			{
+				removeButton.setEnabled(true);
+				
+			}//IF
+			
+			int layer = sequenceTree.get(selected).lastIndexOf('>');
+			if(isTreeValueBranch(sequenceTree.get(selected)))
+			{
+				layer++;
+				
+			}//IF
+			for(selected++; selected < sequenceTree.size() && sequenceTree.get(selected).lastIndexOf('>') == layer; selected++);
+			
+			if(!isTreeValueReference(sequenceTree.get(selected - 1)) && (selected >= sequenceTree.size() || layer > sequenceTree.get(selected).lastIndexOf('>')))
+			{
+				addCopyButton.setEnabled(true);
+				
+			}//IF
 			
 		}//IF
 		
 		singleButton.setEnabled(true);
-		
 		skipButton.setEnabled(true);
 		saveButton.setEnabled(true);
 		searchButton.setEnabled(true);
 		clearButton.setEnabled(true);
 		addBranchButton.setEnabled(true);
-		addCopyButton.setEnabled(true);
 		addSequenceButton.setEnabled(true);
 		upButton.setEnabled(true);
 		downButton.setEnabled(true);

@@ -34,6 +34,21 @@ public class DListSelection extends BaseGUI
 	private JPanel panel;
 	
 	/**
+	 * Panel for holding action buttons
+	 */
+	private JPanel buttonPanel;
+	
+	/**
+	 * Button panel for dialogs where only a single item can be selected
+	 */
+	private JPanel singleSelectionPanel;
+	
+	/**
+	 * Button panel for dialogs where multiple items can be selected
+	 */
+	private JPanel multiSelectionPanel;
+	
+	/**
 	 * List to show selectable contents
 	 */
 	private DList list;
@@ -57,11 +72,20 @@ public class DListSelection extends BaseGUI
 		DScrollPane listScroll = new DScrollPane(getSettings(), list);
 		
 		//CREATE BOTTOM PANEL
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(1, 3, getSettings().getSpaceSize(), 0));
-		buttonPanel.add(new DButton(this, CommonValues.CANCEL));
-		buttonPanel.add(new DButton(this, EditingValues.ADD_SELECTED));
-		buttonPanel.add(new DButton(this, EditingValues.ADD_ALL));
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(1, 1));
+		
+		multiSelectionPanel = new JPanel();
+		multiSelectionPanel.setLayout(new GridLayout(1, 3, getSettings().getSpaceSize(), 0));
+		multiSelectionPanel.add(new DButton(this, CommonValues.CANCEL));
+		multiSelectionPanel.add(new DButton(this, EditingValues.ADD_SELECTED));
+		multiSelectionPanel.add(new DButton(this, EditingValues.ADD_ALL));
+
+		singleSelectionPanel = new JPanel();
+		singleSelectionPanel.setLayout(new GridLayout(1, 2, getSettings().getSpaceSize(), 0));
+		singleSelectionPanel.add(new DButton(this, CommonValues.CANCEL));
+		singleSelectionPanel.add(new DButton(this, CommonValues.ADD));
+		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
 		bottomPanel.add(buttonPanel, BorderLayout.EAST);
@@ -88,6 +112,9 @@ public class DListSelection extends BaseGUI
 			
 		}//FOR
 		
+		buttonPanel.removeAll();
+		buttonPanel.add(multiSelectionPanel);
+		buttonPanel.revalidate();
 		list.setSelectMultiple(true);
 		list.setListData(array);
     	dialog = new DDialog(owner, panel, getSettings().getLanguageText(titleID), true, 0, 0);
@@ -112,6 +139,9 @@ public class DListSelection extends BaseGUI
 		owner.setAllowExit(false);
 		selected = new int[0];
 		
+		buttonPanel.removeAll();
+		buttonPanel.add(singleSelectionPanel);
+		buttonPanel.revalidate();
 		list.setSelectMultiple(false);
 		list.setListData(array);
     	dialog = new DDialog(owner, panel, getSettings().getLanguageText(titleID), true, 0, 0);
@@ -135,6 +165,7 @@ public class DListSelection extends BaseGUI
 			case EditingValues.ADD_ALL:
 				dialog.dispose();
 				break;
+			case CommonValues.ADD:
 			case EditingValues.ADD_SELECTED:
 				selected = list.getSelectedIndices();
 				dialog.dispose();
