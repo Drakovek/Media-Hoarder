@@ -263,7 +263,8 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		addPanel.add(addSequenceButton);
 		
 		//CREATE MOVEMENT PANEL
-		indexText = new DTextField(this, new String());
+		indexText = new DTextField(this, CommonValues.OK);
+		indexText.setHorizontalAlignment(SwingConstants.CENTER);
 		JPanel movementPanel = new JPanel();
 		movementPanel.setLayout(new GridLayout(1, 3, settings.getSpaceSize(), 0));
 		upButton = new DButton(this, EditingValues.UP);
@@ -469,8 +470,9 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * 
 	 * @param section Sequence tree section
 	 * @param index Index of which to insert the sequence tree section
+	 * @param addToStart Whether to add out of bounds values to the start of the sequence, if false, values are added to the end
 	 */
-	private void addSectionToTree(final ArrayList<String> section, final int index)
+	private void addSectionToTree(final ArrayList<String> section, final int index, final boolean addToStart)
 	{
 		int insertIndex = index + 1;
 		int layer = 0;
@@ -484,6 +486,11 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			}//IF
 			
 		}//IF
+		else if(addToStart)
+		{
+			insertIndex = 0;
+			
+		}//ELSE IF
 		else
 		{
 			insertIndex = sequenceTree.size();
@@ -756,6 +763,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		
 		if(selected != -1)
 		{
+			indexText.setText(Integer.toString(selected + 1));
 			if(isTreeValueBranch(sequenceTree.get(selected)))
 			{
 				nameText.setText(getBranchNameFromTreeValue(sequenceTree.get(selected)));
@@ -801,6 +809,101 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		
 	}//METHOD
 	
+	/**
+	 * Deals with an index being entered by moving the selected value to the given index.
+	 */
+	private void indexEntered()
+	{
+		try
+		{
+			int index = Integer.parseInt(indexText.getText()) - 1;
+			if(index < 0)
+			{
+				index = 0;
+			}//IF
+			
+			if(index >= sequenceTree.size())
+			{
+				index = sequenceTree.size() - 1;
+				
+			}//IF
+			
+			int selected = sequenceList.getSelectedIndex();
+			
+			if(selected != -1)
+			{
+				moveValue(selected, index);
+				
+			}//IF
+			
+		}//TRY
+		catch(NumberFormatException e){}
+		
+	}//METHOD
+	
+	/**
+	 * Moves the value from the start index to a given index.
+	 * 
+	 * @param start Index of the value to move
+	 * @param index Index to move value to
+	 */
+	private void moveValue(final int start, final int index)
+	{
+		int baseLayer = sequenceTree.get(start).lastIndexOf('>');
+		int end = start;
+		ArrayList<String> section = new ArrayList<>();
+		if(isTreeValueBranch(sequenceTree.get(start)))
+		{
+			section.add(sequenceTree.get(start).substring(baseLayer));
+			for(int i = start + 1; i < sequenceTree.size() && sequenceTree.get(i).lastIndexOf('>') > baseLayer; i++)
+			{
+				section.add(sequenceTree.get(i).substring(baseLayer));
+				end = i;
+				
+			}//FOR
+			
+		}//IF
+		else if(isTreeValueBranch(sequenceTree.get(start) + 1) && sequenceTree.get(start + 1).lastIndexOf('>') > baseLayer)
+		{
+			for(int i = start; i < sequenceTree.size() && sequenceTree.get(i).lastIndexOf('>') >= baseLayer; i++)
+			{
+				section.add(sequenceTree.get(i).substring(baseLayer));
+				end = i;
+				
+			}//FOR
+			
+		}//ELSE IF
+		else
+		{
+			section.add(sequenceTree.get(start).substring(baseLayer));
+			
+		}//ELSE
+		
+		if(index < start || index > end)
+		{
+			int deleteNum = start;
+			int insertNum = index;
+			if(index < start)
+			{
+				deleteNum = start + section.size();
+				insertNum--;
+				
+			}//IF
+			
+			addSectionToTree(section, insertNum, true);
+			
+			for(int i = 0; i < section.size(); i++)
+			{
+				sequenceTree.remove(deleteNum);
+				
+			}//FOR
+			
+			showTree();
+			
+		}//IF
+		
+	}//METHOD
+	
 	@Override
 	public void dispose()
 	{
@@ -824,6 +927,14 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		
 		if(selected != -1)
 		{
+			if(!isTreeValueReference(sequenceTree.get(selected)))
+			{
+				upButton.setEnabled(true);
+				downButton.setEnabled(true);
+				indexText.setEnabled(true);
+				
+			}//IF
+			
 			if(isTreeValueReference(sequenceTree.get(selected)) || unsequenced.get(0).intValue() != getIndexFromTreeValue(sequenceTree.get(selected)))
 			{
 				removeButton.setEnabled(true);
@@ -853,9 +964,6 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		clearButton.setEnabled(true);
 		addBranchButton.setEnabled(true);
 		addSequenceButton.setEnabled(true);
-		upButton.setEnabled(true);
-		downButton.setEnabled(true);
-		indexText.setEnabled(true);
 		nameText.setEnabled(true);
 		
 		fileMenu.setEnabled(true);
@@ -909,6 +1017,9 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			case EditingValues.SEARCH:
 				addSequence = false;
 				filterGUI.showFilterGUI();
+				break;
+			case CommonValues.OK:
+				indexEntered();
 				break;
 			case EditingValues.ADD_SEQUENCE:
 				addSequence = true;
@@ -1023,7 +1134,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			
 		}//FOR
 		
-		addSectionToTree(section, index);
+		addSectionToTree(section, index, true);
 		showTree();
 		sequenceList.setSelectedIndex(index);
 		
