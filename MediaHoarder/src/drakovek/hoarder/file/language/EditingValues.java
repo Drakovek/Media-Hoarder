@@ -104,6 +104,11 @@ public class EditingValues
 	public static final String ADD_DMFS = "add_dmfs"; //$NON-NLS-1$
 	
 	/**
+	 * Language variable for the title of dialog adding reference DMF copy to a sequence
+	 */
+	public static final String ADD_REFERENCE_COPY = "add_reference_copy"; //$NON-NLS-1$
+	
+	/**
 	 * Language variable for button to add all shown indexes in a list selection dialog
 	 */
 	public static final String ADD_ALL = "add_all"; //$NON-NLS-1$
@@ -143,6 +148,7 @@ public class EditingValues
 		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_MESSAGE, "Finding files without sequence data")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(SEQUENCING_FINISHED, "Finished Adding Sequence Data")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_DMFS, "Add DMFs")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_REFERENCE_COPY, "Add Reference Copy")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_ALL, "^Add All")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_SELECTED, "Add ^Selected")); //$NON-NLS-1$
 		return values;

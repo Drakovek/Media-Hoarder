@@ -400,7 +400,13 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			
 		}//IF
 		
-		return lead + StringMethods.addHtmlEscapes(getDmfHandler().getTitleDirect(getIndexFromTreeValue(treeValue)));
+		if(isTreeValueReference(treeValue))
+		{
+			return lead + "<i>*" + StringMethods.addHtmlEscapes(getDmfHandler().getTitleDirect(getIndexFromTreeValue(treeValue))) + "*</i></html>"; //$NON-NLS-1$ //$NON-NLS-2$
+			
+		}//IF
+		
+		return lead + StringMethods.addHtmlEscapes(getDmfHandler().getTitleDirect(getIndexFromTreeValue(treeValue))) + "</html>"; //$NON-NLS-1$
 		
 	}//METHOD
 	
@@ -420,7 +426,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		
 		if(isTreeValueReference(treeValue))
 		{
-			return Integer.parseInt(treeValue.substring(treeValue.lastIndexOf('>') + 1), treeValue.length() - 1);
+			return Integer.parseInt(treeValue.substring(treeValue.lastIndexOf('>') + 1, treeValue.length() - 1));
 			
 		}//IF
 		
@@ -484,8 +490,6 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			sequenceTree.add(insertIndex, StringMethods.extendCharacter('>', layer) + section.get(i));
 			
 		}//FOR
-		
-		showTree();
 		
 	}//METHOD
 	
@@ -609,6 +613,58 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	}//METHOD
 	
 	/**
+	 * Adds a reference copy of a DMF for sequences that loop on themselves.
+	 */
+	private void addCopy()
+	{
+		int selected = sequenceList.getSelectedIndex();
+		if(selected != -1)
+		{
+			int layer = sequenceTree.get(selected).lastIndexOf('>');
+			if(isTreeValueBranch(sequenceTree.get(selected)))
+			{
+				layer++;
+				
+			}//IF
+			
+			for(selected++; selected < sequenceTree.size() && sequenceTree.get(selected).lastIndexOf('>') >= layer; selected++);
+			if(!isTreeValueReference(sequenceTree.get(selected - 1)))
+			{
+				ArrayList<Integer> indexes = new ArrayList<>();
+				for(int i = 0; i < sequenceTree.size(); i++)
+				{
+					if(isTreeValueDMF(sequenceTree.get(i)))
+					{
+						indexes.add(Integer.valueOf(getIndexFromTreeValue(sequenceTree.get(i))));
+						
+					}//IF
+					
+				}//FOR
+				
+				String[] options = new String[indexes.size()];
+				for(int i = 0; i < indexes.size(); i++)
+				{
+					options[i] = getDmfHtmlString(getDmfHandler().getTitleDirect(indexes.get(i).intValue()), getDmfHandler().getArtistsDirect(indexes.get(i).intValue()));
+					
+				}//FOR
+				
+				int[] reference = listSelection.openSingleSeletionDialog(getFrame(), EditingValues.ADD_REFERENCE_COPY, options);
+				if(reference.length > 0)
+				{
+					sequenceTree.add(selected, StringMethods.extendCharacter('>', layer + 1) + Integer.toString(indexes.get(reference[0]).intValue()) + Character.toString('*'));
+					selected = sequenceList.getSelectedIndex();
+					showTree();
+					sequenceList.setSelectedIndex(selected);
+					
+				}//IF
+				
+			}//IF
+			
+		}//IF
+		
+	}//METHOD
+	
+	/**
 	 * Removes the value at a given index from the sequence tree.
 	 * 
 	 * @param index Given index to remove
@@ -647,11 +703,31 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			}//ELSE
 			
 			if(userRemoved)
-			{		
-				showTree();
-				if(index < sequenceTree.size())
+			{
+				int select = index;
+				boolean addMain = true;
+				for(int i = 0; i < sequenceTree.size(); i++)
 				{
-					sequenceList.setSelectedIndex(index);
+					if(unsequenced.get(0).intValue() == getIndexFromTreeValue(sequenceTree.get(i)))
+					{
+						addMain = false;
+						break;
+						
+					}//IF
+					
+				}//FOR
+				
+				if(addMain)
+				{
+					select++;
+					sequenceTree.add(0, Character.toString('>') + Integer.toString(unsequenced.get(0).intValue()));
+				
+				}//IF
+				
+				showTree();
+				if(select < sequenceTree.size())
+				{
+					sequenceList.setSelectedIndex(select);
 					
 				}//IF
 				else
@@ -679,9 +755,6 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 			{
 				nameText.setText(getBranchNameFromTreeValue(sequenceTree.get(selected)));
 				nameLabel.setTextID(EditingValues.BRANCH_NAME, true);
-				aboveButton.setEnabled(false);
-				belowButton.setEnabled(false);
-				allButton.setEnabled(false);
 				
 			}//IF
 			else
@@ -690,9 +763,15 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 				
 			}//ELSE
 
+			disableAll();
 			enableAll();
 			
 		}//IF
+		else
+		{
+			nameLabel.setTextID(EditingValues.SECTION_NAME, true);
+			
+		}//ELSE
 		
 	}//METHOD
 	
@@ -730,11 +809,17 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	public void enableAll()
 	{
 		int selection = sequenceList.getSelectedIndex();
-		if(selection != -1 && isTreeValueDMF(sequenceTree.get(selection)))
+		if(selection == -1 || isTreeValueDMF(sequenceTree.get(selection)))
 		{
 			aboveButton.setEnabled(true);
 			belowButton.setEnabled(true);
 			allButton.setEnabled(true);
+			
+		}//IF
+		
+		if(selection != -1 && unsequenced.get(0).intValue() != getIndexFromTreeValue(sequenceTree.get(selection)))
+		{
+			removeButton.setEnabled(true);
 			
 		}//IF
 		
@@ -743,7 +828,6 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		skipButton.setEnabled(true);
 		saveButton.setEnabled(true);
 		searchButton.setEnabled(true);
-		removeButton.setEnabled(true);
 		clearButton.setEnabled(true);
 		addBranchButton.setEnabled(true);
 		addCopyButton.setEnabled(true);
@@ -794,6 +878,9 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		{
 			case EditingValues.ADD_BRANCH:
 				addBranch();
+				break;
+			case EditingValues.ADD_COPY:
+				addCopy();
 				break;
 			case CommonValues.REMOVE:
 				removeFromTree(sequenceList.getSelectedIndex(), true);
@@ -879,7 +966,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 				{
 					if(getIndexFromTreeValue(sequenceTree.get(k)) == dmfValue)
 					{
-						removeFromTree(k, true);
+						removeFromTree(k, false);
 						k--;
 						
 						if(k < index)
@@ -897,6 +984,8 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		}//FOR
 		
 		addSectionToTree(section, index);
+		showTree();
+		sequenceList.setSelectedIndex(index);
 		
 	}//METHOD
 
