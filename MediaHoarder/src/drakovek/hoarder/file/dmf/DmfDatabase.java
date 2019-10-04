@@ -362,7 +362,7 @@ public class DmfDatabase
 	 */
 	public ArrayList<Integer> getSequenceList(final int index, final String sectionTitle)
 	{	
-		ArrayList<String> tree = getSequenceIdTree(index);
+		ArrayList<String> tree = getSequenceTree(index);
 		ArrayList<Integer> sequenceList = new ArrayList<>();
 		
 		for(int i = 0; i < tree.size(); i++)
@@ -396,12 +396,12 @@ public class DmfDatabase
 	}//METHOD
 	
 	/**
-	 * Gets a sequence ID tree in ArrayList<String> form from a DMF index
+	 * Gets a sequence tree in ArrayList<String> form from a DMF index
 	 * 
 	 * @param index DMF Index
-	 * @return Sequence ID Tree
+	 * @return Sequence Tree
 	 */
-	private ArrayList<String> getSequenceIdTree(final int index)
+	public ArrayList<String> getSequenceTree(final int index)
 	{
 		ArrayList<Integer> tempIndexes = new ArrayList<>();
 		tempIndexes.add(Integer.valueOf(index));

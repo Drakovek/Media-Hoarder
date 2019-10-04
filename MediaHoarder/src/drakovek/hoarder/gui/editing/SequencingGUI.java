@@ -182,6 +182,11 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	private DButton downButton;
 	
 	/**
+	 * Whether to add a DMF's existing sequence when adding a DMF to the sequence
+	 */
+	private boolean addSequence;
+	
+	/**
 	 * Initializes the SequencingGUI class by creating the main GUI.
 	 * 
 	 * @param settings Program Settings
@@ -416,7 +421,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * @param treeValue Tree value to search for index within
 	 * @return DMF index of the tree value
 	 */
-	private static int getIndexFromTreeValue(final String treeValue)
+	public static int getIndexFromTreeValue(final String treeValue)
 	{
 		if(isTreeValueBranch(treeValue))
 		{
@@ -440,7 +445,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * @param treeValue Given tree value
 	 * @return Name of the branch
 	 */
-	private static String getBranchNameFromTreeValue(final String treeValue)
+	public static String getBranchNameFromTreeValue(final String treeValue)
 	{
 		return StringMethods.replaceHtmlEscapeCharacters(treeValue.substring(treeValue.indexOf('(') + 1, treeValue.length() - 1));
 		
@@ -453,7 +458,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * @param artists Artists for the DMF
 	 * @return HTML String
 	 */
-	private String getDmfHtmlString(final String title, final String[] artists)
+	public String getDmfHtmlString(final String title, final String[] artists)
 	{
 		return "<html>" + StringMethods.addHtmlEscapes(title) + " - <i>" + StringMethods.addHtmlEscapes(StringMethods.arrayToString(artists, true, getSettings().getLanguageText(CommonValues.NON_APPLICABLE))) + "</i></html>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	
@@ -499,7 +504,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * @param treeValue Given sequence tree value
 	 * @return Whether tree value is a branch value
 	 */
-	private static boolean isTreeValueBranch(final String treeValue)
+	public static boolean isTreeValueBranch(final String treeValue)
 	{
 		return treeValue.charAt(treeValue.lastIndexOf('>') + 1) == '(';
 		
@@ -511,7 +516,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * @param treeValue Given sequence tree value
 	 * @return Whether tree value is a reference value
 	 */
-	private static boolean isTreeValueReference(final String treeValue)
+	public static boolean isTreeValueReference(final String treeValue)
 	{
 		return treeValue.charAt(treeValue.length() - 1) == '*';
 		
@@ -523,7 +528,7 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 	 * @param treeValue Given sequence tree value
 	 * @return Whether tree value is a DMF value
 	 */
-	private static boolean isTreeValueDMF(final String treeValue)
+	public static boolean isTreeValueDMF(final String treeValue)
 	{
 		return !isTreeValueBranch(treeValue) && !isTreeValueReference(treeValue);
 		
@@ -902,6 +907,11 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 				removeFromTree(sequenceList.getSelectedIndex(), true);
 				break;
 			case EditingValues.SEARCH:
+				addSequence = false;
+				filterGUI.showFilterGUI();
+				break;
+			case EditingValues.ADD_SEQUENCE:
+				addSequence = true;
 				filterGUI.showFilterGUI();
 				break;
 			case EditingValues.CLEAR:
@@ -965,12 +975,26 @@ public class SequencingGUI extends FrameGUI implements DmfLoadingMethods, DWorke
 		}//FOR
 		
 		ArrayList<String> section = new ArrayList<>();
-		int[] selected = listSelection.openMultipleSeletionDialog(getFrame(), EditingValues.ADD_DMFS, filterList);
-		for(int i = 0; i < selected.length; i++)
+		if(addSequence)
 		{
-			section.add(Character.toString('>') + Integer.toString(getDmfHandler().getDirectIndex(selected[i])));
+			int[] selected = listSelection.openSingleSeletionDialog(getFrame(), EditingValues.ADD_SEQUENCE, filterList);
+			if(selected.length > 0)
+			{
+				section = getDmfHandler().getSequenceTree(getDmfHandler().getDirectIndex(selected[0]));
+				
+			}//IF
 			
-		}//FOR
+		}//IF
+		else
+		{
+			int[] selected = listSelection.openMultipleSeletionDialog(getFrame(), EditingValues.ADD_DMFS, filterList);
+			for(int i = 0; i < selected.length; i++)
+			{
+				section.add(Character.toString('>') + Integer.toString(getDmfHandler().getDirectIndex(selected[i])));
+				
+			}//FOR
+			
+		}//ELSE
 		
 		//REMOVE DUPLICATES
 		for(int i = 0; i < section.size(); i++)

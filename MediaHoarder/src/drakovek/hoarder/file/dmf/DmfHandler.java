@@ -3,6 +3,7 @@ package drakovek.hoarder.file.dmf;
 import java.io.File;
 import java.util.ArrayList;
 
+import drakovek.hoarder.gui.editing.SequencingGUI;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.processing.BooleanSearch;
 import drakovek.hoarder.processing.StringMethods;
@@ -1327,6 +1328,38 @@ public class DmfHandler
 			this.artistFilter = artistFilter;
 			
 		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Returns a sequence tree from a given direct index.
+	 * 
+	 * @param directIndex Direct index
+	 * @return Sequence Tree
+	 */
+	public ArrayList<String> getSequenceTree(final int directIndex)
+	{
+		
+		int start;
+		ArrayList<String> tree = database.getSequenceTree(sorted.get(directIndex).intValue());
+		for(int i = 0; i < tree.size(); i++)
+		{
+			if(SequencingGUI.isTreeValueDMF(tree.get(i)))
+			{
+				start = tree.get(i).lastIndexOf('>') + 1;
+				tree.set(i, tree.get(i).substring(0, start) + Integer.toString(sorted.indexOf(Integer.valueOf(SequencingGUI.getIndexFromTreeValue(tree.get(i))))));
+			
+			}//IF
+			else if(SequencingGUI.isTreeValueReference(tree.get(i)))
+			{
+				start = tree.get(i).lastIndexOf('>') + 1;
+				tree.set(i, tree.get(i).substring(0, start) + Integer.toString(sorted.indexOf(Integer.valueOf(SequencingGUI.getIndexFromTreeValue(tree.get(i))))) + Character.toString('*') ) ;
+			
+			}//ELSE IF
+			
+		}//FOR
+		
+		return tree;
 		
 	}//METHOD
 	
