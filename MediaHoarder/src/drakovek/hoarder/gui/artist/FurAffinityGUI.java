@@ -596,7 +596,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			
 		}//IF
 		
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DMF_EXTENSION);
+		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())
@@ -681,7 +681,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 		dmf.setMediaFile(mediaFile);
 		DWriter.writeToFile(mediaFile, contents);
 	
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DMF_EXTENSION);
+		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())

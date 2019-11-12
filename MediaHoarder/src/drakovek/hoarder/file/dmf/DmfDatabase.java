@@ -268,7 +268,7 @@ public class DmfDatabase
 	{
 		if(inputFolder != null && inputFolder.isDirectory())
 		{
-			String[] extension = {DMF.DMF_EXTENSION};
+			String[] extension = {DMF.DMF_EXTENSION, DMF.DVK_EXTENSION};
 			ExtensionFilter filter = new ExtensionFilter(extension, false);
 			ArrayList<File> dmfFolders = new ArrayList<>();
 			ArrayList<File> directories = new ArrayList<>();

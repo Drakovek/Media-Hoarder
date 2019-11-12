@@ -207,7 +207,7 @@ public class DmfDirectory implements Serializable
 		if(dmfFolder != null && dmfFolder.isDirectory())
 		{
 			directory = dmfFolder;
-			String[] extension = {DMF.DMF_EXTENSION};
+			String[] extension = {DMF.DMF_EXTENSION, DMF.DVK_EXTENSION};
 			File[] dmfs = dmfFolder.listFiles(new ExtensionFilter(extension, false));
 			
 			for(int i = 0; i < dmfs.length; i++)
@@ -447,7 +447,7 @@ public class DmfDirectory implements Serializable
 		}//FOR
 		
 		//ADDS NEW DMFS
-		String[] extension = {DMF.DMF_EXTENSION};
+		String[] extension = {DMF.DMF_EXTENSION, DMF.DVK_EXTENSION};
 		File[] allDmfFiles = getDirectory().listFiles(new ExtensionFilter(extension, false));
 		for(int i = 0; i < allDmfFiles.length; i++)
 		{

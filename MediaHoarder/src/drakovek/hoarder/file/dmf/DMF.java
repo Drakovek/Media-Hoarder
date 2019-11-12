@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 import org.apache.tika.Tika;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DWriter;
@@ -35,6 +38,11 @@ public class DMF
 	 * Extension used for DMF Files
 	 */
 	public static final String DMF_EXTENSION = ".dmf"; //$NON-NLS-1$
+	
+	/**
+	 * Extension used for DVK files
+	 */
+	public static final String DVK_EXTENSION = ".dvk"; //$NON-NLS-1$
 	
 	/**
 	 * Array of file types and their corresponding extensions
@@ -384,7 +392,7 @@ public class DMF
 		
 		//FILE
 		mediaFile = null;
-		secondaryURL = null;
+		secondaryFile = null;
 		lastIDs = null;
 		nextIDs = null;
 		first = false;
@@ -533,6 +541,139 @@ public class DMF
 			}//IF
 			
 		}//IF
+		else
+		{
+			loadDVK();
+			
+		}//ELSE
+		
+	}//METHOD
+	
+	/**
+	 * Loads DVK info from DVK File so the DMF object represents a given DVK File.
+	 */
+	public void loadDVK()
+	{
+		clearDMF();
+		if(dmfFile != null && dmfFile.getAbsolutePath().endsWith(DVK_EXTENSION))
+		{
+			StringBuilder dvkString = new StringBuilder();
+			ArrayList<String> json = DReader.readFile(dmfFile);
+			for(int i = 0; i < json.size(); i++)
+			{
+				dvkString.append(json.get(i));
+				
+			}//FOR
+				
+			JSONObject dvk = new JSONObject(dvkString.toString());
+			try
+			{
+				setID(dvk.getString("id")); //$NON-NLS-1$
+				//IF ID TAG EXISTS AND IS PROPER DVK FILE
+				if(getID() != null && getID().length() > 0 && dvk.getString("file_type").equals("dvk"))  //$NON-NLS-1$//$NON-NLS-2$
+				{
+					JSONObject info = dvk.getJSONObject("info"); //$NON-NLS-1$
+					//INFO
+					setTitle(info.getString("title")); //$NON-NLS-1$
+					JSONArray jsonArray = info.getJSONArray("artists"); //$NON-NLS-1$
+					ArrayList<String> artistList = new ArrayList<>();
+					for(int i = 0; i < jsonArray.length(); i++)
+					{
+						artistList.add(jsonArray.getString(i));
+						
+					}//FOR
+					setArtists(artistList);
+					
+					try
+					{
+						setTime(info.getString("time")); //$NON-NLS-1$
+					}//TRY
+					catch(JSONException e)
+					{
+						setTime(0L);
+						
+					}//CATCH
+					
+					try
+					{
+						jsonArray = info.getJSONArray("web_tags"); //$NON-NLS-1$
+						ArrayList<String> tags = new ArrayList<>();
+						for(int i = 0; i < jsonArray.length(); i++)
+						{
+							tags.add(jsonArray.getString(i));
+						
+						}//FOR
+						setWebTags(tags);
+					}//TRY
+					catch(JSONException e)
+					{
+						setWebTags(null);
+						
+					}//CATCH
+					
+					try
+					{
+						setDescription(info.getString("description")); //$NON-NLS-1$
+						
+					}//TRY
+					catch(JSONException e)
+					{
+						setDescription(null);
+						
+					}//CATCH
+					
+					//WEB
+					JSONObject web = dvk.getJSONObject("web"); //$NON-NLS-1$
+					setPageURL(web.getString("page_url")); //$NON-NLS-1$
+					
+					try
+					{
+						setDirectURL(web.getString("direct_url")); //$NON-NLS-1$
+						
+					}//TRY
+					catch(JSONException e)
+					{
+						setDirectURL(null);
+						
+					}//CATCH
+					
+					try
+					{
+						setSecondaryURL(web.getString("secondary_url")); //$NON-NLS-1$
+					
+					}//TRY
+					catch(JSONException e)
+					{
+						setSecondaryURL(null);
+						
+					}//CATCH
+					
+					//FILE
+					JSONObject file = dvk.getJSONObject("file"); //$NON-NLS-1$
+					setMediaFile(file.getString("media_file")); //$NON-NLS-1$
+					
+					try
+					{
+						setSecondaryFile(file.getString("secondary_file"));	 //$NON-NLS-1$
+						
+					}//TRY
+					catch(JSONException e)
+					{
+						secondaryFile = null;
+						
+					}//CATCH
+					
+					
+				}//IF
+				
+			}//TRY
+			catch(JSONException e)
+			{
+				clearDMF();
+				
+			}//CATCH
+			
+		}//IF
 		
 	}//METHOD
 	
@@ -557,150 +698,81 @@ public class DMF
 	{
 		if(isValidWrite())
 		{
-			ArrayList<String> contents = new ArrayList<>();
-			contents.add(DMF_HEADER);
-			contents.add(ParseINI.getAssignmentString(ID, getID()));
+			JSONObject dvk = new JSONObject();
+			dvk.put("file_type", "dvk"); //$NON-NLS-1$ //$NON-NLS-2$
+			dvk.put("id", getID()); //$NON-NLS-1$
 			
 			//INFO
-			contents.add(new String());
-			contents.add("[INFO]"); //$NON-NLS-1$
+			JSONObject info = new JSONObject();
 			
 			if(title != null)
 			{
-				contents.add(ParseINI.getAssignmentString(TITLE, getTitle()));
+				info.put("title", getTitle()); //$NON-NLS-1$
 			
 			}//IF
 			
 			if(getArtists() != null && getArtists().length > 0)
 			{
-				contents.add(ParseINI.getAssignmentString(ARTISTS, getArtists()));
+				info.put("artists", new JSONArray(getArtists())); //$NON-NLS-1$
 				
 			}//IF
 			
 			if(getTime() != 0L)
 			{
-				contents.add(ParseINI.getAssignmentString(TIME, getTimeString()));
+				info.put("time", getTimeString()); //$NON-NLS-1$
 				
 			}//IF
 			
 			if(getWebTags() != null && getWebTags().length > 0)
 			{
-				contents.add(ParseINI.getAssignmentString(WEB_TAGS, getWebTags()));
+				info.put("web_tags", new JSONArray(getWebTags())); //$NON-NLS-1$
 				
 			}//IF
 			
 			if(getDescription() != null && getDescription().length() > 0)
 			{
-				contents.add(ParseINI.getAssignmentString(DESCRIPTION, getDescription()));
+				info.put("description", getDescription()); //$NON-NLS-1$
 				
 			}//IF
 			
+			dvk.put("info", info); //$NON-NLS-1$
+			JSONObject web = new JSONObject();
+			
 			//WEB
-			ArrayList<String> web = new ArrayList<>();
 			if(getPageURL() != null && getPageURL().length() > 0)
 			{
-				web.add(ParseINI.getAssignmentString(PAGE_URL, getPageURL()));
+				web.put("page_url", getPageURL()); //$NON-NLS-1$
 				
 			}//IF
 			
 			if(getDirectURL() != null && getDirectURL().length() > 0)
 			{
-				web.add(ParseINI.getAssignmentString(DIRECT_URL, getDirectURL()));
+				web.put("direct_url", getDirectURL()); //$NON-NLS-1$
 				
 			}//IF
 			
 			if(getSecondaryURL() != null && getSecondaryURL().length() > 0)
 			{
-				web.add(ParseINI.getAssignmentString(SECONDARY_URL, getSecondaryURL()));
+				web.put("secondary_url", getSecondaryURL()); //$NON-NLS-1$
 				
 			}//IF
 			
-			if(web.size() > 0)
-			{
-				contents.add(new String());
-				contents.add("[WEB]"); //$NON-NLS-1$
-				contents.addAll(web);
-				
-			}//IF
+			dvk.put("web", web); //$NON-NLS-1$
 			
 			//FILE
-			contents.add(new String());
-			contents.add("[FILE]"); //$NON-NLS-1$
-			contents.add(ParseINI.getAssignmentString(MEDIA_FILE, getMediaFile().getName()));
+			JSONObject file = new JSONObject();
+			file.put("media_file", getMediaFile().getName()); //$NON-NLS-1$
 			
 			if(getSecondaryFile() != null)
 			{
-				contents.add(ParseINI.getAssignmentString(SECONDARY_FILE, getSecondaryFile().getName()));
+				file.put("secondary_file", getSecondaryFile().getName()); //$NON-NLS-1$
 			
 			}//IF
 			
-			if(getLastIDs() != null && getLastIDs().length > 0)
-			{
-				contents.add(ParseINI.getAssignmentString(LAST_IDS, getLastIDs()));
-				
-			}//IF
-			
-			if(getNextIDs() != null && getNextIDs().length > 0)
-			{
-				contents.add(ParseINI.getAssignmentString(NEXT_IDS, getNextIDs()));
-				
-			}//IF
-			
-			if((getLastIDs() != null && getLastIDs().length > 0 && !getLastIDs()[0].equals(EMPTY_ID)) || (getNextIDs() != null && getNextIDs().length > 0 && !getNextIDs()[0].equals(EMPTY_ID)))
-			{
-				contents.add(ParseINI.getAssignmentString(FIRST, isFirstInSection()));
-				contents.add(ParseINI.getAssignmentString(LAST, isLastInSection()));
-				
-			}//IF
-			
-			//USER
-			ArrayList<String> user = new ArrayList<>();
-			if(getSequenceTitle() != null && getSequenceTitle().length() > 0)
-			{
-				user.add(ParseINI.getAssignmentString(SEQUENCE_TITLE, getSequenceTitle()));
-				
-			}//IF
-			
-			if(getSectionTitle() != null && getSectionTitle().length() > 0)
-			{
-				user.add(ParseINI.getAssignmentString(SECTION_TITLE, getSectionTitle()));
-				
-			}//IF
-			
-			if(getBranchTitles() != null && getBranchTitles().length > 0)
-			{
-				user.add(ParseINI.getAssignmentString(BRANCH_TITLES, getBranchTitles()));
-				
-			}//IF
-			
-			if(getRating() > 0)
-			{
-				user.add(ParseINI.getAssignmentString(RATING, getRating()));
-				
-			}//IF
-			
-			if(getViews() > 0)
-			{
-				user.add(ParseINI.getAssignmentString(VIEWS, getViews()));
-				
-			}//IF
-			
-			if(getUserTags() != null && getUserTags().length > 0)
-			{
-				user.add(ParseINI.getAssignmentString(USER_TAGS, getUserTags()));
-				
-			}//IF
-			
-			if(user.size() > 0)
-			{
-				contents.add(new String());
-				contents.add("[USER]"); //$NON-NLS-1$
-				contents.addAll(user);
-				
-			}//IF
+			dvk.put("file", file); //$NON-NLS-1$
 			
 			//WRITE TO FILE
-			DWriter.writeToFile(dmfFile, contents);
+			DWriter.writeToFile(dmfFile, dvk.toString());
 			if(dmfFile.exists())
 			{	
 				if(checkFileType)
@@ -764,7 +836,7 @@ public class DMF
 	{
 		boolean valid = true;
 		
-		if(dmfFile == null || dmfFile.isDirectory() || !dmfFile.getName().endsWith(DMF_EXTENSION))
+		if(dmfFile == null || dmfFile.isDirectory() || (!dmfFile.getName().endsWith(DMF_EXTENSION) && !dmfFile.getName().endsWith(DVK_EXTENSION)))
 		{
 			valid = false;
 			
@@ -795,7 +867,7 @@ public class DMF
 	{
 		boolean valid = true;
 		
-		if(dmfFile == null || dmfFile.isDirectory() || !dmfFile.getName().endsWith(DMF_EXTENSION))
+		if(dmfFile == null || dmfFile.isDirectory() || (!dmfFile.getName().endsWith(DMF_EXTENSION) && !dmfFile.getName().endsWith(DVK_EXTENSION)))
 		{
 			valid = false;
 			
@@ -851,7 +923,7 @@ public class DMF
 				if(outFile.exists())
 				{
 					getDmfFile().delete();
-					setDmfFile(new File(currentFolder, filename + DMF_EXTENSION));
+					setDmfFile(new File(currentFolder, filename + DVK_EXTENSION));
 					writeDMF(false);
 					
 				}//IF

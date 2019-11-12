@@ -39,7 +39,6 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 */
 	private ArrayList<String> idStrings;
 	
-	
 	/**
 	 * Prefix for a DMF ID that indicates that the DMF is sourced from FurAffinity.net
 	 */
@@ -533,7 +532,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		dmf.setMediaFile(mediaFile);
 		DWriter.writeToFile(mediaFile, contents);
 				
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DMF_EXTENSION);
+		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())
@@ -749,7 +748,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			
 		}//ELSE
 				
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DMF_EXTENSION);
+		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
 		dmf.setDmfFile(dmfFile);
 		dmf.writeDMF();
 		if(dmf.getDmfFile().exists())

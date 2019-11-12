@@ -128,7 +128,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 	 */
 	private void findUnlinkedFiles()
 	{
-		String[] extension = {DMF.DMF_EXTENSION};
+		String[] extension = {DMF.DMF_EXTENSION, DMF.DVK_EXTENSION};
 		ExclusionFilter filter = new ExclusionFilter(extension, false);
 		progressInfoDialog.setProcessLabel(ManagingValues.MISSING_MEDIA);
 		progressInfoDialog.setDetailLabel(DmfLanguageValues.GETTING_FOLDERS, true);
