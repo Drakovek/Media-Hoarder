@@ -28,9 +28,9 @@ public class SettingsValues
 	public static final String LANGUAGE = "language"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "DMF Directories" label in the settings GUI
+	 * Language variable for the "DVK Directories" label in the settings GUI
 	 */
-	public static final String DMF_DIRECTORIES = "dmf_directories"; //$NON-NLS-1$
+	public static final String DVK_DIRECTORIES = "dvk_directories"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the "Theme" label in the settings GUI
@@ -73,17 +73,17 @@ public class SettingsValues
 	public static final String NO_DIRECTORY = "no_directory"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the text used to show that DMF Directories have been properly loaded
+	 * Language variable for the text used to show that DVK Directories have been properly loaded
 	 */
 	public static final String DIRECTORIES_LOADED = "directories_loaded"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the title of the dialog that shows that no DMF directories have been specified.
+	 * Language variable for the title of the dialog that shows that no DVK directories have been specified.
 	 */
 	public static final String NO_DIRECTORIES_TITLE = "no_directories_title"; //$NON-NLS-1$
 	
 	/**
-	 * Language variables for the messages of the dialog that shows that no DMF directories have been specified.
+	 * Language variables for the messages of the dialog that shows that no DVK directories have been specified.
 	 */
 	public static final String[] NO_DIRECTORIES_MESSAGES = {"no_directories_message_1", "no_directories_message_2"}; //$NON-NLS-1$ //$NON-NLS-2$
 	
@@ -102,7 +102,7 @@ public class SettingsValues
 		values.add(ParseINI.getAssignmentString(SETTINGS, "S^ettings")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(APPLY, "^Apply")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(LANGUAGE, "^Language")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(DMF_DIRECTORIES, "^DMF Directories")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(DVK_DIRECTORIES, "^DVK Directories")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(THEME, "^Theme")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(FONT, "^Font")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(PREVIEW, "Preview")); //$NON-NLS-1$
@@ -111,10 +111,10 @@ public class SettingsValues
 		values.add(ParseINI.getAssignmentString(FONT_SIZE, "^Size")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(FONT_PREVIEW, "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG?! the quick brown fox jumps over the lazy dog. 0123456789")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(NO_DIRECTORY, "(No Directory Selected)")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(DIRECTORIES_LOADED, "(DMF Directories Loaded)")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(NO_DIRECTORIES_TITLE, "No DMF Directories")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(NO_DIRECTORIES_MESSAGES[0], "No DMF directories are specified.")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(NO_DIRECTORIES_MESSAGES[1], "Add directories to store/load DMFs.")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(DIRECTORIES_LOADED, "(DVK Directories Loaded)")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(NO_DIRECTORIES_TITLE, "No DVK Directories")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(NO_DIRECTORIES_MESSAGES[0], "No DVK directories are specified.")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(NO_DIRECTORIES_MESSAGES[1], "Add directories to store/load DVKs.")); //$NON-NLS-1$
 		
 		return values;
 		

@@ -112,7 +112,7 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	/**
 	 * Sets the main label of the settings bar to show if the multiple directories have been properly loaded.
 	 * 
-	 * @param loaded Whether DMF directories have been properly loaded
+	 * @param loaded Whether DVK directories have been properly loaded
 	 */
 	public void setLabelLoaded(final boolean loaded)
 	{
@@ -132,7 +132,7 @@ public class SettingsBarGUI extends BaseGUI implements ComponentDisabler
 	@Override
 	public void event(String id, int value)
 	{
-		new SettingsGUI(getSettings(), ownerGUI.getDmfHandler(), ownerGUI);
+		new SettingsGUI(getSettings(), ownerGUI.getDvkHandler(), ownerGUI);
 		
 	}//METHOD
 

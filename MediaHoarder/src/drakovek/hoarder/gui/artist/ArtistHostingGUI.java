@@ -18,9 +18,9 @@ import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
 import drakovek.hoarder.file.Start;
-import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.dmf.DmfLoader;
-import drakovek.hoarder.file.dmf.DmfLoadingMethods;
+import drakovek.hoarder.file.dvk.DvkHandler;
+import drakovek.hoarder.file.dvk.DvkLoader;
+import drakovek.hoarder.file.dvk.DvkLoadingMethods;
 import drakovek.hoarder.file.language.ArtistValues;
 import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.FrameGUI;
@@ -50,15 +50,15 @@ import drakovek.hoarder.work.DWorker;
  * @author Drakovek
  * @version 2.0
  */
-public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods, DWorker, DmfLoadingMethods
+public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods, LoginMethods, DWorker, DvkLoadingMethods
 {	
 	/**
-	 * Suffix used at the end of a DMF ID to indicate the DMF is referring to a journal rather than a media file.
+	 * Suffix used at the end of a DVK ID to indicate the DVK is referring to a journal rather than a media file.
 	 */
 	public static final String JOURNAL_SUFFIX = "-J"; //$NON-NLS-1$
 	
 	/**
-	 * Tag for showing a DMF refers to a journal
+	 * Tag for showing a DVK refers to a journal
 	 */
 	public static final String JOURNAL_TAG = "Journal"; //$NON-NLS-1$
 	
@@ -98,9 +98,9 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private boolean checkAllPages;
 	
 	/**
-	 * DmfLoader for loading DMFs to check against
+	 * DvkLoader for loading DVKs to check against
 	 */
-	private DmfLoader loader;
+	private DvkLoader loader;
 	
 	/**
 	 * Settings Bar for the GUI
@@ -168,7 +168,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	private DProgressInfoDialog progressInfoDialog;
 	
 	/**
-	 * PageURL given by the user when downloading an individual DMF
+	 * PageURL given by the user when downloading an individual DVK
 	 */
 	private String pageURL;
 	
@@ -176,15 +176,15 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 * Initializes the ArtistHostingGUI
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 * @param loginGUI GUI for logging into the artist hosting website
 	 * @param subtitleID ID for the sub-title of the frame
 	 * @param openID Language ID for the "open" menu item
 	 */
-	public ArtistHostingGUI(DSettings settings, DmfHandler dmfHandler, LoginGUI loginGUI, final String subtitleID, final String openID)
+	public ArtistHostingGUI(DSettings settings, DvkHandler dvkHandler, LoginGUI loginGUI, final String subtitleID, final String openID)
 	{
-		super(settings, dmfHandler, subtitleID);
-		loader = new DmfLoader(this, this);
+		super(settings, dvkHandler, subtitleID);
+		loader = new DvkLoader(this, this);
 		fileChooser = new DFileChooser(settings);
 		artistHandler = new ArtistHandler(settings, subtitleID);
 		downloader = new Downloader(this);
@@ -285,14 +285,14 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	}//CONSTRUCTOR
 	
 	/**
-	 * Sets the directory from which to save DMFs
+	 * Sets the directory from which to save DVKs
 	 * 
 	 * @param directory Given Directory
 	 */
 	protected abstract void setDirectory(final File directory);
 	
 	/**
-	 * Returns the directory from which to save DMFs
+	 * Returns the directory from which to save DVKs
 	 * 
 	 * @return Directory
 	 */
@@ -340,7 +340,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected abstract String getUrlArtist(final String artist);
 	
 	/**
-	 * Downloads media and creates DMF for a media page.
+	 * Downloads media and creates DVK for a media page.
 	 * 
 	 * @param baseFolder Base Folder to save within
 	 * @param URL PageURL to read
@@ -350,7 +350,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	protected abstract String downloadMediaPage(final File baseFolder, final String URL) throws Exception; 
 	
 	/**
-	 * Downloads journal and creates DMF for a journal page.
+	 * Downloads journal and creates DVK for a journal page.
 	 * 
 	 * @param baseFolder Base Folder to save within
 	 * @param URL PageURL to read
@@ -465,7 +465,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		//LOGIN
 		if(ready)
 		{
-			new DCheckDirectoriesGUI(getSettings(), getDmfHandler(), getFrame(), getDirectory());
+			new DCheckDirectoriesGUI(getSettings(), getDvkHandler(), getFrame(), getDirectory());
 			
 			//LOGIN TO WEBSITE
 			if(ready && !isLoggedIn())
@@ -480,14 +480,14 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 		
 		if(ready)
 		{
-			if(!getDmfHandler().isLoaded())
+			if(!getDvkHandler().isLoaded())
 			{
-				loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
+				loader.loadDVKs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
 				
 			}//METHOD
 			else
 			{
-				loadingDMFsDone();
+				loadingDVKsDone();
 				
 			}//ELSE
 			
@@ -615,14 +615,14 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 			String[] messageIDs = {ArtistValues.ENTER_URL_MESSAGE};
 			pageURL = textDialog.openTextDialog(getFrame(), ArtistValues.ENTER_URL_TITLE, messageIDs, null);
 			
-			if(!getDmfHandler().isLoaded())
+			if(!getDvkHandler().isLoaded())
 			{
-				loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
+				loader.loadDVKs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
 				
 			}//METHOD
 			else
 			{
-				loadingDMFsDone();
+				loadingDVKsDone();
 				
 			}//ELSE
 			
@@ -774,7 +774,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	 */
 	private void startDownload()
 	{
-		if(getDmfHandler().isLoaded() && isLoggedIn())
+		if(getDvkHandler().isLoaded() && isLoggedIn())
 		{
 			if(artists.size() > 0)
 			{
@@ -879,7 +879,7 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 				removeArtists();
 				break;
 			case CommonValues.RESTART_PROGRAM:
-				Start.startGUI(getSettings(), getDmfHandler());
+				Start.startGUI(getSettings(), getDvkHandler());
 				dispose();
 				break;
 			case CommonValues.EXIT:
@@ -946,16 +946,16 @@ public abstract class ArtistHostingGUI extends FrameGUI implements ClientMethods
 	}//METHOD
 	
 	@Override
-	public void loadingDMFsDone()
+	public void loadingDVKsDone()
 	{
 		startDownload();
 		
 	}//METHOD
 	
 	@Override
-	public void sortingDMFsDone(){}
+	public void sortingDVKsDone(){}
 	
 	@Override
-	public void filteringDMFsDone(){}
+	public void filteringDVKsDone(){}
 	
 }//CLASS

@@ -38,7 +38,7 @@ public class ModesGUI extends ModeBaseGUI
 				setContentPanel(new ManageModeGUI(getParentGUI()));
 				break;
 			case ModeValues.VIEW_MODE:
-				new ViewBrowserGUI(getSettings(), getParentGUI().getDmfHandler());
+				new ViewBrowserGUI(getSettings(), getParentGUI().getDvkHandler());
 				getParentGUI().dispose();
 				break;
 			

@@ -125,12 +125,12 @@ public class CommonValues
 	public static final String NO_DIRECTORY_DIALOG = "no_directory_dialog"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for title of dialog asking whether to add directory to DMF directories list
+	 * Language variable for title of dialog asking whether to add directory to DVK directories list
 	 */
 	public static final String ADD_DIRECTORY_TITLE = "add_directory_title"; //$NON-NLS-1$
 	
 	/**
-	 * Language variables for messages of dialog asking whether to add directory to DMF directories list
+	 * Language variables for messages of dialog asking whether to add directory to DVK directories list
 	 */
 	public static final String[] ADD_DIRECTORY_MESSAGES = {"add_directory_message_1", "add_directory_message_2"};  //$NON-NLS-1$//$NON-NLS-2$
 	
@@ -242,8 +242,8 @@ public class CommonValues
 		values.add(ParseINI.getAssignmentString(RUNNING, "Running...")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(NO_DIRECTORY_DIALOG, "No Directory Selected")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_DIRECTORY_TITLE, "Add Directory?")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[0], "Selected directory is not listed as DMF directory.")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[1], "Add to program's DMF directory list?")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[0], "Selected directory is not listed as DVK directory.")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_DIRECTORY_MESSAGES[1], "Add to program's DVK directory list?")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(CONTINUE_MESSAGE, "Continue?")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DOWNLOADED, "Downloaded")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(FINISHED, "Finished")); //$NON-NLS-1$

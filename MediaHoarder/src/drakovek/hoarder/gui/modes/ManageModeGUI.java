@@ -2,10 +2,9 @@ package drakovek.hoarder.gui.modes;
 
 import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
-import drakovek.hoarder.gui.editing.SequencingGUI;
 
 /**
- * Mode GUI for choosing between modes of managing DMFs
+ * Mode GUI for choosing between modes of managing DVKs
  * 
  * @author Drakovek
  * @version 2.0
@@ -21,8 +20,7 @@ public class ManageModeGUI extends ModeBaseGUI
 	{
 		super(frameGUI);
 		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START};
-		String[] modeIDs = {ModeValues.SEQUENCE_MODE,
-							ModeValues.ERROR_MODE,
+		String[] modeIDs = {ModeValues.ERROR_MODE,
 							ModeValues.REFORMAT_MODE};
 		
 		setContentPanel(backIDs, modeIDs);
@@ -34,10 +32,6 @@ public class ManageModeGUI extends ModeBaseGUI
 	{
 		switch(id)
 		{
-			case ModeValues.SEQUENCE_MODE:
-				new SequencingGUI(getSettings(), getParentGUI().getDmfHandler());
-				getParentGUI().dispose();
-				break;
 			case ModeValues.REFORMAT_MODE:
 				setContentPanel(new ReformatModeGUI(getParentGUI()));
 				break;

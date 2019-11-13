@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
-import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dvk.DvkHandler;
 import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.FrameGUI;
@@ -35,7 +35,7 @@ public class SettingsGUI extends FrameGUI
 	/**
 	 * List of action/language IDs for the possible settings modes the user can choose.
 	 */
-	private static final String[] SETTINGS_EVENTS = {SettingsValues.LANGUAGE, SettingsValues.DMF_DIRECTORIES, SettingsValues.THEME, SettingsValues.FONT};
+	private static final String[] SETTINGS_EVENTS = {SettingsValues.LANGUAGE, SettingsValues.DVK_DIRECTORIES, SettingsValues.THEME, SettingsValues.FONT};
 	
 	/**
 	 * FrameGUI that opened the settings GUI
@@ -76,12 +76,12 @@ public class SettingsGUI extends FrameGUI
 	 * Initializes the SettingsGUI
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 * @param ownerGUI FrameGUI that opened the settings GUI, if applicable
 	 */
-	public SettingsGUI(DSettings settings, DmfHandler dmfHandler, FrameGUI ownerGUI)
+	public SettingsGUI(DSettings settings, DvkHandler dvkHandler, FrameGUI ownerGUI)
 	{
-		super(settings, dmfHandler, SettingsValues.SETTINGS);
+		super(settings, dvkHandler, SettingsValues.SETTINGS);
 		this.ownerGUI = ownerGUI;
 		if(ownerGUI != null)
 		{
@@ -220,7 +220,7 @@ public class SettingsGUI extends FrameGUI
 					
 				}//IF
 				
-				Start.startGUI(getSettings(), getDmfHandler());
+				Start.startGUI(getSettings(), getDvkHandler());
 				
 			}//IF
 			else if(ownerGUI != null)
@@ -246,7 +246,7 @@ public class SettingsGUI extends FrameGUI
 				case SettingsValues.LANGUAGE:
 					modeGUI = new LanguageSettingsGUI(this);
 					break;
-				case SettingsValues.DMF_DIRECTORIES:
+				case SettingsValues.DVK_DIRECTORIES:
 					modeGUI = new DirectorySettingsGUI(this);
 					break;
 				case SettingsValues.THEME:

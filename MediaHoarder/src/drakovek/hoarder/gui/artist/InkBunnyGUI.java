@@ -13,8 +13,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
-import drakovek.hoarder.file.dmf.DMF;
-import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dvk.DVK;
+import drakovek.hoarder.file.dvk.DvkHandler;
 import drakovek.hoarder.file.language.ArtistValues;
 import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
@@ -37,7 +37,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 											"sep", "oct", "nov", "dec"};  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
 	
 	/**
-	 * Prefix for a DMF ID that indicates that the DMF is sourced from Inkbunny.net
+	 * Prefix for a DVK ID that indicates that the DVK is sourced from Inkbunny.net
 	 */
 	private static final String ID_PREFIX = "INK"; //$NON-NLS-1$
 	
@@ -60,11 +60,11 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	 * Initializes InkBunnyGUI class.
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 */
-	public InkBunnyGUI(DSettings settings, DmfHandler dmfHandler)
+	public InkBunnyGUI(DSettings settings, DvkHandler dvkHandler)
 	{
-		super(settings, dmfHandler, new LoginGUI(settings, ArtistValues.INKBUNNY_LOGIN, false), ModeValues.INKBUNNY_MODE, ArtistValues.CHOOSE_INKBUNNY_FOLDER);
+		super(settings, dvkHandler, new LoginGUI(settings, ArtistValues.INKBUNNY_LOGIN, false), ModeValues.INKBUNNY_MODE, ArtistValues.CHOOSE_INKBUNNY_FOLDER);
 		idStrings = new ArrayList<>();
 		getDownloader().setTimeout(1000);
 		
@@ -122,11 +122,11 @@ public class InkBunnyGUI extends ArtistHostingGUI
 	protected void getIdStrings()
 	{
 		idStrings = new ArrayList<>();
-		int size = getDmfHandler().getDirectSize();
+		int size = getDvkHandler().getDirectSize();
 		int prefixLength = ID_PREFIX.length();
 		for(int i = 0; i < size; i ++)
 		{
-			String id = getDmfHandler().getIdDirect(i);
+			String id = getDvkHandler().getIdDirect(i);
 			if(id.length() > prefixLength && id.startsWith(ID_PREFIX))
 			{
 				id = id.substring(prefixLength);
@@ -615,42 +615,42 @@ public class InkBunnyGUI extends ArtistHostingGUI
 				
 			}//WHILE
 			
-			//SET DMF
-			DMF dmf = new DMF();
-			dmf.setID(id);
-			dmf.setTitle(currentTitle);
-			dmf.setArtist(artist);
-			dmf.setTime(year, Integer.toString(month), day, hour, minute);
-			dmf.setWebTags(tags);
-			dmf.setDescription(description);
-			dmf.setPageURL(pageURLs.get(i));
-			dmf.setDirectURL(mediaURL);
-			dmf.setSecondaryURL(secondaryURL);
+			//SET DVK
+			DVK dvk = new DVK();
+			dvk.setID(id);
+			dvk.setTitle(currentTitle);
+			dvk.setArtist(artist);
+			dvk.setTime(year, Integer.toString(month), day, hour, minute);
+			dvk.setWebTags(tags);
+			dvk.setDescription(description);
+			dvk.setPageURL(pageURLs.get(i));
+			dvk.setDirectURL(mediaURL);
+			dvk.setSecondaryURL(secondaryURL);
 			
 			//DOWNLOAD FILE
-			File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ExtensionMethods.getExtension(dmf.getDirectURL()));
-			dmf.setMediaFile(mediaFile);
-			getDownloader().downloadFile(dmf.getDirectURL(), mediaFile);
+			File mediaFile = new File(baseFolder, dvk.getDefaultFileName() + ExtensionMethods.getExtension(dvk.getDirectURL()));
+			dvk.setMediaFile(mediaFile);
+			getDownloader().downloadFile(dvk.getDirectURL(), mediaFile);
 			
-			if(dmf.getSecondaryURL() != null)
+			if(dvk.getSecondaryURL() != null)
 			{
-				File secondaryFile = new File(baseFolder, dmf.getDefaultFileName() + ExtensionMethods.getExtension(dmf.getSecondaryURL()));
-				dmf.setSecondaryFile(secondaryFile);
-				getDownloader().downloadFile(dmf.getSecondaryURL(), secondaryFile);
+				File secondaryFile = new File(baseFolder, dvk.getDefaultFileName() + ExtensionMethods.getExtension(dvk.getSecondaryURL()));
+				dvk.setSecondaryFile(secondaryFile);
+				getDownloader().downloadFile(dvk.getSecondaryURL(), secondaryFile);
 				
 			}//IF
 			
-			File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
-			dmf.setDmfFile(dmfFile);
-			dmf.writeDMF();
-			if(dmf.getDmfFile().exists())
+			File dvkFile = new File(baseFolder, dvk.getDefaultFileName() + DVK.DVK_EXTENSION);
+			dvk.setDvkFile(dvkFile);
+			dvk.writeDVK();
+			if(dvk.getDvkFile().exists())
 			{
-				getDmfHandler().addDMF(dmf);
+				getDvkHandler().addDVK(dvk);
 				
 			}//IF
 			else
 			{
-				throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+				throw new Exception("Writing DVK Failed"); //$NON-NLS-1$
 			
 			}//ELSE
 			
@@ -670,7 +670,7 @@ public class InkBunnyGUI extends ArtistHostingGUI
 			
 		}//IF
 		
-		DMF dmf = new DMF();
+		DVK dvk = new DVK();
 		
 		//GET ID
 		int start = URL.lastIndexOf('/') + 1;
@@ -681,15 +681,15 @@ public class InkBunnyGUI extends ArtistHostingGUI
 			
 		}//IF
 		
-		dmf.setID(ID_PREFIX + URL.substring(start, end).toUpperCase() + JOURNAL_SUFFIX);
+		dvk.setID(ID_PREFIX + URL.substring(start, end).toUpperCase() + JOURNAL_SUFFIX);
 		
 		//GET TITLE
 		List<DomElement> titleElement = getDownloader().getPage().getByXPath("//div[@class='content']//table//h1"); //$NON-NLS-1$
-		dmf.setTitle(Downloader.getElement(titleElement.get(0)));
+		dvk.setTitle(Downloader.getElement(titleElement.get(0)));
 		
 		//GET ARTIST
 		List<DomElement> artistElement = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_555753']//div[@class='content']//table//span[@class='widget_userNameSmall ']//a"); //$NON-NLS-1$
-		dmf.setArtist(Downloader.getElement(artistElement.get(0)));
+		dvk.setArtist(Downloader.getElement(artistElement.get(0)));
 		
 		//GET TIME
 		final List<DomElement> timeElement = getDownloader().getPage().getByXPath("//span[@id='submittime_exact']"); //$NON-NLS-1$
@@ -710,47 +710,47 @@ public class InkBunnyGUI extends ArtistHostingGUI
 		end = timeString.indexOf(' ', start);
 		String minute = timeString.substring(start, end);
 		
-		dmf.setTime(year, Integer.toString(month), day, hour, minute);
+		dvk.setTime(year, Integer.toString(month), day, hour, minute);
 		
 		//SET TAGS
 		ArrayList<String> tags = new ArrayList<>();
 		tags.add(JOURNAL_TAG);
-		dmf.setWebTags(tags);
+		dvk.setWebTags(tags);
 		
 		//SET DESCRIPTION
 		List<DomElement> description = getDownloader().getPage().getByXPath("//div[@class='elephant elephant_bottom elephant_white']//div[@class='content']//span[@style='word-wrap: break-word;']"); //$NON-NLS-1$
-		dmf.setDescription(Downloader.getElement(description.get(0)));
+		dvk.setDescription(Downloader.getElement(description.get(0)));
 		
 		//SET URLS
-		dmf.setPageURL(URL);
-		dmf.setDirectURL(URL);
+		dvk.setPageURL(URL);
+		dvk.setDirectURL(URL);
 		
-		//DOWNLOAD DMF
-		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ".html"); //$NON-NLS-1$
+		//DOWNLOAD DVK
+		File mediaFile = new File(baseFolder, dvk.getDefaultFileName() + ".html"); //$NON-NLS-1$
 		ArrayList<String> contents = new ArrayList<>();
 		contents.add("<!DOCTYPE html>"); //$NON-NLS-1$
 		contents.add("<html>"); //$NON-NLS-1$
-		contents.add(dmf.getDescription());
+		contents.add(dvk.getDescription());
 		contents.add("</html>"); //$NON-NLS-1$
 				
-		dmf.setMediaFile(mediaFile);
+		dvk.setMediaFile(mediaFile);
 		DWriter.writeToFile(mediaFile, contents);
 			
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
-		dmf.setDmfFile(dmfFile);
-		dmf.writeDMF();
-		if(dmf.getDmfFile().exists())
+		File dvkFile = new File(baseFolder, dvk.getDefaultFileName() + DVK.DVK_EXTENSION);
+		dvk.setDvkFile(dvkFile);
+		dvk.writeDVK();
+		if(dvk.getDvkFile().exists())
 		{
-			getDmfHandler().addDMF(dmf);
+			getDvkHandler().addDVK(dvk);
 							
 		}//IF
 		else
 		{
-			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			throw new Exception("Writing DVK Failed"); //$NON-NLS-1$
 					
 		}//ELSE
 		
-		return dmf.getTitle();
+		return dvk.getTitle();
 		
 	}//METHOD
 

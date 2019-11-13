@@ -13,8 +13,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
-import drakovek.hoarder.file.dmf.DMF;
-import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dvk.DVK;
+import drakovek.hoarder.file.dvk.DvkHandler;
 import drakovek.hoarder.file.language.ArtistValues;
 import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
@@ -47,7 +47,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	private static final String JOURNAL_URL = "/journal/"; //$NON-NLS-1$
 	
 	/**
-	 * Prefix for a DMF ID that indicates that the DMF is sourced from FurAffinity.net
+	 * Prefix for a DVK ID that indicates that the DVK is sourced from FurAffinity.net
 	 */
 	private static final String ID_PREFIX = "FAF"; //$NON-NLS-1$
 	
@@ -60,11 +60,11 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	 * Initializes FurAffinityGUI class.
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 */
-	public FurAffinityGUI(DSettings settings, DmfHandler dmfHandler)
+	public FurAffinityGUI(DSettings settings, DvkHandler dvkHandler)
 	{
-		super(settings, dmfHandler, new LoginGUI(settings, ArtistValues.FUR_AFFINITY_LOGIN, true), ModeValues.FUR_AFFINITY_MODE, ArtistValues.CHOOSE_FUR_AFFINITY_FOLDER);
+		super(settings, dvkHandler, new LoginGUI(settings, ArtistValues.FUR_AFFINITY_LOGIN, true), ModeValues.FUR_AFFINITY_MODE, ArtistValues.CHOOSE_FUR_AFFINITY_FOLDER);
 		idStrings = new ArrayList<>();
 		
 	}//CONSTRUCTOR
@@ -358,7 +358,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	{
 		int end;
 		
-		DMF dmf = new DMF();
+		DVK dvk = new DVK();
 		setPage(pageURL);
 		if(!isLoggedIn())
 		{
@@ -374,15 +374,15 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			
 		}//WHILE
 		id = ID_PREFIX + id.substring(id.lastIndexOf('/') + 1);
-		dmf.setID(id);
+		dvk.setID(id);
 		
 		//GET TITLE
 		List<DomElement> title = getDownloader().getPage().getByXPath("//div[@class='classic-submission-title information']/h2"); //$NON-NLS-1$
-		dmf.setTitle(Downloader.getElement(title.get(0)));
+		dvk.setTitle(Downloader.getElement(title.get(0)));
 		
 		//GET ARTIST
 		List<DomElement> artist = getDownloader().getPage().getByXPath("//div[@class='classic-submission-title information']/a"); //$NON-NLS-1$
-		dmf.setArtist(Downloader.getElement(artist.get(0)));
+		dvk.setArtist(Downloader.getElement(artist.get(0)));
 		
 		//GET DATE STRING
 		String timeString;
@@ -396,7 +396,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			
 		}//IF
 		
-		setTime(dmf, timeString);
+		setTime(dvk, timeString);
 		
 		//GET WEB TAGS
 		ArrayList<String> tags = new ArrayList<>();
@@ -514,7 +514,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			tags.add(Downloader.getElement(tagElements.get(i)));
 			
 		}//FOR
-		dmf.setWebTags(tags);
+		dvk.setWebTags(tags);
 		
 		//GET DESCRIPTION
 		List<DomElement> description = getDownloader().getPage().getByXPath("//table[@class='maintable']//table[@class='maintable']//td[@class='alt1']"); //$NON-NLS-1$
@@ -525,7 +525,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 				String descriptionString = Downloader.getElement(description.get(i));
 				if(!descriptionString.contains("class=\"alt1 stats-container\"")) //$NON-NLS-1$
 				{
-					dmf.setDescription(descriptionString);
+					dvk.setDescription(descriptionString);
 					break;
 					
 				}//IF
@@ -534,33 +534,33 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			
 		}//IF
 		
-		if(dmf.getDescription() == null)
+		if(dvk.getDescription() == null)
 		{
 			throw new Exception("Retrieving Description Failed"); //$NON-NLS-1$
 			
 		}//IF
 		
 		//GET MEDIA URL
-		dmf.setPageURL(pageURL);
+		dvk.setPageURL(pageURL);
 		List<DomAttr> mediaURLs = getDownloader().getPage().getByXPath("//div[@class='alt1 actions aligncenter']//a/@href"); //$NON-NLS-1$
 		for(int i = 0; i < mediaURLs.size(); i++)
 		{
 			String mediaURL = "https:" + Downloader.getAttribute(mediaURLs.get(i)); //$NON-NLS-1$
 			if(mediaURL.contains("/art/")) //$NON-NLS-1$
 			{
-				dmf.setDirectURL(mediaURL);
+				dvk.setDirectURL(mediaURL);
 				break;
 				
 			}//IF
 			
 		}//FOR
-		if(dmf.getDirectURL() == null)
+		if(dvk.getDirectURL() == null)
 		{
 			throw new Exception("Retrieving Media URL Failed"); //$NON-NLS-1$
 			
 		}//IF
 		
-		String mainExtension = ExtensionMethods.getExtension(dmf.getDirectURL());
+		String mainExtension = ExtensionMethods.getExtension(dvk.getDirectURL());
 		
 		//GET SECONDARY MEDIA URL
 		List<DomAttr> secondaryURL = getDownloader().getPage().getByXPath("//img[@id='submissionImg']/@data-fullview-src"); //$NON-NLS-1$
@@ -577,47 +577,47 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			secondaryExtension = ExtensionMethods.getExtension(secondary);
 			if(!secondaryExtension.equals(mainExtension))
 			{
-				dmf.setSecondaryURL(secondary);
+				dvk.setSecondaryURL(secondary);
 				
 			}//IF
 			
 		}//IF
 		
 		//DOWNLOAD FILES
-		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + mainExtension);
-		dmf.setMediaFile(mediaFile);
-		getDownloader().downloadFile(dmf.getDirectURL(), mediaFile);
+		File mediaFile = new File(baseFolder, dvk.getDefaultFileName() + mainExtension);
+		dvk.setMediaFile(mediaFile);
+		getDownloader().downloadFile(dvk.getDirectURL(), mediaFile);
 		
-		if(dmf.getSecondaryURL() != null)
+		if(dvk.getSecondaryURL() != null)
 		{
-			File secondaryFile = new File(baseFolder, dmf.getDefaultFileName() + secondaryExtension);
-			dmf.setSecondaryFile(secondaryFile);
-			getDownloader().downloadFile(dmf.getSecondaryURL(), secondaryFile);
+			File secondaryFile = new File(baseFolder, dvk.getDefaultFileName() + secondaryExtension);
+			dvk.setSecondaryFile(secondaryFile);
+			getDownloader().downloadFile(dvk.getSecondaryURL(), secondaryFile);
 			
 		}//IF
 		
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
-		dmf.setDmfFile(dmfFile);
-		dmf.writeDMF();
-		if(dmf.getDmfFile().exists())
+		File dvkFile = new File(baseFolder, dvk.getDefaultFileName() + DVK.DVK_EXTENSION);
+		dvk.setDvkFile(dvkFile);
+		dvk.writeDVK();
+		if(dvk.getDvkFile().exists())
 		{
-			getDmfHandler().addDMF(dmf);
+			getDvkHandler().addDVK(dvk);
 			
 		}//IF
 		else
 		{
-			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			throw new Exception("Writing DVK Failed"); //$NON-NLS-1$
 		
 		}//ELSE
 		
-		return dmf.getTitle();
+		return dvk.getTitle();
 		
 	}//METHOD
 	
 	@Override
 	protected String downloadJournalPage(final File baseFolder, final String pageURL) throws Exception
 	{	
-		DMF dmf = new DMF();
+		DVK dvk = new DVK();
 		setPage(pageURL);
 		if(!isLoggedIn())
 		{
@@ -633,15 +633,15 @@ public class FurAffinityGUI extends ArtistHostingGUI
 			
 		}//WHILE
 		id = ID_PREFIX + id.substring(id.lastIndexOf('/') + 1) + JOURNAL_SUFFIX;
-		dmf.setID(id);
+		dvk.setID(id);
 		
 		//GET TITLE
 		List<DomElement> title = getDownloader().getPage().getByXPath("//td[@class='journal-title-box']//div[@class='no_overflow']"); //$NON-NLS-1$
-		dmf.setTitle(Downloader.getElement(title.get(0)));
+		dvk.setTitle(Downloader.getElement(title.get(0)));
 		
 		//GET ARTIST
 		List<DomElement> artist = getDownloader().getPage().getByXPath("//td[@class='journal-title-box']//a"); //$NON-NLS-1$
-		dmf.setArtist(Downloader.getElement(artist.get(0)));
+		dvk.setArtist(Downloader.getElement(artist.get(0)));
 		
 		//GET TIME
 		String timeString;
@@ -655,58 +655,58 @@ public class FurAffinityGUI extends ArtistHostingGUI
 					
 		}//IF
 		
-		setTime(dmf, timeString);
+		setTime(dvk, timeString);
 		
 		//SET TAGS
 		ArrayList<String> tags = new ArrayList<>();
 		tags.add(JOURNAL_TAG);
-		dmf.setWebTags(tags);
+		dvk.setWebTags(tags);
 		
 		//GET DESCRIPTION
 		List<DomElement> description = getDownloader().getPage().getByXPath("//div[@class='journal-body']"); //$NON-NLS-1$
-		dmf.setDescription(Downloader.getElement(description.get(0)));
+		dvk.setDescription(Downloader.getElement(description.get(0)));
 		
 		//SET URLS
-		dmf.setPageURL(pageURL);
-		dmf.setDirectURL(pageURL);
+		dvk.setPageURL(pageURL);
+		dvk.setDirectURL(pageURL);
 		
-		//DOWNLOAD DMF
-		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ".html"); //$NON-NLS-1$
+		//DOWNLOAD DVK
+		File mediaFile = new File(baseFolder, dvk.getDefaultFileName() + ".html"); //$NON-NLS-1$
 		ArrayList<String> contents = new ArrayList<>();
 		contents.add("<!DOCTYPE html>"); //$NON-NLS-1$
 		contents.add("<html>"); //$NON-NLS-1$
-		contents.add(dmf.getDescription());
+		contents.add(dvk.getDescription());
 		contents.add("</html>"); //$NON-NLS-1$
 		
-		dmf.setMediaFile(mediaFile);
+		dvk.setMediaFile(mediaFile);
 		DWriter.writeToFile(mediaFile, contents);
 	
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
-		dmf.setDmfFile(dmfFile);
-		dmf.writeDMF();
-		if(dmf.getDmfFile().exists())
+		File dvkFile = new File(baseFolder, dvk.getDefaultFileName() + DVK.DVK_EXTENSION);
+		dvk.setDvkFile(dvkFile);
+		dvk.writeDVK();
+		if(dvk.getDvkFile().exists())
 		{
-			getDmfHandler().addDMF(dmf);
+			getDvkHandler().addDVK(dvk);
 					
 		}//IF
 		else
 		{
-			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			throw new Exception("Writing DVK Failed"); //$NON-NLS-1$
 			
 		}//ELSE
 		
-		return dmf.getTitle();
+		return dvk.getTitle();
 		
 	}//METHOD
 	
 	/**
-	 * Sets the time for a DMF from a given time string from FurAffinity.
+	 * Sets the time for a DVK from a given time string from FurAffinity.
 	 * 
-	 * @param dmf DMF to set time for
+	 * @param dvk DVK to set time for
 	 * @param timeString Time String from FurAffinity
 	 * @throws Exception Any exception handling time string
 	 */
-	private static void setTime(DMF dmf, final String timeString) throws Exception
+	private static void setTime(DVK dvk, final String timeString) throws Exception
 	{
 		//GET MONTH
 		int month;
@@ -755,7 +755,7 @@ public class FurAffinityGUI extends ArtistHostingGUI
 					
 		}//IF
 				
-		dmf.setTime(Integer.toString(year), Integer.toString(month), Integer.toString(day), Integer.toString(hour), Integer.toString(minute));
+		dvk.setTime(Integer.toString(year), Integer.toString(month), Integer.toString(day), Integer.toString(hour), Integer.toString(minute));
 				
 	}//METHOD
 
@@ -763,11 +763,11 @@ public class FurAffinityGUI extends ArtistHostingGUI
 	protected void getIdStrings()
 	{
 		idStrings = new ArrayList<>();
-		int size = getDmfHandler().getDirectSize();
+		int size = getDvkHandler().getDirectSize();
 		int prefixLength = ID_PREFIX.length();
 		for(int i = 0; i < size; i ++)
 		{
-			String id = getDmfHandler().getIdDirect(i);
+			String id = getDvkHandler().getIdDirect(i);
 			if(id.length() > prefixLength && id.toUpperCase().startsWith(ID_PREFIX))
 			{
 				idStrings.add(id.substring(prefixLength));

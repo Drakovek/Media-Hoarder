@@ -4,7 +4,7 @@ import javax.swing.UIManager;
 
 import org.apache.commons.logging.LogFactory;
 
-import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dvk.DvkHandler;
 import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.file.language.SettingsValues;
 import drakovek.hoarder.gui.modes.ModeContainerGUI;
@@ -36,7 +36,7 @@ public class Start
 	public static void startGUI()
 	{
 		DSettings settings = new DSettings();
-		DmfHandler dmfHandler = new DmfHandler();
+		DvkHandler dvkHandler = new DvkHandler();
 		
 		//Turn off HtmlUnit warnings
 		LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -58,7 +58,7 @@ public class Start
 			
 		}//ELSE
 		
-		startGUI(settings, dmfHandler);
+		startGUI(settings, dvkHandler);
 	
 	}//METHOD
 	
@@ -66,12 +66,12 @@ public class Start
 	 * Starts the GUI for the program based on the program settings.
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 */
-	public static void startGUI(DSettings settings, DmfHandler dmfHandler)
+	public static void startGUI(DSettings settings, DvkHandler dvkHandler)
 	{
 		settings.writeSettings();
-		dmfHandler.resetFilterStrings();
+		dvkHandler.resetFilterStrings();
 		
 		//SET LOOK AND FEEL
         try
@@ -86,17 +86,17 @@ public class Start
         }//CATCH (Exception e)
         
         
-        if(settings.getDmfDirectories().size() > 0)
+        if(settings.getDvkDirectories().size() > 0)
         {
-        	new ModeContainerGUI(settings, dmfHandler);
+        	new ModeContainerGUI(settings, dvkHandler);
         	
         }//IF
         else
         {
-        	//ASKS USER TO ADD DMF DIRECTORIES IF NONE ARE SPECIFIED
-        	SettingsGUI settingsGUI = new SettingsGUI(settings, dmfHandler, null);
+        	//ASKS USER TO ADD DVK DIRECTORIES IF NONE ARE SPECIFIED
+        	SettingsGUI settingsGUI = new SettingsGUI(settings, dvkHandler, null);
         	settingsGUI.getFrame().setAllowExit(false);
-        	settingsGUI.setSettingMode(SettingsValues.DMF_DIRECTORIES);
+        	settingsGUI.setSettingMode(SettingsValues.DVK_DIRECTORIES);
         	DButtonDialog buttonDialog = new DButtonDialog(settings);
         	String[] buttonIDs = {CommonValues.OK};
         	buttonDialog.openButtonDialog(settingsGUI.getFrame(), SettingsValues.NO_DIRECTORIES_TITLE, SettingsValues.NO_DIRECTORIES_MESSAGES, buttonIDs);

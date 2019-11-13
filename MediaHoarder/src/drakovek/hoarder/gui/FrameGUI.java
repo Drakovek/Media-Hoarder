@@ -1,7 +1,7 @@
 package drakovek.hoarder.gui;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dvk.DvkHandler;
 import drakovek.hoarder.gui.swing.components.ComponentDisabler;
 import drakovek.hoarder.gui.swing.components.DFrame;
 
@@ -19,22 +19,22 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	private DFrame frame;
 	
 	/**
-	 * Program's DmfHandler
+	 * Program's DvkHandler
 	 */
-	private DmfHandler dmfHandler;
+	private DvkHandler dvkHandler;
 	
 	/**
 	 * Initializes the FrameGUI Object
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHanlder
+	 * @param dvkHandler Program's DvkHanlder
 	 * @param subtitleID ID of the subtitle. If null, just uses the default title
 	 */
-	public FrameGUI(DSettings settings, DmfHandler dmfHandler, final String subtitleID)
+	public FrameGUI(DSettings settings, DvkHandler dvkHandler, final String subtitleID)
 	{
 		super(settings);
 		frame = new DFrame(this, getTitle(subtitleID));
-		this.dmfHandler = dmfHandler;
+		this.dvkHandler = dvkHandler;
 		
 	}//CONSTRUCTOR
 	
@@ -50,13 +50,13 @@ public abstract class FrameGUI extends BaseGUI implements ComponentDisabler
 	}//METHOD
 	
 	/**
-	 * Returns the DmfHandler.
+	 * Returns the DvkHandler.
 	 * 
-	 * @return DmfHandler
+	 * @return DvkHandler
 	 */
-	public DmfHandler getDmfHandler()
+	public DvkHandler getDvkHandler()
 	{
-		return dmfHandler;
+		return dvkHandler;
 		
 	}//METHOD
 	

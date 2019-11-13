@@ -16,11 +16,11 @@ import javax.swing.SwingConstants;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.Start;
-import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.dmf.DmfLoader;
-import drakovek.hoarder.file.dmf.DmfLoadingMethods;
+import drakovek.hoarder.file.dvk.DvkHandler;
+import drakovek.hoarder.file.dvk.DvkLoader;
+import drakovek.hoarder.file.dvk.DvkLoadingMethods;
 import drakovek.hoarder.file.language.CommonValues;
-import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.DvkLanguageValues;
 import drakovek.hoarder.file.language.ViewerValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.ScreenDimensions;
@@ -41,12 +41,12 @@ import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.DWorker;
 
 /**
- * Creates the browser GUI for viewing DMF Media.
+ * Creates the browser GUI for viewing DVK Media.
  * 
  * @author Drakovek
  * @version 2.0
  */
-public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMethods
+public class ViewBrowserGUI extends FrameGUI implements DWorker, DvkLoadingMethods
 {
 	/**
 	 * Action for when pageText event occurs.
@@ -54,9 +54,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	private static final String PAGE_ACTION = "page"; //$NON-NLS-1$
 	
 	/**
-	 * DMF loader for loading, sorting, and filtering DMFs
+	 * DVK loader for loading, sorting, and filtering DVKs
 	 */
-	private DmfLoader loader;
+	private DvkLoader loader;
 	
 	/**
 	 * Main settings bar for the class.
@@ -69,27 +69,27 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	private DProgressDialog progressDialog;
 	
 	/**
-	 * GUI for filtering DMFs
+	 * GUI for filtering DVKs
 	 */
 	private FilterGUI filterGUI;
 	
 	/**
-	 * Panel within which to hold image previews and titles of DMF media.
+	 * Panel within which to hold image previews and titles of DVK media.
 	 */
 	private JPanel previewPanel;
 	
 	/**
-	 * Panels that each hold a preview for an individual DMF
+	 * Panels that each hold a preview for an individual DVK
 	 */
 	private JPanel[] previewPanels;
 	
 	/**
-	 * Array of buttons used to show previews of DMFs and open DMF media.
+	 * Array of buttons used to show previews of DVKs and open DVK media.
 	 */
 	private PreviewButton[] previewButtons;
 	
 	/**
-	 * Array of labels to show previews of DMFs
+	 * Array of labels to show previews of DVKs
 	 */
 	private DLabel[] previewLabels;
 	
@@ -119,17 +119,17 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	private DMenu filterMenu;
 	
 	/**
-	 * Button to show DMF media prior to the current page
+	 * Button to show DVK media prior to the current page
 	 */
 	private DButton previousButton;
 	
 	/**
-	 * Button to show DMF media after the current page
+	 * Button to show DVK media after the current page
 	 */
 	private DButton nextButton;
 	
 	/**
-	 * Text Field to set the current page/offset for the DMF media being shown
+	 * Text Field to set the current page/offset for the DVK media being shown
 	 */
 	private DTextField pageText;
 	
@@ -162,12 +162,12 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	 * Initializes the ViewBrowserGUI class.
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 */
-	public ViewBrowserGUI(DSettings settings, DmfHandler dmfHandler)
+	public ViewBrowserGUI(DSettings settings, DvkHandler dvkHandler)
 	{
-		super(settings, dmfHandler, ViewerValues.VIEWER_TITLE);
-		loader = new DmfLoader(this, this);
+		super(settings, dvkHandler, ViewerValues.VIEWER_TITLE);
+		loader = new DvkLoader(this, this);
 		filterGUI = new FilterGUI(this, loader);
 		progressDialog = new DProgressDialog(settings);
 		previewWidth = 0;
@@ -181,7 +181,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 		
 		//FILE MENU ITEMS
 		fileMenu = new DMenu(this, CommonValues.FILE);
-		fileMenu.add(new DMenuItem(this, ViewerValues.RELOAD_DMFS));
+		fileMenu.add(new DMenuItem(this, ViewerValues.RELOAD_DVKS));
 		fileMenu.add(new DMenuItem(this, ViewerValues.RELOAD_WITHOUT_INDEXES));
 		fileMenu.addSeparator();
 		fileMenu.add(new DMenuItem(this, CommonValues.RESTART_PROGRAM));
@@ -199,18 +199,12 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 		//SORT MENU ITEMS
 		sortMenu = new DMenu(this, ViewerValues.SORT);
 		ButtonGroup sortGroup = new ButtonGroup();
-		DRadioButtonMenuItem alphaSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_ALPHA, ViewerValues.SORT_ALPHA);
-		DRadioButtonMenuItem timeSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_TIME, ViewerValues.SORT_TIME);
-		DRadioButtonMenuItem ratingSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_RATING, ViewerValues.SORT_RATING);
-		DRadioButtonMenuItem viewSort = new DRadioButtonMenuItem(this, settings.getSortType() == DmfHandler.SORT_VIEWS, ViewerValues.SORT_VIEWS);
+		DRadioButtonMenuItem alphaSort = new DRadioButtonMenuItem(this, settings.getSortType() == DvkHandler.SORT_ALPHA, ViewerValues.SORT_ALPHA);
+		DRadioButtonMenuItem timeSort = new DRadioButtonMenuItem(this, settings.getSortType() == DvkHandler.SORT_TIME, ViewerValues.SORT_TIME);
 		sortGroup.add(alphaSort);
 		sortGroup.add(timeSort);
-		sortGroup.add(ratingSort);
-		sortGroup.add(viewSort);
 		sortMenu.add(alphaSort);
 		sortMenu.add(timeSort);
-		sortMenu.add(ratingSort);
-		sortMenu.add(viewSort);
 		sortMenu.addSeparator();
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupArtists(), ViewerValues.GROUP_ARTISTS));
 		sortMenu.add(new DCheckBoxMenuItem(this, settings.getGroupSequences(), ViewerValues.GROUP_SEQUENCES));
@@ -262,7 +256,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
 		
-		settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
+		settingsBar.setLabelLoaded(getDvkHandler().isLoaded());
 		loadDirectory(true);
 		
 	}//CONSTRUCTOR
@@ -394,33 +388,33 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	}//METHOD
 	
 	/**
-	 * Starts the process for loading DMFs from a directory.
+	 * Starts the process for loading DVKs from a directory.
 	 * 
-	 * @param useIndexSettings Whether to use the user's settings for reading DMF indexes. If false, DmfHanlder will load DMFs without using index files.
+	 * @param useIndexSettings Whether to use the user's settings for reading DVK indexes. If false, DvkHanlder will load DVKs without using index files.
 	 */
 	private void loadDirectory(final boolean useIndexSettings)
 	{
-		if(!getFrame().isProcessRunning() && (!useIndexSettings || !getDmfHandler().isLoaded()))
+		if(!getFrame().isProcessRunning() && (!useIndexSettings || !getDvkHandler().isLoaded()))
 		{
 			getFrame().setProcessRunning(true);
 			progressDialog.setCancelled(false);
-			progressDialog.startProgressDialog(getFrame(), DmfLanguageValues.LOADING_DMFS_TITLE);
+			progressDialog.startProgressDialog(getFrame(), DvkLanguageValues.LOADING_DVKS_TITLE);
 			
 			if(useIndexSettings)
 			{
-				loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
+				loader.loadDVKs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), getSettings().getUpdateIndexes());
 				
 			}//IF
 			else
 			{
-				loader.loadDMFs(false, getSettings().getUseIndexes(), false);
+				loader.loadDVKs(false, getSettings().getUseIndexes(), false);
 				
 			}//ELSE
 			
 		}//IF
 		else
 		{
-			loadingDMFsDone();
+			loadingDVKsDone();
 			
 		}//ELSE
 		
@@ -449,7 +443,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 		{
 			disableAll();
 			int total = previewWidth * previewHeight;
-			String text = ((offset / total) + 1) + Character.toString('/') + (int)Math.ceil((double)getDmfHandler().getFilteredSize() / (double)total);
+			String text = ((offset / total) + 1) + Character.toString('/') + (int)Math.ceil((double)getDvkHandler().getFilteredSize() / (double)total);
 			
 			if(offset % total != 0)
 			{
@@ -504,37 +498,19 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 			progressDialog.setProgressBar(false, true, total, i);
 			if(previewValues[i] != (offset + i))
 			{
-				if((offset + i) < getDmfHandler().getFilteredSize())
+				if((offset + i) < getDvkHandler().getFilteredSize())
 				{
 					previewValues[i] = offset + i;
 					
 					StringBuilder html = new StringBuilder();
 					html.append("<html>"); //$NON-NLS-1$
-					html.append(StringMethods.addHtmlEscapes(getDmfHandler().getTitleFiltered(offset + i)));
+					html.append(StringMethods.addHtmlEscapes(getDvkHandler().getTitleFiltered(offset + i)));
 					
 					if(getSettings().getShowArtists())
 					{
 						html.append("<br><i>"); //$NON-NLS-1$
-						html.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(getDmfHandler().getArtistsFiltered(offset + i))));
+						html.append(StringMethods.addHtmlEscapes(StringMethods.arrayToString(getDvkHandler().getArtistsFiltered(offset + i))));
 						html.append("</i>"); //$NON-NLS-1$
-						
-					}//IF
-					
-					if(getSettings().getShowViews())
-					{
-						html.append("<br><b>"); //$NON-NLS-1$
-						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.VIEWS)));
-						html.append("</b>&nbsp;"); //$NON-NLS-1$
-						html.append(Integer.toString(getDmfHandler().getViewsFiltered(offset + i)));
-						
-					}//IF
-					
-					if(getSettings().getShowRatings() && (getDmfHandler().getRatingFiltered(offset + i) > 0))
-					{
-						html.append("<br><b>"); //$NON-NLS-1$
-						html.append(StringMethods.addHtmlEscapes(getSettings().getLanguageText(ViewerValues.RATING)));
-						html.append("</b>&nbsp;"); //$NON-NLS-1$
-						html.append(StringMethods.addHtmlEscapes(StringMethods.extendCharacter('★', getDmfHandler().getRatingFiltered(offset + i))));
 						
 					}//IF
 					
@@ -542,7 +518,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 					
 					previewLabels[i].setText(html.toString());
 					
-					previewButtons[i].setImage(getDmfHandler().getMediaFileFiltered(offset + i), getDmfHandler().getSecondaryFileFiltered(offset + i),  progressDialog.isCancelled() || !getSettings().getUseThumbnails());
+					previewButtons[i].setImage(getDvkHandler().getMediaFileFiltered(offset + i), getDvkHandler().getSecondaryFileFiltered(offset + i),  progressDialog.isCancelled() || !getSettings().getUseThumbnails());
 					
 					if(progressDialog.isCancelled())
 					{
@@ -595,7 +571,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 			
 		}//ELSE
 		
-		if(newOffset < getDmfHandler().getFilteredSize())
+		if(newOffset < getDvkHandler().getFilteredSize())
 		{
 			offset = newOffset;
 			launchPreviewUpdate();
@@ -651,9 +627,9 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 			}//IF
 			
 			int total = previewWidth * previewHeight;
-			if(page > ((int)Math.ceil((double)getDmfHandler().getFilteredSize() / (double)total) - 1))
+			if(page > ((int)Math.ceil((double)getDvkHandler().getFilteredSize() / (double)total) - 1))
 			{
-				page = (int)Math.ceil((double)getDmfHandler().getFilteredSize() / (double)total) - 1;
+				page = (int)Math.ceil((double)getDvkHandler().getFilteredSize() / (double)total) - 1;
 				
 			}//IF
 			
@@ -666,10 +642,10 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 			//GET TITLE IF NOT NUMBER
 			if(text.length() > 0)
 			{
-				int size = getDmfHandler().getFilteredSize();
+				int size = getDvkHandler().getFilteredSize();
 				for(int i = 0; i < size; i++)
 				{
-					if(getDmfHandler().getTitleFiltered(i).toLowerCase().contains(text))
+					if(getDvkHandler().getTitleFiltered(i).toLowerCase().contains(text))
 					{
 						offset = i;
 						break;
@@ -703,7 +679,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 			
 		}//IF
 		
-		if((offset + (previewWidth * previewHeight)) < getDmfHandler().getFilteredSize())
+		if((offset + (previewWidth * previewHeight)) < getDvkHandler().getFilteredSize())
 		{
 			nextButton.setEnabled(true);
 			
@@ -716,7 +692,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 		sortMenu.setEnabled(true);
 		filterMenu.setEnabled(true);
 		
-		int size = getDmfHandler().getFilteredSize();
+		int size = getDvkHandler().getFilteredSize();
 		for(int i = 0; i < previewButtons.length; i++)
 		{
 			if((offset + i) < size)
@@ -750,7 +726,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	}//METHOD
 	
 	/**
-	 * Runs when one of the sorting radio buttons is pressed. Sets the appropriate sort type then starts sorting DMFs.
+	 * Runs when one of the sorting radio buttons is pressed. Sets the appropriate sort type then starts sorting DVKs.
 	 * 
 	 * @param sortType Sort Type
 	 * @param isSelected Whether the sort type was selected or deselected. If deselected, does nothing.
@@ -760,7 +736,7 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 		if(isSelected)
 		{
 			getSettings().setSortType(sortType);
-			loader.sortDMFsDefault();
+			loader.sortDVKsDefault();
 			
 		}//IF
 		
@@ -807,45 +783,39 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 				launchPreviewUpdate();
 				break;
 			case ViewerValues.SORT_ALPHA:
-				sortRadioPressed(DmfHandler.SORT_ALPHA, BooleanInt.getBoolean(value));
+				sortRadioPressed(DvkHandler.SORT_ALPHA, BooleanInt.getBoolean(value));
 				break;
 			case ViewerValues.SORT_TIME:
-				sortRadioPressed(DmfHandler.SORT_TIME, BooleanInt.getBoolean(value));
-				break;
-			case ViewerValues.SORT_RATING:
-				sortRadioPressed(DmfHandler.SORT_RATING, BooleanInt.getBoolean(value));
-				break;
-			case ViewerValues.SORT_VIEWS:
-				sortRadioPressed(DmfHandler.SORT_VIEWS, BooleanInt.getBoolean(value));
+				sortRadioPressed(DvkHandler.SORT_TIME, BooleanInt.getBoolean(value));
 				break;
 			case ViewerValues.GROUP_ARTISTS:
 				getSettings().setGroupArtists(BooleanInt.getBoolean(value));
-				loader.sortDMFsDefault();
+				loader.sortDVKsDefault();
 				break;
 			case ViewerValues.GROUP_SEQUENCES:
 				getSettings().setGroupSequences(BooleanInt.getBoolean(value));
-				loader.sortDMFsDefault();
+				loader.sortDVKsDefault();
 				break;
 			case ViewerValues.GROUP_SECTIONS:
 				getSettings().setGroupSections(BooleanInt.getBoolean(value));
 				if(!getSettings().getGroupSequences())
-					loader.sortDMFsDefault();
+					loader.sortDVKsDefault();
 				break;
 			case ViewerValues.REVERSE_ORDER:
 				getSettings().setReverseOrder(BooleanInt.getBoolean(value));
-				loader.sortDMFsDefault();
+				loader.sortDVKsDefault();
 				break;
 			case ViewerValues.FILTER_MEDIA:
 				filterGUI.showFilterGUI();
 				break;
-			case ViewerValues.RELOAD_DMFS:
+			case ViewerValues.RELOAD_DVKS:
 				loadDirectory(true);
 				break;
 			case ViewerValues.RELOAD_WITHOUT_INDEXES:
 				loadDirectory(false);
 				break;
 			case CommonValues.RESTART_PROGRAM:
-				Start.startGUI(getSettings(), getDmfHandler());
+				Start.startGUI(getSettings(), getDvkHandler());
 				dispose();
 				break;
 			case CommonValues.EXIT:
@@ -880,22 +850,22 @@ public class ViewBrowserGUI extends FrameGUI implements DWorker, DmfLoadingMetho
 	}//METHOD
 
 	@Override
-	public void loadingDMFsDone()
+	public void loadingDVKsDone()
 	{
-		settingsBar.setLabelLoaded(getDmfHandler().isLoaded());
-		loader.sortDMFsDefault();
+		settingsBar.setLabelLoaded(getDvkHandler().isLoaded());
+		loader.sortDVKsDefault();
 		
 	}//METHOD
 
 	@Override
-	public void sortingDMFsDone()
+	public void sortingDVKsDone()
 	{
-		loader.filterDMFs();
+		loader.filterDVKs();
 		
 	}//METHOD
 
 	@Override
-	public void filteringDMFsDone()
+	public void filteringDVKsDone()
 	{
 		offset = 0;
 		resetValues();

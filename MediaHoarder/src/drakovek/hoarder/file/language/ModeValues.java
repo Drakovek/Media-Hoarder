@@ -38,11 +38,6 @@ public class ModeValues
 	public static final String VIEW_MODE = "view_mode"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "DMF Sequencing" mode button
-	 */
-	public static final String SEQUENCE_MODE = "sequence_mode"; //$NON-NLS-1$
-	
-	/**
 	 * Language variable for the "Find Errors" mode button
 	 */
 	public static final String ERROR_MODE = "error_mode"; //$NON-NLS-1$
@@ -89,7 +84,6 @@ public class ModeValues
 		values.add(ParseINI.getAssignmentString(DOWNLOAD_MODE, "^Download")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(MANAGE_MODE, "^Manage")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(VIEW_MODE, "^View")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(SEQUENCE_MODE, "Se^quence DMFs")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ERROR_MODE, "^Find Errors")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(REFORMAT_MODE, "^Reformat")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DEVIANTART_MODE, "^DeviantArt")); //$NON-NLS-1$

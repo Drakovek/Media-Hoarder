@@ -54,7 +54,7 @@ public class DefaultLanguage
 			languageFile.add(new String());
 			languageFile.addAll(CompoundValues.getValues());
 			languageFile.add(new String());
-			languageFile.addAll(DmfLanguageValues.getValues());
+			languageFile.addAll(DvkLanguageValues.getValues());
 			languageFile.add(new String());
 			languageFile.addAll(ModeValues.getValues());
 			languageFile.add(new String());

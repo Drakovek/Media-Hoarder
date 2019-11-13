@@ -1,4 +1,4 @@
-package drakovek.hoarder.file.dmf;
+package drakovek.hoarder.file.dvk;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
-import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.DvkLanguageValues;
 import drakovek.hoarder.gui.swing.compound.DProgressDialog;
 import drakovek.hoarder.processing.ParseINI;
 
 /**
- * Contains methods for loading DmfDirectories from index files.
+ * Contains methods for loading DvkDirectories from index files.
  * 
  * @author Drakovek
  * @version 2.0
  */
-public class DmfIndexing
+public class DvkIndexing
 {
 	/**
-	 * Name of the folder that holds DMF Directory index files
+	 * Name of the folder that holds DVK Directory index files
 	 */
 	private static final String INDEX_FOLDER = "index"; //$NON-NLS-1$
 	
@@ -39,7 +39,7 @@ public class DmfIndexing
 	private static final String INDEX_HEADER = "[INDEX]"; //$NON-NLS-1$
 	
 	/**
-	 * Folder containing DMF Directory index files
+	 * Folder containing DVK Directory index files
 	 */
 	private File indexFolder;
 	
@@ -74,11 +74,11 @@ public class DmfIndexing
 	private ObjectInputStream objectInputStream;
 	
 	/**
-	 * Initializes the DmfIndexing class.
+	 * Initializes the DvkIndexing class.
 	 * 
 	 * @param settings Program settings
 	 */
-	public DmfIndexing()
+	public DvkIndexing()
 	{
 		indexFolder = DReader.getDirectory(new DSettings().getDataFolder(), INDEX_FOLDER);
 		indexListFile = null;
@@ -93,17 +93,17 @@ public class DmfIndexing
 	}//CONSTRUCTOR
 	
 	/**
-	 * Loads DMFs from a directory, either directly or from an index file as specified.
+	 * Loads DVKs from a directory, either directly or from an index file as specified.
 	 * 
-	 * @param directory Directory from which to load DMFs
-	 * @param progressDialog DProgress dialog to show progress of loading DMFs, used here to show when an index file is being loaded.
-	 * @param useIndex Whether to use index files to load DMF info rather than directly
-	 * @param updateIndex Whether to update index file to reflect changes in DMFs
-	 * @return DmfDirectory with DMFs loaded from given directory
+	 * @param directory Directory from which to load DVKs
+	 * @param progressDialog DProgress dialog to show progress of loading DVKs, used here to show when an index file is being loaded.
+	 * @param useIndex Whether to use index files to load DV info rather than directly
+	 * @param updateIndex Whether to update index file to reflect changes in DVKs
+	 * @return DvkDirectory with DVKs loaded from given directory
 	 */
-	public DmfDirectory loadDMFs(final File directory, DProgressDialog progressDialog, final boolean useIndex, final boolean updateIndex)
+	public DvkDirectory loadDVKs(final File directory, DProgressDialog progressDialog, final boolean useIndex, final boolean updateIndex)
 	{	
-		DmfDirectory dmfDirectory = new DmfDirectory();
+		DvkDirectory dvkDirectory = new DvkDirectory();
 		boolean directLoad = true;
 		File indexFile = null;
 		if(useIndex)
@@ -113,7 +113,7 @@ public class DmfIndexing
 			
 			if(indexFile.exists())
 			{
-				progressDialog.setProcessLabel(DmfLanguageValues.LOADING_INDEX);
+				progressDialog.setProcessLabel(DvkLanguageValues.LOADING_INDEX);
 				fileInputStream = null;
 				objectInputStream = null;
 				
@@ -121,7 +121,7 @@ public class DmfIndexing
 				{
 					fileInputStream = new FileInputStream(indexFile);
 					objectInputStream = new ObjectInputStream(fileInputStream);
-					dmfDirectory = (DmfDirectory) objectInputStream.readObject();
+					dvkDirectory = (DvkDirectory)objectInputStream.readObject();
 					
 					
 				}//TRY
@@ -138,7 +138,7 @@ public class DmfIndexing
 					
 				}//FINALLY
 			
-				directLoad = !dmfDirectory.isValid(directory);
+				directLoad = !dvkDirectory.isValid(directory);
 				
 			}//IF
 			
@@ -149,27 +149,27 @@ public class DmfIndexing
 		
 		if(directLoad)
 		{
-			dmfDirectory.loadDMFs(directory);
+			dvkDirectory.loadDVKs(directory);
 			
 		}//IF
 		else if(updateIndex && indexFile != null)
 		{
-			dmfDirectory.updateDirectory(indexFile.lastModified());
+			dvkDirectory.updateDirectory(indexFile.lastModified());
 			
 		}//ELSE IF
 		
-		return dmfDirectory;
+		return dvkDirectory;
 		
 	}//METHOD
 	
 	/**
-	 * Saves a DmfDirectory to an index file, either overwriting existing file or creating a new file.
+	 * Saves a DvkDirectory to an index file, either overwriting existing file or creating a new file.
 	 * 
-	 * @param dmfDirectory DmfDirectory to save
+	 * @param dvkDirectory DvkDirectory to save
 	 */
-	public void saveIndex(DmfDirectory dmfDirectory)
+	public void saveIndex(DvkDirectory dvkDirectory)
 	{
-		int index = indexedDirectories.indexOf(dmfDirectory.getDirectory().getAbsolutePath());
+		int index = indexedDirectories.indexOf(dvkDirectory.getDirectory().getAbsolutePath());
 		if(index == -1)
 		{
 			for(index = 0; index < indexedDirectories.size() && indexedDirectories.get(index) != null; index++);
@@ -181,7 +181,7 @@ public class DmfIndexing
 			
 		}//IF
 		
-		indexedDirectories.set(index, dmfDirectory.getDirectory().getAbsolutePath());
+		indexedDirectories.set(index, dvkDirectory.getDirectory().getAbsolutePath());
 		
 		File indexFile = new File(indexFolder, Integer.toString(index));
 		if(indexFile.exists())
@@ -197,7 +197,7 @@ public class DmfIndexing
 		{
 			fileOutputStream = new FileOutputStream(indexFile);
 			objectOutputStream = new ObjectOutputStream(fileOutputStream);
-			objectOutputStream.writeObject(dmfDirectory);
+			objectOutputStream.writeObject(dvkDirectory);
 			
 		}
 		catch(IOException e){}

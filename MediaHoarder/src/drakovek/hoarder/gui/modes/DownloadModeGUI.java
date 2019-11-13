@@ -38,15 +38,15 @@ public class DownloadModeGUI extends ModeBaseGUI
 		switch(id)
 		{
 			case ModeValues.DEVIANTART_MODE:
-				new DeviantArtGUI(getSettings(), getParentGUI().getDmfHandler());
+				new DeviantArtGUI(getSettings(), getParentGUI().getDvkHandler());
 				getParentGUI().dispose();
 				break;
 			case ModeValues.FUR_AFFINITY_MODE:
-				new FurAffinityGUI(getSettings(), getParentGUI().getDmfHandler());
+				new FurAffinityGUI(getSettings(), getParentGUI().getDvkHandler());
 				getParentGUI().dispose();
 				break;
 			case ModeValues.INKBUNNY_MODE:
-				new InkBunnyGUI(getSettings(), getParentGUI().getDmfHandler());
+				new InkBunnyGUI(getSettings(), getParentGUI().getDvkHandler());
 				getParentGUI().dispose();
 				break;
 			case ModeValues.TRANSFUR_MODE:

@@ -33,12 +33,12 @@ public class ViewerValues
 	public static final String OFFSET = "offset"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Reload DMFs" menu item in the viewer GUI
+	 * Language variable for the "Reload DVKs" menu item in the viewer GUI
 	 */
-	public static final String RELOAD_DMFS = "reload_dmfs"; //$NON-NLS-1$
+	public static final String RELOAD_DVKS = "reload_dvks"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Reload DMFs Without Indexes" menu item in the viewer GUI
+	 * Language variable for the "Reload DVKs Without Indexes" menu item in the viewer GUI
 	 */
 	public static final String RELOAD_WITHOUT_INDEXES = "reload_without_indexes"; //$NON-NLS-1$
 	
@@ -103,7 +103,7 @@ public class ViewerValues
 	public static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the check box menu item in the viewer GUI for reversing the DMF sorting order
+	 * Language variable for the check box menu item in the viewer GUI for reversing the DVK sorting order
 	 */
 	public static final String REVERSE_ORDER = "reverse_order"; //$NON-NLS-1$
 	
@@ -128,24 +128,24 @@ public class ViewerValues
 	public static final String LOADING_PREVIEWS = "loading_previews"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the view GUI's DMF sorting process title
+	 * Language variable for the view GUI's DVK sorting process title
 	 */
-	public static final String SORTING_DMFS_TITLE = "sorting_dmfs_title"; //$NON-NLS-1$
+	public static final String SORTING_DVKS_TITLE = "sorting_dvks_title"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the view GUI's DMF sorting process label
+	 * Language variable for the view GUI's DVK sorting process label
 	 */
-	public static final String SORTING_DMFS = "sorting_dmfs"; //$NON-NLS-1$
+	public static final String SORTING_DVKS = "sorting_dvks"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the view GUI's DMF filtering process title
+	 * Language variable for the view GUI's DVK filtering process title
 	 */
-	public static final String FILTERING_DMFS_TITLE = "filtering_dmfs_title"; //$NON-NLS-1$
+	public static final String FILTERING_DVKS_TITLE = "filtering_dvks_title"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the view GUI's DMF filtering process label
+	 * Language variable for the view GUI's DVK filtering process label
 	 */
-	public static final String FILTERING_DMFS = "filtering_dmfs"; //$NON-NLS-1$
+	public static final String FILTERING_DVKS = "filtering_dvks"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button used to show available sequence branches.
@@ -153,27 +153,27 @@ public class ViewerValues
 	public static final String BRANCHES = "branches"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "views" label in the viewer GUI's DMF info pane
+	 * Language variable for the "views" label in the viewer GUI's DVK info pane
 	 */
 	public static final String VIEWS = "views"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "rating" label in the viewer GUI's DMF info pane
+	 * Language variable for the "rating" label in the viewer GUI's DVK info pane
 	 */
 	public static final String RATING = "rating"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the date label in the viewer GUI's DMF info pane
+	 * Language variable for the date label in the viewer GUI's DVK info pane
 	 */
 	public static final String DATE = "date"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the time label in the viewer GUI's DMF info pane
+	 * Language variable for the time label in the viewer GUI's DVK info pane
 	 */
 	public static final String TIME = "time"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the links in the viewer GUI's DMF info pane
+	 * Language variable for the links in the viewer GUI's DVK info pane
 	 */
 	public static final String LINK = "link"; //$NON-NLS-1$
 	
@@ -283,9 +283,9 @@ public class ViewerValues
 	public static final String OPEN_SECONDARY_FILE = "open_secondary_file"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the "Open DMF" menu item in the viewer GUI
+	 * Language variable for the "Open DVK" menu item in the viewer GUI
 	 */
-	public static final String OPEN_DMF = "open_dmf"; //$NON-NLS-1$
+	public static final String OPEN_DVK = "open_dvk"; //$NON-NLS-1$
 	
 	/**
 	 * Returns an ArrayList of .ini formatted language values.
@@ -303,8 +303,8 @@ public class ViewerValues
 		values.add(ParseINI.getAssignmentString(PREVIOUS, "< ^Previous")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(NEXT, "^Next >")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(OFFSET, " - OFF: ")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(RELOAD_DMFS, "^Reload DMFs")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(RELOAD_WITHOUT_INDEXES, "Reload DMFs ^Without Indexes")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(RELOAD_DVKS, "^Reload DVKs")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(RELOAD_WITHOUT_INDEXES, "Reload DVKs ^Without Indexes")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(USE_THUMBNAILS, "^Use Thumbnails")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(SHOW_ARTISTS, "Show ^Artists")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(SHOW_RATINGS, "Show ^Ratings")); //$NON-NLS-1$
@@ -322,10 +322,10 @@ public class ViewerValues
 		values.add(ParseINI.getAssignmentString(FILTER_MEDIA, "Filter ^Media")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(LOADING_PREVIEWS_TITLE, "Loading Previews")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(LOADING_PREVIEWS, "Loading Previews:")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(SORTING_DMFS_TITLE, "Sorting DMFs")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(SORTING_DMFS, "Sorting DMFs:")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(FILTERING_DMFS_TITLE, "Filtering DMFs")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(FILTERING_DMFS, "Filtering DMFs:")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(SORTING_DVKS_TITLE, "Sorting DVKs")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(SORTING_DVKS, "Sorting DVKs:")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(FILTERING_DVKS_TITLE, "Filtering DVKs")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(FILTERING_DVKS, "Filtering DVKs:")); //$NON-NLS-1$
 		
 		//VIEWER
 		values.add(new String());
@@ -351,7 +351,7 @@ public class ViewerValues
 		values.add(ParseINI.getAssignmentString(DIRECT_SCALE_TITLE, "Set Scale Amount")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DIRECT_SCALE_MESSAGE, "Enter direct scale amount:")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DETAILS, "^Details")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(NO_DETAILS, "^No DMF Details")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(NO_DETAILS, "^No DVK Details")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(TOP_DETAILS, "Details on ^Top")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(BOTTOM_DETAILS, "Details on ^Bottom")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(LEFT_DETAILS, "Details on ^Left Side")); //$NON-NLS-1$
@@ -359,7 +359,7 @@ public class ViewerValues
 		values.add(ParseINI.getAssignmentString(FULLSCREEN, "^Fullscreen")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(OPEN_MEDIA_FILE, "Open ^Media File")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(OPEN_SECONDARY_FILE, "Open ^Secondary File")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(OPEN_DMF, "Open ^DMF")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(OPEN_DVK, "Open ^DVK")); //$NON-NLS-1$
 		
 		return values;
 		

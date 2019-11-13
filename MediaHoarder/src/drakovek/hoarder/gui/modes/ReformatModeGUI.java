@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 import drakovek.hoarder.file.DReader;
 import drakovek.hoarder.file.DWriter;
-import drakovek.hoarder.file.dmf.DMF;
-import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.dmf.DmfLoader;
-import drakovek.hoarder.file.dmf.DmfLoadingMethods;
+import drakovek.hoarder.file.dvk.DVK;
+import drakovek.hoarder.file.dvk.DvkHandler;
+import drakovek.hoarder.file.dvk.DvkLoader;
+import drakovek.hoarder.file.dvk.DvkLoadingMethods;
 import drakovek.hoarder.file.language.ArtistValues;
 import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.file.language.ManagingValues;
@@ -22,12 +22,12 @@ import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.DWorker;
 
 /**
- * GUI for running processes related to reformatting DMFs.
+ * GUI for running processes related to reformatting DVKs.
  * 
  * @author Drakovek
  * @version 2.0
  */
-public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingMethods
+public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DvkLoadingMethods
 {
 	
 	/**
@@ -51,7 +51,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 		progressInfoDialog = new DProgressInfoDialog(getSettings());
 		
 		String[] backIDs = {ModeValues.MODE_BACK, ModeValues.MODE_START, ModeValues.MANAGE_MODE};
-		String[] modeIDs = {ManagingValues.REFORMAT_DMFS,
+		String[] modeIDs = {ManagingValues.REFORMAT_DVKS,
 							ManagingValues.RENAME_FILES,
 							ManagingValues.DELETE_SEQUENCES,
 							ManagingValues.REFORMAT_HTMLS};
@@ -61,7 +61,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 	}//CONSTRUCTOR
 	
 	/**
-	 * Starts reformatting process by asking if the user wants to continue and loading DMFs.
+	 * Starts reformatting process by asking if the user wants to continue and loading DVKs.
 	 */
 	private void startProcess()
 	{
@@ -69,7 +69,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 		String[] messageIDs = new String[2];
 		switch(mode)
 		{
-			case ManagingValues.REFORMAT_DMFS:
+			case ManagingValues.REFORMAT_DVKS:
 				run = false;
 				messageIDs[0] = ManagingValues.REFORMAT_MESSAGE;
 				messageIDs[1] = CommonValues.CONTINUE_MESSAGE;
@@ -99,15 +99,15 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 		if(run)
 		{
 			
-			if(!getParentGUI().getDmfHandler().isLoaded())
+			if(!getParentGUI().getDvkHandler().isLoaded())
 			{
-				DmfLoader loader = new DmfLoader(this, getParentGUI());
-				loader.loadDMFs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
+				DvkLoader loader = new DvkLoader(this, getParentGUI());
+				loader.loadDVKs(getSettings().getUseIndexes(), getSettings().getUseIndexes(), true);
 			
 			}//IF
 			else
 			{
-				loadingDMFsDone();
+				loadingDVKsDone();
 				
 			}//ELSE
 			
@@ -116,19 +116,19 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 	}//METHOD
 	
 	/**
-	 * Reformats DMFs to fit the current format for DMF files.
+	 * Reformats DVKs to fit the current format for DVK files.
 	 */
-	private void reformatDMFs()
+	private void reformatDVKs()
 	{
-		int size = getParentGUI().getDmfHandler().getDirectSize();
-		progressInfoDialog.setProcessLabel(ManagingValues.REFORMAT_DMFS);
+		int size = getParentGUI().getDvkHandler().getDirectSize();
+		progressInfoDialog.setProcessLabel(ManagingValues.REFORMAT_DVKS);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
 		String artist = new String();
 		
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtistsDirect(i)[0];
+			String artistCheck = getParentGUI().getDvkHandler().getArtistsDirect(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
 			{
 				artist = artistCheck;
@@ -138,20 +138,20 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 				
 			}//IF
 			
-			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFileDirect(i));
-			dmf.writeDMF();
-			getParentGUI().getDmfHandler().setDmfDirect(dmf, i);
+			DVK dvk = new DVK(getParentGUI().getDvkHandler().getDvkFileDirect(i));
+			dvk.writeDVK();
+			getParentGUI().getDvkHandler().setDvkDirect(dvk, i);
 			
 		}//FOR
 		
 	}//METHOD
 	
 	/**
-	 * Reformats HTML files referenced by DMFs by adding HTML escape characters.
+	 * Reformats HTML files referenced by DVKs by adding HTML escape characters.
 	 */
 	private void reformatHTMLs()
 	{
-		int size = getParentGUI().getDmfHandler().getDirectSize();
+		int size = getParentGUI().getDvkHandler().getDirectSize();
 		progressInfoDialog.setProcessLabel(ManagingValues.REFORMAT_HTMLS);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
@@ -159,7 +159,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 		
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtistsDirect(i)[0];
+			String artistCheck = getParentGUI().getDvkHandler().getArtistsDirect(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
 			{
 				artist = artistCheck;
@@ -169,7 +169,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 				
 			}//IF
 			
-			File mediaFile = getParentGUI().getDmfHandler().getMediaFileDirect(i);
+			File mediaFile = getParentGUI().getDvkHandler().getMediaFileDirect(i);
 			String extension = ExtensionMethods.getExtension(mediaFile);
 			if(extension.equals(".html") || extension.equals(".htm")) //$NON-NLS-1$ //$NON-NLS-2$
 			{
@@ -183,19 +183,19 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 				DWriter.writeToFile(mediaFile, html);
 				
 			}//IF
-			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFileDirect(i));
-			dmf.writeDMF();
+			DVK dvk = new DVK(getParentGUI().getDvkHandler().getDvkFileDirect(i));
+			dvk.writeDVK();
 			
 		}//FOR
 		
 	}//METHOD
 	
 	/**
-	 * Deletes all DMF sequence data.
+	 * Deletes all DVK sequence data.
 	 */
 	private void deleteSequences()
 	{
-		int size = getParentGUI().getDmfHandler().getDirectSize();
+		int size = getParentGUI().getDvkHandler().getDirectSize();
 		progressInfoDialog.setProcessLabel(ManagingValues.DELETE_SEQUENCES);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
@@ -203,7 +203,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 		
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtistsDirect(i)[0];
+			String artistCheck = getParentGUI().getDvkHandler().getArtistsDirect(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
 			{
 				artist = artistCheck;
@@ -213,25 +213,19 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 				
 			}//IF
 			
-			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFileDirect(i));
-			dmf.setNextID(null);
-			dmf.setLastID(null);
-			dmf.setFirst(false);
-			dmf.setLast(false);
-			dmf.setSequenceTitle(null);
-			dmf.setSectionTitle(null);
-			dmf.writeDMF();
+			DVK dvk = new DVK(getParentGUI().getDvkHandler().getDvkFileDirect(i));
+			dvk.writeDVK();
 			
 		}//FOR
 		
 	}//METHOD
 	
 	/**
-	 * Renames files to fit DMF titles
+	 * Renames files to fit DVK titles
 	 */
 	private void renameFiles()
 	{	
-		int size = getParentGUI().getDmfHandler().getDirectSize();
+		int size = getParentGUI().getDvkHandler().getDirectSize();
 		progressInfoDialog.setProcessLabel(ManagingValues.RENAME_FILES);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
@@ -239,7 +233,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 		
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtistsDirect(i)[0];
+			String artistCheck = getParentGUI().getDvkHandler().getArtistsDirect(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
 			{
 				artist = artistCheck;
@@ -249,9 +243,9 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 				
 			}//IF
 			
-			DMF dmf = new DMF(getParentGUI().getDmfHandler().getDmfFileDirect(i));
-			dmf.rename(dmf.getDefaultFileName(), null, null);
-			getParentGUI().getDmfHandler().setDmfDirect(dmf, i);
+			DVK dvk = new DVK(getParentGUI().getDvkHandler().getDvkFileDirect(i));
+			dvk.rename(dvk.getDefaultFileName(), null, null);
+			getParentGUI().getDvkHandler().setDvkDirect(dvk, i);
 			
 		}//FOR
 		
@@ -263,7 +257,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 	private void infoProcessFinished()
 	{
 		progressInfoDialog.setCancelled(false);
-		progressInfoDialog.showFinalLog(getParentGUI().getFrame(), getTitle(mode), getSettings().getDmfDirectories().get(0));
+		progressInfoDialog.showFinalLog(getParentGUI().getFrame(), getTitle(mode), getSettings().getDvkDirectories().get(0));
 		getParentGUI().getFrame().setProcessRunning(false);
 		
 	}//METHOD
@@ -295,8 +289,8 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 	{
 		switch(id)
 		{
-			case ManagingValues.REFORMAT_DMFS:
-				reformatDMFs();
+			case ManagingValues.REFORMAT_DVKS:
+				reformatDVKs();
 				break;
 			case ManagingValues.RENAME_FILES:
 				renameFiles();
@@ -320,17 +314,17 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 	}//METHOD
 
 	@Override
-	public void loadingDMFsDone()
+	public void loadingDVKsDone()
 	{
-		DmfLoader loader = new DmfLoader(this, getParentGUI());
-		loader.sortDMFs(DmfHandler.SORT_ALPHA, true, false, false, false);
+		DvkLoader loader = new DvkLoader(this, getParentGUI());
+		loader.sortDVKs(DvkHandler.SORT_ALPHA, true, false);
 		
 	}//METHOD
 
 	@Override
-	public void sortingDMFsDone()
+	public void sortingDVKsDone()
 	{
-		if(getParentGUI().getDmfHandler().isLoaded())
+		if(getParentGUI().getDvkHandler().isLoaded())
 		{
 			progressInfoDialog.setCancelled(false);
 			getParentGUI().getFrame().setProcessRunning(true);
@@ -342,7 +336,7 @@ public class ReformatModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingM
 	}//METHOD
 
 	@Override
-	public void filteringDMFsDone() {}
+	public void filteringDVKsDone() {}
 	
 }//CLASS
 

@@ -3,7 +3,7 @@ package drakovek.hoarder.gui.modes;
 import java.awt.BorderLayout;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dvk.DvkHandler;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.settings.SettingsBarGUI;
 
@@ -29,14 +29,14 @@ public class ModeContainerGUI extends FrameGUI
 	 * Initializes the ModeContainerGUI Class.
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 */
-	public ModeContainerGUI(DSettings settings, DmfHandler dmfHandler)
+	public ModeContainerGUI(DSettings settings, DvkHandler dvkHandler)
 	{
-		super(settings, dmfHandler, null);
+		super(settings, dvkHandler, null);
 
 		settingsBar = new SettingsBarGUI(this);
-		settingsBar.setLabelLoaded(dmfHandler.isLoaded());
+		settingsBar.setLabelLoaded(dvkHandler.isLoaded());
 		modeBaseGUI = new ModesGUI(this);
 		getFrame().getContentPane().add(modeBaseGUI.getContentPanel(), BorderLayout.CENTER);
 		getFrame().getContentPane().add(settingsBar.getPanel(), BorderLayout.SOUTH);

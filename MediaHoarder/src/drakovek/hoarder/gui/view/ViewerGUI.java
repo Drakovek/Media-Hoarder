@@ -21,9 +21,9 @@ import drakovek.hoarder.media.MediaViewer;
 public class ViewerGUI extends FrameGUI
 {
 	/**
-	 * Index of the currently shown DMF
+	 * Index of the currently shown DVK
 	 */
-	private int dmfIndex;
+	private int dvkIndex;
 	
 	/**
 	 * ViewBrowserGUI Parent
@@ -36,12 +36,12 @@ public class ViewerGUI extends FrameGUI
 	private MediaViewer mediaViewer;
 	
 	/**
-	 * Button for displaying the previous DMF
+	 * Button for displaying the previous DVK
 	 */
 	private DButton previousButton;
 	
 	/**
-	 * Button for displaying the next DMF
+	 * Button for displaying the next DVK
 	 */
 	private DButton nextButton;
 	
@@ -54,16 +54,16 @@ public class ViewerGUI extends FrameGUI
 	 * Initializes the GUI for the MediaFrameGUI class.
 	 * 
 	 * @param settings Program's Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 * @param ownerGUI ViewBrowserGUI Parent
-	 * @param dmfIndex Index of DMF to show when GUI opens
+	 * @param dvkIndex Index of DVK to show when GUI opens
 	 * @param updateViews Whether the program should attempt to add a view to the currently shown media after viewing
 	 */
-	public ViewerGUI(ViewBrowserGUI ownerGUI, final int dmfIndex, final boolean updateViews)
+	public ViewerGUI(ViewBrowserGUI ownerGUI, final int dvkIndex, final boolean updateViews)
 	{
-		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), ViewerValues.VIEWER_TITLE);
+		super(ownerGUI.getSettings(), ownerGUI.getDvkHandler(), ViewerValues.VIEWER_TITLE);
 		this.ownerGUI = ownerGUI;
-		this.dmfIndex = dmfIndex;
+		this.dvkIndex = dvkIndex;
 		
 		//CREATE BOTTOM PANEL
 		JPanel bottomPanel = new JPanel();
@@ -76,7 +76,7 @@ public class ViewerGUI extends FrameGUI
 		bottomPanel.add(nextButton);
 		
 		//CREATE MENU BAR
-		mediaViewer = new MediaViewer(this, nextButton, updateViews);
+		mediaViewer = new MediaViewer(this, nextButton);
 		JMenuBar menubar = new JMenuBar();
 		menubar.add(mediaViewer.getScaleMenu());
 		menubar.add(mediaViewer.getDetailMenu());
@@ -110,28 +110,28 @@ public class ViewerGUI extends FrameGUI
 		getFrame().setLocationRelativeTo(ownerGUI.getFrame());
 		getFrame().setVisible(true);
 		
-		mediaViewer.setMedia(dmfIndex, true);
+		mediaViewer.setMedia(dvkIndex, true);
 		
 	}//CONSTRUCTOR
 	
 	/**
-	 * Updates the displayed media to reflect the current DMF index, if valid.
+	 * Updates the displayed media to reflect the current DVK index, if valid.
 	 */
 	private void updateMedia()
 	{
-		if(dmfIndex < 0)
+		if(dvkIndex < 0)
 		{
-			dmfIndex = 0;
+			dvkIndex = 0;
 			
 		}//IF
-		else if(dmfIndex >= getDmfHandler().getFilteredSize())
+		else if(dvkIndex >= getDvkHandler().getFilteredSize())
 		{
-			dmfIndex = getDmfHandler().getFilteredSize() - 1;
+			dvkIndex = getDvkHandler().getFilteredSize() - 1;
 			
 		}//ELSE IF
 		else
 		{
-			mediaViewer.setMedia(dmfIndex, true);
+			mediaViewer.setMedia(dvkIndex, true);
 		
 		}//ELSE
 		
@@ -140,22 +140,16 @@ public class ViewerGUI extends FrameGUI
 	@Override
 	public void enableAll()
 	{	
-		if(dmfIndex > 0)
+		if(dvkIndex > 0)
 		{
 			previousButton.setEnabled(true);
 		
 		}//IF
 		
-		if(dmfIndex < (getDmfHandler().getFilteredSize() - 1))
+		if(dvkIndex < (getDvkHandler().getFilteredSize() - 1))
 		{
 			nextButton.setEnabled(true);
 		
-		}//IF
-		
-		if(getDmfHandler().getNextIDsFiltered(dmfIndex).length > 1)
-		{
-			branchButton.setEnabled(true);
-			
 		}//IF
 		
 		mediaViewer.getScaleMenu().setEnabled(true);
@@ -182,17 +176,16 @@ public class ViewerGUI extends FrameGUI
 		switch(id)
 		{
 			case DCloseListener.FRAME_CLOSE_EVENT:
-				mediaViewer.incrementViews();
 				ownerGUI.getFrame().setAllowExit(true);
-				ownerGUI.setOffset(dmfIndex);
+				ownerGUI.setOffset(dvkIndex);
 				dispose();
 				break;
 			case ViewerValues.PREVIOUS:
-				dmfIndex--;
+				dvkIndex--;
 				updateMedia();
 				break;
 			case ViewerValues.NEXT:
-				dmfIndex++;
+				dvkIndex++;
 				updateMedia();
 				break;
 				

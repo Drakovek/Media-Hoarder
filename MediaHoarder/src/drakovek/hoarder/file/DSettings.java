@@ -31,19 +31,19 @@ public class DSettings
 	private static final String LANGUAGE_NAME = "language_name"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for whether to use DMF indexes.
+	 * INI variable for whether to use DVK indexes.
 	 */
 	private static final String USE_INDEXES = "use_indexes"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for whether to update DMF indexes when they are loaded.
+	 * INI variable for whether to update DVK indexes when they are loaded.
 	 */
 	private static final String UPDATE_INDEXES = "update_indexes"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for user's DMF directories
+	 * INI variable for user's DVK directories
 	 */
-	private static final String DMF_DIRECTORY = "dmf_directory"; //$NON-NLS-1$
+	private static final String DVK_DIRECTORY = "dvk_directory"; //$NON-NLS-1$
 	
 	/**
 	 * INI Variable for the space multiplier.
@@ -121,7 +121,7 @@ public class DSettings
 	private static final String INKBUNY_DIRECTORY = "inkbunny_directory"; //$NON-NLS-1$
 	
 	/**
-	 * INI Variable for the size of DMF preview thumbnails.
+	 * INI Variable for the size of DVK preview thumbnails.
 	 */
 	private static final String PREVIEW_SIZE = "preview_size"; //$NON-NLS-1$
 	
@@ -166,7 +166,7 @@ public class DSettings
 	private static final String GROUP_SECTIONS = "group_sections"; //$NON-NLS-1$
 	
 	/**
-	 * INI variable for whether to reverse the order of sorted DMFs
+	 * INI variable for whether to reverse the order of sorted DVKs
 	 */
 	private static final String REVERSE_ORDER = "reverse_order"; //$NON-NLS-1$
 	
@@ -203,19 +203,19 @@ public class DSettings
 	private String languageName;
 	
 	/**
-	 * Whether the user prefers to use index files to load DMF directories.
+	 * Whether the user prefers to use index files to load DVK directories.
 	 */
 	private boolean useIndexes;
 	
 	/**
-	 * Whether the user prefers to update indexes when using index files to load DMF directories.
+	 * Whether the user prefers to update indexes when using index files to load DVK directories.
 	 */
 	private boolean updateIndexes;
 	
 	/**
-	 * ArrayList containing the user's selected directories for storing and loading DMFs
+	 * ArrayList containing the user's selected directories for storing and loading DVKs
 	 */
-	private ArrayList<File> dmfDirectories;
+	private ArrayList<File> dvkDirectories;
 	
 	/**
 	 * Multiplied by fontSize to get the default space between Swing components.
@@ -278,17 +278,17 @@ public class DSettings
 	private boolean saveJournals;
 	
 	/**
-	 * Directory to save DMFs to when downloading from DeviantArt
+	 * Directory to save DVKs to when downloading from DeviantArt
 	 */
 	private File deviantArtDirectory;
 	
 	/**
-	 * Directory to save DMFs to when downloading from FurAffinity
+	 * Directory to save DVKs to when downloading from FurAffinity
 	 */
 	private File furAffinityDirectory;
 	
 	/**
-	 * Directory to save DMFs to when downloading from Inkbunny
+	 * Directory to save DVKs to when downloading from Inkbunny
 	 */
 	private File inkbunnyDirectory;
 	
@@ -308,7 +308,7 @@ public class DSettings
 	private double scaleAmount;
 	
 	/**
-	 * Location of DMF details in the viewer GUI
+	 * Location of DVK details in the viewer GUI
 	 */
 	private int detailLocation;
 	
@@ -338,22 +338,22 @@ public class DSettings
 	private int sortType;
 	
 	/**
-	 * Whether to group artists when sorting DMFs
+	 * Whether to group artists when sorting DVKs
 	 */
 	private boolean groupArtists;
 	
 	/**
-	 * Whether to group sequences when sorting DMFs
+	 * Whether to group sequences when sorting DVKs
 	 */
 	private boolean groupSequences;
 	
 	/**
-	 * Whether to group sections when sorting DMFs
+	 * Whether to group sections when sorting DVKs
 	 */
 	private boolean groupSections;
 	
 	/**
-	 * Whether to reverse the order of sorted DMFs
+	 * Whether to reverse the order of sorted DVKs
 	 */
 	private boolean reverseOrder;
 	
@@ -402,10 +402,10 @@ public class DSettings
 		//GENERAL
 		languageName = new String();
 		
-		//DMF
+		//DVK
 		useIndexes = true;
 		updateIndexes = true;
-		dmfDirectories = new ArrayList<>();
+		dvkDirectories = new ArrayList<>();
 		
 		//SWING
 		spaceMultiplier = 0.5;
@@ -461,8 +461,8 @@ public class DSettings
 			//GENERAL
 			languageName = ParseINI.getStringValue(null, LANGUAGE_NAME, settingsInfo, languageName);
 			
-			//DMF
-			dmfDirectories = ParseINI.getFileValues(null, DMF_DIRECTORY, settingsInfo, new ArrayList<File>());
+			//DVK
+			dvkDirectories = ParseINI.getFileValues(null, DVK_DIRECTORY, settingsInfo, new ArrayList<File>());
 			useIndexes = ParseINI.getBooleanValue(null, USE_INDEXES, settingsInfo, useIndexes);
 			updateIndexes = ParseINI.getBooleanValue(null, UPDATE_INDEXES, settingsInfo, updateIndexes);
 			
@@ -536,12 +536,12 @@ public class DSettings
 		settingsInfo.add(ParseINI.getAssignmentString(CLOCK_FORMAT, clockFormat));
 		settingsInfo.add(ParseINI.getAssignmentString(DATE_FORMAT, dateFormat));
 		
-		//DMF
+		//DVK
 		settingsInfo.add(new String());
-		settingsInfo.add("[DMF]"); //$NON-NLS-1$
-		for(File dmfDirectory: dmfDirectories)
+		settingsInfo.add("[DVK]"); //$NON-NLS-1$
+		for(File dvkDirectory: dvkDirectories)
 		{
-			settingsInfo.add(ParseINI.getAssignmentString(DMF_DIRECTORY, dmfDirectory));
+			settingsInfo.add(ParseINI.getAssignmentString(DVK_DIRECTORY, dvkDirectory));
 			
 		}//FOR
 		settingsInfo.add(ParseINI.getAssignmentString(USE_INDEXES, useIndexes));
@@ -697,25 +697,25 @@ public class DSettings
 	}//METHOD
 	
 	/**
-	 * Sets the DMF directories.
+	 * Sets the DVK directories.
 	 * 
-	 * @param dmfDirectories DMF Directories
+	 * @param dvkDirectories DVK Directories
 	 */
-	public void setDmfDirectories(final ArrayList<File> dmfDirectories)
+	public void setDvkDirectories(final ArrayList<File> dvkDirectories)
 	{
-		this.dmfDirectories = dmfDirectories;
+		this.dvkDirectories = dvkDirectories;
 		
 	}//METHOD
 	
 	/**
-	 * Returns list of DMF Directories.
+	 * Returns list of DVK Directories.
 	 * 
-	 * @return DMF Directories
+	 * @return DVK Directories
 	 */
-	public ArrayList<File> getDmfDirectories()
+	public ArrayList<File> getDvkDirectories()
 	{
 		ArrayList<File> files = new ArrayList<>();
-		files.addAll(dmfDirectories);
+		files.addAll(dvkDirectories);
 		return files;
 		
 	}//METHOD
@@ -1073,9 +1073,9 @@ public class DSettings
 	}//METHOD
 	
 	/**
-	 * Sets the location of DMF details.
+	 * Sets the location of DVK details.
 	 * 
-	 * @param detailLocation Location of DMF Details
+	 * @param detailLocation Location of DVK Details
 	 */
 	public void setDetailLocation(final int detailLocation)
 	{
@@ -1084,9 +1084,9 @@ public class DSettings
 	}//METHOD
 	
 	/**
-	 * Returns the location of DMF details.
+	 * Returns the location of DVK details.
 	 * 
-	 * @return Location of DMF Details
+	 * @return Location of DVK Details
 	 */
 	public int getDetailLocation()
 	{
@@ -1205,7 +1205,7 @@ public class DSettings
 	}//METHOD
 	
 	/**
-	 * Sets whether to reverse DMF sorting order.
+	 * Sets whether to reverse DVK sorting order.
 	 * 
 	 * @param reverseOrder Whether to reverse sorting order
 	 */
@@ -1216,7 +1216,7 @@ public class DSettings
 	}//METHOD
 	
 	/**
-	 * Returns whether to reverse DMF sorting order.
+	 * Returns whether to reverse DVK sorting order.
 	 * 
 	 * @return Whether to reverse sorting order
 	 */

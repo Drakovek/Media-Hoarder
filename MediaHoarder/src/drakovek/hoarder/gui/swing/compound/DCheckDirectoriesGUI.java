@@ -4,12 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 import drakovek.hoarder.file.DSettings;
-import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dvk.DvkHandler;
 import drakovek.hoarder.file.language.CommonValues;
 import drakovek.hoarder.gui.swing.components.DFrame;
 
 /**
- * Class that checks if a given directory is included in the specified DMF directories, and if not, asks the user if it should be added.
+ * Class that checks if a given directory is included in the specified DVK directories, and if not, asks the user if it should be added.
  * 
  * @author Drakovek
  * @version 2.0
@@ -20,11 +20,11 @@ public class DCheckDirectoriesGUI
 	 * Initializes the DCheckDirectoriesGUI
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 * @param frame Frame to parent button dialog to, if necessary
-	 * @param file Given directory to check if it is included in the DMF directories list
+	 * @param file Given directory to check if it is included in the DVK directories list
 	 */
-	public DCheckDirectoriesGUI(DSettings settings, DmfHandler dmfHandler, DFrame frame, final File file)
+	public DCheckDirectoriesGUI(DSettings settings, DvkHandler dvkHandler, DFrame frame, final File file)
 	{
 		if(!isDirectoryListed(settings, file))
 		{
@@ -34,10 +34,10 @@ public class DCheckDirectoriesGUI
 			
 			if(response.equals(CommonValues.YES))
 			{
-				ArrayList<File> dmfDirectories = settings.getDmfDirectories();
-				dmfDirectories.add(file);
-				settings.setDmfDirectories(dmfDirectories);
-				dmfHandler.clearDMFs();
+				ArrayList<File> dvkDirectories = settings.getDvkDirectories();
+				dvkDirectories.add(file);
+				settings.setDvkDirectories(dvkDirectories);
+				dvkHandler.clearDVKs();
 				
 			}//IF 
 			
@@ -46,24 +46,24 @@ public class DCheckDirectoriesGUI
 	}//CONSTRUCTOR
 	
 	/**
-	 * Returns whether a given file is included in the specified DMF directories.
+	 * Returns whether a given file is included in the specified DVK directories.
 	 * 
 	 * @param settings Program Settings
-	 * @param file Given directory to check if it is included in the DMF directories list
-	 * @return Whether given directory is included in the DMF directories list
+	 * @param file Given directory to check if it is included in the DVK directories list
+	 * @return Whether given directory is included in the DVK directories list
 	 */
 	private static boolean isDirectoryListed(DSettings settings, final File file)
 	{
 		boolean isListed = false;
 		
-		for(int i = 0; !isListed && i < settings.getDmfDirectories().size(); i++)
+		for(int i = 0; !isListed && i < settings.getDvkDirectories().size(); i++)
 		{
-			File dmfDirectory = settings.getDmfDirectories().get(i);
+			File dvkDirectory = settings.getDvkDirectories().get(i);
 			File compFile = file;
 			
 			while(compFile != null && compFile.isDirectory())
 			{
-				if(dmfDirectory.equals(compFile))
+				if(dvkDirectory.equals(compFile))
 				{
 					isListed = true;
 					break;

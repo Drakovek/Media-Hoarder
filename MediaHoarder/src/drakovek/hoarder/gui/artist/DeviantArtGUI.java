@@ -17,8 +17,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import drakovek.hoarder.file.DSettings;
 import drakovek.hoarder.file.DWriter;
-import drakovek.hoarder.file.dmf.DMF;
-import drakovek.hoarder.file.dmf.DmfHandler;
+import drakovek.hoarder.file.dvk.DVK;
+import drakovek.hoarder.file.dvk.DvkHandler;
 import drakovek.hoarder.file.language.ArtistValues;
 import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.swing.compound.DProgressInfoDialog;
@@ -40,7 +40,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	private ArrayList<String> idStrings;
 	
 	/**
-	 * Prefix for a DMF ID that indicates that the DMF is sourced from FurAffinity.net
+	 * Prefix for a DVK ID that indicates that the DVK is sourced from FurAffinity.net
 	 */
 	private static final String ID_PREFIX = "DVA"; //$NON-NLS-1$
 	
@@ -63,11 +63,11 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	 * Initializes DeviantArtGUI class.
 	 * 
 	 * @param settings Program Settings
-	 * @param dmfHandler Program's DmfHandler
+	 * @param dvkHandler Program's DvkHandler
 	 */
-	public DeviantArtGUI(DSettings settings, DmfHandler dmfHandler)
+	public DeviantArtGUI(DSettings settings, DvkHandler dvkHandler)
 	{
-		super(settings, dmfHandler, new LoginGUI(settings, ArtistValues.DEVIANTART_LOGIN, false), ModeValues.DEVIANTART_MODE, ArtistValues.CHOOSE_DEVIANTART_FOLDER);
+		super(settings, dvkHandler, new LoginGUI(settings, ArtistValues.DEVIANTART_LOGIN, false), ModeValues.DEVIANTART_MODE, ArtistValues.CHOOSE_DEVIANTART_FOLDER);
 		idStrings = new ArrayList<>();
 		getDownloader().setTimeout(1000);
 		
@@ -396,11 +396,11 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	protected void getIdStrings()
 	{
 		idStrings = new ArrayList<>();
-		int size = getDmfHandler().getDirectSize();
+		int size = getDvkHandler().getDirectSize();
 		int prefixLength = ID_PREFIX.length();
 		for(int i = 0; i < size; i ++)
 		{
-			String id = getDmfHandler().getIdDirect(i);
+			String id = getDvkHandler().getIdDirect(i);
 			if(id.length() > prefixLength && id.toUpperCase().startsWith(ID_PREFIX))
 			{
 				idStrings.add(id.substring(prefixLength));
@@ -414,7 +414,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 	@Override
 	protected String downloadJournalPage(File baseFolder, String URL) throws Exception
 	{
-		DMF dmf = new DMF();
+		DVK dvk = new DVK();
 		setPage(URL);
 		if(!isLoggedIn())
 		{
@@ -437,7 +437,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			
 		}//IF
 		id = ID_PREFIX + id.substring(start) + JOURNAL_SUFFIX;
-		dmf.setID(id);
+		dvk.setID(id);
 		
 		//GET JSON INFO
 		List<DomAttr> jsonLinks = getDownloader().getPage().getByXPath("//link[@rel='alternate']/@href"); //$NON-NLS-1$
@@ -463,14 +463,14 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		}//IF
 		
 		//GET TITLE
-		dmf.setTitle(json.getString("title")); //$NON-NLS-1$
+		dvk.setTitle(json.getString("title")); //$NON-NLS-1$
 		
 		//GET ARTIST
-		dmf.setArtist(json.getString("author_name")); //$NON-NLS-1$
+		dvk.setArtist(json.getString("author_name")); //$NON-NLS-1$
 		
 		//GET TIME
 		String time = json.getString("pubdate"); //$NON-NLS-1$
-		dmf.setTime(time.substring(0, 4), time.substring(5, 7), time.substring(8, 10), time.substring(11, 13), time.substring(14, 16));
+		dvk.setTime(time.substring(0, 4), time.substring(5, 7), time.substring(8, 10), time.substring(11, 13), time.substring(14, 16));
 		
 		//GET TAGS
 		ArrayList<String> tags = new ArrayList<>();
@@ -496,11 +496,11 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		}//CATCH
 
 		tags.add(json.getString("category")); //$NON-NLS-1$
-		dmf.setWebTags(tags);
+		dvk.setWebTags(tags);
 		
 		//SET MEDIA PAGE
-		dmf.setPageURL(URL);
-		dmf.setDirectURL(URL);
+		dvk.setPageURL(URL);
+		dvk.setDirectURL(URL);
 		
 		//GET JOURNAL CONTENT
 		ArrayList<String> contents = new ArrayList<>();
@@ -509,11 +509,11 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		List<DomElement> journalText = getDownloader().getPage().getByXPath("//div[@class='gr-body']"); //$NON-NLS-1$
 		if(journalText.size() > 0)
 		{
-			dmf.setDescription(Downloader.getElement(journalText.get(0)));
+			dvk.setDescription(Downloader.getElement(journalText.get(0)));
 			
 		}//IF
 		
-		if(dmf.getDescription() == null || dmf.getDescription().length() == 0)
+		if(dvk.getDescription() == null || dvk.getDescription().length() == 0)
 		{
 			List<DomElement> journalLarge = getDownloader().getPage().getByXPath("//div[@class='journal-wrapper2']"); //$NON-NLS-1$
 			contents.add(StringMethods.addHtmlEscapesToHtml(Downloader.getElement(journalLarge.get(0))));
@@ -521,39 +521,39 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		}//IF
 		else
 		{
-			contents.add(dmf.getDescription());
+			contents.add(dvk.getDescription());
 			
 		}//ELSE
 		
 		contents.add("</html>"); //$NON-NLS-1$
 		
 		//DOWNLOAD FILES
-		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + ".html"); //$NON-NLS-1$
-		dmf.setMediaFile(mediaFile);
+		File mediaFile = new File(baseFolder, dvk.getDefaultFileName() + ".html"); //$NON-NLS-1$
+		dvk.setMediaFile(mediaFile);
 		DWriter.writeToFile(mediaFile, contents);
 				
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
-		dmf.setDmfFile(dmfFile);
-		dmf.writeDMF();
-		if(dmf.getDmfFile().exists())
+		File dvkFile = new File(baseFolder, dvk.getDefaultFileName() + DVK.DVK_EXTENSION);
+		dvk.setDvkFile(dvkFile);
+		dvk.writeDVK();
+		if(dvk.getDvkFile().exists())
 		{
-			getDmfHandler().addDMF(dmf);
+			getDvkHandler().addDVK(dvk);
 					
 		}//IF
 		else
 		{
-			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			throw new Exception("Writing DVK Failed"); //$NON-NLS-1$
 				
 		}//ELSE
 		
-		return dmf.getTitle();
+		return dvk.getTitle();
 		
 	}//METHOD
 
 	@Override
 	protected String downloadMediaPage(File baseFolder, String URL) throws Exception
 	{
-		DMF dmf = new DMF();
+		DVK dvk = new DVK();
 		setPage(URL);
 		if(!isLoggedIn())
 		{
@@ -576,7 +576,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 					
 		}//IF
 		id = ID_PREFIX + id.substring(start);
-		dmf.setID(id);
+		dvk.setID(id);
 		
 		//GET JSON INFO
 		List<DomAttr> jsonLinks = getDownloader().getPage().getByXPath("//link[@rel='alternate']/@href"); //$NON-NLS-1$
@@ -602,14 +602,14 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		}//IF
 		
 		//GET TITLE
-		dmf.setTitle(json.getString("title")); //$NON-NLS-1$
+		dvk.setTitle(json.getString("title")); //$NON-NLS-1$
 		
 		//GET ARTIST
-		dmf.setArtist(json.getString("author_name")); //$NON-NLS-1$
+		dvk.setArtist(json.getString("author_name")); //$NON-NLS-1$
 		
 		//GET TIME
 		String time = json.getString("pubdate"); //$NON-NLS-1$
-		dmf.setTime(time.substring(0, 4), time.substring(5, 7), time.substring(8, 10), time.substring(11, 13), time.substring(14, 16));
+		dvk.setTime(time.substring(0, 4), time.substring(5, 7), time.substring(8, 10), time.substring(11, 13), time.substring(14, 16));
 		
 		//GET TAGS
 		ArrayList<String> tags = new ArrayList<>();
@@ -659,18 +659,18 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		}//TRY
 		catch(Exception f){}
 		
-		dmf.setWebTags(tags);
+		dvk.setWebTags(tags);
 		
 		//GET DESCRIPTION
 		List<DomElement> description = getDownloader().getPage().getByXPath("//div[@class='dev-view-main-content']//div[@class='text block']"); //$NON-NLS-1$
 		if(description.size() > 0)
 		{
-			dmf.setDescription(Downloader.getElement(description.get(0)));
+			dvk.setDescription(Downloader.getElement(description.get(0)));
 		
 		}//IF
 		
 		//GET MEDIA URL
-		dmf.setPageURL(URL);
+		dvk.setPageURL(URL);
 		String text = null;
 		
 		//GET ON-SCREEN IMAGE
@@ -678,15 +678,15 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		List<DomAttr> normalImage = getDownloader().getPage().getByXPath("//img[@class='dev-content-normal ']/@src"); //$NON-NLS-1$
 		if(normalImage.size() > 0)
 		{
-			dmf.setDirectURL(Downloader.getAttribute(normalImage.get(0)));
-			extension = ExtensionMethods.getExtension(dmf.getDirectURL());
+			dvk.setDirectURL(Downloader.getAttribute(normalImage.get(0)));
+			extension = ExtensionMethods.getExtension(dvk.getDirectURL());
 			
 		}//IF
 		List<DomAttr> fullImage = getDownloader().getPage().getByXPath("//img[@class='dev-content-full ']/@src"); //$NON-NLS-1$
 		if(normalImage.size() > 0)
 		{
-			dmf.setDirectURL(Downloader.getAttribute(fullImage.get(0)));
-			extension = ExtensionMethods.getExtension(dmf.getDirectURL());
+			dvk.setDirectURL(Downloader.getAttribute(fullImage.get(0)));
+			extension = ExtensionMethods.getExtension(dvk.getDirectURL());
 			
 		}//IF
 		
@@ -698,7 +698,7 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			extension = '.' + extension.substring(0, extension.indexOf(' ')).toLowerCase();
 			
 			List<DomAttr> downloadButton = getDownloader().getPage().getByXPath("//a[@class='dev-page-button dev-page-button-with-text dev-page-download']/@href"); //$NON-NLS-1$
-			dmf.setDirectURL(Downloader.getAttribute(downloadButton.get(0)));
+			dvk.setDirectURL(Downloader.getAttribute(downloadButton.get(0)));
 			
 		}//IF
 		
@@ -708,15 +708,15 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		{
 			setPage(Downloader.getAttribute(flash.get(0)));
 			flash = getDownloader().getPage().getByXPath("//embed[@id='sandboxembed']/@src"); //$NON-NLS-1$
-			dmf.setDirectURL(Downloader.getAttribute(flash.get(0)));
+			dvk.setDirectURL(Downloader.getAttribute(flash.get(0)));
 		
 		}//IF
 		
 		//GET TEXT
-		if(dmf.getDirectURL() == null || dmf.getDirectURL().length() == 0)
+		if(dvk.getDirectURL() == null || dvk.getDirectURL().length() == 0)
 		{
 			extension = ".html"; //$NON-NLS-1$
-			dmf.setDirectURL(null);
+			dvk.setDirectURL(null);
 			List<DomElement> textElement = getDownloader().getPage().getByXPath("//div[@class='dev-view-deviation']//div[@class='text']"); //$NON-NLS-1$
 			text = Downloader.getElement(textElement.get(0));
 			if(text.contains("<script")) //$NON-NLS-1$
@@ -735,11 +735,11 @@ public class DeviantArtGUI extends ArtistHostingGUI
 		}//IF
 		
 		//DOWNLOAD FILES
-		File mediaFile = new File(baseFolder, dmf.getDefaultFileName() + extension);
-		dmf.setMediaFile(mediaFile);
-		if(dmf.getDirectURL() != null)
+		File mediaFile = new File(baseFolder, dvk.getDefaultFileName() + extension);
+		dvk.setMediaFile(mediaFile);
+		if(dvk.getDirectURL() != null)
 		{
-			getDownloader().downloadFile(dmf.getDirectURL(), mediaFile);
+			getDownloader().downloadFile(dvk.getDirectURL(), mediaFile);
 			
 		}//IF
 		else
@@ -748,21 +748,21 @@ public class DeviantArtGUI extends ArtistHostingGUI
 			
 		}//ELSE
 				
-		File dmfFile = new File(baseFolder, dmf.getDefaultFileName() + DMF.DVK_EXTENSION);
-		dmf.setDmfFile(dmfFile);
-		dmf.writeDMF();
-		if(dmf.getDmfFile().exists())
+		File dvkFile = new File(baseFolder, dvk.getDefaultFileName() + DVK.DVK_EXTENSION);
+		dvk.setDvkFile(dvkFile);
+		dvk.writeDVK();
+		if(dvk.getDvkFile().exists())
 		{
-			getDmfHandler().addDMF(dmf);
+			getDvkHandler().addDVK(dvk);
 					
 		}//IF
 		else
 		{
-			throw new Exception("Writing DMF Failed"); //$NON-NLS-1$
+			throw new Exception("Writing DVK Failed"); //$NON-NLS-1$
 				
 		}//ELSE
 		
-		return dmf.getTitle();
+		return dvk.getTitle();
 		
 	}//METHOD
 

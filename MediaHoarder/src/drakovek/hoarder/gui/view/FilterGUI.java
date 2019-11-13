@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import drakovek.hoarder.file.dmf.DmfLoader;
+import drakovek.hoarder.file.dvk.DvkLoader;
 import drakovek.hoarder.file.language.CommonValues;
-import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.language.DvkLanguageValues;
 import drakovek.hoarder.file.language.ViewerValues;
 import drakovek.hoarder.gui.FrameGUI;
 import drakovek.hoarder.gui.swing.components.DButton;
@@ -38,19 +38,14 @@ public class FilterGUI extends FrameGUI
 	private boolean caseSensitive;
 	
 	/**
-	 * DMF loader used to filter DMFs
+	 * DVK loader used to filter DVKs
 	 */
-	private DmfLoader loader;
+	private DvkLoader loader;
 	
 	/**
 	 * Frame GUI parent of the Filter GUI
 	 */
 	private FrameGUI ownerGUI;
-	
-	/**
-	 * DTextField for the user tag filter
-	 */
-	private DTextField userTagText;
 	
 	/**
 	 * DTextField for the web tag filter
@@ -91,26 +86,24 @@ public class FilterGUI extends FrameGUI
 	 * Initializes the FilterGUI class by creating the main GUI.
 	 * 
 	 * @param ownerGUI Frame GUI parent of the Filter GUI
-	 * @param loader DMF loader used to filter DMFs
+	 * @param loader DVK loader used to filter DVKs
 	 */
-	public FilterGUI(FrameGUI ownerGUI, DmfLoader loader)
+	public FilterGUI(FrameGUI ownerGUI, DvkLoader loader)
 	{
-		super(ownerGUI.getSettings(), ownerGUI.getDmfHandler(), ViewerValues.FILTER);
+		super(ownerGUI.getSettings(), ownerGUI.getDvkHandler(), ViewerValues.FILTER);
 		this.loader = loader;
 		this.ownerGUI = ownerGUI;
 		
 		//SET INITIAL VALUES
-		caseSensitive = getDmfHandler().getFilterCaseSensitive();
-		userTagText = new DTextField(this, DmfLanguageValues.USER_TAG_LABEL);
-		userTagText.setText(getDmfHandler().getUserTagFilter());
-		webTagText = new DTextField(this, DmfLanguageValues.WEB_TAG_LABEL);
-		webTagText.setText(getDmfHandler().getWebTagFilter());
-		titleText = new DTextField(this, DmfLanguageValues.TITLE_LABEL);
-		titleText.setText(getDmfHandler().getTitleFilter());
-		descriptionText = new DTextField(this, DmfLanguageValues.DESCRIPTION_LABEL);
-		descriptionText.setText(getDmfHandler().getDescriptionFilter());
-		artistText = new DTextField(this, DmfLanguageValues.ARTISTS_LABEL);
-		artistText.setText(getDmfHandler().getArtistFilter());
+		caseSensitive = getDvkHandler().getFilterCaseSensitive();
+		webTagText = new DTextField(this, DvkLanguageValues.WEB_TAG_LABEL);
+		webTagText.setText(getDvkHandler().getWebTagFilter());
+		titleText = new DTextField(this, DvkLanguageValues.TITLE_LABEL);
+		titleText.setText(getDvkHandler().getTitleFilter());
+		descriptionText = new DTextField(this, DvkLanguageValues.DESCRIPTION_LABEL);
+		descriptionText.setText(getDvkHandler().getDescriptionFilter());
+		artistText = new DTextField(this, DvkLanguageValues.ARTISTS_LABEL);
+		artistText.setText(getDvkHandler().getArtistFilter());
 		
 		//CREATE BOTTOM PANEL
 		JPanel buttonPanel = new JPanel();
@@ -130,19 +123,17 @@ public class FilterGUI extends FrameGUI
 		
 		//CREATE CENTER PANEL
 		int largestWidth = 0;
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.USER_TAG_LABEL));
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.WEB_TAG_LABEL));
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.TITLE_LABEL));
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.DESCRIPTION_LABEL));
-		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DmfLanguageValues.ARTISTS_LABEL));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DvkLanguageValues.WEB_TAG_LABEL));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DvkLanguageValues.TITLE_LABEL));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DvkLanguageValues.DESCRIPTION_LABEL));
+		largestWidth = getStringSizeIfLarger(resetButton, largestWidth, getSettings().getLanguageText(DvkLanguageValues.ARTISTS_LABEL));
 		
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new GridLayout(5, 1, 0, getSettings().getSpaceSize()));
-		centerPanel.add(getTextPanel(userTagText, DmfLanguageValues.USER_TAG_LABEL, largestWidth));
-		centerPanel.add(getTextPanel(webTagText, DmfLanguageValues.WEB_TAG_LABEL, largestWidth));
-		centerPanel.add(getTextPanel(titleText, DmfLanguageValues.TITLE_LABEL, largestWidth));
-		centerPanel.add(getTextPanel(descriptionText, DmfLanguageValues.DESCRIPTION_LABEL, largestWidth));
-		centerPanel.add(getTextPanel(artistText, DmfLanguageValues.ARTISTS_LABEL, largestWidth));
+		centerPanel.setLayout(new GridLayout(4, 1, 0, getSettings().getSpaceSize()));
+		centerPanel.add(getTextPanel(webTagText, DvkLanguageValues.WEB_TAG_LABEL, largestWidth));
+		centerPanel.add(getTextPanel(titleText, DvkLanguageValues.TITLE_LABEL, largestWidth));
+		centerPanel.add(getTextPanel(descriptionText, DvkLanguageValues.DESCRIPTION_LABEL, largestWidth));
+		centerPanel.add(getTextPanel(artistText, DvkLanguageValues.ARTISTS_LABEL, largestWidth));
 				
 		//FINALIZE FRAME
 		DLabel title = new DLabel(this, null, ViewerValues.FILTER);
@@ -156,7 +147,7 @@ public class FilterGUI extends FrameGUI
 	}//CLASS
 	
 	/**
-	 * Shows the filter GUI to allow user to start filtering DMFs
+	 * Shows the filter GUI to allow user to start filtering DVKs
 	 */
 	public void showFilterGUI()
 	{
@@ -225,16 +216,15 @@ public class FilterGUI extends FrameGUI
 	}//METHOD
 	
 	/**
-	 * Adds filter strings to the DMF Handler
+	 * Adds filter strings to the DVK Handler
 	 */
 	private void addFilters()
 	{
-		getDmfHandler().setFilterCaseSensitive(caseSensitive);
-		getDmfHandler().setTitleFilter(titleText.getText());
-		getDmfHandler().setDescriptionFilter(descriptionText.getText());
-		getDmfHandler().setArtistFilter(artistText.getText());
-		getDmfHandler().setUserTagFilter(userTagText.getText());
-		getDmfHandler().setWebTagFilter(webTagText.getText());
+		getDvkHandler().setFilterCaseSensitive(caseSensitive);
+		getDvkHandler().setTitleFilter(titleText.getText());
+		getDvkHandler().setDescriptionFilter(descriptionText.getText());
+		getDvkHandler().setArtistFilter(artistText.getText());
+		getDvkHandler().setWebTagFilter(webTagText.getText());
 		
 	}//METHOD
 	
@@ -244,7 +234,6 @@ public class FilterGUI extends FrameGUI
 	private void resetFilters()
 	{
 		webTagText.setText(new String());
-		userTagText.setText(new String());
 		titleText.setText(new String());
 		descriptionText.setText(new String());
 		artistText.setText(new String());
@@ -257,7 +246,6 @@ public class FilterGUI extends FrameGUI
 		titleText.setEnabled(true);
 		descriptionText.setEnabled(true);
 		artistText.setEnabled(true);
-		userTagText.setEnabled(true);
 		webTagText.setEnabled(true);
 		resetButton.setEnabled(true);
 		okButton.setEnabled(true);
@@ -271,7 +259,6 @@ public class FilterGUI extends FrameGUI
 		titleText.setEnabled(false);
 		descriptionText.setEnabled(false);
 		artistText.setEnabled(false);
-		userTagText.setEnabled(false);
 		webTagText.setEnabled(false);
 		resetButton.setEnabled(false);
 		okButton.setEnabled(false);
@@ -284,15 +271,14 @@ public class FilterGUI extends FrameGUI
 	{
 		switch(id)
 		{
-			case DmfLanguageValues.TITLE_LABEL:
-			case DmfLanguageValues.DESCRIPTION_LABEL:
-			case DmfLanguageValues.USER_TAG_LABEL:
-			case DmfLanguageValues.WEB_TAG_LABEL:
-			case DmfLanguageValues.ARTISTS_LABEL:
+			case DvkLanguageValues.TITLE_LABEL:
+			case DvkLanguageValues.DESCRIPTION_LABEL:
+			case DvkLanguageValues.WEB_TAG_LABEL:
+			case DvkLanguageValues.ARTISTS_LABEL:
 			case CommonValues.OK:
 				getFrame().setAllowExit(false);
 				addFilters();
-				loader.filterDMFs();
+				loader.filterDVKs();
 				getFrame().setVisible(false);
 				break;
 			case CommonValues.CASE_SENSITIVE:

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import drakovek.hoarder.processing.ParseINI;
 
 /**
- * Class containing language values for the various DMF managing modes of operation.
+ * Class containing language values for the various DVK managing modes of operation.
  * 
  * @author Drakovek
  * @version 2.0
@@ -13,9 +13,9 @@ import drakovek.hoarder.processing.ParseINI;
 public class ManagingValues
 {
 	/**
-	 * Language variable for button to start DMF reformatting process
+	 * Language variable for button to start DVK reformatting process
 	 */
-	public static final String REFORMAT_DMFS = "reformat_dmfs"; //$NON-NLS-1$
+	public static final String REFORMAT_DVKS = "reformat_dvks"; //$NON-NLS-1$
 	
 	/**
 	 * Language variable for the button to start file renaming process
@@ -33,7 +33,7 @@ public class ManagingValues
 	public static final String REFORMAT_HTMLS = "reformat htmls"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for message shown to check if user wishes to reformat DMFs
+	 * Language variable for message shown to check if user wishes to reformat DVKs
 	 */
 	public static final String REFORMAT_MESSAGE = "reformat_message"; //$NON-NLS-1$
 	
@@ -58,7 +58,7 @@ public class ManagingValues
 	public static final String UNLINKED_FILES = "unlinked_files"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for button to search for DMFs with identical IDs in the error finding GUI
+	 * Language variable for button to search for DVKs with identical IDs in the error finding GUI
 	 */
 	public static final String IDENTICAL_IDS = "identical_ids"; //$NON-NLS-1$
 	
@@ -73,12 +73,12 @@ public class ManagingValues
 		
 		//REFORMAT
 		values.add("[REFORMAT]"); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(REFORMAT_DMFS, "^Reformat DMFs")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(REFORMAT_DVKS, "^Reformat DVKs")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(RENAME_FILES, "Re^name Files")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DELETE_SEQUENCES, "^Delete Sequence Data")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(REFORMAT_HTMLS, "Reformat ^HTMLs")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(REFORMAT_MESSAGE, "All DMFs will be reformatted.")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(RENAME_MESSAGE, "All DMFs and associated files will be renamed.")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(REFORMAT_MESSAGE, "All DVKs will be reformatted.")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(RENAME_MESSAGE, "All DVKs and associated files will be renamed.")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(DELETE_SEQUENCES_MESSAGE, "All sequence data will be deleted.")); //$NON-NLS-1$
 		
 		//ERROR FINDING

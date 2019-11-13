@@ -4,12 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 import drakovek.hoarder.file.ExclusionFilter;
-import drakovek.hoarder.file.dmf.DMF;
-import drakovek.hoarder.file.dmf.DmfDatabase;
-import drakovek.hoarder.file.dmf.DmfHandler;
-import drakovek.hoarder.file.dmf.DmfLoader;
-import drakovek.hoarder.file.dmf.DmfLoadingMethods;
-import drakovek.hoarder.file.language.DmfLanguageValues;
+import drakovek.hoarder.file.dvk.DVK;
+import drakovek.hoarder.file.dvk.DvkDatabase;
+import drakovek.hoarder.file.dvk.DvkHandler;
+import drakovek.hoarder.file.dvk.DvkLoader;
+import drakovek.hoarder.file.dvk.DvkLoadingMethods;
+import drakovek.hoarder.file.language.DvkLanguageValues;
 import drakovek.hoarder.file.language.ManagingValues;
 import drakovek.hoarder.file.language.ModeValues;
 import drakovek.hoarder.gui.FrameGUI;
@@ -18,12 +18,12 @@ import drakovek.hoarder.work.DSwingWorker;
 import drakovek.hoarder.work.DWorker;
 
 /**
- * GUI for running processes related to finding errors in DMFs.
+ * GUI for running processes related to finding errors in DVKs.
  * 
  * @author Drakovek
  * @version 2.0
  */
-public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoadingMethods
+public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DvkLoadingMethods
 {
 	/**
 	 * String containing ID for the current reformat process mode
@@ -55,11 +55,11 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 	}//CONSTRUCTOR
 	
 	/**
-	 * Starts the process of checking for errors, after DMFs have been loaded.
+	 * Starts the process of checking for errors, after DVKs have been loaded.
 	 */
 	private void startChecking()
 	{
-		if(getParentGUI().getDmfHandler().isLoaded())
+		if(getParentGUI().getDvkHandler().isLoaded())
 		{
 			progressInfoDialog.setCancelled(false);
 			getParentGUI().getFrame().setProcessRunning(true);
@@ -76,17 +76,17 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 	private void infoProcessFinished()
 	{
 		progressInfoDialog.setCancelled(false);
-		progressInfoDialog.showFinalLog(getParentGUI().getFrame(), getTitle(mode), getSettings().getDmfDirectories().get(0));
+		progressInfoDialog.showFinalLog(getParentGUI().getFrame(), getTitle(mode), getSettings().getDvkDirectories().get(0));
 		getParentGUI().getFrame().setProcessRunning(false);
 		
 	}//METHOD
 	
 	/**
-	 * Finds DMFs that are missing their attached media file(s)
+	 * Finds DVKs that are missing their attached media file(s)
 	 */
 	private void findMissingMedia()
 	{
-		int size = getParentGUI().getDmfHandler().getDirectSize();
+		int size = getParentGUI().getDvkHandler().getDirectSize();
 		progressInfoDialog.setProcessLabel(ManagingValues.MISSING_MEDIA);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
@@ -94,7 +94,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 		
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtistsDirect(i)[0];
+			String artistCheck = getParentGUI().getDvkHandler().getArtistsDirect(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
 			{
 				artist = artistCheck;
@@ -103,17 +103,17 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 				
 			}//IF
 			
-			if(getParentGUI().getDmfHandler().getMediaFileDirect(i) == null || !getParentGUI().getDmfHandler().getMediaFileDirect(i).exists())
+			if(getParentGUI().getDvkHandler().getMediaFileDirect(i) == null || !getParentGUI().getDvkHandler().getMediaFileDirect(i).exists())
 			{
-				progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFileDirect(i).getAbsolutePath(), false);
+				progressInfoDialog.appendLog(getParentGUI().getDvkHandler().getDvkFileDirect(i).getAbsolutePath(), false);
 				
 			}//IF
 			else
 			{
-				File secondary = getParentGUI().getDmfHandler().getSecondaryFileDirect(i);
+				File secondary = getParentGUI().getDvkHandler().getSecondaryFileDirect(i);
 				if(secondary != null && !secondary.exists())
 				{
-					progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFileDirect(i).getAbsolutePath(), false);
+					progressInfoDialog.appendLog(getParentGUI().getDvkHandler().getDvkFileDirect(i).getAbsolutePath(), false);
 					
 				}//IF
 				
@@ -124,25 +124,25 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 	}//METHOD
 	
 	/**
-	 * Finds media files in DMF folders that are not linked to DMF files.
+	 * Finds media files in DVK folders that are not linked to DVK files.
 	 */
 	private void findUnlinkedFiles()
 	{
-		String[] extension = {DMF.DMF_EXTENSION, DMF.DVK_EXTENSION};
+		String[] extension = {DVK.DVK_EXTENSION};
 		ExclusionFilter filter = new ExclusionFilter(extension, false);
 		progressInfoDialog.setProcessLabel(ManagingValues.MISSING_MEDIA);
-		progressInfoDialog.setDetailLabel(DmfLanguageValues.GETTING_FOLDERS, true);
+		progressInfoDialog.setDetailLabel(DvkLanguageValues.GETTING_FOLDERS, true);
 		progressInfoDialog.setProgressBar(true, false, 0, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
-		ArrayList<File> dmfFolders = DmfDatabase.getDmfFolders(getSettings().getDmfDirectories());
-		for(int i = 0; i < dmfFolders.size(); i++)
+		ArrayList<File> dvkFolders = DvkDatabase.getDvkFolders(getSettings().getDvkDirectories());
+		for(int i = 0; i < dvkFolders.size(); i++)
 		{
-			progressInfoDialog.setDetailLabel(dmfFolders.get(i).getName(), false);
-			progressInfoDialog.setProgressBar(false, true, dmfFolders.size(), i);
-			File[] files = dmfFolders.get(i).listFiles(filter);
+			progressInfoDialog.setDetailLabel(dvkFolders.get(i).getName(), false);
+			progressInfoDialog.setProgressBar(false, true, dvkFolders.size(), i);
+			File[] files = dvkFolders.get(i).listFiles(filter);
 			for(int k = 0; k < files.length; k++)
 			{
-				if(!getParentGUI().getDmfHandler().getDatabase().containsMediaFile(files[k]) && !getParentGUI().getDmfHandler().getDatabase().containsSecondaryFile(files[k]))
+				if(!getParentGUI().getDvkHandler().getDatabase().containsMediaFile(files[k]) && !getParentGUI().getDvkHandler().getDatabase().containsSecondaryFile(files[k]))
 				{
 					progressInfoDialog.appendLog(files[k].getAbsolutePath(), false);
 					
@@ -155,11 +155,11 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 	}//METHOD
 	
 	/**
-	 * Find DMFs that share identical IDs
+	 * Find DVKs that share identical IDs
 	 */
 	private void findIdenticalIDs()
 	{
-		int size = getParentGUI().getDmfHandler().getDirectSize();
+		int size = getParentGUI().getDvkHandler().getDirectSize();
 		progressInfoDialog.setProcessLabel(ManagingValues.IDENTICAL_IDS);
 		progressInfoDialog.setProgressBar(false, true, size, 0);
 		progressInfoDialog.appendLog('[' + getSettings().getLanguageText(mode).toUpperCase() + ']', false);
@@ -168,7 +168,7 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 		
 		for(int i = 0; !progressInfoDialog.isCancelled() && i < size; i++)
 		{
-			String artistCheck = getParentGUI().getDmfHandler().getArtistsDirect(i)[0];
+			String artistCheck = getParentGUI().getDvkHandler().getArtistsDirect(i)[0];
 			if(artistCheck != null && !artistCheck.equals(artist))
 			{
 				artist = artistCheck;
@@ -177,20 +177,20 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 				
 			}//IF
 			
-			String id = getParentGUI().getDmfHandler().getIdDirect(i);
+			String id = getParentGUI().getDvkHandler().getIdDirect(i);
 			boolean hasID = false;
 			for(int k = i + 1; k < size; k++)
 			{
-				if(!identical.contains(Integer.valueOf(k)) && getParentGUI().getDmfHandler().getIdDirect(k).equals(id))
+				if(!identical.contains(Integer.valueOf(k)) && getParentGUI().getDvkHandler().getIdDirect(k).equals(id))
 				{
 					identical.add(Integer.valueOf(k));
 					if(!hasID)
 					{
 						progressInfoDialog.appendLog(null, false);
-						progressInfoDialog.appendLog(getParentGUI().getDmfHandler().getDmfFileDirect(i).getAbsolutePath(), false);
+						progressInfoDialog.appendLog(getParentGUI().getDvkHandler().getDvkFileDirect(i).getAbsolutePath(), false);
 					
 					}//IF
-					progressInfoDialog.appendLog(Character.toString('\t') + getParentGUI().getDmfHandler().getDmfFileDirect(k).getAbsolutePath(), false);
+					progressInfoDialog.appendLog(Character.toString('\t') + getParentGUI().getDvkHandler().getDvkFileDirect(k).getAbsolutePath(), false);
 					hasID = true;
 					
 				}//IF
@@ -215,8 +215,8 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 				break;
 			default:
 				mode = id;
-				DmfLoader loader = new DmfLoader(this, getParentGUI());
-				loader.loadDMFs(getParentGUI().getSettings().getUseIndexes(), getParentGUI().getSettings().getUseIndexes(), true);
+				DvkLoader loader = new DvkLoader(this, getParentGUI());
+				loader.loadDVKs(getParentGUI().getSettings().getUseIndexes(), getParentGUI().getSettings().getUseIndexes(), true);
 				break;
 				
 		}//SWITCH
@@ -256,21 +256,21 @@ public class ErrorFindingModeGUI extends ModeBaseGUI implements DWorker, DmfLoad
 	}//METHOD
 
 	@Override
-	public void loadingDMFsDone()
+	public void loadingDVKsDone()
 	{
-		DmfLoader loader = new DmfLoader(this, getParentGUI());
-		loader.sortDMFs(DmfHandler.SORT_ALPHA, true, false, false, false);
+		DvkLoader loader = new DvkLoader(this, getParentGUI());
+		loader.sortDVKs(DvkHandler.SORT_ALPHA, true, false);
 		
 	}//METHOD
 
 	@Override
-	public void sortingDMFsDone()
+	public void sortingDVKsDone()
 	{
 		startChecking();
 		
 	}//METHOD
 
 	@Override
-	public void filteringDMFsDone() {}
+	public void filteringDVKsDone() {}
 	
 }//CLASS

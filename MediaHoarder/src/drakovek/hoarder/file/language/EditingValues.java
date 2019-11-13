@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import drakovek.hoarder.processing.ParseINI;
 
 /**
- * Class containing language values for the DMF editing modes of operation.
+ * Class containing language values for the DVK editing modes of operation.
  * 
  * @author Drakovek
  * @version 2.0
@@ -49,7 +49,7 @@ public class EditingValues
 	public static final String BRANCH_NAME = "branch_name"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the button to search for DMFs in the sequencing GUI
+	 * Language variable for the button to search for DVKs in the sequencing GUI
 	 */
 	public static final String SEARCH = "search"; //$NON-NLS-1$
 	
@@ -84,27 +84,27 @@ public class EditingValues
 	public static final String DOWN = "down"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the title of progress dialog showing that the program is searching for DMFs without sequence data
+	 * Language variable for the title of progress dialog showing that the program is searching for DVKs without sequence data
 	 */
 	public static final String FINDING_UNSEQUENCED_TITLE = "finding_unsequenced_title"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the message of progress dialog showing that the program is searching for DMFs without sequence data
+	 * Language variable for the message of progress dialog showing that the program is searching for DVKs without sequence data
 	 */
 	public static final String FINDING_UNSEQUENCED_MESSAGE = "finding_unsequenced_message"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for dialog showing that there are no more DMFs of which to add sequence data
+	 * Language variable for dialog showing that there are no more DVKs of which to add sequence data
 	 */
 	public static final String SEQUENCING_FINISHED = "sequencing_finished"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for title of dialog for adding DMFs to a sequence
+	 * Language variable for title of dialog for adding DVKs to a sequence
 	 */
-	public static final String ADD_DMFS = "add_dmfs"; //$NON-NLS-1$
+	public static final String ADD_DVKS = "add_dvks"; //$NON-NLS-1$
 	
 	/**
-	 * Language variable for the title of dialog adding reference DMF copy to a sequence
+	 * Language variable for the title of dialog adding reference DVK copy to a sequence
 	 */
 	public static final String ADD_REFERENCE_COPY = "add_reference_copy"; //$NON-NLS-1$
 	
@@ -147,7 +147,7 @@ public class EditingValues
 		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_TITLE, "Finding Unsequenced Files")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(FINDING_UNSEQUENCED_MESSAGE, "Finding files without sequence data")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(SEQUENCING_FINISHED, "Finished Adding Sequence Data")); //$NON-NLS-1$
-		values.add(ParseINI.getAssignmentString(ADD_DMFS, "Add DMFs")); //$NON-NLS-1$
+		values.add(ParseINI.getAssignmentString(ADD_DVKS, "Add DVKs")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_REFERENCE_COPY, "Add Reference Copy")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_ALL, "^Add All")); //$NON-NLS-1$
 		values.add(ParseINI.getAssignmentString(ADD_SELECTED, "Add ^Selected")); //$NON-NLS-1$
